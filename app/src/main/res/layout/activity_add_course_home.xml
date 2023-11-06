@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:background="@drawable/home_add_course_dw"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:padding="30dp"
+    tools:context=".other.AddCourseHome">
+
+    >
+
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:src="@drawable/elearn" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:text="@string/add_course_text"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button"
+        style="@style/Button_Primary"
+        android:layout_width="200dp"
+        android:layout_gravity="center"
+        android:layout_height="30dp"
+        android:background="@drawable/sign_button"
+        android:text="@string/add_course"
+        android:textAllCaps="false" />
+
+
+</LinearLayout>

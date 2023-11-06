@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_profile"
+    tools:context=".Settings">
+
+<!--    <androidx.appcompat.widget.Toolbar-->
+<!--        android:id="@+id/toolbar"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="?attr/actionBarSize"-->
+<!--        android:background="@drawable/bg_profile"-->
+<!--        app:contentInsetStart="0dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:navigationIcon="?attr/homeAsUpIndicator"-->
+<!--        app:title="@string/settings" />-->
+  <LinearLayout
+      android:id="@+id/lnl_settings"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+      <com.google.android.material.appbar.CollapsingToolbarLayout
+          android:id="@+id/toolbar_layout"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:fitsSystemWindows="true"
+          app:contentScrim="@color/white"
+          app:layout_scrollFlags="scroll|exitUntilCollapsed"
+          app:contentInsetStart="48dp"
+          android:layout_marginBottom="10dp"
+          app:toolbarId="@+id/toolbar">
+
+          <androidx.appcompat.widget.Toolbar
+              android:id="@+id/toolbar"
+              android:layout_width="match_parent"
+              android:layout_height="?attr/actionBarSize"
+              app:layout_collapseMode="pin"
+              app:navigationIcon="?attr/homeAsUpIndicator"
+              app:title="@string/course"
+              app:popupTheme="@style/Theme.AppQuizlet.PopupOverlay" />
+
+      </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+      <androidx.constraintlayout.widget.ConstraintLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@color/white"
+          android:orientation="vertical"
+          android:padding="10dp">
+
+          <TextView
+              android:id="@+id/textView12"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="4dp"
+              android:text="@string/account_type"
+              app:layout_constraintBottom_toTopOf="@+id/textView13"
+              app:layout_constraintEnd_toEndOf="parent"
+              app:layout_constraintHorizontal_bias="0.0"
+              app:layout_constraintStart_toStartOf="parent" />
+
+          <TextView
+              android:id="@+id/textView13"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="4dp"
+              android:text="@string/free"
+              android:textColor="@color/my_blue"
+              app:layout_constraintBottom_toBottomOf="parent"
+              app:layout_constraintEnd_toEndOf="parent"
+              app:layout_constraintHorizontal_bias="0.0"
+              app:layout_constraintStart_toStartOf="parent" />
+
+          <androidx.appcompat.widget.AppCompatButton
+              android:id="@+id/appCompatButton"
+              android:layout_width="wrap_content"
+              android:layout_height="35dp"
+              android:layout_marginEnd="16dp"
+              android:background="@drawable/button_primary"
+              android:text="@string/btn_upgrade_free_trial"
+              android:textColor="@color/white"
+              android:textSize="10dp"
+              app:layout_constraintEnd_toEndOf="parent"
+              app:layout_constraintTop_toTopOf="parent"
+              />
+      </androidx.constraintlayout.widget.ConstraintLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="10dp"
+          android:orientation="vertical">
+          <include layout="@layout/layout_setting_item"/>
+          <include layout="@layout/layout_setting_item"/>
+          <include layout="@layout/layout_setting_item"/>
+          <include layout="@layout/layout_setting_item"/>
+      </LinearLayout>
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="10dp"
+          android:orientation="vertical">
+          <include layout="@layout/layout_setting_item"/>
+      </LinearLayout>
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="10dp"
+          android:orientation="vertical">
+          <include layout="@layout/layout_setting_item"/>
+      </LinearLayout>
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="10dp"
+          android:orientation="vertical">
+          <include layout="@layout/layout_setting_item"/>
+      </LinearLayout>
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="10dp"
+          android:orientation="vertical">
+          <include layout="@layout/layout_setting_item"/>
+          <include layout="@layout/layout_setting_item"/>
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="10dp"
+          android:orientation="vertical">
+          <include layout="@layout/layout_setting_item"/>
+      </LinearLayout>
+  </LinearLayout>
+
+
+</androidx.core.widget.NestedScrollView>
