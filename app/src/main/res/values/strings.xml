@@ -10,13 +10,22 @@
 
 
     <string name="or_log_with">Quick log in with</string>
+    <string name="or_sign_up_with">Quick sign up with</string>
     <string name="or_log_with_email">Or Log in with your email</string>
+    <string name="email_add">Email address</string>
+    <string name="or_sign_up_email">Or Sign up with your email</string>
     <string name="email_or_username">Email or username</string>
+    <string name="sign_up_for_free">Sign up for free</string>
+    <string name="or_log_in">Or Log in</string>
+    <string name="dob">Date of Birth</string>
     <string name="password">Password</string>
     <string name="sign_up">Sign Up</string>
-    <string name="sign_in">Log in</string>
+    <string name="log_in">Log in</string>
     <string name="gg">Google</string>
     <string name="fb">Facebook</string>
+    <string name="select_dob">Select your date of birth</string>
+    <string name="email_hint">email@example.com</string>
+    <string name="pass_hint">*********</string>
     <string name="forgot_u_p">Forgot username or password ?</string>
     <string name="terms_of_service">By signing up, I accept Quizlet\'s Terms of Services and Privacy Policy</string>
     <string name="forgot_username">Forgot username</string>
@@ -81,6 +90,20 @@
     <string name="search_splash">Search</string>
     <string name="search_enter_topic">Enter a topic or keywords</string>
     <string name="search_tip">Tip : The more specific, the better !</string>
+
+    <string name="oops">Oops !</string>
+    <string name="sth_went_wrong">Some thing went wrong</string>
+    <string name="go_to_home">Go to home</string>
+
+
+    <string name="errBlankEmail">Email is required !</string>
+    <string name="errEmailInvalid">Email is invalid</string>
+    <string name="errInsufficientLength">Password is too weak</string>
+
+    <string name="errBlankPass">Password is required !</string>
+    <string name="helper_email">Type email with form name@gmail.com</string>
+    <string name="helper_pass">Type at least 6 characters</string>
+
 
 
 </resources>

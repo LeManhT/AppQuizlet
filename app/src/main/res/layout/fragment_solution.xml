@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="10dp"
+    android:background="@drawable/bg_profile"
     tools:context=".Solution">
 
     <!-- TODO: Update blank fragment layout -->
@@ -32,7 +33,7 @@
         android:layout_marginBottom="12dp"
         android:background="@drawable/search_view"
         android:hint="@string/search_hint"
-        app:iconifiedByDefault="true"
+        app:iconifiedByDefault="false"
         app:closeIcon="@drawable/icons8_close_48"
         app:defaultQueryHint="@string/sl_search_hint"
         app:queryHint="@string/sl_search_hint" />

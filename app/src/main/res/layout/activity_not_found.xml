@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/bg_profile"
     tools:context=".NotFound">
 
     <com.airbnb.lottie.LottieAnimationView
@@ -20,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="Oops!"
+        android:text="@string/oops"
         android:textColor="#707070"
         android:layout_marginTop="20dp"
         android:textSize="20sp" />
@@ -33,7 +34,7 @@
         android:textColor="#707070"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
-        android:text="There something wrong" />
+        android:text="@string/sth_went_wrong" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnGoHome"
@@ -42,6 +43,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Go to home" />
+        android:text="@string/go_to_home" />
 
 </LinearLayout>

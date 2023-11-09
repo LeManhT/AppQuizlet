@@ -13,6 +13,8 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.util.Patterns
+import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
@@ -22,16 +24,31 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.setPadding
 import com.example.appquizlet.databinding.ActivitySignInBinding
+import java.util.regex.Pattern
 
 
 private lateinit var binding: ActivitySignInBinding
 
-class SignIn : AppCompatActivity() {
+class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListener,
+    View.OnClickListener {
+    private val PASSWORD_PATTERN: Pattern = Pattern.compile(
+        "^" +
+                "(?=.*[@#$%^&+=])" +  // at least 1 special character
+                "(?=\\S+$)" +  // no white spaces
+                ".{6,}" +  // at least 8 characters
+                "$"
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //        Khoi tao viewbinding
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.txtLayout1.onFocusChangeListener = this
+        binding.txtLayout2.onFocusChangeListener = this
+        binding.edtEmail.onFocusChangeListener = this
+        binding.edtPass.onFocusChangeListener = this
 
         //        set toolbar back display
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
@@ -45,7 +62,7 @@ class SignIn : AppCompatActivity() {
         val spannableStringBuilderForgotUser = SpannableStringBuilder(textForgot)
         val forgotUserNameClickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
-                Toast.makeText(this@SignIn,"ffff",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@SignIn, "ffff", Toast.LENGTH_SHORT).show()
                 showCustomDialog(
                     resources.getString(R.string.forgot_username),
                     "",
@@ -55,7 +72,7 @@ class SignIn : AppCompatActivity() {
         }
         val forgotPassClickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
-                Toast.makeText(this@SignIn,"ffff",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@SignIn, "ffff", Toast.LENGTH_SHORT).show()
                 showCustomDialog(
                     resources.getString(R.string.reset_password),
                     resources.getString(R.string.forgot_pass_text),
@@ -213,11 +230,11 @@ class SignIn : AppCompatActivity() {
         val layout = LinearLayout(this)
         layout.orientation = LinearLayout.VERTICAL
         layout.setPadding(60)
-        if(!content.isEmpty()){
+        if (!content.isEmpty()) {
 //            builder.setMessage(content)
-            val textContent= TextView(this)
+            val textContent = TextView(this)
             textContent.setText(content)
-            textContent.setPadding(10,0,10,0)
+            textContent.setPadding(10, 0, 10, 0)
             layout.addView(textContent)
         }
         // Tạo EditText
@@ -240,5 +257,73 @@ class SignIn : AppCompatActivity() {
             dialog.dismiss()
         }
         builder.create().show()
+    }
+
+    override fun onFocusChange(v: View?, hasFocus: Boolean) {
+        if (v?.id != null) {
+            when (v.id) {
+                R.id.edtEmail -> {
+                    if (hasFocus) {
+                        if (binding.txtLayout1.isErrorEnabled) {
+                            binding.txtLayout1.isErrorEnabled = false
+                        }
+                    } else {
+                        validateEmail()
+                    }
+                }
+
+                R.id.edtPass -> {
+                    if (hasFocus) {
+                        if (binding.txtLayout2.isErrorEnabled) {
+                            binding.txtLayout2.isErrorEnabled = false
+                        }
+                    } else {
+                        validatePass()
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClick(v: View?) {
+        TODO("Not yet implemented")
+    }
+
+    private fun validateEmail() : Boolean {
+        var errorMess: String? = null
+        val email = binding.edtEmail.text.toString().trim()
+        if (email.isEmpty()) {
+            errorMess = resources.getString(R.string.errBlankEmail)
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            errorMess = resources.getString(R.string.errEmailInvalid)
+        }
+        if (errorMess != null) {
+            binding.txtLayout1.apply {
+                isErrorEnabled = true
+                error = errorMess
+            }
+        }
+        return errorMess == null
+    }
+
+    private fun validatePass() : Boolean{
+        var errorMess: String? = null
+        var pass = binding.edtEmail.text.toString().trim()
+        if (pass.isEmpty()) {
+            errorMess = resources.getString(R.string.errBlankEmail)
+        } else if (!PASSWORD_PATTERN.matcher(pass).matches()) {
+            errorMess = resources.getString(R.string.errInsufficientLength)
+        }
+        if (errorMess != null) {
+            binding.txtLayout2.apply {
+                isErrorEnabled = true
+                error = errorMess
+            }
+        }
+        return errorMess == null
     }
 }

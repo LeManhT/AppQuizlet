@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -13,25 +12,44 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.util.Patterns
+import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
 import android.widget.DatePicker
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.appquizlet.databinding.ActivitySignUpBinding
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import java.util.regex.Pattern
 
 private lateinit var binding: ActivitySignUpBinding
 private lateinit var calendar: Calendar
 
-class SignUp : AppCompatActivity() {
+class SignUp : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeListener,
+    View.OnKeyListener {
+    private val PASSWORD_PATTERN: Pattern = Pattern.compile(
+        "^" +
+                "(?=.*[@#$%^&+=])" +  // at least 1 special character
+                "(?=\\S+$)" +  // no white spaces
+                ".{6,}" +  // at least 8 characters
+                "$"
+    )
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //        Khoi tao viewbinding
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.txtLayout1.onFocusChangeListener = this
+        binding.txtLayout2.onFocusChangeListener = this
+        binding.edtEmail.onFocusChangeListener = this
+        binding.edtPass.onFocusChangeListener = this
+
 
 //        set toolbar back display
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
@@ -41,19 +59,21 @@ class SignUp : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
 //        Date dialog
-        var edtDOB = binding.edtDOB
+        val edtDOB = binding.edtDOB
 
         // Khởi tạo Calendar
         calendar = Calendar.getInstance()
 
         // Định dạng ngày
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+        val currentDate = dateFormat.format(Calendar.getInstance().time) // Lấy ngày hiện tại
+        binding.edtDOB.setText(currentDate)
 
         // Sự kiện khi EditText được nhấn
         edtDOB.setOnClickListener {
             val datePickerDialog = DatePickerDialog(
                 this,
-                DatePickerDialog.OnDateSetListener { _: DatePicker?, year: Int, month: Int, day: Int ->
+                { _: DatePicker?, year: Int, month: Int, day: Int ->
                     // Xử lý khi người dùng chọn ngày
                     calendar.set(year, month, day)
                     val formattedDate = dateFormat.format(calendar.time)
@@ -65,6 +85,18 @@ class SignUp : AppCompatActivity() {
             )
 
             datePickerDialog.show()
+
+//            val datePicker =
+//                MaterialDatePicker.Builder.datePicker()
+//                    .setTitleText("Select date")
+//                    .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+//                    .build()
+//
+//            datePicker.show(supportFragmentManager,"datePicker")
+//            datePicker.addOnPositiveButtonClickListener {
+//                val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+//                Toast.makeText(this,dateFormat.toString(),Toast.LENGTH_SHORT).show()
+//            }
 
         }
 //      Spannable text
@@ -149,6 +181,84 @@ class SignUp : AppCompatActivity() {
         // Đặt SpannableStringBuilder vào TextView và đặt movementMethod để kích hoạt tính năng bấm vào liên kết
         termsTextView.text = spannableStringBuilder
         termsTextView.movementMethod = LinkMovementMethod.getInstance()
+    }
+
+    private fun validateEmail(): Boolean {
+        var errorMessage: String? = null
+        val email = binding.edtEmail.text.toString()
+        if (email.isEmpty()) {
+            errorMessage = resources.getString(R.string.errBlankEmail)
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            errorMessage = resources.getString(R.string.errEmailInvalid)
+        }
+        if (errorMessage != null) {
+            binding.txtLayout1.apply {
+                isErrorEnabled = true
+                error = errorMessage
+            }
+        }
+        return errorMessage == null
+    }
+
+    private fun validatePassword(): Boolean {
+        var errorMessage: String? = null
+        val pass = binding.edtPass.text.toString().trim()
+        if (pass.isEmpty()) {
+            errorMessage = resources.getString(R.string.errBlankPass)
+        } else if (!PASSWORD_PATTERN.matcher(pass).matches()) {
+            errorMessage = resources.getString(R.string.errInsufficientLength)
+        }
+        if (errorMessage != null) {
+            binding.txtLayout2.apply {
+                isErrorEnabled = true
+                error = errorMessage
+            }
+        }
+        return errorMessage == null
+    }
+
+    override fun onClick(v: View?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFocusChange(v: View?, hasFocus: Boolean) {
+        if (v?.id != null) {
+            when (v.id) {
+//                R.id.edtDOB -> {
+//                    if(hasFocus){
+//                        binding.txtLayout0.setOnDateChangedListener { view, year, monthOfYear, dayOfMonth ->
+//                            // Xử lý dữ liệu khi người dùng đã chọn ngày mới
+//                            val selectedDate = "$dayOfMonth/${monthOfYear + 1}/$year"
+//                        }
+//                    }
+//                }
+
+                R.id.edtEmail -> {
+                    if (hasFocus) {
+                        //isCounterEnabled được đặt thành true, thì trường nhập liệu hoặc widget đó sẽ theo dõi và hiển thị số ký tự mà người dùng đã nhập vào
+                        if (binding.txtLayout1.isErrorEnabled) {
+                            binding.txtLayout1.isErrorEnabled = false
+                        }
+                    } else {
+                        validateEmail()
+                    }
+                }
+
+                R.id.edtPass -> {
+                    if (hasFocus) {
+                        if (binding.txtLayout2.isErrorEnabled) {
+                            binding.txtLayout2.isErrorEnabled = false
+                        }
+                    } else {
+                        validatePassword()
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onKey(v: View?, keyCode: Int, event: KeyEvent?): Boolean {
+        TODO("Not yet implemented")
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -17,11 +17,11 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/abril_fatface"
-            android:text="Quizlet"
+            android:text="@string/name"
             android:textColor="#0000FF"
             android:textSize="30dp" />
 
@@ -29,7 +29,7 @@
             android:id="@+id/imgSplashSearch"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@color/white"
+            android:background="@drawable/bg_profile"
             app:srcCompat="@android:drawable/ic_menu_search" />
     </LinearLayout>
 
@@ -70,7 +70,7 @@
            android:layout_height="wrap_content"
            android:layout_marginBottom="20dp"
            android:textColor="@color/white"
-           android:text="Sign up for free" />
+           android:text="@string/sign_up_for_free" />
 
        <androidx.appcompat.widget.AppCompatButton
            android:id="@+id/btnSignin"
@@ -78,7 +78,7 @@
            android:layout_width="match_parent"
            android:textColor="@color/white"
            android:layout_height="wrap_content"
-           android:text="Or log in" />
+           android:text="@string/or_log_in" />
    </LinearLayout>
 
 

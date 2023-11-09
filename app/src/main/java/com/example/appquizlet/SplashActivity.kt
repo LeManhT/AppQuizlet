@@ -13,7 +13,6 @@ import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.View
-import android.widget.Toast
 import com.example.appquizlet.databinding.ActivitySplashBinding
 
 private lateinit var binding: ActivitySplashBinding
@@ -37,7 +36,6 @@ class SplashActivity : AppCompatActivity() {
         val termsOfServiceClickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
                 // Xử lý khi người dùng bấm vào "Terms of Services"
-                Toast.makeText(this@SplashActivity, "Bấm vào Terms of Services", Toast.LENGTH_SHORT).show()
 
                 // Chuyển đến trang web của "Terms of Services" (hoặc trang Activity tùy thuộc vào nhu cầu của bạn)
                 val termsOfServiceUrl = "https://quizlet.com/tos"
@@ -49,7 +47,6 @@ class SplashActivity : AppCompatActivity() {
         val privacyPolicyClickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
                 // Xử lý khi người dùng bấm vào "Privacy Policy"
-                Toast.makeText(this@SplashActivity, "Bấm vào Privacy Policy", Toast.LENGTH_SHORT).show()
 
                 // Chuyển đến trang web của "Privacy Policy" (hoặc trang Activity tùy thuộc vào nhu cầu của bạn)
                 val privacyPolicyUrl = "https://quizlet.com/privacy"
@@ -111,7 +108,7 @@ class SplashActivity : AppCompatActivity() {
         termsTextView.movementMethod = LinkMovementMethod.getInstance()
 
         val indicators = binding.circleIndicator3
-        var listItemPhoto = mutableListOf<PhotoSplash>()
+        val listItemPhoto = mutableListOf<PhotoSplash>()
         listItemPhoto.add(
             PhotoSplash(
                 R.drawable.splash2,
@@ -142,16 +139,16 @@ class SplashActivity : AppCompatActivity() {
 
 
         binding.imgSplashSearch.setOnClickListener {
-            var i = Intent(this,SplashSearch::class.java)
+            val i = Intent(this,SplashSearch::class.java)
             startActivity(i)
         }
 
         binding.btnSignup.setOnClickListener {
-            var i = Intent(this,SignUp::class.java)
+            val i = Intent(this,SignUp::class.java)
             startActivity(i)
         }
         binding.btnSignin.setOnClickListener {
-            var i = Intent(this,SignIn::class.java)
+            val i = Intent(this,SignIn::class.java)
             startActivity(i)
         }
     }
