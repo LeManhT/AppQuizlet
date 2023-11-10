@@ -1,0 +1,20 @@
+[
+     {
+          "id": "abc100",
+          "term": "tree",
+          "definition": "a tall plant that has a wooden trunk and branches that grow from its upper part",
+          "time_created": 1699623846
+     },
+     {
+          "id": "abc101",
+          "term": "screen",
+          "definition": "a flat surface in a cinema, on a television, or as part of a computer, on which pictures or words are shown",
+          "time_created": 1699623246
+     },
+     {
+          "id": "abc102",
+          "term": "cup",
+          "definition": "a small, round container, often with a handle, used for drinking tea, coffee, etc., or the drink that it contains",
+          "time_created": 1699619646
+     }
+]
