@@ -13,11 +13,13 @@ import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.View
+import com.example.appquizlet.adapter.PhotoSplashAdapter
 import com.example.appquizlet.databinding.ActivitySplashBinding
+import com.example.appquizlet.model.PhotoSplash
 
-private lateinit var binding: ActivitySplashBinding
 
 class SplashActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySplashBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

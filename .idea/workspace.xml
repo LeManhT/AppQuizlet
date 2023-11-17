@@ -9,7 +9,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f561f4fb-df91-4045-a5ec-bc9208bd9d46" name="Changes" comment="add 404 activity,search activity and validate sign in, sign up" />
+    <list default="true" id="f561f4fb-df91-4045-a5ec-bc9208bd9d46" name="Changes" comment="create study set, folder, class and other dialog and fragment">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -63,19 +65,13 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
-        <option value="Kotlin Class" />
         <option value="Kotlin Interface" />
         <option value="valueResourceFile" />
         <option value="layoutResourceFile" />
+        <option value="Kotlin Object" />
         <option value="resourceFile" />
+        <option value="Kotlin Class" />
       </list>
-    </option>
-  </component>
-  <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="master" />
-      </map>
     </option>
   </component>
   <component name="MarkdownSettingsMigration">
@@ -97,13 +93,22 @@
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;android-custom-viewC:/Users/LeManhDev/.gradle/caches/modules-2/files-2.1/androidx.appcompat/appcompat/1.6.1/ace9a78b961165396147e8691faa18c1b0e48e20/appcompat-1.6.1-sources.jar!/androidx/appcompat/widget/AppCompatButton.java_SELECTED&quot;: &quot;AppCompatButton&quot;,
+    &quot;android-custom-viewC:/Users/LeManhDev/.gradle/caches/modules-2/files-2.1/androidx.core/core/1.9.0/a272ed8ec68c43f8c049a8e77b4f662cc4290fa2/core-1.9.0-sources.jar!/androidx/core/widget/NestedScrollView.java_SELECTED&quot;: &quot;NestedScrollView&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/LeManhDev/StudioProjects/AppQuizlet/app/src/main/res/drawable&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;,
+    &quot;settings.editor.splitter.proportion&quot;: &quot;0.28614458&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
 }</component>
+  <component name="PsdUISettings">
+    <option name="MODULE_TAB" value="Properties" />
+    <option name="LAST_EDITED_SIGNING_CONFIG" value="debug" />
+  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\LeManhDev\StudioProjects\AppQuizlet\app\src\main\res\drawable" />
@@ -112,10 +117,19 @@
     <key name="android.template.2101721679">
       <recent name="com.example.appquizlet" />
     </key>
+    <key name="android.template.-1458437343">
+      <recent name="com.example.appquizlet" />
+    </key>
     <key name="android.template.-284502665">
       <recent name="com.example.appquizlet" />
     </key>
+    <key name="android.template.682886436">
+      <recent name="com.example.appquizlet" />
+    </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="com.example.appquizlet.model" />
+      <recent name="com.example.appquizlet.adapter" />
+      <recent name="com.example.appquizlet.interfaceFolder" />
       <recent name="com.example.appquizlet" />
       <recent name="com.example.appquizlet.activity" />
     </key>
@@ -126,6 +140,9 @@
       <recent name="com.example.appquizlet.other" />
     </key>
     <key name="android.template.922680345">
+      <recent name="com.example.appquizlet" />
+    </key>
+    <key name="android.template.-521727356">
       <recent name="com.example.appquizlet" />
     </key>
   </component>
@@ -206,20 +223,27 @@
       <option name="presentableId" value="Default" />
       <updated>1697863241527</updated>
     </task>
-    <task id="LOCAL-00001" summary="add 404 activity,search activity and validate sign in, sign up">
-      <created>1699523675807</created>
+    <task id="LOCAL-00001" summary="create study set, folder, class and other dialog and fragment">
+      <created>1700235076003</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1699523675807</updated>
+      <updated>1700235076003</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="create study set, folder, class and other dialog and fragment">
+      <created>1700235086395</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1700235086396</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add search activity and validate sign in, sign up" />
-    <MESSAGE value="add 404 activity,search activity and validate sign in, sign up" />
-    <option name="LAST_COMMIT_MESSAGE" value="add 404 activity,search activity and validate sign in, sign up" />
+    <MESSAGE value="create study set, folder, class and other dialog and fragment" />
+    <option name="LAST_COMMIT_MESSAGE" value="create study set, folder, class and other dialog and fragment" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -8,17 +8,17 @@
     android:background="@drawable/bg_profile"
     tools:context=".Solution">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="10dp"
-        android:textSize="20dp"
-        android:textStyle="bold"
         android:paddingBottom="10dp"
-        android:text="@string/sl_title" />
+        android:text="@string/sl_title"
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSolution"
         android:layout_width="match_parent"
         android:layout_marginTop="50dp"
         android:layout_height="wrap_content" />
@@ -37,4 +37,12 @@
         app:closeIcon="@drawable/icons8_close_48"
         app:defaultQueryHint="@string/sl_search_hint"
         app:queryHint="@string/sl_search_hint" />
+
+    <ImageView
+        android:id="@+id/imageView18"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="350dp"
+        android:src="@drawable/elearn" />
+
 </FrameLayout>

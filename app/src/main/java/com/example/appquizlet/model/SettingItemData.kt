@@ -1,4 +1,4 @@
-package com.example.appquizlet
+package com.example.appquizlet.model
 
 import android.view.View
 
