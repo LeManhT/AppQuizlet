@@ -1,10 +1,11 @@
-package com.example.appquizlet
+package com.example.appquizlet.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.appquizlet.R
 
 class SettingItemAdapter(private val list : List<Int>) : RecyclerView.Adapter<SettingItemAdapter.ItemViewHolder>() {
     class ItemViewHolder (itemView : View) : RecyclerView.ViewHolder (itemView)

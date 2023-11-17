@@ -27,10 +27,10 @@ import com.example.appquizlet.databinding.ActivitySignInBinding
 import java.util.regex.Pattern
 
 
-private lateinit var binding: ActivitySignInBinding
 
 class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListener,
     View.OnClickListener {
+    private lateinit var binding: ActivitySignInBinding
     private val PASSWORD_PATTERN: Pattern = Pattern.compile(
         "^" +
                 "(?=.*[@#$%^&+=])" +  // at least 1 special character
@@ -62,7 +62,6 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
         val spannableStringBuilderForgotUser = SpannableStringBuilder(textForgot)
         val forgotUserNameClickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
-                Toast.makeText(this@SignIn, "ffff", Toast.LENGTH_SHORT).show()
                 showCustomDialog(
                     resources.getString(R.string.forgot_username),
                     "",

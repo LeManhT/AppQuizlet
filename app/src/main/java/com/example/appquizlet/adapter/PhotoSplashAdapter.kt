@@ -1,4 +1,4 @@
-package com.example.appquizlet
+package com.example.appquizlet.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.appquizlet.model.PhotoSplash
+import com.example.appquizlet.R
 
 class PhotoSplashAdapter(val list: List<PhotoSplash>) : RecyclerView.Adapter<PhotoSplashAdapter.SplashViewHolder>() {
 
@@ -20,8 +22,8 @@ class PhotoSplashAdapter(val list: List<PhotoSplash>) : RecyclerView.Adapter<Pho
     override fun onBindViewHolder(holder: SplashViewHolder, position: Int) {
             val photoItem = list[position]
         holder.itemView.apply {
-            var txtSplash = findViewById<TextView>(R.id.txtSplash)
-            var imgPhoto = findViewById<ImageView>(R.id.img_photo)
+            val txtSplash = findViewById<TextView>(R.id.txtSplash)
+            val imgPhoto = findViewById<ImageView>(R.id.img_photo)
 
             txtSplash.setText(list[position].textSplash)
             imgPhoto.setImageResource(list[position].resourceId)
