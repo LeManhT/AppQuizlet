@@ -9,7 +9,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f561f4fb-df91-4045-a5ec-bc9208bd9d46" name="Changes" comment="create study set, folder, class and other dialog and fragment">
+    <list default="true" id="f561f4fb-df91-4045-a5ec-bc9208bd9d46" name="Changes" comment="merge features/create_study_set_folder_and_class into develop">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -73,6 +73,9 @@
         <option value="Kotlin Class" />
       </list>
     </option>
+  </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="features/create_study_set_folder_and_class" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -240,10 +243,22 @@
     <option name="localTasksCounter" value="3" />
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add search activity and validate sign in, sign up" />
     <MESSAGE value="create study set, folder, class and other dialog and fragment" />
-    <option name="LAST_COMMIT_MESSAGE" value="create study set, folder, class and other dialog and fragment" />
+    <MESSAGE value="merge features/create_study_set_folder_and_class into develop" />
+    <option name="LAST_COMMIT_MESSAGE" value="merge features/create_study_set_folder_and_class into develop" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
