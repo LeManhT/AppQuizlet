@@ -13,6 +13,14 @@
         android:theme="@style/Theme.AppQuizlet"
         tools:targetApi="31">
         <activity
+            android:name=".FolderClickActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CreateSet"
+            android:exported="false"
+            android:label="@string/title_activity_create_set"
+            android:theme="@style/Theme.AppQuizlet" />
+        <activity
             android:name=".NotFound"
             android:exported="false" />
         <activity
@@ -43,9 +51,9 @@
             android:exported="false"
             android:label="@string/title_activity_splash_search"
             android:theme="@style/Theme.AppQuizlet" />
-        <activity
-            android:name=".splash_search"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".splash_search"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".SplashActivity"
             android:exported="false" />
