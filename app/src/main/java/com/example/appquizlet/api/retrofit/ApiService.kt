@@ -10,4 +10,7 @@ interface ApiService {
     @POST("User/SignUp")
     suspend fun createUser(@Body body : JsonObject) : Response<JsonObject>
 
+    @POST("User/Login")
+    suspend fun loginUser(@Body body : JsonObject) : Response<JsonObject>
+
 }

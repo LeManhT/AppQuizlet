@@ -140,6 +140,15 @@
     <string name="done">Done</string>
 
 
+    <string name="login_success">Login successful 🍾</string>
+    <string name="failed_sign_up">Something went wrong when sign up ! Please try again !</string>
+    <string name="sign_in_success">Sign in account successful 🍾</string>
+    <string name="wait">Loading. Please wait ...</string>
+    <string name="wrong_email_or_pass">Wrong email or password> Please try again !</string>
+    <string name="loginNameField">loginName</string>
+    <string name="loginPasswordField">loginPassword</string>
+
+
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>

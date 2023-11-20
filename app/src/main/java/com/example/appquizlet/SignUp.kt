@@ -1,7 +1,6 @@
 package com.example.appquizlet
 
 import android.app.DatePickerDialog
-import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
@@ -25,14 +24,16 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
 import com.example.appquizlet.api.retrofit.ApiService
 import com.example.appquizlet.api.retrofit.RetrofitHelper
+import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.ActivitySignUpBinding
 import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import java.util.regex.Pattern
-
 
 
 class SignUp : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeListener,
@@ -48,7 +49,6 @@ class SignUp : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeList
     )
 
     private lateinit var apiService: ApiService
-    private lateinit var progressDialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -188,7 +188,12 @@ class SignUp : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeList
             if (validateEmail(edtEmail) && validatePassword(edtPass)) {
                 createNewUser(edtEmail, edtPass)
             } else {
-                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
+                CustomToast(this).makeText(
+                    this,
+                    resources.getString(R.string.failed_sign_up),
+                    CustomToast.LONG,
+                    CustomToast.ERROR
+                ).show()
             }
         }
     }
@@ -196,9 +201,9 @@ class SignUp : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeList
 
     private fun validateEmail(email: String): Boolean {
         var errorMessage: String? = null
-        if (email.isEmpty()) {
+        if (email.trim().isEmpty()) {
             errorMessage = resources.getString(R.string.errBlankEmail)
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches()) {
             errorMessage = resources.getString(R.string.errEmailInvalid)
         }
         if (errorMessage != null) {
@@ -228,36 +233,57 @@ class SignUp : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeList
 
     private fun createNewUser(email: String, pass: String) {
         lifecycleScope.launch {
-            showLoading("Please waiting ...")
+            showLoading()
 
             try {
                 val body = JsonObject().apply {
-                    addProperty("loginName", email)
-                    addProperty("loginPass", pass)
+                    addProperty(resources.getString(R.string.loginNameField), email)
+                    addProperty(resources.getString(R.string.loginPasswordField), pass)
                 }
                 val result = apiService.createUser(body)
+                Toast.makeText(this@SignUp, body.toString(), Toast.LENGTH_SHORT).show()
                 if (result.isSuccessful) {
-                    val intent = Intent(this@SignUp, MainActivity_Logged_In::class.java)
+                    val msgSignInSuccess = resources.getString(R.string.sign_in_success)
+                    val intent = Intent(this@SignUp, SignIn::class.java)
                     startActivity(intent)
-                    Log.e("sc", result.body().toString())
+                    CustomToast(this@SignUp).makeText(
+                        this@SignUp,
+                        msgSignInSuccess,
+                        CustomToast.LONG,
+                        CustomToast.SUCCESS
+                    ).show()
                 } else {
                     result.errorBody()?.string()?.let {
-                        Log.e("fl", it)
-                        Toast.makeText(this@SignUp, it, Toast.LENGTH_SHORT).show()
+                        CustomToast(this@SignUp).makeText(
+                            this@SignUp,
+                            it,
+                            CustomToast.LONG,
+                            CustomToast.ERROR
+                        ).show()
                     }
 
                 }
+            } catch (e: IOException) {
+                Log.e("IOException", e.message.toString())
+            } catch (e: HttpException) {
+                Log.e("HttpException", e.message.toString())
             } catch (e: Exception) {
                 Log.e("Exception", e.message.toString())
             } finally {
-                progressDialog.dismiss()
+                hideLoading()
             }
 
         }
     }
 
-    private fun showLoading(msg: String) {
-        progressDialog = ProgressDialog.show(this, null, msg)
+    private fun showLoading() {
+        binding.progressBar.visibility = View.VISIBLE
+        binding.btnSignUpForm.visibility = View.GONE
+    }
+
+    private fun hideLoading() {
+        binding.progressBar.visibility = View.GONE
+        binding.btnSignUpForm.visibility = View.VISIBLE
     }
 
     override fun onClick(v: View?) {
