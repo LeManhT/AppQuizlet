@@ -9,20 +9,8 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f561f4fb-df91-4045-a5ec-bc9208bd9d46" name="Changes" comment="initial config retrofit">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/custom/CustomToast.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/icons8_error_50.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/icons8_tick_48_white.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/icons8_warning_48.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" afterDir="false" />
+    <list default="true" id="f561f4fb-df91-4045-a5ec-bc9208bd9d46" name="Changes" comment="done create function call api sign in, sign up and custom toast">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/SignIn.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/SignIn.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/SignUp.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/SignUp.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/api/retrofit/ApiService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/api/retrofit/ApiService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_in.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_in.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_up.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_up.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/layout_custom_toast.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_custom_toast.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -221,11 +209,20 @@
       <option name="presentableId" value="Default" />
       <updated>1697863241527</updated>
     </task>
+    <task id="LOCAL-00001" summary="done create function call api sign in, sign up and custom toast">
+      <created>1700454126362</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1700454126362</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add search activity and validate sign in, sign up" />
-    <option name="LAST_COMMIT_MESSAGE" value="add search activity and validate sign in, sign up" />
+    <MESSAGE value="done create function call api sign in, sign up and custom toast" />
+    <option name="LAST_COMMIT_MESSAGE" value="done create function call api sign in, sign up and custom toast" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
