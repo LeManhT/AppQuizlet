@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -19,6 +20,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.DatePicker
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
@@ -26,6 +28,7 @@ import com.example.appquizlet.api.retrofit.ApiService
 import com.example.appquizlet.api.retrofit.RetrofitHelper
 import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.ActivitySignUpBinding
+import com.example.appquizlet.util.Helper
 import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -50,6 +53,7 @@ class SignUp : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeList
 
     private lateinit var apiService: ApiService
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //        Khoi tao viewbinding
@@ -185,8 +189,19 @@ class SignUp : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeList
         binding.btnSignUpForm.setOnClickListener {
             val edtEmail = binding.edtEmail.text.toString()
             val edtPass = binding.edtPass.text.toString()
+            val dob = binding.edtDOB.text.toString()
+
             if (validateEmail(edtEmail) && validatePassword(edtPass)) {
-                createNewUser(edtEmail, edtPass)
+                if (Helper.checkBorn(dob)) {
+                    createNewUser(edtEmail, edtPass, dob)
+                } else {
+                    CustomToast(this).makeText(
+                        this,
+                        resources.getString(R.string.not_enough_age),
+                        CustomToast.LONG,
+                        CustomToast.ERROR
+                    ).show()
+                }
             } else {
                 CustomToast(this).makeText(
                     this,
@@ -195,6 +210,7 @@ class SignUp : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeList
                     CustomToast.ERROR
                 ).show()
             }
+
         }
     }
 
@@ -231,7 +247,7 @@ class SignUp : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeList
         return errorMessage == null
     }
 
-    private fun createNewUser(email: String, pass: String) {
+    private fun createNewUser(email: String, pass: String, dob: String) {
         lifecycleScope.launch {
             showLoading()
 
@@ -239,7 +255,13 @@ class SignUp : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeList
                 val body = JsonObject().apply {
                     addProperty(resources.getString(R.string.loginNameField), email)
                     addProperty(resources.getString(R.string.loginPasswordField), pass)
+                    addProperty(
+                        resources.getString(R.string.dobField), Helper.formatDateSignup(dob)
+
+                    )
+                    addProperty(resources.getString(R.string.emailField), email)
                 }
+                Log.e("body", body.toString())
                 val result = apiService.createUser(body)
                 Toast.makeText(this@SignUp, body.toString(), Toast.LENGTH_SHORT).show()
                 if (result.isSuccessful) {

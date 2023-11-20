@@ -147,6 +147,9 @@
     <string name="wrong_email_or_pass">Wrong email or password> Please try again !</string>
     <string name="loginNameField">loginName</string>
     <string name="loginPasswordField">loginPassword</string>
+    <string name="emailField">email</string>
+    <string name="dobField">dateOfBirth</string>
+    <string name="not_enough_age">You don\'t enough age for sign up !</string>
 
 
     <!-- Strings used for fragments for navigation -->
