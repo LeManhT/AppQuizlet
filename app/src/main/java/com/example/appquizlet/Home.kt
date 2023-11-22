@@ -2,11 +2,14 @@ package com.example.appquizlet
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appquizlet.adapter.RVFolderItemAdapter
 import com.example.appquizlet.adapter.RvStudySetItemAdapter
@@ -14,6 +17,7 @@ import com.example.appquizlet.databinding.FragmentHomeBinding
 import com.example.appquizlet.interfaceFolder.RVFolderItem
 import com.example.appquizlet.model.FolderItemData
 import com.example.appquizlet.model.StudySetItemData
+import com.example.appquizlet.model.UserViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 
@@ -23,6 +27,8 @@ class Home : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
 
     }
 
@@ -132,7 +138,7 @@ class Home : Fragment() {
 
     }
 
-    private fun showAddCourseBottomSheet () {
+    private fun showAddCourseBottomSheet() {
         val addCourseBottomSheet = FragmentAddCourse()
         addCourseBottomSheet.show(parentFragmentManager, addCourseBottomSheet.tag)
     }

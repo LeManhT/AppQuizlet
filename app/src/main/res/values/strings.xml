@@ -144,13 +144,16 @@
     <string name="failed_sign_up">Something went wrong when sign up ! Please try again !</string>
     <string name="sign_in_success">Sign in account successful 🍾</string>
     <string name="wait">Loading. Please wait ...</string>
+    <string name="not_enough_age">You don\'t enough age for sign up !</string>
+    <string name="create_folder_success">Create folder successful !</string>
+    <string name="creating">Creating folder. Please wait ...</string>
+
     <string name="wrong_email_or_pass">Wrong email or password> Please try again !</string>
     <string name="loginNameField">loginName</string>
     <string name="loginPasswordField">loginPassword</string>
     <string name="emailField">email</string>
     <string name="dobField">dateOfBirth</string>
-    <string name="not_enough_age">You don\'t enough age for sign up !</string>
-
+    <string name="createFolderNameField">name</string>
 
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

@@ -1,7 +1,9 @@
 package com.example.appquizlet
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.Typeface
 import android.net.Uri
@@ -23,11 +25,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.setPadding
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.appquizlet.api.retrofit.ApiService
 import com.example.appquizlet.api.retrofit.RetrofitHelper
 import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.ActivitySignInBinding
+import com.example.appquizlet.model.UserViewModel
 import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
@@ -45,6 +49,8 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
     )
 
     private lateinit var apiService: ApiService
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var userViewModel: UserViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +65,10 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
 
 
         apiService = RetrofitHelper.getInstance().create(ApiService::class.java)
+
+        userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
+        // <=> ViewModelProvider(this).get(UserViewModel::class.java)
+
 
         //        set toolbar back display
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
@@ -250,12 +260,20 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
                 val result = apiService.loginUser(body)
                 if (result.isSuccessful) {
                     val msgSuccess = resources.getString(R.string.login_success)
-                    CustomToast(this@SignIn).makeText(
-                        this@SignIn,
-                        msgSuccess,
-                        CustomToast.LONG,
-                        CustomToast.SUCCESS
-                    ).show()
+
+                    result.body().let { it ->
+                        if (it != null) {
+                            CustomToast(this@SignIn).makeText(
+                                this@SignIn,
+                                msgSuccess,
+                                CustomToast.LONG,
+                                CustomToast.SUCCESS
+                            ).show()
+                            saveIdUser(it.id, it.userName)
+//                            userViewModel.setUserData(it)
+                        }
+                    }
+
                     val intent = Intent(this@SignIn, MainActivity_Logged_In::class.java)
                     startActivity(intent)
                 } else {
@@ -405,5 +423,13 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
             }
         }
         return errorMess == null
+    }
+
+    private fun saveIdUser(userId: String, userName: String) {
+        sharedPreferences = this.getSharedPreferences("idUser", Context.MODE_PRIVATE)
+        var editor = sharedPreferences.edit()
+        editor.putString("key_userid", userId)
+        editor.putString("key_username", userName)
+        editor.apply()
     }
 }

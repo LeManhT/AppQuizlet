@@ -1,7 +1,9 @@
 package com.example.appquizlet.util
 
+import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.example.appquizlet.Add
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -29,4 +31,15 @@ object Helper {
         }
         return false
     }
+
+    fun getDataUserId(context: Context): String {
+        val sharedPreferences = context.getSharedPreferences("idUser", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("key_userid", null).toString()
+    }
+
+    fun getDataUsername(context: Context): String {
+        val sharedPreferences = context.getSharedPreferences("idUser", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("key_username", null).toString()
+    }
+
 }
