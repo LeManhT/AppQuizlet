@@ -20,6 +20,7 @@ import com.example.appquizlet.api.retrofit.ApiService
 import com.example.appquizlet.api.retrofit.RetrofitHelper
 import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.FragmentAddBinding
+import com.example.appquizlet.model.UserM
 import com.example.appquizlet.util.Helper
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.JsonObject
@@ -104,10 +105,11 @@ class Add : BottomSheetDialogFragment() {
 
         builder.setPositiveButton("OK") { dialog, _ ->
             val inputText = editTextFolder.text.toString()
+            val description = editTextDesc.text.toString()
             // Xử lý dữ liệu từ EditText sau khi người dùng nhấn OK
             // Ví dụ: Hiển thị nó hoặc thực hiện các tác vụ khác
             // ở đây
-            createNewFolder(inputText, "6558ddd84a626f7333b9fe16")
+            createNewFolder(inputText, description, Helper.getDataUserId(requireContext()))
         }
 
         builder.setNegativeButton("Cancel") { dialog, _ ->
@@ -118,7 +120,7 @@ class Add : BottomSheetDialogFragment() {
     }
 
     private fun createEditTextWithCustomBottomBorder(hint: String): EditText {
-        var editText = EditText(context)
+        val editText = EditText(context)
         editText.hint = hint
 
         // Custom drawable for bottom border
@@ -150,12 +152,13 @@ class Add : BottomSheetDialogFragment() {
         return editText
     }
 
-    fun createNewFolder(name: String, userId: String) {
+    fun createNewFolder(name: String, description: String = "", userId: String) {
         lifecycleScope.launch {
             showLoading(resources.getString(R.string.creating))
             try {
                 val body = JsonObject().apply {
                     addProperty(resources.getString(R.string.createFolderNameField), name)
+                    addProperty(resources.getString(R.string.descriptionField), description)
                 }
                 val result = apiService.createNewFolder(userId, body)
                 CustomToast(requireContext()).makeText(
@@ -174,6 +177,7 @@ class Add : BottomSheetDialogFragment() {
                                     CustomToast.LONG,
                                     CustomToast.SUCCESS
                                 ).show()
+                                UserM.setUserData(it)
                             }
                         }
                     }

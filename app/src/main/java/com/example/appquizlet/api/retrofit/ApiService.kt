@@ -1,12 +1,12 @@
 package com.example.appquizlet.api.retrofit
 
-import com.example.appquizlet.model.DocumentModel
 import com.example.appquizlet.model.UserResponse
 import com.google.gson.JsonObject
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.PUT
+import retrofit2.http.DELETE
 import retrofit2.http.Query
 
 interface ApiService {
@@ -21,8 +21,27 @@ interface ApiService {
     suspend fun createNewFolder(
         @Query("userId") userId: String,
         @Body body: JsonObject
-    ): Response<DocumentModel>
+    ): Response<UserResponse>
 
 
+    //    @PUT("Folder/Update")
+//    fun updateFolder(
+//        @Query("userId") userId: String,
+//        @Body body: JsonObject
+//    ): Call<UserResponse>
+//
+    @PUT("Folder/Update")
+    suspend fun updateFolder(
+        @Query("userId") userId: String,
+        @Query("folderId") folderId: String,
+        @Body body: JsonObject
+    ): Response<UserResponse>
+
+
+    @DELETE("Folder/Delete")
+    suspend fun deleteFolder(
+        @Query("userId") userId: String,
+        @Query("folderId") folderId: String
+    ): Response<UserResponse>
 
 }

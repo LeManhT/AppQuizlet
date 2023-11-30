@@ -1,6 +1,6 @@
 package com.example.appquizlet
 
-import android.content.SharedPreferences
+import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -60,6 +60,20 @@ class MainActivity_Logged_In : AppCompatActivity() {
                 }
             }
             true
+        }
+
+        // Check if it's the first time launching the app
+        val prefs = getSharedPreferences("first", Context.MODE_PRIVATE)
+        val isFirstTime = prefs.getBoolean("firstIn1", true)
+
+        if (isFirstTime) {
+            // It's the first time, replace the fragment
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.frameLayout, Home())
+                .commit()
+
+            // Mark that the app has been launched
+            prefs.edit().putBoolean("firstIn1", true).apply()
         }
 
     }

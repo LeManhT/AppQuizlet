@@ -54,6 +54,12 @@ dependencies {
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.0")
 
+    val room_version = "2.5.0"
+
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+
+
     testImplementation("junit:junit:4.13.2")
     implementation ("me.relex:circleindicator:2.1.6")
     implementation ("com.airbnb.android:lottie:3.5.0")

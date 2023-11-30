@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:padding="10dp"
     android:background="@drawable/bg_profile"
+    android:id="@+id/fragmentFolderContainer"
     tools:context=".FoldersFragment">
 
     <androidx.recyclerview.widget.RecyclerView

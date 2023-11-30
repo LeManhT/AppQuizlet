@@ -3,19 +3,20 @@ package com.example.appquizlet.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.appquizlet.model.FolderItemData
 import com.example.appquizlet.R
+import com.example.appquizlet.interfaceFolder.ItemTouchHelperAdapter
 import com.example.appquizlet.interfaceFolder.RVFolderItem
+import com.example.appquizlet.model.FolderModel
+import java.util.Collections
 
 
 class RVFolderItemAdapter(
-    private var listFolderItem: List<FolderItemData>,
+    private var listFolderItem: List<FolderModel>,
     private val onFolderItemClick: RVFolderItem
 ) :
-    RecyclerView.Adapter<RVFolderItemAdapter.FolderItemHolder>() {
+    RecyclerView.Adapter<RVFolderItemAdapter.FolderItemHolder>(), ItemTouchHelperAdapter {
     class FolderItemHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView)
 
@@ -24,6 +25,16 @@ class RVFolderItemAdapter(
 //        val txtUsername: TextView = itemView.findViewById(R.id.txtFolderItemUsername)
 //        val imgAvatar: ImageView = itemView.findViewById(R.id.imgFolderItemAvatar)
 //    }
+
+    override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
+        Collections.swap(listFolderItem, fromPosition, toPosition)
+        notifyItemMoved(fromPosition, toPosition)
+        return true
+    }
+
+    override fun onItemDismiss(position: Int) {
+        notifyItemRemoved(position)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FolderItemHolder {
         val view =
@@ -36,10 +47,10 @@ class RVFolderItemAdapter(
         holder.itemView.apply {
             val txtTitle = findViewById<TextView>(R.id.txtFolderItemTitle)
             val txtUsername = findViewById<TextView>(R.id.txtFolderItemUsername)
-            val imgAvatar = findViewById<ImageView>(R.id.imgFolderItemAvatar)
-            txtTitle.text = listFolderItem[position].title
-            txtUsername.text = listFolderItem[position].username
-            imgAvatar.setImageResource(listFolderItem[position].avatar)
+//            val imgAvatar = findViewById<ImageView>(R.id.imgFolderItemAvatar)
+            txtTitle.text = listFolderItem[position].name
+            txtUsername.text = listFolderItem[position].id
+//            imgAvatar.setImageResource(listFolderItem[position].avatar)
             holder.itemView.setOnClickListener {
                 onFolderItemClick.handleClickFolderItem(position)
             }
@@ -48,7 +59,7 @@ class RVFolderItemAdapter(
         }
     }
 
-        override fun getItemCount(): Int {
-            return listFolderItem.size
-        }
+    override fun getItemCount(): Int {
+        return listFolderItem.size
     }
+}

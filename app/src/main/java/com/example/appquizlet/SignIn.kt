@@ -31,6 +31,7 @@ import com.example.appquizlet.api.retrofit.ApiService
 import com.example.appquizlet.api.retrofit.RetrofitHelper
 import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.ActivitySignInBinding
+import com.example.appquizlet.model.UserM
 import com.example.appquizlet.model.UserViewModel
 import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
@@ -271,6 +272,7 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
                             ).show()
                             saveIdUser(it.id, it.userName)
 //                            userViewModel.setUserData(it)
+                            UserM.setUserData(it)
                         }
                     }
 
@@ -427,7 +429,7 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
 
     private fun saveIdUser(userId: String, userName: String) {
         sharedPreferences = this.getSharedPreferences("idUser", Context.MODE_PRIVATE)
-        var editor = sharedPreferences.edit()
+        val editor = sharedPreferences.edit()
         editor.putString("key_userid", userId)
         editor.putString("key_username", userName)
         editor.apply()

@@ -2,22 +2,23 @@ package com.example.appquizlet
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.appquizlet.adapter.RVFolderItemAdapter
 import com.example.appquizlet.adapter.RvStudySetItemAdapter
+import com.example.appquizlet.custom.ScrollListener
 import com.example.appquizlet.databinding.FragmentHomeBinding
+import com.example.appquizlet.interfaceFolder.ItemTouchHelperAdapter
 import com.example.appquizlet.interfaceFolder.RVFolderItem
-import com.example.appquizlet.model.FolderItemData
+import com.example.appquizlet.interfaceFolder.RVStudySetItem
+import com.example.appquizlet.model.FolderModel
 import com.example.appquizlet.model.StudySetItemData
-import com.example.appquizlet.model.UserViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 
@@ -27,7 +28,6 @@ class Home : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
 
     }
@@ -52,8 +52,6 @@ class Home : Fragment() {
         val bottomSheetView = view.findViewById<View>(R.id.notification_bottomsheet)
         if (bottomSheetView != null) {
             bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetView)
-            Toast.makeText(context, "gggg", Toast.LENGTH_SHORT).show()
-// Ensure that bottomSheetView is not null before accessing it
             bottomSheetView.let {
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
             }
@@ -73,22 +71,20 @@ class Home : Fragment() {
         }
 
 
-        val listFolderItems = mutableListOf<FolderItemData>()
-        listFolderItems.add(FolderItemData("English", R.drawable.profile, "lemamjh222"))
-        listFolderItems.add(FolderItemData("Chinese", R.drawable.profile, "lemamjh222"))
-        listFolderItems.add(FolderItemData("Japanese", R.drawable.profile, "lemamjh222"))
-        listFolderItems.add(FolderItemData("Forex", R.drawable.profile, "lemamjh222"))
-        listFolderItems.add(FolderItemData("Korea", R.drawable.profile, "lemamjh222"))
-        listFolderItems.add(FolderItemData("Android", R.drawable.profile, "lemamjh222"))
-        listFolderItems.add(FolderItemData("Javascript", R.drawable.profile, "lemamjh222"))
-        listFolderItems.add(FolderItemData("Kotlin", R.drawable.profile, "lemamjh222"))
-        listFolderItems.add(FolderItemData("Military", R.drawable.profile, "lemamjh222"))
+        val listFolderItems = mutableListOf<FolderModel>()
+        listFolderItems.add(FolderModel("English", "lemamjh222", 34444, ""))
+        listFolderItems.add(FolderModel("Chinese", "lemamjh222", 34444, ""))
+        listFolderItems.add(FolderModel("Japanese", "lemamjh222", 34444, ""))
+        listFolderItems.add(FolderModel("Forex", "lemamjh222", 34444, ""))
+        listFolderItems.add(FolderModel("Korea", "lemamjh222", 34444, ""))
+        listFolderItems.add(FolderModel("Android", "lemamjh222", 34444, ""))
+        listFolderItems.add(FolderModel("Javascript", "lemamjh222", 34444, ""))
 
         var adapterHomeFolder = RVFolderItemAdapter(listFolderItems, object : RVFolderItem {
             override fun handleClickFolderItem(position: Int) {
                 Toast.makeText(
                     context,
-                    "You clicked " + listFolderItems[position].title,
+                    "You clicked " + listFolderItems[position].name,
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -100,6 +96,49 @@ class Home : Fragment() {
         rvHomeFolder.layoutManager = LinearLayoutManager(
             context, LinearLayoutManager.HORIZONTAL, false
         )
+        val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.START or ItemTouchHelper.END,
+            0
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                // Gọi phương thức onItemMove từ Adapter khi item được di chuyển
+                return (recyclerView.adapter as ItemTouchHelperAdapter).onItemMove(
+                    viewHolder.adapterPosition,
+                    target.adapterPosition
+                )
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                Toast.makeText(context, "ffff", Toast.LENGTH_SHORT).show()
+            }
+
+
+            override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+                super.onSelectedChanged(viewHolder, actionState)
+
+                if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+                    viewHolder?.itemView?.alpha = 0.7f // Giảm độ mờ của item khi đang được kéo
+                }
+            }
+
+            override fun clearView(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
+            ) {
+                super.clearView(recyclerView, viewHolder)
+                // Đặt lại thuộc tính khi kéo kết thúc
+                viewHolder.itemView.animate().translationY(0f).alpha(1f).setDuration(300).start()
+            }
+
+        })
+
+        itemTouchHelper.attachToRecyclerView(rvHomeFolder)
+
+//        rvHomeFolder.isScrollbarFadingEnabled = false
         rvHomeFolder.adapter = adapterHomeFolder
 
 
@@ -110,7 +149,12 @@ class Home : Fragment() {
         listStudySet.add(StudySetItemData("Everyday word 3", 5, R.drawable.profile, "lemamnhed"))
         listStudySet.add(StudySetItemData("Everyday word 4", 26, R.drawable.profile, "lemamnhed"))
 
-        val adapterHomeStudySet = RvStudySetItemAdapter(listStudySet)
+        val adapterHomeStudySet = RvStudySetItemAdapter(listStudySet, object : RVStudySetItem {
+            override fun handleClickStudySetItem(setItem: StudySetItemData) {
+//                var intent = Intent(context, StudySetDetail::class.java)
+//                startActivity(intent)
+            }
+        })
         var rvStudySet = binding.rvHomeStudySet
         rvStudySet.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -123,19 +167,8 @@ class Home : Fragment() {
 
     private fun showDialogBottomSheet() {
         val notificationBottomSheet = NotificationFragment()
-
         //        parentFragmentManager được sử dụng để đảm bảo rằng Bottom Sheet Dialog được hiển thị trong phạm vi của Fragment.
         notificationBottomSheet.show(parentFragmentManager, notificationBottomSheet.tag)
-        val bottomSheetCallback = object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-
-            }
-
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-
-            }
-        }
-
     }
 
     private fun showAddCourseBottomSheet() {
