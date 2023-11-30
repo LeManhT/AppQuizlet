@@ -20,4 +20,5 @@ class Settings : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
 }

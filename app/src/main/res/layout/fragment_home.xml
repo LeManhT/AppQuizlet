@@ -78,9 +78,9 @@
                     android:background="@drawable/search_view"
                     android:hint="@string/search_hint"
                     android:iconifiedByDefault="false"
-                    app:iconifiedByDefault="false"
                     app:closeIcon="@drawable/icons8_close_48"
                     app:defaultQueryHint="@string/search_hint"
+                    app:iconifiedByDefault="false"
                     app:queryHint="@string/search_hint" />
 
             </androidx.cardview.widget.CardView>
