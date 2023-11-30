@@ -29,7 +29,7 @@ tools:context=".Profile">
         app:layout_constraintTop_toBottomOf="@+id/btnUpgrade" />
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/txtUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -64,14 +64,14 @@ tools:context=".Profile">
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7">
+        app:layout_constraintTop_toBottomOf="@+id/txtUsername">
 
         <ImageView
             android:id="@+id/imageView4"
-            android:layout_width="wrap_content"
-            android:layout_height="19dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_weight="1"
-            android:src="@drawable/icons8_book_30" />
+            android:src="@drawable/three_book" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -102,10 +102,10 @@ tools:context=".Profile">
 
         <ImageView
             android:id="@+id/imageView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="@dimen/mar_60"
             android:layout_weight="1"
-            android:src="@drawable/icons8_edit_account_48" />
+            android:src="@drawable/snapedit_1699871479095" />
 
         <TextView
             android:layout_width="wrap_content"

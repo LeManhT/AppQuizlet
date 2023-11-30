@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="20dp"
     android:background="@drawable/bg_profile"
+    android:paddingLeft="20dp"
     android:paddingRight="20dp"
     tools:context=".SignIn">
 
@@ -30,9 +30,8 @@
         android:layout_height="wrap_content"
         android:text="@string/or_log_with"
         android:textAllCaps="true"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
-       />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSigninGoogle"
@@ -49,13 +48,13 @@
         android:id="@+id/btnSignInFb"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/fb"
         android:layout_marginTop="@dimen/marginInput"
         android:layout_marginBottom="5dp"
+        android:text="@string/fb"
         android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnSigninGoogle"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <TextView
         android:id="@+id/textView4"
@@ -72,17 +71,17 @@
         android:id="@+id/txtLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/marginInput"
+        android:hint="@string/email_hint"
         app:endIconMode="clear_text"
         app:errorEnabled="true"
-        android:layout_marginBottom="@dimen/marginInput"
-        app:helperText="@string/helper_email"
         app:errorTextAppearance="@style/CustomTextInputLayout"
+        app:helperText="@string/helper_email"
         app:helperTextTextAppearance="@style/CustomTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        android:hint="@string/email_hint">
+        app:layout_constraintTop_toBottomOf="@+id/textView4">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtEmail"
@@ -106,13 +105,13 @@
         android:id="@+id/txtLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/marginInput"
         android:hint="@string/pass_hint"
         app:counterEnabled="true"
-        app:endIconMode="clear_text"
-        app:helperText="@string/helper_pass"
         app:counterMaxLength="15"
-        android:layout_marginBottom="@dimen/marginInput"
+        app:endIconMode="clear_text"
         app:errorTextAppearance="@style/CustomTextInputLayout"
+        app:helperText="@string/helper_pass"
         app:helperTextTextAppearance="@style/CustomTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -122,10 +121,10 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtPass"
             android:layout_width="match_parent"
-            app:errorEnabled="true"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:maxLength="15" />
+            android:maxLength="15"
+            app:errorEnabled="true" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -139,18 +138,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtLayout2" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnSignUpForm"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/layoutBtn"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/marginInput"
-        android:background="@drawable/button_splash"
-        android:text="@string/log_in"
-        android:textColor="@color/white"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintTop_toBottomOf="@+id/textView8">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSignin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginInput"
+            android:background="@drawable/button_splash"
+            android:text="@string/log_in"
+            android:textColor="@color/white" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/marginInput"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/txtForgotUsernameOrPass"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/txtForgotUsernameOrPass"
@@ -161,14 +179,16 @@
         android:paddingLeft="40dp"
         android:paddingRight="40dp"
         android:text="@string/forgot_u_p"
+        app:layout_constraintBottom_toTopOf="@+id/imageView13"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSignUpForm" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutBtn" />
 
     <ImageView
         android:id="@+id/imageView13"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:contentDescription=""
         android:layout_marginTop="@dimen/marginInput"
         android:layout_marginBottom="@dimen/marginInput"
         app:layout_constraintBottom_toTopOf="@+id/txtTermsOfService"
@@ -194,7 +214,6 @@
         app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_bias="1.0" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

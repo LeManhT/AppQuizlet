@@ -2,8 +2,10 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragmentHome"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_profile"
     tools:context=".Home">
 
     <LinearLayout
@@ -29,6 +31,7 @@
                     android:layout_height="300dp"
                     android:layout_alignParentTop="true"
                     android:scaleType="centerCrop"
+                    android:contentDescription=""
                     android:src="@drawable/bg_home" />
 
                 <LinearLayout
@@ -59,7 +62,7 @@
                         android:text="@string/free_trail" />
 
                     <ImageView
-                        android:id="@+id/imageView15"
+                        android:id="@+id/imgNotification"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_marginEnd="4dp"
@@ -88,7 +91,7 @@
 
         </RelativeLayout>
 
-        <androidx.core.widget.NestedScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
@@ -105,7 +108,7 @@
                     android:orientation="vertical">
 
                     <LinearLayout
-                        android:id="@+id/linearLayout3"
+                        android:id="@+id/linearLayout10"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -115,7 +118,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/linearLayoutSettings">
 
                         <TextView
-                            android:id="@+id/textView9"
+                            android:id="@+id/textView16"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
@@ -124,7 +127,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/txtViewAll"
+                            android:id="@+id/txtViewAllCourse"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -134,10 +137,132 @@
 
                     </LinearLayout>
 
-                    <include layout="@layout/activity_add_course_home" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:background="@drawable/home_add_course_dw"
+                        android:fitsSystemWindows="true"
+                        android:orientation="vertical"
+                        android:padding="30dp"
+                        tools:context=".other.AddCourseHome">
+
+                        <ImageView
+                            android:id="@+id/imageView7"
+                            android:layout_width="match_parent"
+                            android:layout_height="80dp"
+                            android:src="@drawable/elearn" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/text_margin"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="20dp"
+                            android:gravity="center"
+                            android:text="@string/add_course_text"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/btnHomeAddCourse"
+                            style="@style/Button_Primary"
+                            android:layout_width="200dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@drawable/sign_button"
+                            android:text="@string/add_course"
+                            android:textAllCaps="false" />
+
+
+                    </LinearLayout>
                 </LinearLayout>
 
-                <include layout="@layout/activity_achievement_home" />
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    tools:context=".other.AchievementHome">
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <TextView
+                            android:id="@+id/textView9"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="@string/pf_achievement"
+                            android:textSize="18dp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtViewAll"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="@string/view_all"
+                            android:textColor="@color/my_blue" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="@color/white"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+                        app:layout_constraintVertical_bias="1.0">
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:gravity="center"
+                            android:text="16-day streak"
+                            android:textSize="20dp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:src="@android:drawable/star_big_on"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <TextView
+                            android:id="@+id/textView11"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="16dp"
+                            android:gravity="center"
+                            android:text="@string/pf_achievement_quote" />
+
+                        <CalendarView
+                            android:id="@+id/calendarView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+                    </LinearLayout>
+                </LinearLayout>
 
 
                 <LinearLayout
@@ -158,15 +283,24 @@
                             android:id="@+id/textView17"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2"
+                            android:layout_weight="1"
                             android:text="@string/lb_folders"
                             android:textSize="18dp"
                             android:textStyle="bold" />
 
+                        <TextView
+                            android:id="@+id/txtFolderViewAll"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="@string/view_all"
+                            android:textColor="@color/my_blue" />
+
                     </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/home_folders"
+                        android:id="@+id/rv_home_folders"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
                 </LinearLayout>
@@ -175,6 +309,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_primary"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -190,20 +325,30 @@
                             android:id="@+id/textView18"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2"
+                            android:layout_weight="1"
                             android:text="@string/lb_study_sets"
                             android:textSize="18dp"
                             android:textStyle="bold" />
 
+                        <TextView
+                            android:id="@+id/txtStudySetViewAll"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="@string/view_all"
+                            android:textColor="@color/my_blue" />
+
                     </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_home_study_set"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
                 </LinearLayout>
 
             </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -12,25 +13,36 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.util.Log
 import android.util.Patterns
 import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
 import android.widget.DatePicker
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.lifecycleScope
+import com.example.appquizlet.api.retrofit.ApiService
+import com.example.appquizlet.api.retrofit.RetrofitHelper
+import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.ActivitySignUpBinding
+import com.example.appquizlet.util.Helper
+import com.google.gson.JsonObject
+import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 import java.util.regex.Pattern
 
-private lateinit var binding: ActivitySignUpBinding
-private lateinit var calendar: Calendar
 
 class SignUp : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeListener,
     View.OnKeyListener {
+    private lateinit var binding: ActivitySignUpBinding
+    private lateinit var calendar: Calendar
     private val PASSWORD_PATTERN: Pattern = Pattern.compile(
         "^" +
                 "(?=.*[@#$%^&+=])" +  // at least 1 special character
@@ -39,7 +51,9 @@ class SignUp : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeList
                 "$"
     )
 
+    private lateinit var apiService: ApiService
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //        Khoi tao viewbinding
@@ -50,6 +64,7 @@ class SignUp : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeList
         binding.edtEmail.onFocusChangeListener = this
         binding.edtPass.onFocusChangeListener = this
 
+        apiService = RetrofitHelper.getInstance().create(ApiService::class.java)
 
 //        set toolbar back display
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
@@ -85,18 +100,6 @@ class SignUp : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeList
             )
 
             datePickerDialog.show()
-
-//            val datePicker =
-//                MaterialDatePicker.Builder.datePicker()
-//                    .setTitleText("Select date")
-//                    .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-//                    .build()
-//
-//            datePicker.show(supportFragmentManager,"datePicker")
-//            datePicker.addOnPositiveButtonClickListener {
-//                val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-//                Toast.makeText(this,dateFormat.toString(),Toast.LENGTH_SHORT).show()
-//            }
 
         }
 //      Spannable text
@@ -181,14 +184,42 @@ class SignUp : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeList
         // Đặt SpannableStringBuilder vào TextView và đặt movementMethod để kích hoạt tính năng bấm vào liên kết
         termsTextView.text = spannableStringBuilder
         termsTextView.movementMethod = LinkMovementMethod.getInstance()
+
+
+        binding.btnSignUpForm.setOnClickListener {
+            val edtEmail = binding.edtEmail.text.toString()
+            val edtPass = binding.edtPass.text.toString()
+            val dob = binding.edtDOB.text.toString()
+
+            if (validateEmail(edtEmail) && validatePassword(edtPass)) {
+                if (Helper.checkBorn(dob)) {
+                    createNewUser(edtEmail, edtPass, dob)
+                } else {
+                    CustomToast(this).makeText(
+                        this,
+                        resources.getString(R.string.not_enough_age),
+                        CustomToast.LONG,
+                        CustomToast.ERROR
+                    ).show()
+                }
+            } else {
+                CustomToast(this).makeText(
+                    this,
+                    resources.getString(R.string.failed_sign_up),
+                    CustomToast.LONG,
+                    CustomToast.ERROR
+                ).show()
+            }
+
+        }
     }
 
-    private fun validateEmail(): Boolean {
+
+    private fun validateEmail(email: String): Boolean {
         var errorMessage: String? = null
-        val email = binding.edtEmail.text.toString()
-        if (email.isEmpty()) {
+        if (email.trim().isEmpty()) {
             errorMessage = resources.getString(R.string.errBlankEmail)
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches()) {
             errorMessage = resources.getString(R.string.errEmailInvalid)
         }
         if (errorMessage != null) {
@@ -200,12 +231,11 @@ class SignUp : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeList
         return errorMessage == null
     }
 
-    private fun validatePassword(): Boolean {
+    private fun validatePassword(pass: String): Boolean {
         var errorMessage: String? = null
-        val pass = binding.edtPass.text.toString().trim()
-        if (pass.isEmpty()) {
+        if (pass.trim().isEmpty()) {
             errorMessage = resources.getString(R.string.errBlankPass)
-        } else if (!PASSWORD_PATTERN.matcher(pass).matches()) {
+        } else if (!PASSWORD_PATTERN.matcher(pass.trim()).matches()) {
             errorMessage = resources.getString(R.string.errInsufficientLength)
         }
         if (errorMessage != null) {
@@ -215,6 +245,67 @@ class SignUp : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeList
             }
         }
         return errorMessage == null
+    }
+
+    private fun createNewUser(email: String, pass: String, dob: String) {
+        lifecycleScope.launch {
+            showLoading()
+
+            try {
+                val body = JsonObject().apply {
+                    addProperty(resources.getString(R.string.loginNameField), email)
+                    addProperty(resources.getString(R.string.loginPasswordField), pass)
+                    addProperty(
+                        resources.getString(R.string.dobField), Helper.formatDateSignup(dob)
+
+                    )
+                    addProperty(resources.getString(R.string.emailField), email)
+                }
+                Log.e("body", body.toString())
+                val result = apiService.createUser(body)
+                Toast.makeText(this@SignUp, body.toString(), Toast.LENGTH_SHORT).show()
+                if (result.isSuccessful) {
+                    val msgSignInSuccess = resources.getString(R.string.sign_in_success)
+                    val intent = Intent(this@SignUp, SignIn::class.java)
+                    startActivity(intent)
+                    CustomToast(this@SignUp).makeText(
+                        this@SignUp,
+                        msgSignInSuccess,
+                        CustomToast.LONG,
+                        CustomToast.SUCCESS
+                    ).show()
+                } else {
+                    result.errorBody()?.string()?.let {
+                        CustomToast(this@SignUp).makeText(
+                            this@SignUp,
+                            it,
+                            CustomToast.LONG,
+                            CustomToast.ERROR
+                        ).show()
+                    }
+
+                }
+            } catch (e: IOException) {
+                Log.e("IOException", e.message.toString())
+            } catch (e: HttpException) {
+                Log.e("HttpException", e.message.toString())
+            } catch (e: Exception) {
+                Log.e("Exception", e.message.toString())
+            } finally {
+                hideLoading()
+            }
+
+        }
+    }
+
+    private fun showLoading() {
+        binding.progressBar.visibility = View.VISIBLE
+        binding.btnSignUpForm.visibility = View.GONE
+    }
+
+    private fun hideLoading() {
+        binding.progressBar.visibility = View.GONE
+        binding.btnSignUpForm.visibility = View.VISIBLE
     }
 
     override fun onClick(v: View?) {
@@ -240,7 +331,7 @@ class SignUp : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeList
                             binding.txtLayout1.isErrorEnabled = false
                         }
                     } else {
-                        validateEmail()
+                        validateEmail(binding.edtEmail.text.toString())
                     }
                 }
 
@@ -250,7 +341,7 @@ class SignUp : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeList
                             binding.txtLayout2.isErrorEnabled = false
                         }
                     } else {
-                        validatePassword()
+                        validatePassword(binding.edtPass.text.toString())
                     }
                 }
             }
@@ -271,4 +362,5 @@ class SignUp : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeList
         }
         return super.onOptionsItemSelected(item)
     }
+
 }

@@ -17,4 +17,9 @@
         <item name="android:layout_marginEnd">0dp</item>
         <item name="android:textAlignment">textStart</item>
     </style>
+    <!-- Example theme in styles.xml -->
+    <style name="MyBottomSheetDialogTheme" parent="Theme.Design.BottomSheetDialog">
+
+    </style>
+
 </resources>
