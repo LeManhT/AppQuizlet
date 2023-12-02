@@ -1,0 +1,74 @@
+{
+  "id": "656b069f1b48487755212fef",
+  "seqId": 10032,
+  "loginName": "dekaranger",
+  "loginPassword": "123",
+  "userName": "",
+  "email": "",
+  "avatar": "",
+  "dateOfBirth": "",
+  "timeCreated": 1701538062,
+  "documents": {
+    "folders": [
+      {
+        "id": "656b08bc1227af098cb3d05a",
+        "name": "first f 1",
+        "timeCreated": 1701538604,
+        "description": "test 2",
+        "countSets": 2,
+        "studySets": [
+          {
+            "id": "656b14b80c491270be6ccabb",
+            "name": "number 9",
+            "timeCreated": 1701541672,
+            "idFolderOwner": "656b08bc1227af098cb3d05a",
+            "isPublic": true,
+            "countTerm": 1,
+            "cards": [
+              {
+                "id": "656b15b20c491270be6ccad5",
+                "term": "ten",
+                "definition": "mười",
+                "timeCreated": 1701541922,
+                "idSetOwner": "656b14b80c491270be6ccabb"
+              }
+            ]
+          },
+          {
+            "id": "656b14bd0c491270be6ccac0",
+            "name": "number 7",
+            "timeCreated": 1701541677,
+            "idFolderOwner": "656b08bc1227af098cb3d05a",
+            "isPublic": true,
+            "countTerm": 0,
+            "cards": []
+          }
+        ]
+      }
+    ],
+    "studySets": [
+      {
+        "id": "656b14b00c491270be6ccab7",
+        "name": "number 6",
+        "timeCreated": 1701541664,
+        "idFolderOwner": "",
+        "isPublic": true,
+        "countTerm": 0,
+        "cards": []
+      }
+    ],
+    "flashCards": [
+      {
+        "id": "656b06db1b48487755212ff0",
+        "term": "two",
+        "definition": "hai",
+        "timeCreated": 1701538123,
+        "idSetOwner": ""
+      }
+    ]
+  },
+  "setting": {
+    "darkMode": false,
+    "notification": false
+  }
+}
