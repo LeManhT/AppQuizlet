@@ -13,7 +13,7 @@
     <color name="my_primary_color">#6699FF</color>
     <color name="light_gray">#CCCCCC</color>
 
-
+    <color name="light_blue">#C1E8FF</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>

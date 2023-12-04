@@ -107,6 +107,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/change_username"
                     android:layout_width="330dp"
                     android:layout_height="60dp"
                     android:orientation="horizontal">
@@ -144,6 +145,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/change_email"
                     android:layout_width="330dp"
                     android:layout_height="60dp"
                     android:background="@drawable/border2"
@@ -182,6 +184,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/change_password"
                     android:layout_width="330dp"
                     android:layout_height="60dp"
                     android:orientation="horizontal">
