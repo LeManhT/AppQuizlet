@@ -1,10 +1,12 @@
 package com.example.appquizlet
 
 import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,16 +15,28 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.setPadding
+import androidx.lifecycle.lifecycleScope
+import com.example.appquizlet.api.retrofit.ApiService
+import com.example.appquizlet.api.retrofit.RetrofitHelper
+import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.FragmentAddBinding
+import com.example.appquizlet.model.UserM
+import com.example.appquizlet.util.Helper
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.gson.JsonObject
+import kotlinx.coroutines.launch
 
 
 class Add : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentAddBinding
+    private lateinit var apiService: ApiService
+    private lateinit var progressDialog: ProgressDialog
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        apiService = RetrofitHelper.getInstance().create(ApiService::class.java)
     }
 
     override fun onCreateView(
@@ -30,28 +44,25 @@ class Add : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentAddBinding.inflate(inflater, container, false)
-//        setStyle(STYLE_NORMAL,R.style.BottomSheetStyleTheme)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.layoutSet.setOnClickListener {
-            dismiss()
             val intent = Intent(context, CreateSet::class.java)
             startActivity(intent)
         }
         binding.layoutFolder.setOnClickListener {
-            dismiss()
             showCustomDialog(
                 resources.getString(R.string.add_folder),
                 "",
                 resources.getString(R.string.folder_name),
                 resources.getString(R.string.desc_optional)
             )
+
         }
         binding.layoutClass.setOnClickListener {
-            dismiss()
             Toast.makeText(context, resources.getString(R.string.create_class), Toast.LENGTH_SHORT)
                 .show()
         }
@@ -67,7 +78,7 @@ class Add : BottomSheetDialogFragment() {
         edtPlaceholderFolderName: String,
         edtPlaceholderDesc: String
     ) {
-        val builder = AlertDialog.Builder(context)
+        val builder = AlertDialog.Builder(requireContext())
         builder.setTitle(title)
 
         // Tạo layout cho dialog
@@ -94,10 +105,11 @@ class Add : BottomSheetDialogFragment() {
 
         builder.setPositiveButton("OK") { dialog, _ ->
             val inputText = editTextFolder.text.toString()
+            val description = editTextDesc.text.toString()
             // Xử lý dữ liệu từ EditText sau khi người dùng nhấn OK
             // Ví dụ: Hiển thị nó hoặc thực hiện các tác vụ khác
             // ở đây
-            dialog.dismiss()
+            createNewFolder(inputText, description, Helper.getDataUserId(requireContext()))
         }
 
         builder.setNegativeButton("Cancel") { dialog, _ ->
@@ -108,7 +120,7 @@ class Add : BottomSheetDialogFragment() {
     }
 
     private fun createEditTextWithCustomBottomBorder(hint: String): EditText {
-        var editText = EditText(context)
+        val editText = EditText(context)
         editText.hint = hint
 
         // Custom drawable for bottom border
@@ -139,4 +151,68 @@ class Add : BottomSheetDialogFragment() {
 
         return editText
     }
+
+    fun createNewFolder(name: String, description: String = "", userId: String) {
+        lifecycleScope.launch {
+            showLoading(resources.getString(R.string.creating))
+            try {
+                val body = JsonObject().apply {
+                    addProperty(resources.getString(R.string.createFolderNameField), name)
+                    addProperty(resources.getString(R.string.descriptionField), description)
+                }
+                val result = apiService.createNewFolder(userId, body)
+                CustomToast(requireContext()).makeText(
+                    requireContext(),
+                    result.body().toString(),
+                    CustomToast.LONG,
+                    CustomToast.SUCCESS
+                ).show()
+                if (result.isSuccessful) {
+                    result.body().let { it ->
+                        if (it != null) {
+                            context?.let { it1 ->
+                                CustomToast(it1).makeText(
+                                    requireContext(),
+                                    resources.getString(R.string.create_folder_success),
+                                    CustomToast.LONG,
+                                    CustomToast.SUCCESS
+                                ).show()
+                                UserM.setUserData(it)
+                            }
+                        }
+                    }
+                } else {
+                    result.errorBody()?.string()?.let {
+                        context?.let { it1 ->
+                            CustomToast(it1).makeText(
+                                requireContext(),
+                                it,
+                                CustomToast.LONG,
+                                CustomToast.ERROR
+                            ).show()
+                        }
+                        Log.d("err", it)
+                    }
+                }
+            } catch (e: Exception) {
+                CustomToast(requireContext()).makeText(
+                    requireContext(),
+                    e.message.toString(),
+                    CustomToast.LONG,
+                    CustomToast.ERROR
+                ).show()
+                Log.e("Failed", e.toString())
+            } finally {
+                if (isAdded) {
+                    progressDialog.dismiss()
+                }
+            }
+
+        }
+    }
+
+    private fun showLoading(msg: String) {
+        progressDialog = ProgressDialog.show(context, null, msg)
+    }
+
 }

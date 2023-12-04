@@ -1,7 +1,9 @@
 package com.example.appquizlet
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.Typeface
 import android.net.Uri
@@ -23,9 +25,17 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.setPadding
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import com.example.appquizlet.api.retrofit.ApiService
+import com.example.appquizlet.api.retrofit.RetrofitHelper
+import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.ActivitySignInBinding
+import com.example.appquizlet.model.UserM
+import com.example.appquizlet.model.UserViewModel
+import com.google.gson.JsonObject
+import kotlinx.coroutines.launch
 import java.util.regex.Pattern
-
 
 
 class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListener,
@@ -39,6 +49,10 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
                 "$"
     )
 
+    private lateinit var apiService: ApiService
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var userViewModel: UserViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //        Khoi tao viewbinding
@@ -49,6 +63,13 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
         binding.txtLayout2.onFocusChangeListener = this
         binding.edtEmail.onFocusChangeListener = this
         binding.edtPass.onFocusChangeListener = this
+
+
+        apiService = RetrofitHelper.getInstance().create(ApiService::class.java)
+
+        userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
+        // <=> ViewModelProvider(this).get(UserViewModel::class.java)
+
 
         //        set toolbar back display
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
@@ -208,7 +229,89 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
         // Đặt SpannableStringBuilder vào TextView và đặt movementMethod để kích hoạt tính năng bấm vào liên kết
         termsTextView.text = spannableStringBuilder
         termsTextView.movementMethod = LinkMovementMethod.getInstance()
+
+
+        binding.btnSignin.setOnClickListener {
+            val email = binding.edtEmail.text.toString()
+            val pass = binding.edtPass.text.toString()
+            if (validateEmail(email) && validatePass(pass)) {
+                loginUser(email, pass)
+            } else {
+                CustomToast(this).makeText(
+                    this,
+                    resources.getString(R.string.wrong_email_or_pass),
+                    CustomToast.LONG,
+                    CustomToast.ERROR
+                ).show()
+            }
+        }
+
+
     }
+
+
+    fun loginUser(email: String, pass: String) {
+        lifecycleScope.launch {
+            showLoading()
+            try {
+                val body = JsonObject().apply {
+                    addProperty(resources.getString(R.string.loginNameField), email)
+                    addProperty(resources.getString(R.string.loginPasswordField), pass)
+                }
+                val result = apiService.loginUser(body)
+                if (result.isSuccessful) {
+                    val msgSuccess = resources.getString(R.string.login_success)
+
+                    result.body().let { it ->
+                        if (it != null) {
+                            CustomToast(this@SignIn).makeText(
+                                this@SignIn,
+                                msgSuccess,
+                                CustomToast.LONG,
+                                CustomToast.SUCCESS
+                            ).show()
+                            saveIdUser(it.id, it.userName)
+//                            userViewModel.setUserData(it)
+                            UserM.setUserData(it)
+                        }
+                    }
+
+                    val intent = Intent(this@SignIn, MainActivity_Logged_In::class.java)
+                    startActivity(intent)
+                } else {
+                    result.errorBody()?.string()?.let {
+                        CustomToast(this@SignIn).makeText(
+                            this@SignIn,
+                            it,
+                            CustomToast.LONG,
+                            CustomToast.ERROR
+                        ).show()
+                    }
+                }
+            } catch (e: Exception) {
+                CustomToast(this@SignIn).makeText(
+                    this@SignIn,
+                    e.message.toString(),
+                    CustomToast.LONG,
+                    CustomToast.ERROR
+                ).show()
+            } finally {
+                hideLoading()
+            }
+        }
+    }
+
+
+    private fun showLoading() {
+        binding.progressBar.visibility = View.VISIBLE
+        binding.btnSignin.visibility = View.GONE
+    }
+
+    private fun hideLoading() {
+        binding.progressBar.visibility = View.GONE
+        binding.btnSignin.visibility = View.VISIBLE
+    }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -244,7 +347,7 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
         builder.setView(layout)
 
         builder.setPositiveButton("OK") { dialog, _ ->
-            val inputText = editText.text.toString()
+//            val inputText = editText.text.toString()
             // Xử lý dữ liệu từ EditText sau khi người dùng nhấn OK
             // Ví dụ: Hiển thị nó hoặc thực hiện các tác vụ khác
             // ở đây
@@ -267,7 +370,7 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
                             binding.txtLayout1.isErrorEnabled = false
                         }
                     } else {
-                        validateEmail()
+                        validateEmail(binding.edtEmail.text.toString())
                     }
                 }
 
@@ -277,7 +380,7 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
                             binding.txtLayout2.isErrorEnabled = false
                         }
                     } else {
-                        validatePass()
+                        validatePass(binding.edtPass.text.toString())
                     }
                 }
             }
@@ -292,12 +395,11 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
         TODO("Not yet implemented")
     }
 
-    private fun validateEmail() : Boolean {
+    private fun validateEmail(email: String): Boolean {
         var errorMess: String? = null
-        val email = binding.edtEmail.text.toString().trim()
-        if (email.isEmpty()) {
+        if (email.trim().isEmpty()) {
             errorMess = resources.getString(R.string.errBlankEmail)
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches()) {
             errorMess = resources.getString(R.string.errEmailInvalid)
         }
         if (errorMess != null) {
@@ -309,12 +411,11 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
         return errorMess == null
     }
 
-    private fun validatePass() : Boolean{
+    private fun validatePass(pass: String): Boolean {
         var errorMess: String? = null
-        var pass = binding.edtEmail.text.toString().trim()
-        if (pass.isEmpty()) {
+        if (pass.trim().isEmpty()) {
             errorMess = resources.getString(R.string.errBlankEmail)
-        } else if (!PASSWORD_PATTERN.matcher(pass).matches()) {
+        } else if (!PASSWORD_PATTERN.matcher(pass.trim()).matches()) {
             errorMess = resources.getString(R.string.errInsufficientLength)
         }
         if (errorMess != null) {
@@ -324,5 +425,13 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
             }
         }
         return errorMess == null
+    }
+
+    private fun saveIdUser(userId: String, userName: String) {
+        sharedPreferences = this.getSharedPreferences("idUser", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("key_userid", userId)
+        editor.putString("key_username", userName)
+        editor.apply()
     }
 }

@@ -18,16 +18,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/textView16"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:drawableStart="@drawable/baseline_arrow_back_ios_24"
-            android:gravity="center_vertical"
-            android:paddingHorizontal="@dimen/md"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -47,11 +37,11 @@
             android:id="@+id/txtLibPlus"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:drawableStart="@drawable/icons8_plus_48"
             android:gravity="center_vertical"
             android:paddingHorizontal="@dimen/md"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:drawableStartCompat="@drawable/icons8_plus_48" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

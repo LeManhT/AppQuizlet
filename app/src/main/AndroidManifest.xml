@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,7 +13,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppQuizlet"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".EditStudySet"
+            android:exported="false" />
+        <activity
+            android:name=".FlashcardAddSetToFolder"
+            android:exported="false" />
+        <activity
+            android:name=".AddSetToFolder"
+            android:exported="false" />
+        <activity
+            android:name=".NoDataFound"
+            android:exported="false" />
+        <activity
+            android:name=".AddClassActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SetOptionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FlashcardLearn"
+            android:exported="false" />
+        <activity
+            android:name=".StudySetDetail"
+            android:exported="false" />
         <activity
             android:name=".FolderClickActivity"
             android:exported="false" />
@@ -50,10 +77,9 @@
             android:name=".SplashSearch"
             android:exported="false"
             android:label="@string/title_activity_splash_search"
-            android:theme="@style/Theme.AppQuizlet" />
-<!--        <activity-->
-<!--            android:name=".splash_search"-->
-<!--            android:exported="false" />-->
+            android:theme="@style/Theme.AppQuizlet" /> <!-- <activity -->
+        <!-- android:name=".splash_search" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".SplashActivity"
             android:exported="false" />

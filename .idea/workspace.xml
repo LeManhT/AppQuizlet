@@ -9,15 +9,31 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f561f4fb-df91-4045-a5ec-bc9208bd9d46" name="Changes" comment="create study set, folder, class and other dialog and fragment">
+    <list default="true" id="f561f4fb-df91-4045-a5ec-bc9208bd9d46" name="Changes" comment="new code">
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-v31/bg_light_blue_conner_10.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable-v31/bg_yellow_conner_16_topleft_topright.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_gray_conner_10.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_light_blue_conner_10.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_white_conner_10_boder_gray.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_white_conner_16.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_yellow_conner_16_topleft_topright.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/tick_blue.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/lay_out_change_language.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_change_password.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_dialog_change_username.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_dialog_update_email.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_theme.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/Settings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/Settings.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[emulator-5554]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -65,14 +81,26 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
-        <option value="Kotlin Interface" />
         <option value="valueResourceFile" />
         <option value="layoutResourceFile" />
         <option value="Kotlin Object" />
-        <option value="resourceFile" />
         <option value="Kotlin Class" />
+        <option value="Kotlin Interface" />
+        <option value="resourceFile" />
+        <option value="layoutResourceFile_vertical" />
       </list>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="features/create_api_set_folder_and_flashcard" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -93,43 +121,41 @@
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;android-custom-viewC:/Users/LeManhDev/.gradle/caches/modules-2/files-2.1/androidx.appcompat/appcompat/1.6.1/ace9a78b961165396147e8691faa18c1b0e48e20/appcompat-1.6.1-sources.jar!/androidx/appcompat/widget/AppCompatButton.java_SELECTED&quot;: &quot;AppCompatButton&quot;,
-    &quot;android-custom-viewC:/Users/LeManhDev/.gradle/caches/modules-2/files-2.1/androidx.core/core/1.9.0/a272ed8ec68c43f8c049a8e77b4f662cc4290fa2/core-1.9.0-sources.jar!/androidx/core/widget/NestedScrollView.java_SELECTED&quot;: &quot;NestedScrollView&quot;,
+    &quot;android-custom-viewC:/Users/LeManhDev/AppData/Local/Android/Sdk/sources/android-33/android/view/View.java_SELECTED&quot;: &quot;View&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/LeManhDev/StudioProjects/AppQuizlet/app/src/main/res/drawable&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;,
-    &quot;settings.editor.splitter.proportion&quot;: &quot;0.28614458&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/LeManhDev/Downloads/rc-car&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
 }</component>
-  <component name="PsdUISettings">
-    <option name="MODULE_TAB" value="Properties" />
-    <option name="LAST_EDITED_SIGNING_CONFIG" value="debug" />
-  </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\LeManhDev\StudioProjects\AppQuizlet\app\src\main\res\drawable" />
-      <recent name="C:\Users\LeManhDev\StudioProjects\AppQuizlet\app\src\main\assets" />
+    <key name="android.template.1730524603">
+      <recent name="com.example.appquizlet" />
     </key>
     <key name="android.template.2101721679">
       <recent name="com.example.appquizlet" />
     </key>
-    <key name="android.template.-1458437343">
+    <key name="android.template.110784425">
+      <recent name="com.example.appquizlet" />
+    </key>
+    <key name="android.template.-1926574344">
+      <recent name="com.example.appquizlet" />
+    </key>
+    <key name="android.template.967469582">
+      <recent name="com.example.appquizlet" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\LeManhDev\StudioProjects\AppQuizlet\app\src\main\res\drawable" />
+      <recent name="C:\Users\LeManhDev\StudioProjects\AppQuizlet\app\src\main\assets" />
+    </key>
+    <key name="android.template.-337133272">
       <recent name="com.example.appquizlet" />
     </key>
     <key name="android.template.-284502665">
       <recent name="com.example.appquizlet" />
     </key>
-    <key name="android.template.682886436">
-      <recent name="com.example.appquizlet" />
-    </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
-      <recent name="com.example.appquizlet.model" />
-      <recent name="com.example.appquizlet.adapter" />
-      <recent name="com.example.appquizlet.interfaceFolder" />
       <recent name="com.example.appquizlet" />
       <recent name="com.example.appquizlet.activity" />
     </key>
@@ -139,12 +165,20 @@
     <key name="android.template.-1483910423">
       <recent name="com.example.appquizlet.other" />
     </key>
+    <key name="android.template.-1668580312">
+      <recent name="com.example.appquizlet" />
+    </key>
+    <key name="android.template.1481849997">
+      <recent name="com.example.appquizlet" />
+    </key>
     <key name="android.template.922680345">
       <recent name="com.example.appquizlet" />
     </key>
-    <key name="android.template.-521727356">
-      <recent name="com.example.appquizlet" />
-    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="false" />
+    </option>
   </component>
   <component name="RunManager">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
@@ -223,27 +257,70 @@
       <option name="presentableId" value="Default" />
       <updated>1697863241527</updated>
     </task>
-    <task id="LOCAL-00001" summary="create study set, folder, class and other dialog and fragment">
-      <created>1700235076003</created>
+    <task id="LOCAL-00001" summary="done create function call api sign in, sign up and custom toast">
+      <created>1700454126362</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1700235076003</updated>
+      <updated>1700454126362</updated>
     </task>
-    <task id="LOCAL-00002" summary="create study set, folder, class and other dialog and fragment">
-      <created>1700235086395</created>
+    <task id="LOCAL-00002" summary="done create function call api sign in, sign up and custom toast">
+      <created>1700487460756</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1700235086396</updated>
+      <updated>1700487460758</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="add api create new folder">
+      <created>1700665907218</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1700665907218</updated>
+    </task>
+    <task id="LOCAL-00004" summary="new code">
+      <created>1701343777830</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1701343777830</updated>
+    </task>
+    <task id="LOCAL-00005" summary="new code">
+      <created>1701344071606</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1701344071606</updated>
+    </task>
+    <task id="LOCAL-00006" summary="new code">
+      <created>1701344084594</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1701344084594</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add search activity and validate sign in, sign up" />
-    <MESSAGE value="create study set, folder, class and other dialog and fragment" />
-    <option name="LAST_COMMIT_MESSAGE" value="create study set, folder, class and other dialog and fragment" />
+    <MESSAGE value="done create function call api sign in, sign up and custom toast" />
+    <MESSAGE value="add new field in sign up body" />
+    <MESSAGE value="add api create new folder" />
+    <MESSAGE value="add api create folder and create ui" />
+    <MESSAGE value="new code" />
+    <option name="LAST_COMMIT_MESSAGE" value="new code" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

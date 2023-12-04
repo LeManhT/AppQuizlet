@@ -1,5 +1,6 @@
 package com.example.appquizlet
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -17,10 +18,15 @@ class Classes : Fragment(R.layout.fragment_classes) {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentClassesBinding.inflate(inflater, container, false)
-        binding.bntCreateClass.setOnClickListener {
-           
+        binding.btnCreateClass.setOnClickListener {
+            val intent = Intent(context, AddClassActivity::class.java)
+            startActivity(intent)
         }
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.appquizlet
 
+import android.media.MediaCodec.LinearBlock
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -9,6 +10,7 @@ class Settings : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         setSupportActionBar(findViewById(R.id.toolbar))    // p co dong nay moi chay dc ham ơ dưới
+
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -20,4 +22,5 @@ class Settings : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
 }
