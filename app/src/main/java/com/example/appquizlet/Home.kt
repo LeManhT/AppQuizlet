@@ -7,18 +7,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appquizlet.adapter.RVFolderItemAdapter
 import com.example.appquizlet.adapter.RvStudySetItemAdapter
-import com.example.appquizlet.custom.ScrollListener
+import com.example.appquizlet.database.MyDBHelper
 import com.example.appquizlet.databinding.FragmentHomeBinding
 import com.example.appquizlet.interfaceFolder.ItemTouchHelperAdapter
 import com.example.appquizlet.interfaceFolder.RVFolderItem
 import com.example.appquizlet.interfaceFolder.RVStudySetItem
 import com.example.appquizlet.model.FolderModel
-import com.example.appquizlet.model.StudySetItemData
+import com.example.appquizlet.model.NotificationModel
+import com.example.appquizlet.model.StudySetModel
+import com.example.appquizlet.model.UserM
+import com.example.appquizlet.notification.addNotification
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 
@@ -28,8 +32,6 @@ class Home : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
     }
 
     override fun onCreateView(
@@ -42,6 +44,19 @@ class Home : Fragment() {
         }
         binding.btnHomeAddCourse.setOnClickListener {
             showAddCourseBottomSheet()
+        }
+        binding.txtViewAllCourse.setOnClickListener {
+            // Lưu thông báo vào cơ sở dữ liệu
+            val notificationDb = context?.let { it1 -> MyDBHelper(it1) }
+            val timestamp = System.currentTimeMillis()
+            val notificationItem = NotificationModel(
+                0,
+                "Daily Reminder",
+                "Nhắc nhở bạn về điều gì đó quan trọng. Vào app học thôi nào",
+                timestamp
+            )
+            notificationDb?.addNotification(notificationItem)
+            Toast.makeText(context, "add", Toast.LENGTH_SHORT).show()
         }
 
         return binding.root
@@ -72,23 +87,31 @@ class Home : Fragment() {
 
 
         val listFolderItems = mutableListOf<FolderModel>()
-        listFolderItems.add(FolderModel("English", "lemamjh222", 34444, ""))
-        listFolderItems.add(FolderModel("Chinese", "lemamjh222", 34444, ""))
-        listFolderItems.add(FolderModel("Japanese", "lemamjh222", 34444, ""))
-        listFolderItems.add(FolderModel("Forex", "lemamjh222", 34444, ""))
-        listFolderItems.add(FolderModel("Korea", "lemamjh222", 34444, ""))
-        listFolderItems.add(FolderModel("Android", "lemamjh222", 34444, ""))
-        listFolderItems.add(FolderModel("Javascript", "lemamjh222", 34444, ""))
-
         var adapterHomeFolder = RVFolderItemAdapter(listFolderItems, object : RVFolderItem {
             override fun handleClickFolderItem(position: Int) {
-                Toast.makeText(
-                    context,
-                    "You clicked " + listFolderItems[position].name,
-                    Toast.LENGTH_SHORT
-                ).show()
-
+                val i = Intent(context, FolderClickActivity::class.java)
+                startActivity(i)
             }
+        })
+
+        //        Studyset adapter
+        val listStudySet = mutableListOf<StudySetModel>()
+
+        val adapterHomeStudySet = RvStudySetItemAdapter(listStudySet, object : RVStudySetItem {
+            override fun handleClickStudySetItem(setItem: StudySetModel, position: Int) {
+//                var intent = Intent(context, StudySetDetail::class.java)
+//                startActivity(intent)
+            }
+        })
+
+
+        val userData = UserM.getUserData()
+        userData.observe(viewLifecycleOwner, Observer {
+            listFolderItems.clear()
+            listFolderItems.addAll(it.documents.folders)
+            listStudySet.addAll(it.documents.studySets)
+            adapterHomeFolder.notifyDataSetChanged()
+            adapterHomeStudySet.notifyDataSetChanged()
         })
 
         // Access the RecyclerView through the binding
@@ -142,19 +165,6 @@ class Home : Fragment() {
         rvHomeFolder.adapter = adapterHomeFolder
 
 
-//        Studyset adapter
-        val listStudySet = mutableListOf<StudySetItemData>()
-        listStudySet.add(StudySetItemData("Everyday word 1", 3, R.drawable.profile, "lemamnhed"))
-        listStudySet.add(StudySetItemData("Everyday word 2", 15, R.drawable.profile, "lemamnhed"))
-        listStudySet.add(StudySetItemData("Everyday word 3", 5, R.drawable.profile, "lemamnhed"))
-        listStudySet.add(StudySetItemData("Everyday word 4", 26, R.drawable.profile, "lemamnhed"))
-
-        val adapterHomeStudySet = RvStudySetItemAdapter(listStudySet, object : RVStudySetItem {
-            override fun handleClickStudySetItem(setItem: StudySetItemData) {
-//                var intent = Intent(context, StudySetDetail::class.java)
-//                startActivity(intent)
-            }
-        })
         var rvStudySet = binding.rvHomeStudySet
         rvStudySet.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)

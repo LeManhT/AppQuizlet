@@ -2,18 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_margin="@dimen/pad_20"
-    android:background="@drawable/bg_profile"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_profile">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/flashCardCardView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_gravity="center_vertical"
+        android:layout_margin="@dimen/pad_20"
         android:elevation="@dimen/mar_10"
-        app:cardElevation="@dimen/mar_10"
-        app:cardCornerRadius="25dp">
+        app:cardCornerRadius="25dp"
+        app:cardElevation="@dimen/mar_10">
 
 
         <TextView

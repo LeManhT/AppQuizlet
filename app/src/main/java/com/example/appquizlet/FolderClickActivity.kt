@@ -19,7 +19,7 @@ import com.example.appquizlet.api.retrofit.RetrofitHelper
 import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.ActivityFolderClickBinding
 import com.example.appquizlet.interfaceFolder.RVStudySetItem
-import com.example.appquizlet.model.StudySetItemData
+import com.example.appquizlet.model.StudySetModel
 import com.example.appquizlet.model.UserM
 import com.example.appquizlet.util.Helper
 import com.google.gson.JsonObject
@@ -49,14 +49,14 @@ class FolderClickActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
 
-        val listStudySet = mutableListOf<StudySetItemData>()
-        listStudySet.add(StudySetItemData("Everyday word 1", 3, R.drawable.profile, "lemamnhed"))
-        listStudySet.add(StudySetItemData("Everyday word 2", 15, R.drawable.profile, "lemamnhed"))
-        listStudySet.add(StudySetItemData("Everyday word 3", 5, R.drawable.profile, "lemamnhed"))
-        listStudySet.add(StudySetItemData("Everyday word 4", 26, R.drawable.profile, "lemamnhed"))
+        val listStudySet = mutableListOf<StudySetModel>()
+//        listStudySet.add(StudySetItemData("Everyday word 1", 3, R.drawable.profile, "lemamnhed"))
+//        listStudySet.add(StudySetItemData("Everyday word 2", 15, R.drawable.profile, "lemamnhed"))
+//        listStudySet.add(StudySetItemData("Everyday word 3", 5, R.drawable.profile, "lemamnhed"))
+//        listStudySet.add(StudySetItemData("Everyday word 4", 26, R.drawable.profile, "lemamnhed"))
 
         val adapterStudySet = RvStudySetItemAdapter(listStudySet, object : RVStudySetItem {
-            override fun handleClickStudySetItem(setItem: StudySetItemData) {
+            override fun handleClickStudySetItem(setItem: StudySetModel,position : Int) {
                 val i = Intent(this@FolderClickActivity, StudySetDetail::class.java)
                 startActivity(i)
             }
@@ -209,7 +209,7 @@ class FolderClickActivity : AppCompatActivity() {
                             this@FolderClickActivity.let { it1 ->
                                 CustomToast(it1).makeText(
                                     this@FolderClickActivity,
-                                    resources.getString(R.string.create_folder_success),
+                                    resources.getString(R.string.update_folder_success),
                                     CustomToast.LONG,
                                     CustomToast.SUCCESS
                                 ).show()

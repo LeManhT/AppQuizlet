@@ -1,8 +1,10 @@
 package com.example.appquizlet
 
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Color
 import android.graphics.Typeface
+import android.net.ConnectivityManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,6 +15,7 @@ import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.View
+import com.example.appquizlet.BroadcastReceiver.BroadcastReceiverCheckInternet
 import com.example.appquizlet.adapter.PhotoSplashAdapter
 import com.example.appquizlet.databinding.ActivitySplashBinding
 import com.example.appquizlet.model.PhotoSplash
@@ -20,6 +23,7 @@ import com.example.appquizlet.model.PhotoSplash
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
+    val br = BroadcastReceiverCheckInternet()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -141,18 +145,29 @@ class SplashActivity : AppCompatActivity() {
 
 
         binding.imgSplashSearch.setOnClickListener {
-            val i = Intent(this,SplashSearch::class.java)
+            val i = Intent(this, SplashSearch::class.java)
             startActivity(i)
         }
 
         binding.btnSignup.setOnClickListener {
-            val i = Intent(this,SignUp::class.java)
+            val i = Intent(this, SignUp::class.java)
             startActivity(i)
         }
         binding.btnSignin.setOnClickListener {
-            val i = Intent(this,SignIn::class.java)
+            val i = Intent(this, SignIn::class.java)
             startActivity(i)
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+        registerReceiver(br, intentFilter)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(br)
     }
 
 }

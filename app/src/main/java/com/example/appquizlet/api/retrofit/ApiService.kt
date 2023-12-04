@@ -1,5 +1,6 @@
 package com.example.appquizlet.api.retrofit
 
+import com.example.appquizlet.model.CreateSetRequest
 import com.example.appquizlet.model.UserResponse
 import com.google.gson.JsonObject
 import retrofit2.Response
@@ -30,7 +31,7 @@ interface ApiService {
 //        @Body body: JsonObject
 //    ): Call<UserResponse>
 //
-    @PUT("Folder/Update")
+    @PUT("Folder/UpdateInfo")
     suspend fun updateFolder(
         @Query("userId") userId: String,
         @Query("folderId") folderId: String,
@@ -44,4 +45,15 @@ interface ApiService {
         @Query("folderId") folderId: String
     ): Response<UserResponse>
 
+    @POST("StudySet/Create")
+    suspend fun createNewStudySet(
+        @Query("userId") userId: String,
+        @Body body: CreateSetRequest
+    ): Response<UserResponse>
+
+    @DELETE("StudySet/Delete")
+    suspend fun deleteStudySet(
+        @Query("userId") userId: String,
+        @Query("setId") setId: String
+    ): Response<UserResponse>
 }

@@ -273,6 +273,7 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
                             saveIdUser(it.id, it.userName)
 //                            userViewModel.setUserData(it)
                             UserM.setUserData(it)
+//                            UserM.setUserDataStudySets(it.documents.studySets)
                         }
                     }
 

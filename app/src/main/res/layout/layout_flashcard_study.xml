@@ -9,6 +9,7 @@
         android:layout_height="@dimen/heightFlashcardLearn"
         android:layout_gravity="center_vertical"
         android:elevation="@dimen/mar_10"
+        android:layout_marginHorizontal="@dimen/pad_20"
         app:cardCornerRadius="25dp"
         app:cardElevation="@dimen/mar_10">
 
@@ -22,7 +23,7 @@
             android:src="@drawable/icons8_enlarge_24" />
 
         <TextView
-            android:id="@+id/txtFlashcardTerm"
+            android:id="@+id/txtFlashcardStudyTerm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -31,7 +32,7 @@
             android:textSize="25dp" />
 
         <TextView
-            android:id="@+id/txtFlashcardDefinition"
+            android:id="@+id/txtFlashcardStudyDefinition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

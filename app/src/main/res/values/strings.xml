@@ -146,6 +146,7 @@
     <string name="not_enough_age">You don\'t enough age for sign up !</string>
     <string name="create_folder_success">Create folder successful !</string>
     <string name="creating">Creating folder. Please wait …</string>
+    <string name="create_study_set_success">Create study set successful !</string>
 
     <string name="wrong_email_or_pass">Wrong email or password> Please try again !</string>
     <string name="loginNameField">loginName</string>
@@ -187,7 +188,11 @@
     <string name="updateLoadMes">Uploading folder …</string>
     <string name="deleteFolderSuccessful">Delete folder successful</string>
     <string name="deleteFolderErr">Something went wrong when delete folder. Please try again !</string>
+    <string name="deleteSetErr">Something went wrong when delete study set. Please try again !</string>
+    <string name="update_folder_success">Update folder successful</string>
+    <string name="update_study_set_success">Update folder successful</string>
     <string name="deleteFolderLoading">Folder deleting …</string>
+    <string name="deleteSetLoading">Folder deleting …</string>
     <string name="created">Created</string>
     <string name="studied">Studied</string>
     <string name="folders">Folders</string>
@@ -198,6 +203,8 @@
     <string name="sort_term">Sort terms</string>
     <string name="edit_by">Editable by</string>
     <string name="delete_this_set">Are you sure you want to delete this set permanently ?</string>
+    <string name="creatingStudySet">Creating study set</string>
+    <string name="allNewCards">allNewCards</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris

@@ -161,12 +161,6 @@ class Add : BottomSheetDialogFragment() {
                     addProperty(resources.getString(R.string.descriptionField), description)
                 }
                 val result = apiService.createNewFolder(userId, body)
-                CustomToast(requireContext()).makeText(
-                    requireContext(),
-                    result.body().toString(),
-                    CustomToast.LONG,
-                    CustomToast.SUCCESS
-                ).show()
                 if (result.isSuccessful) {
                     result.body().let { it ->
                         if (it != null) {

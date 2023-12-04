@@ -2,10 +2,10 @@ package com.example.appquizlet
 
 import android.content.Context
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.appquizlet.databinding.ActivityMainLoggedInBinding
+import com.example.appquizlet.notification.NotificationUtils
 import com.example.appquizlet.util.Helper
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
@@ -17,14 +17,17 @@ class MainActivity_Logged_In : AppCompatActivity() {
     //    private lateinit var userViewModel: UserViewModel
     private lateinit var userId: String
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainLoggedInBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        NotificationUtils.scheduleNotification(this)
+
+
+
         val userId = Helper.getDataUserId(this)
-        Toast.makeText(this,userId,Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this, userId, Toast.LENGTH_SHORT).show()
 
 
 //        userViewModel = ViewModelProvider(this)[UserViewModel::class.java]
@@ -76,6 +79,15 @@ class MainActivity_Logged_In : AppCompatActivity() {
             prefs.edit().putBoolean("firstIn1", true).apply()
         }
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
     private fun showDialogBottomSheet() {

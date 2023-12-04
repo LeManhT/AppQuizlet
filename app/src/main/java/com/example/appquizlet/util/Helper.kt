@@ -3,7 +3,11 @@ package com.example.appquizlet.util
 import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.example.appquizlet.Add
+import com.example.appquizlet.NoDataFragment
+import com.example.appquizlet.R
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -40,6 +44,15 @@ object Helper {
     fun getDataUsername(context: Context): String {
         val sharedPreferences = context.getSharedPreferences("idUser", Context.MODE_PRIVATE)
         return sharedPreferences.getString("key_username", null).toString()
+    }
+
+    fun replaceWithNoDataFragment(fragmentManager: FragmentManager, id: Int) {
+        val noDataFragment =
+            NoDataFragment()
+        val transaction: FragmentTransaction = fragmentManager.beginTransaction()
+        transaction.replace(id, noDataFragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 
 }

@@ -6,15 +6,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appquizlet.R
 import com.example.appquizlet.interfaceFolder.RVStudySetItem
-import com.example.appquizlet.model.StudySetItemData
+import com.example.appquizlet.model.StudySetModel
 import com.google.android.material.chip.Chip
 
 class RvStudySetItemAdapter(
-    private val listStudySet: List<StudySetItemData>,
+    private val listStudySet: List<StudySetModel>,
     private val onStudySetItem: RVStudySetItem
 ) : RecyclerView.Adapter<RvStudySetItemAdapter.StudySetItemHolder>() {
 
@@ -38,38 +37,38 @@ class RvStudySetItemAdapter(
             val cardViewStudySet = findViewById<CardView>(R.id.studySetCardView)
 
             val countTermText =
-                if (currentItem.countTerms!! > 1) "${currentItem.countTerms} terms" else
-                    "${currentItem.countTerms} term"
+                if (currentItem.countTerm!! > 1) "${currentItem.countTerm} terms" else
+                    "${currentItem.countTerm} term"
 
-            txtStudySetTitle.text = currentItem.title
+            txtStudySetTitle.text = currentItem.name
             studySetChip.text = countTermText
-            imgStudySetAvatar.setImageResource(currentItem.avatar)
-            txtStudySetUsername.text = currentItem.username
-
-            if (currentItem.isSelected == true) {
-                cardViewStudySet.setCardBackgroundColor(
-                    ContextCompat.getColor(
-                        holder.itemView.context,
-                        R.color.my_yellow
-                    )
-                )
-                cardViewStudySet.alpha = 0.8F
-            } else {
-                cardViewStudySet.setCardBackgroundColor(
-                    ContextCompat.getColor(
-                        holder.itemView.context,
-                        R.color.white
-                    )
-                )
-            }
+//            imgStudySetAvatar.setImageResource(currentItem.avatar)
+//            txtStudySetUsername.text = currentItem.username
+//
+//            if (currentItem.isSelected == true) {
+//                cardViewStudySet.setCardBackgroundColor(
+//                    ContextCompat.getColor(
+//                        holder.itemView.context,
+//                        R.color.my_yellow
+//                    )
+//                )
+//                cardViewStudySet.alpha = 0.8F
+//            } else {
+//                cardViewStudySet.setCardBackgroundColor(
+//                    ContextCompat.getColor(
+//                        holder.itemView.context,
+//                        R.color.white
+//                    )
+//                )
+//            }
 
             // Set item click listener
             holder.itemView.setOnClickListener {
                 // Toggle the isSelected state
-                currentItem.isSelected = !currentItem.isSelected!!
-
-                // Notify the listener about the click event
-                onStudySetItem.handleClickStudySetItem(currentItem)
+//                currentItem.isSelected = !currentItem.isSelected!!
+//
+//                // Notify the listener about the click event
+                onStudySetItem.handleClickStudySetItem(currentItem,position)
 
                 // Notify the adapter that the item at this position has changed
                 notifyItemChanged(position)
