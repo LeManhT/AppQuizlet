@@ -41,8 +41,8 @@ class FoldersFragment : Fragment() {
         val listFolderItems = mutableListOf<FolderModel>()
 
 
-        val adapterFolder = RVFolderItemAdapter(listFolderItems, object : RVFolderItem {
-            override fun handleClickFolderItem(position: Int) {
+        val adapterFolder = RVFolderItemAdapter(requireContext(),listFolderItems, object : RVFolderItem {
+            override fun handleClickFolderItem(folderItem: FolderModel, position: Int) {
                 val i = Intent(context, FolderClickActivity::class.java)
                 i.putExtra("idFolder", listFolderItems[position].id)
                 startActivity(i)
@@ -57,10 +57,8 @@ class FoldersFragment : Fragment() {
             listFolderItems.clear()
             listFolderItems.addAll(userResponse.documents.folders)
             if (listFolderItems.isEmpty()) {
-                Helper.replaceWithNoDataFragment(
-                    requireFragmentManager(),
-                    R.id.fragmentFolderContainer
-                )
+                binding.rvFolderFragment.visibility = View.GONE
+                binding.layoutNoData.visibility = View.VISIBLE
             }
 
             // Thông báo cho adapter rằng dữ liệu đã thay đổi để cập nhật giao diện người dùng

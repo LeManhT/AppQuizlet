@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_profile"
+    style="@style/ScreenBackground"
     tools:context=".Home">
 
     <LinearLayout
@@ -159,6 +160,7 @@
                             android:layout_marginTop="20dp"
                             android:layout_marginBottom="20dp"
                             android:gravity="center"
+                            style="@style/TextColor"
                             android:text="@string/add_course_text"
                             android:textSize="16dp"
                             android:textStyle="bold" />
@@ -243,7 +245,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
                             android:layout_marginBottom="16dp"
-                            android:src="@android:drawable/star_big_on"
+                            android:src="@drawable/fire"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent" />
 
@@ -255,12 +257,24 @@
                             android:gravity="center"
                             android:text="@string/pf_achievement_quote" />
 
-                        <CalendarView
-                            android:id="@+id/calendarView"
+
+                        <DatePicker
+                            android:id="@+id/datePicker"
+                            android:paddingHorizontal="@dimen/mar_30"
+                            android:enabled="false"
+                            android:descendantFocusability="blocksDescendants"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:layout_gravity="center_horizontal"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent" />
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:calendarViewShown="false"
+                            android:background="@android:color/white"
+                            android:textColor="@android:color/black"
+                            android:headerBackground="@color/white"
+
+                            />
                     </LinearLayout>
                 </LinearLayout>
 

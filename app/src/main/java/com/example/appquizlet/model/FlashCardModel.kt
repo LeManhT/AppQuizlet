@@ -3,14 +3,15 @@ package com.example.appquizlet.model
 import com.google.gson.annotations.SerializedName
 
 class FlashCardModel(
-    val id: String,
-    val term: String,
-    val definition: String,
-    val timeCreated: Long,
+    var id: String? = "",
+    var term: String? = "",
+    var definition: String? = "",
+    val timeCreated: Long? = 120,
     val isPublic: Boolean? = true,
     @SerializedName("idSetOwner")
     val setOwnerId: String? = "",
     val isSelected: Boolean? = false,
-    var isUnMark : Boolean ?= false
+    var isUnMark: Boolean? = false,
+    var isNew: Boolean? = false
 ) {
 }

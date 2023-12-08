@@ -56,4 +56,26 @@ interface ApiService {
         @Query("userId") userId: String,
         @Query("setId") setId: String
     ): Response<UserResponse>
+
+    @PUT("StudySet/UpdateInfo")
+    suspend fun updateStudySet(
+        @Query("userId") userId: String,
+        @Query("setId") setId: String,
+        @Body body: CreateSetRequest
+    ): Response<UserResponse>
+
+    @POST("Folder/InsertSetExisting")
+    suspend fun addSetToFolder(
+        @Query("userId") userId: String,
+        @Query("folderId") folderId: String,
+        @Body body: ArrayList<String>
+    ): Response<UserResponse>
+
+    @DELETE("Folder/RemoveSet")
+    suspend fun deleteSet(
+        @Query("userId") userId: String,
+        @Query("folderId") folderId: String,
+        @Query("setId") setId: String
+    ): Response<UserResponse>
+
 }

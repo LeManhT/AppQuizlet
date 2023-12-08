@@ -47,7 +47,7 @@
             android:paddingHorizontal="10dp">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textField"
+                android:id="@+id/layoutSetName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="60dp"
@@ -57,6 +57,7 @@
                 app:boxStrokeWidth="@dimen/marginInput">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtSetName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -112,9 +113,6 @@
             android:id="@+id/layoutScan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/layoutDesc"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
             android:layout_gravity="center"
             android:layout_marginStart="0dp"
             android:orientation="horizontal">
@@ -172,6 +170,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="@dimen/pad_20" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -179,7 +178,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"

@@ -17,7 +17,7 @@
         app:title="@string/add_to_folder">
 
         <ImageView
-            android:id="@+id/iconSetting"
+            android:id="@+id/btnAddSet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"

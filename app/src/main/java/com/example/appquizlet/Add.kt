@@ -72,7 +72,7 @@ class Add : BottomSheetDialogFragment() {
         const val TAG = "ModalBottomSheet"
     }
 
-    private fun showCustomDialog(
+    fun showCustomDialog(
         title: String,
         content: String,
         edtPlaceholderFolderName: String,

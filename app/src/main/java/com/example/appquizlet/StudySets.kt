@@ -32,25 +32,26 @@ class StudySets : Fragment(R.layout.fragment_study_sets) {
         super.onViewCreated(view, savedInstanceState)
         val listStudySet = mutableListOf<StudySetModel>()
 
-        val adapterStudySet = RvStudySetItemAdapter(listStudySet, object : RVStudySetItem {
-            override fun handleClickStudySetItem(setItem: StudySetModel, position: Int) {
-                val intent = Intent(requireContext(), StudySetDetail::class.java)
-                intent.putExtra("setId", listStudySet[position].id)
-                startActivity(intent)
+        val adapterStudySet =
+            RvStudySetItemAdapter(requireContext(), listStudySet, object : RVStudySetItem {
+                override fun handleClickStudySetItem(setItem: StudySetModel, position: Int) {
+                    val intent = Intent(requireContext(), StudySetDetail::class.java)
+                    intent.putExtra("setId", listStudySet[position].id)
+                    startActivity(intent)
 //                setItem.isSelected = !setItem.isSelected!!
-            }
+                }
 
-        })
+            }, true)
 
         val userDataStudySet = UserM.getUserData()
         userDataStudySet.observe(viewLifecycleOwner) {
             listStudySet.clear()
-            listStudySet.addAll(it.documents.studySets)
+            val allSets = Helper.getAllStudySets(it)
+
+            listStudySet.addAll(allSets)
             if (listStudySet.isEmpty()) {
-                Helper.replaceWithNoDataFragment(
-                    requireFragmentManager(),
-                    R.id.studySetItemContainer
-                )
+                binding.rvStudySet.visibility = View.GONE
+                binding.layoutNoData.visibility = View.VISIBLE
             }
 
             // Thông báo cho adapter rằng dữ liệu đã thay đổi để cập nhật giao diện người dùng

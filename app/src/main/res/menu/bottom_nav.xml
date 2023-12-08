@@ -5,30 +5,30 @@
         android:id="@+id/bottom_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/icons8_home_32"
+        android:icon="@drawable/home"
         android:title="@string/li_home" />
     <item
         android:id="@+id/bottom_solution"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/icons8_book_30"
+        android:icon="@drawable/book"
         android:title="@string/li_solution" />
     <item
         android:id="@+id/bottom_add"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:icon="@drawable/baseline_add_circle_outline_40"
+        android:icon="@drawable/add"
         android:title="" />
     <item
         android:id="@+id/bottom_library"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/icons8_opened_folder_48"
+        android:icon="@drawable/folder"
         android:title="@string/li_library" />
     <item
         android:id="@+id/bottom_edit_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/icons8_edit_account_48"
+        android:icon="@drawable/user_edit"
         android:title="@string/li_profile" />
 </menu>

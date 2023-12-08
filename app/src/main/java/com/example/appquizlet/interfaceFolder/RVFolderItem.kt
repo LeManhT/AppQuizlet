@@ -1,5 +1,7 @@
 package com.example.appquizlet.interfaceFolder
 
+import com.example.appquizlet.model.FolderModel
+
 interface RVFolderItem {
-    fun handleClickFolderItem (position : Int)
+    fun handleClickFolderItem(folderItem: FolderModel, position: Int)
 }

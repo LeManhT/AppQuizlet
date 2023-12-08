@@ -7,7 +7,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.os.Build
 import android.widget.Toast
 
 class BroadcastReceiverCheckInternet : BroadcastReceiver() {
@@ -39,7 +38,7 @@ class BroadcastReceiverCheckInternet : BroadcastReceiver() {
             AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert)
 
         builder.setTitle("Network Connection")
-            .setMessage("Please connect to a network to use this app.")
+            .setMessage("You are not connected to the internet.\\nMake sure wifi is on, internet is on, Airplane mode is off and try again.")
             .setPositiveButton(android.R.string.ok) { dialog: DialogInterface, _: Int ->
                 dialog.dismiss()
             }

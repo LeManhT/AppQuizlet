@@ -64,54 +64,58 @@ class SplashActivity : AppCompatActivity() {
 
         val indexOfTerms = text.indexOf("Terms of Services")
         val indexOfPrivacyPolicy = text.indexOf("Privacy Policy")
+        if (indexOfTerms != -1 && indexOfPrivacyPolicy != -1) {
+            // Thay đổi font chữ (đặt kiểu đậm) cho "Terms of Services"
+            spannableStringBuilder.setSpan(
+                StyleSpan(Typeface.BOLD),
+                indexOfTerms,
+                indexOfTerms + "Terms of Services".length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
 
-        // Thay đổi font chữ (đặt kiểu đậm) cho "Terms of Services"
-        spannableStringBuilder.setSpan(
-            StyleSpan(Typeface.BOLD),
-            indexOfTerms,
-            indexOfTerms + "Terms of Services".length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-
-        // Thay đổi font chữ (đặt kiểu đậm) cho "Privacy Policy"
-        spannableStringBuilder.setSpan(
-            StyleSpan(Typeface.BOLD),
-            indexOfPrivacyPolicy,
-            indexOfPrivacyPolicy + "Privacy Policy".length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
+            // Thay đổi font chữ (đặt kiểu đậm) cho "Privacy Policy"
+            spannableStringBuilder.setSpan(
+                StyleSpan(Typeface.BOLD),
+                indexOfPrivacyPolicy,
+                indexOfPrivacyPolicy + "Privacy Policy".length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
 
 // Thay đổi màu chữ cho "Terms of Services" và "Privacy Policy"
-        val color = Color.BLUE // Chọn màu mong muốn
-        spannableStringBuilder.setSpan(
-            ForegroundColorSpan(color),
-            indexOfTerms,
-            indexOfTerms + "Terms of Services".length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
+            val color = Color.BLUE // Chọn màu mong muốn
+            spannableStringBuilder.setSpan(
+                ForegroundColorSpan(color),
+                indexOfTerms,
+                indexOfTerms + "Terms of Services".length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
 
-        spannableStringBuilder.setSpan(
-            ForegroundColorSpan(color),
-            indexOfPrivacyPolicy,
-            indexOfPrivacyPolicy + "Privacy Policy".length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
+            spannableStringBuilder.setSpan(
+                ForegroundColorSpan(color),
+                indexOfPrivacyPolicy,
+                indexOfPrivacyPolicy + "Privacy Policy".length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
 
 
-        // Áp dụng ClickableSpan cho "Terms of Services" và "Privacy Policy"
+            // Áp dụng ClickableSpan cho "Terms of Services" và "Privacy Policy"
 
-        spannableStringBuilder.setSpan(
-            termsOfServiceClickableSpan,
-            indexOfPrivacyPolicy,
-            indexOfPrivacyPolicy + "Privacy Policy".length,
-            0
-        )
-        spannableStringBuilder.setSpan(
-            privacyPolicyClickableSpan, indexOfTerms, indexOfTerms + "Terms of Services".length, 0
-        )
-        // Đặt SpannableStringBuilder vào TextView và đặt movementMethod để kích hoạt tính năng bấm vào liên kết
-        termsTextView.text = spannableStringBuilder
-        termsTextView.movementMethod = LinkMovementMethod.getInstance()
+            spannableStringBuilder.setSpan(
+                termsOfServiceClickableSpan,
+                indexOfPrivacyPolicy,
+                indexOfPrivacyPolicy + "Privacy Policy".length,
+                0
+            )
+            spannableStringBuilder.setSpan(
+                privacyPolicyClickableSpan,
+                indexOfTerms,
+                indexOfTerms + "Terms of Services".length,
+                0
+            )
+            // Đặt SpannableStringBuilder vào TextView và đặt movementMethod để kích hoạt tính năng bấm vào liên kết
+            termsTextView.text = spannableStringBuilder
+            termsTextView.movementMethod = LinkMovementMethod.getInstance()
+        }
 
         val indicators = binding.circleIndicator3
         val listItemPhoto = mutableListOf<PhotoSplash>()

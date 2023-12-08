@@ -2,7 +2,9 @@ package com.example.appquizlet
 
 import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
@@ -11,6 +13,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
@@ -31,16 +34,25 @@ import kotlinx.coroutines.launch
 import java.util.Locale
 
 class StudySetDetail : AppCompatActivity(), OnInitListener,
-    FlashcardItemAdapter.OnFlashcardItemClickListener {
+    FlashcardItemAdapter.OnFlashcardItemClickListener, FragmentSortTerm.SortTermListener {
     private lateinit var binding: ActivityStudySetDetailBinding
     private lateinit var progressDialog: ProgressDialog
     private lateinit var apiService: ApiService
     private lateinit var setId: String
     private lateinit var textToSpeech: TextToSpeech
+    private lateinit var adapterStudySet: StudySetItemAdapter
+    private lateinit var adapterFlashcardDetail: FlashcardItemAdapter
+    private var listFlashcardDetails: MutableList<FlashCardModel> = mutableListOf()
+    private var originalList: MutableList<FlashCardModel> = mutableListOf()
+    private lateinit var sharedPreferences: SharedPreferences
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityStudySetDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        sharedPreferences = this.getSharedPreferences("TypeSelected", Context.MODE_PRIVATE)
 
         // Khởi tạo TextToSpeech
         textToSpeech = TextToSpeech(this, this)
@@ -53,8 +65,9 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
 // Tắt tiêu đề của Action Bar
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        var intent = intent
         setId = intent.getStringExtra("setId").toString()
+
+
 
         binding.layoutSortText.setOnClickListener {
             showDialogBottomSheet()
@@ -62,30 +75,54 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
 
 
         val listCards = mutableListOf<FlashCardModel>()
-        val listFlashcardDetails = mutableListOf<FlashCardModel>()
-        val adapterStudySet = StudySetItemAdapter(listCards, object : RvFlashCard {
+        adapterStudySet = StudySetItemAdapter(listCards, object : RvFlashCard {
             override fun handleClickFLashCard(flashcardItem: FlashCardModel) {
-                flashcardItem.isUnMark = !flashcardItem.isUnMark!!
+                flashcardItem.isUnMark = flashcardItem.isUnMark?.not() ?: true
+                adapterStudySet.notifyDataSetChanged()
             }
         })
-        val adapterFlashcardDetail = FlashcardItemAdapter(listFlashcardDetails)
+        adapterFlashcardDetail = FlashcardItemAdapter(listFlashcardDetails)
         var userData = UserM.getUserData()
         userData.observe(this, Observer { userResponse ->
-            val studySet = userResponse.documents.studySets.find { listStudySets ->
+            val studySet = Helper.getAllStudySets(userResponse).find { listStudySets ->
                 listStudySets.id == setId
+            }
+            binding.txtStudySetDetailUsername.text = userResponse.loginName
+            if (studySet != null) {
+                binding.txtSetName.text = studySet.name
             }
             if (studySet != null) {
                 listCards.clear()
+                listFlashcardDetails.clear()
                 listCards.addAll(studySet.cards)
                 listFlashcardDetails.addAll(studySet.cards)
-                Log.d("kk1", Gson().toJson(listCards))
+                originalList.clear()
+                originalList.addAll(studySet.cards)
             }
             adapterStudySet.notifyDataSetChanged()
             adapterFlashcardDetail.notifyDataSetChanged()
 
             val indicators = binding.circleIndicator3
             indicators.setViewPager(binding.viewPagerStudySet)
+
+            if (listCards.isEmpty()) {
+                binding.layoutNoData.visibility = View.VISIBLE
+                binding.layoutHasData.visibility = View.GONE
+                binding.txtLearnOther.setOnClickListener {
+                    finish()
+                }
+            }
+
             // Thông báo cho adapter rằng dữ liệu đã thay đổi để cập nhật giao diện người dùng
+            // Chuyển đổi danh sách FlashCardModel thành chuỗi JSON
+            val jsonList = Gson().toJson(listCards)
+
+            // Đưa chuỗi JSON vào Intent
+            binding.layoutFlashcardLearn.setOnClickListener {
+                val i = Intent(applicationContext, FlashcardLearn::class.java)
+                i.putExtra("listCard", jsonList)
+                startActivity(i)
+            }
         })
         binding.viewPagerStudySet.adapter = adapterStudySet
         // Thiết lập lắng nghe sự kiện click cho adapter
@@ -100,15 +137,31 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
         }
 
 
-        // Chuyển đổi danh sách FlashCardModel thành chuỗi JSON
-        val jsonList = Gson().toJson(listCards)
+    }
 
-        // Đưa chuỗi JSON vào Intent
-        binding.layoutFlashcardLearn.setOnClickListener {
-            val i = Intent(applicationContext, FlashcardLearn::class.java)
-            i.putExtra("listCard", jsonList)
-            startActivity(i)
+    override fun onSortTermSelected(sortType: String) {
+
+        when (sortType) {
+            "OriginalSort" -> {
+                listFlashcardDetails.clear()
+                listFlashcardDetails.addAll(originalList)
+                with(sharedPreferences.edit()) {
+                    putString("selectedT", sortType)
+                    apply()
+                }
+            }
+
+            "AlphabeticalSort" -> {
+                listFlashcardDetails.sortBy { it.term }
+                with(sharedPreferences.edit()) {
+                    putString("selectedT", sortType)
+                    apply()
+                }
+
+            }
         }
+
+        adapterFlashcardDetail.notifyDataSetChanged()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -135,6 +188,7 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
 
             R.id.option_edit -> {
                 val i = Intent(this, EditStudySet::class.java)
+                i.putExtra("editSetId", setId)
                 startActivity(i)
             }
 
@@ -146,19 +200,21 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
     }
 
     private fun showStudyThisSetBottomsheet() {
-//        val addCourseBottomSheet = StudyThisSetFragment()
-//        addCourseBottomSheet.show(supportFragmentManager, "")
+        val addCourseBottomSheet = StudyThisSetFragment()
+        addCourseBottomSheet.show(supportFragmentManager, "")
     }
 
     private fun showDialogBottomSheet() {
         val addBottomSheet = FragmentSortTerm()
+        addBottomSheet.sortTermListener = this
 
-//        if (!addBottomSheet.isAdded) {
-//            val transaction = supportFragmentManager.beginTransaction()
-//            transaction.add(addBottomSheet, FragmentSortTerm.TAG)
-//            transaction.commitAllowingStateLoss()
-//        }
+        if (!addBottomSheet.isAdded) {
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.add(addBottomSheet, FragmentSortTerm.TAG)
+            transaction.commitAllowingStateLoss()
+        }
     }
+
 
     private fun shareDialog(content: String) {
         val sharingIntent = Intent(Intent.ACTION_SEND)
@@ -217,10 +273,7 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
                 }
             } catch (e: Exception) {
                 CustomToast(this@StudySetDetail).makeText(
-                    this@StudySetDetail,
-                    e.message.toString(),
-                    CustomToast.LONG,
-                    CustomToast.ERROR
+                    this@StudySetDetail, e.message.toString(), CustomToast.LONG, CustomToast.ERROR
                 ).show()
             } finally {
                 progressDialog.dismiss()
@@ -237,9 +290,7 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
         if (status == TextToSpeech.SUCCESS) {
             val result = textToSpeech.setLanguage(Locale.US)
 
-            if (result == TextToSpeech.LANG_MISSING_DATA ||
-                result == TextToSpeech.LANG_NOT_SUPPORTED
-            ) {
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Toast.makeText(this, "Language not supported.", Toast.LENGTH_SHORT).show()
             }
         } else {

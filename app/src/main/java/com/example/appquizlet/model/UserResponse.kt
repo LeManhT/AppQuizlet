@@ -14,4 +14,5 @@ data class UserResponse(
     @SerializedName("documents") val documents: DocumentModel,
     @SerializedName("setting") val setting: SettingModel
 ) {
+
 }

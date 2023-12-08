@@ -14,8 +14,6 @@ import com.google.android.material.navigation.NavigationBarView
 class MainActivity_Logged_In : AppCompatActivity() {
     private lateinit var binding: ActivityMainLoggedInBinding
 
-    //    private lateinit var userViewModel: UserViewModel
-    private lateinit var userId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,8 +23,6 @@ class MainActivity_Logged_In : AppCompatActivity() {
         NotificationUtils.scheduleNotification(this)
 
 
-
-        val userId = Helper.getDataUserId(this)
 //        Toast.makeText(this, userId, Toast.LENGTH_SHORT).show()
 
 
@@ -40,6 +36,18 @@ class MainActivity_Logged_In : AppCompatActivity() {
 //            }
 //        })
 
+        val selectedFragmentTag = intent.getStringExtra("selectedFragment")
+
+        if (selectedFragmentTag != null) {
+            val selectedFragment = supportFragmentManager.findFragmentByTag(selectedFragmentTag)
+
+            if (selectedFragment != null) {
+                // Replace the FrameLayout with the selected Fragment
+                val transaction = supportFragmentManager.beginTransaction()
+                transaction.replace(R.id.fragmentHome, selectedFragment)
+                transaction.commit()
+            }
+        }
 
         // khởi tạo đối tượng dialog
         // display all title and content in bottom nav

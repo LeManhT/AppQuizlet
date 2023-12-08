@@ -16,4 +16,11 @@
         <attr name="scale_factor" format="float" />
         <attr name="disable_hw_acceleration" format="boolean" />
     </declare-styleable>
+
+<!--    <declare-styleable name="theme_app">-->
+<!--        <attr name="backgroundColor" format="color" />-->
+<!--        <attr name="cardBackgroundColor" format="color" />-->
+<!--        <attr name="textcolor" format="color" />-->
+<!--        <attr name="buttoncolor" format="color" />-->
+<!--    </declare-styleable>-->
 </resources>

@@ -29,8 +29,11 @@ class FlashcardItemAdapter(
         txtTerm.text = listFlashcard[position].term
         txtDefinition.text = listFlashcard[position].definition
 
+        val txtToSpeech = listFlashcard[position].term + listFlashcard[position].definition
+
+
         holder.itemView.setOnClickListener {
-            itemClickListener?.onFlashcardItemClick(listFlashcard[position].term)
+            txtToSpeech.let { it1 -> itemClickListener?.onFlashcardItemClick(it1) }
         }
     }
 

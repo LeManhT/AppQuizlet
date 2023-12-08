@@ -8,11 +8,14 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.setPadding
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appquizlet.adapter.RvStudySetItemAdapter
 import com.example.appquizlet.api.retrofit.ApiService
 import com.example.appquizlet.api.retrofit.RetrofitHelper
@@ -50,28 +53,43 @@ class FolderClickActivity : AppCompatActivity() {
 
 
         val listStudySet = mutableListOf<StudySetModel>()
-//        listStudySet.add(StudySetItemData("Everyday word 1", 3, R.drawable.profile, "lemamnhed"))
-//        listStudySet.add(StudySetItemData("Everyday word 2", 15, R.drawable.profile, "lemamnhed"))
-//        listStudySet.add(StudySetItemData("Everyday word 3", 5, R.drawable.profile, "lemamnhed"))
-//        listStudySet.add(StudySetItemData("Everyday word 4", 26, R.drawable.profile, "lemamnhed"))
 
-        val adapterStudySet = RvStudySetItemAdapter(listStudySet, object : RVStudySetItem {
-            override fun handleClickStudySetItem(setItem: StudySetModel,position : Int) {
+        val adapterStudySet = RvStudySetItemAdapter(this, listStudySet, object : RVStudySetItem {
+            override fun handleClickStudySetItem(setItem: StudySetModel, position: Int) {
                 val i = Intent(this@FolderClickActivity, StudySetDetail::class.java)
+                i.putExtra("setId", listStudySet[position].id)
+                i.putExtra("folderIdCl", folderId)
                 startActivity(i)
             }
+        }, true)
+
+
+        val userData = UserM.getUserData()
+        userData.observe(this, Observer { userResponse ->
+            listStudySet.clear()
+            val targetFolder =
+                userResponse.documents.folders.find { folderItem -> folderItem.id == folderId }
+            if (targetFolder != null) {
+                listStudySet.addAll(targetFolder.studySets)
+            }
+            if (targetFolder != null) {
+                binding.txtCountSet.text = if (targetFolder.studySets.size == 1)
+                    targetFolder.studySets.size.toString() + " term" else
+                    targetFolder.studySets.size.toString() + (" terms")
+            }
+            if (targetFolder != null) {
+                binding.txtFolderName.text = targetFolder.name
+            }
+            binding.txtFolderClickUsername.text = userResponse.loginName
+            if (listStudySet.isEmpty()) {
+                binding.rvStudySet.visibility = View.GONE
+                binding.layoutNoData.visibility = View.VISIBLE
+            }
+            adapterStudySet.notifyDataSetChanged()
         })
-
-
-//        val userData = UserM.getUserData()
-//        userData.observe(this, Observer { userResponse ->
-//            listStudySet.clear()
-//            listStudySet.addAll(userResponse.documents.studySets)
-//            adapterStudySet.notifyDataSetChanged()
-//        })
-//        val rvStudySet = binding.rvStudySet
-//        rvStudySet.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-//        rvStudySet.adapter = adapterStudySet
+        val rvStudySet = binding.rvStudySet
+        rvStudySet.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        rvStudySet.adapter = adapterStudySet
 
     }
 
@@ -93,6 +111,7 @@ class FolderClickActivity : AppCompatActivity() {
 
             R.id.option_add_sets -> {
                 val i = Intent(this, AddSetToFolder::class.java)
+                i.putExtra("folderAddSet", folderId)
                 startActivity(i)
             }
 
