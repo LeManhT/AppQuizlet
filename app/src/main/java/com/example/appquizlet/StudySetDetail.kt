@@ -1,28 +1,63 @@
 package com.example.appquizlet
 
 import android.app.AlertDialog
+import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
+import android.speech.tts.TextToSpeech.OnInitListener
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appquizlet.adapter.FlashcardItemAdapter
 import com.example.appquizlet.adapter.StudySetItemAdapter
+import com.example.appquizlet.api.retrofit.ApiService
+import com.example.appquizlet.api.retrofit.RetrofitHelper
+import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.ActivityStudySetDetailBinding
 import com.example.appquizlet.interfaceFolder.RvFlashCard
 import com.example.appquizlet.model.FlashCardModel
+import com.example.appquizlet.model.UserM
+import com.example.appquizlet.util.Helper
+import com.google.gson.Gson
+import kotlinx.coroutines.launch
+import java.util.Locale
 
-class StudySetDetail : AppCompatActivity() {
+class StudySetDetail : AppCompatActivity(), OnInitListener,
+    FlashcardItemAdapter.OnFlashcardItemClickListener, FragmentSortTerm.SortTermListener {
     private lateinit var binding: ActivityStudySetDetailBinding
+    private lateinit var progressDialog: ProgressDialog
+    private lateinit var apiService: ApiService
+    private lateinit var setId: String
+    private lateinit var textToSpeech: TextToSpeech
+    private lateinit var adapterStudySet: StudySetItemAdapter
+    private lateinit var adapterFlashcardDetail: FlashcardItemAdapter
+    private var listFlashcardDetails: MutableList<FlashCardModel> = mutableListOf()
+    private var originalList: MutableList<FlashCardModel> = mutableListOf()
+    private lateinit var sharedPreferences: SharedPreferences
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityStudySetDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        sharedPreferences = this.getSharedPreferences("TypeSelected", Context.MODE_PRIVATE)
 
+        // Khởi tạo TextToSpeech
+        textToSpeech = TextToSpeech(this, this)
+
+        apiService = RetrofitHelper.getInstance().create(ApiService::class.java)
         //        set toolbar back display
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -30,32 +65,69 @@ class StudySetDetail : AppCompatActivity() {
 // Tắt tiêu đề của Action Bar
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        setId = intent.getStringExtra("setId").toString()
+
+
+
         binding.layoutSortText.setOnClickListener {
             showDialogBottomSheet()
         }
 
-        val indicators = binding.circleIndicator3
+
         val listCards = mutableListOf<FlashCardModel>()
-        listCards.add(FlashCardModel("1", "Term 1", "Def1", 555555, true, ""))
-        listCards.add(FlashCardModel("2", "Term 2", "Def2", 555555, true, ""))
-        listCards.add(FlashCardModel("3", "Term 3", "Def3", 555555, true, ""))
-        listCards.add(FlashCardModel("4", "Term 4", "Def4", 555555, true, ""))
-        val adapterStudySet = StudySetItemAdapter(listCards, object : RvFlashCard {
+        adapterStudySet = StudySetItemAdapter(listCards, object : RvFlashCard {
             override fun handleClickFLashCard(flashcardItem: FlashCardModel) {
-                flashcardItem.isUnMark = !flashcardItem.isUnMark!!
+                flashcardItem.isUnMark = flashcardItem.isUnMark?.not() ?: true
+                adapterStudySet.notifyDataSetChanged()
+            }
+        })
+        adapterFlashcardDetail = FlashcardItemAdapter(listFlashcardDetails)
+        var userData = UserM.getUserData()
+        userData.observe(this, Observer { userResponse ->
+            val studySet = Helper.getAllStudySets(userResponse).find { listStudySets ->
+                listStudySets.id == setId
+            }
+            binding.txtStudySetDetailUsername.text = userResponse.loginName
+            if (studySet != null) {
+                binding.txtSetName.text = studySet.name
+            }
+            if (studySet != null) {
+                listCards.clear()
+                listFlashcardDetails.clear()
+                listCards.addAll(studySet.cards)
+                listFlashcardDetails.addAll(studySet.cards)
+                originalList.clear()
+                originalList.addAll(studySet.cards)
+            }
+            adapterStudySet.notifyDataSetChanged()
+            adapterFlashcardDetail.notifyDataSetChanged()
+
+            val indicators = binding.circleIndicator3
+            indicators.setViewPager(binding.viewPagerStudySet)
+
+            if (listCards.isEmpty()) {
+                binding.layoutNoData.visibility = View.VISIBLE
+                binding.layoutHasData.visibility = View.GONE
+                binding.txtLearnOther.setOnClickListener {
+                    finish()
+                }
+            }
+
+            // Thông báo cho adapter rằng dữ liệu đã thay đổi để cập nhật giao diện người dùng
+            // Chuyển đổi danh sách FlashCardModel thành chuỗi JSON
+            val jsonList = Gson().toJson(listCards)
+
+            // Đưa chuỗi JSON vào Intent
+            binding.layoutFlashcardLearn.setOnClickListener {
+                val i = Intent(applicationContext, FlashcardLearn::class.java)
+                i.putExtra("listCard", jsonList)
+                startActivity(i)
             }
         })
         binding.viewPagerStudySet.adapter = adapterStudySet
-        indicators.setViewPager(binding.viewPagerStudySet)
+        // Thiết lập lắng nghe sự kiện click cho adapter
+        adapterFlashcardDetail.setOnFlashcardItemClickListener(this)
 
-
-        val listFlashcardDetails = mutableListOf<FlashCardModel>()
-        listFlashcardDetails.add(FlashCardModel("1", "Term 1", "Def1", 555555, true, ""))
-        listFlashcardDetails.add(FlashCardModel("2", "Term 2", "Def2", 555555, true, ""))
-        listFlashcardDetails.add(FlashCardModel("3", "Term 3", "Def3", 555555, true, ""))
-        listFlashcardDetails.add(FlashCardModel("4", "Term 4", "Def4", 555555, true, ""))
-
-        val adapterFlashcardDetail = FlashcardItemAdapter(listFlashcardDetails)
         binding.rvAllFlashCards.layoutManager = LinearLayoutManager(this)
         binding.rvAllFlashCards.adapter = adapterFlashcardDetail
 
@@ -65,10 +137,31 @@ class StudySetDetail : AppCompatActivity() {
         }
 
 
-        binding.layoutFlashcardLearn.setOnClickListener {
-            val intent = Intent(this, FlashcardLearn::class.java)
-            startActivity(intent)
+    }
+
+    override fun onSortTermSelected(sortType: String) {
+
+        when (sortType) {
+            "OriginalSort" -> {
+                listFlashcardDetails.clear()
+                listFlashcardDetails.addAll(originalList)
+                with(sharedPreferences.edit()) {
+                    putString("selectedT", sortType)
+                    apply()
+                }
+            }
+
+            "AlphabeticalSort" -> {
+                listFlashcardDetails.sortBy { it.term }
+                with(sharedPreferences.edit()) {
+                    putString("selectedT", sortType)
+                    apply()
+                }
+
+            }
         }
+
+        adapterFlashcardDetail.notifyDataSetChanged()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -95,6 +188,7 @@ class StudySetDetail : AppCompatActivity() {
 
             R.id.option_edit -> {
                 val i = Intent(this, EditStudySet::class.java)
+                i.putExtra("editSetId", setId)
                 startActivity(i)
             }
 
@@ -112,9 +206,15 @@ class StudySetDetail : AppCompatActivity() {
 
     private fun showDialogBottomSheet() {
         val addBottomSheet = FragmentSortTerm()
-        val transaction = supportFragmentManager.beginTransaction()
-        addBottomSheet.show(transaction, FragmentSortTerm.TAG)
+        addBottomSheet.sortTermListener = this
+
+        if (!addBottomSheet.isAdded) {
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.add(addBottomSheet, FragmentSortTerm.TAG)
+            transaction.commitAllowingStateLoss()
+        }
     }
+
 
     private fun shareDialog(content: String) {
         val sharingIntent = Intent(Intent.ACTION_SEND)
@@ -135,6 +235,7 @@ class StudySetDetail : AppCompatActivity() {
         builder.setTitle(title)
         builder.setMessage(desc)
         builder.setPositiveButton(resources.getString(R.string.delete)) { dialog, _ ->
+            deleteStudySet(Helper.getDataUserId(this), setId)
             dialog.dismiss()
         }
         builder.setNegativeButton(resources.getString(R.string.cancel)) { dialog, _ ->
@@ -142,4 +243,77 @@ class StudySetDetail : AppCompatActivity() {
         }
         builder.create().show()
     }
+
+    fun deleteStudySet(userId: String, setId: String) {
+        lifecycleScope.launch {
+            showLoading(resources.getString(R.string.deleteFolderLoading))
+            try {
+                val result = apiService.deleteStudySet(userId, setId)
+                if (result.isSuccessful) {
+
+                    result.body().let {
+                        if (it != null) {
+                            CustomToast(this@StudySetDetail).makeText(
+                                this@StudySetDetail,
+                                resources.getString(R.string.deleteFolderSuccessful),
+                                CustomToast.LONG,
+                                CustomToast.SUCCESS
+                            ).show()
+//                            UserM.setUserDataStudySets(it.documents.studySets)
+                            UserM.setUserData(it)
+                        }
+                    }
+                } else {
+                    CustomToast(this@StudySetDetail).makeText(
+                        this@StudySetDetail,
+                        resources.getString(R.string.deleteSetErr),
+                        CustomToast.LONG,
+                        CustomToast.ERROR
+                    ).show()
+                }
+            } catch (e: Exception) {
+                CustomToast(this@StudySetDetail).makeText(
+                    this@StudySetDetail, e.message.toString(), CustomToast.LONG, CustomToast.ERROR
+                ).show()
+            } finally {
+                progressDialog.dismiss()
+            }
+        }
+    }
+
+
+    private fun showLoading(msg: String) {
+        progressDialog = ProgressDialog.show(this, null, msg)
+    }
+
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS) {
+            val result = textToSpeech.setLanguage(Locale.US)
+
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Toast.makeText(this, "Language not supported.", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            Toast.makeText(this, "Initialization failed.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun speakOut(text: String) {
+        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
+    }
+
+    override fun onDestroy() {
+        if (textToSpeech.isSpeaking) {
+            textToSpeech.stop()
+        }
+        textToSpeech.shutdown()
+        super.onDestroy()
+    }
+
+    override fun onFlashcardItemClick(term: String) {
+        speakOut(term)
+        Log.d("StudySetDetail", "Clicked on term: $term")
+    }
+
+
 }

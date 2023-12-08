@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:textSize="18dp"
             android:textStyle="bold"
+            style="@style/TextColor"
             android:layout_weight="2"
             android:text="@string/pf_achievement" />
 
@@ -57,6 +58,7 @@
             android:layout_marginTop="16dp"
             android:gravity="center"
             android:text="16-day streak"
+            style="@style/TextColor"
             android:textSize="20dp"
             android:textStyle="bold" />
 

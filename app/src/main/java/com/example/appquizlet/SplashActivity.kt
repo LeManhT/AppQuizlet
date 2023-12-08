@@ -1,8 +1,10 @@
 package com.example.appquizlet
 
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Color
 import android.graphics.Typeface
+import android.net.ConnectivityManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,6 +15,7 @@ import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.View
+import com.example.appquizlet.BroadcastReceiver.BroadcastReceiverCheckInternet
 import com.example.appquizlet.adapter.PhotoSplashAdapter
 import com.example.appquizlet.databinding.ActivitySplashBinding
 import com.example.appquizlet.model.PhotoSplash
@@ -20,6 +23,7 @@ import com.example.appquizlet.model.PhotoSplash
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
+    val br = BroadcastReceiverCheckInternet()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -60,54 +64,58 @@ class SplashActivity : AppCompatActivity() {
 
         val indexOfTerms = text.indexOf("Terms of Services")
         val indexOfPrivacyPolicy = text.indexOf("Privacy Policy")
+        if (indexOfTerms != -1 && indexOfPrivacyPolicy != -1) {
+            // Thay đổi font chữ (đặt kiểu đậm) cho "Terms of Services"
+            spannableStringBuilder.setSpan(
+                StyleSpan(Typeface.BOLD),
+                indexOfTerms,
+                indexOfTerms + "Terms of Services".length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
 
-        // Thay đổi font chữ (đặt kiểu đậm) cho "Terms of Services"
-        spannableStringBuilder.setSpan(
-            StyleSpan(Typeface.BOLD),
-            indexOfTerms,
-            indexOfTerms + "Terms of Services".length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-
-        // Thay đổi font chữ (đặt kiểu đậm) cho "Privacy Policy"
-        spannableStringBuilder.setSpan(
-            StyleSpan(Typeface.BOLD),
-            indexOfPrivacyPolicy,
-            indexOfPrivacyPolicy + "Privacy Policy".length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
+            // Thay đổi font chữ (đặt kiểu đậm) cho "Privacy Policy"
+            spannableStringBuilder.setSpan(
+                StyleSpan(Typeface.BOLD),
+                indexOfPrivacyPolicy,
+                indexOfPrivacyPolicy + "Privacy Policy".length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
 
 // Thay đổi màu chữ cho "Terms of Services" và "Privacy Policy"
-        val color = Color.BLUE // Chọn màu mong muốn
-        spannableStringBuilder.setSpan(
-            ForegroundColorSpan(color),
-            indexOfTerms,
-            indexOfTerms + "Terms of Services".length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
+            val color = Color.BLUE // Chọn màu mong muốn
+            spannableStringBuilder.setSpan(
+                ForegroundColorSpan(color),
+                indexOfTerms,
+                indexOfTerms + "Terms of Services".length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
 
-        spannableStringBuilder.setSpan(
-            ForegroundColorSpan(color),
-            indexOfPrivacyPolicy,
-            indexOfPrivacyPolicy + "Privacy Policy".length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
+            spannableStringBuilder.setSpan(
+                ForegroundColorSpan(color),
+                indexOfPrivacyPolicy,
+                indexOfPrivacyPolicy + "Privacy Policy".length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
 
 
-        // Áp dụng ClickableSpan cho "Terms of Services" và "Privacy Policy"
+            // Áp dụng ClickableSpan cho "Terms of Services" và "Privacy Policy"
 
-        spannableStringBuilder.setSpan(
-            termsOfServiceClickableSpan,
-            indexOfPrivacyPolicy,
-            indexOfPrivacyPolicy + "Privacy Policy".length,
-            0
-        )
-        spannableStringBuilder.setSpan(
-            privacyPolicyClickableSpan, indexOfTerms, indexOfTerms + "Terms of Services".length, 0
-        )
-        // Đặt SpannableStringBuilder vào TextView và đặt movementMethod để kích hoạt tính năng bấm vào liên kết
-        termsTextView.text = spannableStringBuilder
-        termsTextView.movementMethod = LinkMovementMethod.getInstance()
+            spannableStringBuilder.setSpan(
+                termsOfServiceClickableSpan,
+                indexOfPrivacyPolicy,
+                indexOfPrivacyPolicy + "Privacy Policy".length,
+                0
+            )
+            spannableStringBuilder.setSpan(
+                privacyPolicyClickableSpan,
+                indexOfTerms,
+                indexOfTerms + "Terms of Services".length,
+                0
+            )
+            // Đặt SpannableStringBuilder vào TextView và đặt movementMethod để kích hoạt tính năng bấm vào liên kết
+            termsTextView.text = spannableStringBuilder
+            termsTextView.movementMethod = LinkMovementMethod.getInstance()
+        }
 
         val indicators = binding.circleIndicator3
         val listItemPhoto = mutableListOf<PhotoSplash>()
@@ -141,18 +149,29 @@ class SplashActivity : AppCompatActivity() {
 
 
         binding.imgSplashSearch.setOnClickListener {
-            val i = Intent(this,SplashSearch::class.java)
+            val i = Intent(this, SplashSearch::class.java)
             startActivity(i)
         }
 
         binding.btnSignup.setOnClickListener {
-            val i = Intent(this,SignUp::class.java)
+            val i = Intent(this, SignUp::class.java)
             startActivity(i)
         }
         binding.btnSignin.setOnClickListener {
-            val i = Intent(this,SignIn::class.java)
+            val i = Intent(this, SignIn::class.java)
             startActivity(i)
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+        registerReceiver(br, intentFilter)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(br)
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.appquizlet.adapter
 
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,15 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.appquizlet.R
 import com.example.appquizlet.interfaceFolder.RvFlashCard
 import com.example.appquizlet.model.FlashCardModel
+import com.example.appquizlet.util.Helper
 
 class StudySetItemAdapter(
-    private val listStudySet: List<FlashCardModel>,
-    private val onClickFlashCard: RvFlashCard
-) :
-    RecyclerView.Adapter<StudySetItemAdapter.StudySetItemHolder>() {
-    class StudySetItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private val listStudySet: List<FlashCardModel>, private val onClickFlashCard: RvFlashCard
+) : RecyclerView.Adapter<StudySetItemAdapter.StudySetItemHolder>() {
+    class StudySetItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StudySetItemHolder {
         val view = LayoutInflater.from(parent.context)
@@ -30,22 +29,23 @@ class StudySetItemAdapter(
         holder.itemView.apply {
             val txtTerm = findViewById<TextView>(R.id.txtFlashcardTerm)
             val txtDefinition = findViewById<TextView>(R.id.txtFlashcardDefinition)
-            txtTerm.text = listStudySet[position].term
-            txtDefinition.text = listStudySet[position].definition
-//            val cardView = holder.itemView.findViewById<CardView>(R.id.flashCardCardView)
-            if (currentItem.isUnMark == true) {
-                txtTerm.text = listStudySet[position].definition
-            } else {
-                txtTerm.text = listStudySet[position].term
-            }
-            holder.itemView.setOnClickListener {
+            txtTerm.text = currentItem.term
+            txtDefinition.text = currentItem.definition
+            val cardView = holder.itemView.findViewById<CardView>(R.id.frontFlashCardCardView)
+
+
+
+            setOnClickListener {
                 onClickFlashCard.handleClickFLashCard(currentItem)
+                Helper.flipCard(cardView, txtTerm, currentItem)
                 notifyItemChanged(position)
             }
         }
     }
 
+
     override fun getItemCount(): Int {
         return listStudySet.size
     }
+
 }

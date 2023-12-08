@@ -1,8 +1,20 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.AppQuizlet" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/my_yellow</item>
+    </style>
 
+    <style name="ScreenBackground">
+        <item name="backgroundColor">@color/black_gray</item>
+    </style>
+
+    <style name="CardBackground">
+        <item name="backgroundColor">@color/cardview_dark_background</item>
+    </style>
+
+    <style name="TextColor">
+        <item name="android:textColor">@color/white</item>
     </style>
 </resources>

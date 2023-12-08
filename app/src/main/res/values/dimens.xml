@@ -8,7 +8,7 @@
     <dimen name="marginInput">5dp</dimen>
     <dimen name="margin_primary">10dp</dimen>
     <dimen name="titleSize">18sp</dimen>
-    <dimen name="titleSizeCard">16dp</dimen>
+    <dimen name="titleSizeCard">16sp</dimen>
     <dimen name="titleSizeCard2">14sp</dimen>
     <dimen name="md">16dp</dimen>
     <dimen name="height">400dp</dimen>
@@ -29,5 +29,15 @@
     <dimen name="mar_15">15dp</dimen>
     <dimen name="pad_5">5dp</dimen>
     <dimen name="mar_60">60dp</dimen>
+    <dimen name="mar_80">80dp</dimen>
     <dimen name="heightFlashcardLearn">500dp</dimen>
+
+
+
+    <dimen name="default_stack_spacing">12dp</dimen>
+    <dimen name="margin_fab">16dp</dimen>
+    <dimen name="padding_normal">8dp</dimen>
+    <dimen name="padding_swipestack">64dp</dimen>
+    <dimen name="elevation_normal">4dp</dimen>
+    <dimen name="elevation_large">8dp</dimen>
 </resources>

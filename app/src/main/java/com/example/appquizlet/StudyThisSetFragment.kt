@@ -1,6 +1,7 @@
 package com.example.appquizlet
 
 import android.app.Dialog
+import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -24,6 +25,10 @@ class StudyThisSetFragment : BottomSheetDialogFragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentStudyThisSetBinding.inflate(inflater, container, false)
+        binding.layoutLearn.setOnClickListener {
+            val i = Intent(requireContext(), FlashcardLearn::class.java)
+            startActivity(i)
+        }
         return binding.root
     }
 
@@ -43,9 +48,9 @@ class StudyThisSetFragment : BottomSheetDialogFragment() {
                 dismiss()
             }
             bottomSheet?.layoutParams?.height = ViewGroup.LayoutParams.MATCH_PARENT
-            var screenHeight = Resources.getSystem().displayMetrics.heightPixels - 60
+            val screenHeight = Resources.getSystem().displayMetrics.heightPixels - 60
             bottomSheet?.minimumHeight = screenHeight
-            val behavior = (dialogInterface as BottomSheetDialog).behavior
+            val behavior = dialogInterface.behavior
             behavior.peekHeight = screenHeight
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
         }

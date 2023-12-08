@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E7F3F8">
-
+    android:orientation="vertical"
+    tools:context=".ChangeLanguage">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_change_language"
@@ -14,66 +14,39 @@
         app:navigationIcon="?attr/homeAsUpIndicator"
         app:popupTheme="@style/Theme.AppQuizlet.PopupOverlay"
         app:title="Change Language">
+
+        <ImageView
+            android:id="@+id/iconTickChangeLanguage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/icons8_tick_24" />
     </androidx.appcompat.widget.Toolbar>
 
-    <LinearLayout
-        android:layout_width="383dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:orientation="horizontal">
+    <RadioGroup
+        android:id="@+id/languageRadioGroup"
+        android:layout_width="match_parent"
+        android:paddingHorizontal="@dimen/pad_20"
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="320dp"
-            android:layout_height="wrap_content"
-            android:text="Chinese"
-            android:textColor="#7E7C7C"
-            android:textSize="20sp" />
-
-        <CheckBox
-            android:id="@+id/checkBox4"
+        <RadioButton
+            android:id="@+id/englishRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
-    </LinearLayout>
+            android:text="English" />
 
-    <LinearLayout
-        android:layout_width="383dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="320dp"
-            android:layout_height="wrap_content"
-            android:text="English"
-            android:textColor="#7E7C7C"
-            android:textSize="20sp" />
-
-        <CheckBox
-            android:id="@+id/checkBox3"
+        <RadioButton
+            android:id="@+id/vietnameseRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
-    </LinearLayout>
+            android:text="Vietnamese" />
 
-
-    <LinearLayout
-        android:layout_width="383dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="320dp"
-            android:layout_height="wrap_content"
-            android:text="Vietnamese"
-            android:textColor="#3F51B5"
-            android:textSize="20sp" />
-
-        <CheckBox
-            android:id="@+id/checkBox2"
+        <RadioButton
+            android:id="@+id/chineseRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
-    </LinearLayout>
+            android:text="Chinese" />
+    </RadioGroup>
+
 </LinearLayout>

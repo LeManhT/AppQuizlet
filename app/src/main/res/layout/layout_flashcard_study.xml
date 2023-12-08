@@ -5,24 +5,26 @@
     android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewLearn"
         android:layout_width="match_parent"
         android:layout_height="@dimen/heightFlashcardLearn"
         android:layout_gravity="center_vertical"
         android:elevation="@dimen/mar_10"
+        android:layout_marginHorizontal="@dimen/pad_20"
         app:cardCornerRadius="25dp"
         app:cardElevation="@dimen/mar_10">
 
         <ImageView
-            android:id="@+id/icon2"
+            android:id="@+id/iconSpeak"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|top"
             android:layout_marginStart="@dimen/mar_10"
             android:layout_marginTop="@dimen/pad_20"
-            android:src="@drawable/icons8_enlarge_24" />
+            android:src="@drawable/volume_up_24px" />
 
         <TextView
-            android:id="@+id/txtFlashcardTerm"
+            android:id="@+id/txtFlashcardStudyTerm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -31,13 +33,13 @@
             android:textSize="25dp" />
 
         <TextView
-            android:id="@+id/txtFlashcardDefinition"
+            android:id="@+id/txtFlashcardStudyDefinition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
             android:text="Splash text"
-            android:textSize="25dp"
+            android:textSize="25sp"
             android:visibility="gone" />
 
 

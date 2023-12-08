@@ -1,5 +1,6 @@
 package com.example.appquizlet.api.retrofit
 
+import com.example.appquizlet.model.CreateSetRequest
 import com.example.appquizlet.model.UserResponse
 import com.google.gson.JsonObject
 import retrofit2.Response
@@ -30,7 +31,7 @@ interface ApiService {
 //        @Body body: JsonObject
 //    ): Call<UserResponse>
 //
-    @PUT("Folder/Update")
+    @PUT("Folder/UpdateInfo")
     suspend fun updateFolder(
         @Query("userId") userId: String,
         @Query("folderId") folderId: String,
@@ -42,6 +43,39 @@ interface ApiService {
     suspend fun deleteFolder(
         @Query("userId") userId: String,
         @Query("folderId") folderId: String
+    ): Response<UserResponse>
+
+    @POST("StudySet/Create")
+    suspend fun createNewStudySet(
+        @Query("userId") userId: String,
+        @Body body: CreateSetRequest
+    ): Response<UserResponse>
+
+    @DELETE("StudySet/Delete")
+    suspend fun deleteStudySet(
+        @Query("userId") userId: String,
+        @Query("setId") setId: String
+    ): Response<UserResponse>
+
+    @PUT("StudySet/UpdateInfo")
+    suspend fun updateStudySet(
+        @Query("userId") userId: String,
+        @Query("setId") setId: String,
+        @Body body: CreateSetRequest
+    ): Response<UserResponse>
+
+    @POST("Folder/InsertSetExisting")
+    suspend fun addSetToFolder(
+        @Query("userId") userId: String,
+        @Query("folderId") folderId: String,
+        @Body body: ArrayList<String>
+    ): Response<UserResponse>
+
+    @DELETE("Folder/RemoveSet")
+    suspend fun deleteSet(
+        @Query("userId") userId: String,
+        @Query("folderId") folderId: String,
+        @Query("setId") setId: String
     ): Response<UserResponse>
 
 }

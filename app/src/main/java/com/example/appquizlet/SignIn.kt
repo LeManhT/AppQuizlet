@@ -101,134 +101,134 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
             }
         }
 
-        val indexOfForgotUsername = textForgot.indexOf("username")
-        val indexOfForgotPass = textForgot.indexOf("password")
-
-        spannableStringBuilderForgotUser.setSpan(
-            StyleSpan(Typeface.BOLD),
-            indexOfForgotUsername,
-            indexOfForgotUsername + "username".length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        spannableStringBuilderForgotUser.setSpan(
-            StyleSpan(Typeface.BOLD),
-            indexOfForgotPass,
-            indexOfForgotPass + "password".length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-// Thay đổi màu chữ cho "username" và "password"
-        val colorForgot = Color.BLUE // Chọn màu mong muốn
-        spannableStringBuilderForgotUser.setSpan(
-            ForegroundColorSpan(colorForgot),
-            indexOfForgotUsername,
-            indexOfForgotUsername + "username".length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-
-        spannableStringBuilderForgotUser.setSpan(
-            ForegroundColorSpan(colorForgot),
-            indexOfForgotPass,
-            indexOfForgotPass + "password".length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        // Áp dụng ClickableSpan cho "Terms of Services" và "Privacy Policy"
-
-        spannableStringBuilderForgotUser.setSpan(
-            forgotUserNameClickableSpan,
-            indexOfForgotUsername,
-            indexOfForgotUsername + "username".length,
-            0
-        )
-        spannableStringBuilderForgotUser.setSpan(
-            forgotPassClickableSpan, indexOfForgotPass, indexOfForgotPass + "password".length, 0
-        )
-
-        username.text = spannableStringBuilderForgotUser
-        username.movementMethod = LinkMovementMethod.getInstance()
-
-
-//      Spannable text
-        val termsTextView = binding.txtTermsOfService
-        val text =
-            resources.getString(R.string.terms_of_service)// Tìm vị trí của các từ "Terms of Services" và "Privacy Policy" trong văn bản
-        val spannableStringBuilder = SpannableStringBuilder(text)
-
-        // Tùy chỉnh màu và font chữ cho "Terms of Services"
-        val termsOfServiceClickableSpan = object : ClickableSpan() {
-            override fun onClick(widget: View) {
-                // Xử lý khi người dùng bấm vào "Terms of Services"
-                Toast.makeText(this@SignIn, "Bấm vào Terms of Services", Toast.LENGTH_SHORT).show()
-
-                // Chuyển đến trang web của "Terms of Services" (hoặc trang Activity tùy thuộc vào nhu cầu của bạn)
-                val termsOfServiceUrl = "https://quizlet.com/tos"
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(termsOfServiceUrl))
-                startActivity(intent)
-            }
-        }
-        // Tùy chỉnh màu và font chữ cho "Privacy Policy"
-        val privacyPolicyClickableSpan = object : ClickableSpan() {
-            override fun onClick(widget: View) {
-                // Xử lý khi người dùng bấm vào "Privacy Policy"
-                Toast.makeText(this@SignIn, "Bấm vào Privacy Policy", Toast.LENGTH_SHORT).show()
-
-                // Chuyển đến trang web của "Privacy Policy" (hoặc trang Activity tùy thuộc vào nhu cầu của bạn)
-                val privacyPolicyUrl = "https://quizlet.com/privacy"
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(privacyPolicyUrl))
-                startActivity(intent)
-            }
-        }
-
-
-        val indexOfTerms = text.indexOf("Terms of Services")
-        val indexOfPrivacyPolicy = text.indexOf("Privacy Policy")
-
-        // Thay đổi font chữ (đặt kiểu đậm) cho "Terms of Services"
-        spannableStringBuilder.setSpan(
-            StyleSpan(Typeface.BOLD),
-            indexOfTerms,
-            indexOfTerms + "Terms of Services".length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-
-        // Thay đổi font chữ (đặt kiểu đậm) cho "Privacy Policy"
-        spannableStringBuilder.setSpan(
-            StyleSpan(Typeface.BOLD),
-            indexOfPrivacyPolicy,
-            indexOfPrivacyPolicy + "Privacy Policy".length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-
-// Thay đổi màu chữ cho "Terms of Services" và "Privacy Policy"
-        val color = Color.BLUE // Chọn màu mong muốn
-        spannableStringBuilder.setSpan(
-            ForegroundColorSpan(color),
-            indexOfTerms,
-            indexOfTerms + "Terms of Services".length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-
-        spannableStringBuilder.setSpan(
-            ForegroundColorSpan(color),
-            indexOfPrivacyPolicy,
-            indexOfPrivacyPolicy + "Privacy Policy".length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-
-
-        // Áp dụng ClickableSpan cho "Terms of Services" và "Privacy Policy"
-
-        spannableStringBuilder.setSpan(
-            termsOfServiceClickableSpan,
-            indexOfPrivacyPolicy,
-            indexOfPrivacyPolicy + "Privacy Policy".length,
-            0
-        )
-        spannableStringBuilder.setSpan(
-            privacyPolicyClickableSpan, indexOfTerms, indexOfTerms + "Terms of Services".length, 0
-        )
-        // Đặt SpannableStringBuilder vào TextView và đặt movementMethod để kích hoạt tính năng bấm vào liên kết
-        termsTextView.text = spannableStringBuilder
-        termsTextView.movementMethod = LinkMovementMethod.getInstance()
+//        val indexOfForgotUsername = textForgot.indexOf("username")
+//        val indexOfForgotPass = textForgot.indexOf("password")
+//
+//        spannableStringBuilderForgotUser.setSpan(
+//            StyleSpan(Typeface.BOLD),
+//            indexOfForgotUsername,
+//            indexOfForgotUsername + "username".length,
+//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//        )
+//        spannableStringBuilderForgotUser.setSpan(
+//            StyleSpan(Typeface.BOLD),
+//            indexOfForgotPass,
+//            indexOfForgotPass + "password".length,
+//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//        )
+//// Thay đổi màu chữ cho "username" và "password"
+//        val colorForgot = Color.BLUE // Chọn màu mong muốn
+//        spannableStringBuilderForgotUser.setSpan(
+//            ForegroundColorSpan(colorForgot),
+//            indexOfForgotUsername,
+//            indexOfForgotUsername + "username".length,
+//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//        )
+//
+//        spannableStringBuilderForgotUser.setSpan(
+//            ForegroundColorSpan(colorForgot),
+//            indexOfForgotPass,
+//            indexOfForgotPass + "password".length,
+//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//        )
+//        // Áp dụng ClickableSpan cho "Terms of Services" và "Privacy Policy"
+//
+//        spannableStringBuilderForgotUser.setSpan(
+//            forgotUserNameClickableSpan,
+//            indexOfForgotUsername,
+//            indexOfForgotUsername + "username".length,
+//            0
+//        )
+//        spannableStringBuilderForgotUser.setSpan(
+//            forgotPassClickableSpan, indexOfForgotPass, indexOfForgotPass + "password".length, 0
+//        )
+//
+//        username.text = spannableStringBuilderForgotUser
+//        username.movementMethod = LinkMovementMethod.getInstance()
+//
+//
+////      Spannable text
+//        val termsTextView = binding.txtTermsOfService
+//        val text =
+//            resources.getString(R.string.terms_of_service)// Tìm vị trí của các từ "Terms of Services" và "Privacy Policy" trong văn bản
+//        val spannableStringBuilder = SpannableStringBuilder(text)
+//
+//        // Tùy chỉnh màu và font chữ cho "Terms of Services"
+//        val termsOfServiceClickableSpan = object : ClickableSpan() {
+//            override fun onClick(widget: View) {
+//                // Xử lý khi người dùng bấm vào "Terms of Services"
+//                Toast.makeText(this@SignIn, "Bấm vào Terms of Services", Toast.LENGTH_SHORT).show()
+//
+//                // Chuyển đến trang web của "Terms of Services" (hoặc trang Activity tùy thuộc vào nhu cầu của bạn)
+//                val termsOfServiceUrl = "https://quizlet.com/tos"
+//                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(termsOfServiceUrl))
+//                startActivity(intent)
+//            }
+//        }
+//        // Tùy chỉnh màu và font chữ cho "Privacy Policy"
+//        val privacyPolicyClickableSpan = object : ClickableSpan() {
+//            override fun onClick(widget: View) {
+//                // Xử lý khi người dùng bấm vào "Privacy Policy"
+//                Toast.makeText(this@SignIn, "Bấm vào Privacy Policy", Toast.LENGTH_SHORT).show()
+//
+//                // Chuyển đến trang web của "Privacy Policy" (hoặc trang Activity tùy thuộc vào nhu cầu của bạn)
+//                val privacyPolicyUrl = "https://quizlet.com/privacy"
+//                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(privacyPolicyUrl))
+//                startActivity(intent)
+//            }
+//        }
+//
+//
+//        val indexOfTerms = text.indexOf("Terms of Services")
+//        val indexOfPrivacyPolicy = text.indexOf("Privacy Policy")
+//
+//        // Thay đổi font chữ (đặt kiểu đậm) cho "Terms of Services"
+//        spannableStringBuilder.setSpan(
+//            StyleSpan(Typeface.BOLD),
+//            indexOfTerms,
+//            indexOfTerms + "Terms of Services".length,
+//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//        )
+//
+//        // Thay đổi font chữ (đặt kiểu đậm) cho "Privacy Policy"
+//        spannableStringBuilder.setSpan(
+//            StyleSpan(Typeface.BOLD),
+//            indexOfPrivacyPolicy,
+//            indexOfPrivacyPolicy + "Privacy Policy".length,
+//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//        )
+//
+//// Thay đổi màu chữ cho "Terms of Services" và "Privacy Policy"
+//        val color = Color.BLUE // Chọn màu mong muốn
+//        spannableStringBuilder.setSpan(
+//            ForegroundColorSpan(color),
+//            indexOfTerms,
+//            indexOfTerms + "Terms of Services".length,
+//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//        )
+//
+//        spannableStringBuilder.setSpan(
+//            ForegroundColorSpan(color),
+//            indexOfPrivacyPolicy,
+//            indexOfPrivacyPolicy + "Privacy Policy".length,
+//            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//        )
+//
+//
+//        // Áp dụng ClickableSpan cho "Terms of Services" và "Privacy Policy"
+//
+//        spannableStringBuilder.setSpan(
+//            termsOfServiceClickableSpan,
+//            indexOfPrivacyPolicy,
+//            indexOfPrivacyPolicy + "Privacy Policy".length,
+//            0
+//        )
+//        spannableStringBuilder.setSpan(
+//            privacyPolicyClickableSpan, indexOfTerms, indexOfTerms + "Terms of Services".length, 0
+//        )
+//        // Đặt SpannableStringBuilder vào TextView và đặt movementMethod để kích hoạt tính năng bấm vào liên kết
+//        termsTextView.text = spannableStringBuilder
+//        termsTextView.movementMethod = LinkMovementMethod.getInstance()
 
 
         binding.btnSignin.setOnClickListener {
@@ -270,8 +270,7 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
                                 CustomToast.LONG,
                                 CustomToast.SUCCESS
                             ).show()
-                            saveIdUser(it.id, it.userName)
-//                            userViewModel.setUserData(it)
+                            saveIdUser(it.id, it.loginName)
                             UserM.setUserData(it)
                         }
                     }

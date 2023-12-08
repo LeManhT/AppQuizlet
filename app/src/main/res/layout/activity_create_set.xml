@@ -16,7 +16,7 @@
         app:title="">
 
         <ImageView
-            android:id="@+id/iconTick"
+            android:id="@+id/iconTickCreateSet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -57,6 +57,7 @@
                 app:boxStrokeWidth="@dimen/marginInput">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtNameStudySet"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 

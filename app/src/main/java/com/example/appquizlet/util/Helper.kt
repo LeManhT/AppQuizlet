@@ -1,9 +1,20 @@
 package com.example.appquizlet.util
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.os.Build
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.TextView
 import androidx.annotation.RequiresApi
-import com.example.appquizlet.Add
+import androidx.cardview.widget.CardView
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+import com.example.appquizlet.NoDataFragment
+import com.example.appquizlet.model.FlashCardModel
+import com.example.appquizlet.model.StudySetModel
+import com.example.appquizlet.model.UserResponse
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -42,4 +53,43 @@ object Helper {
         return sharedPreferences.getString("key_username", null).toString()
     }
 
+    fun replaceWithNoDataFragment(fragmentManager: FragmentManager, id: Int) {
+        val noDataFragment =
+            NoDataFragment()
+        val transaction: FragmentTransaction = fragmentManager.beginTransaction()
+        transaction.replace(id, noDataFragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
+
+    fun getAllStudySets(userData: UserResponse): List<StudySetModel> {
+        val studySetsInFolders = userData.documents.folders.flatMap { it.studySets }
+        val standaloneStudySets = userData.documents.studySets
+
+        return studySetsInFolders + standaloneStudySets
+    }
+
+    fun flipCard(cardView: CardView, txtTerm: TextView, currentItem: FlashCardModel) {
+        val scaleXInvisible = ObjectAnimator.ofFloat(cardView, "scaleX", 1f, 0f)
+        val scaleXVisible = ObjectAnimator.ofFloat(cardView, "scaleX", 0f, 1f)
+
+        scaleXInvisible.interpolator = AccelerateDecelerateInterpolator()
+        scaleXVisible.interpolator = AccelerateDecelerateInterpolator()
+
+        scaleXInvisible.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                super.onAnimationEnd(animation)
+                if (currentItem.isUnMark == true) {
+                    txtTerm.text = currentItem.definition
+                } else {
+                    txtTerm.text = currentItem.term
+                }
+                cardView.scaleX = 1f
+                cardView.translationX = 0f
+                scaleXVisible.start()
+            }
+        })
+
+        scaleXInvisible.start()
+    }
 }

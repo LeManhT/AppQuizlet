@@ -15,6 +15,7 @@ import com.example.appquizlet.databinding.FragmentFoldersBinding
 import com.example.appquizlet.interfaceFolder.RVFolderItem
 import com.example.appquizlet.model.FolderModel
 import com.example.appquizlet.model.UserM
+import com.example.appquizlet.util.Helper
 
 class FoldersFragment : Fragment() {
 
@@ -40,8 +41,8 @@ class FoldersFragment : Fragment() {
         val listFolderItems = mutableListOf<FolderModel>()
 
 
-        val adapterFolder = RVFolderItemAdapter(listFolderItems, object : RVFolderItem {
-            override fun handleClickFolderItem(position: Int) {
+        val adapterFolder = RVFolderItemAdapter(requireContext(),listFolderItems, object : RVFolderItem {
+            override fun handleClickFolderItem(folderItem: FolderModel, position: Int) {
                 val i = Intent(context, FolderClickActivity::class.java)
                 i.putExtra("idFolder", listFolderItems[position].id)
                 startActivity(i)
@@ -49,7 +50,6 @@ class FoldersFragment : Fragment() {
         })
         // Thêm một Observer cho userData
         val userData = UserM.getUserData()
-        Log.d("value", userData.value.toString())
         userData.observe(viewLifecycleOwner, Observer { userResponse ->
             // Khi dữ liệu thay đổi, cập nhật danh sách listFolderItems
             // Lưu ý: Trong trường hợp thực tế, bạn có thể cần xử lý dữ liệu từ userResponse một cách thích hợp.
@@ -57,8 +57,8 @@ class FoldersFragment : Fragment() {
             listFolderItems.clear()
             listFolderItems.addAll(userResponse.documents.folders)
             if (listFolderItems.isEmpty()) {
-                replaceWithNoDataFragment()
-                Toast.makeText(context,"ggggg",Toast.LENGTH_SHORT).show()
+                binding.rvFolderFragment.visibility = View.GONE
+                binding.layoutNoData.visibility = View.VISIBLE
             }
 
             // Thông báo cho adapter rằng dữ liệu đã thay đổi để cập nhật giao diện người dùng
@@ -70,13 +70,5 @@ class FoldersFragment : Fragment() {
         rvFolder.adapter = adapterFolder
     }
 
-    private fun replaceWithNoDataFragment() {
-        val noDataFragment =
-            NoDataFragment()
-        val transaction = requireFragmentManager().beginTransaction()
-        transaction.replace(R.id.fragmentFolderContainer, noDataFragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
-    }
 
 }

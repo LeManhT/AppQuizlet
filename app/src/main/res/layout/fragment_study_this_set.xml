@@ -19,12 +19,12 @@
             android:id="@+id/txtStudyThisSetCloseIcon"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:drawableStart="@drawable/icons8_close_48"
             android:gravity="center_vertical"
             android:paddingHorizontal="@dimen/md"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:drawableStartCompat="@drawable/icons8_close_48" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -50,6 +50,7 @@
 
 
         <LinearLayout
+            android:id="@+id/layout_learn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

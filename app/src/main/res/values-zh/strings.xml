@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AppQuizlet</string>
+    <string name="name">Quizlet</string>
+    <!-- 闪屏和登录、注册 -->
+    <string name="title_activity_splash_search">SplashSearch</string>
+    <string name="splash_text1">使用Quizlet的学生中有90%以上报告获得更高的分数</string>
+    <string name="splash_text2">搜索数百万套闪卡</string>
+    <string name="splash_text3">四种不同的方式和任何地方学习</string>
+    <string name="splash_text4">定制适合您需求的闪卡</string>
+
+    <string name="or_log_with">快速使用以下方式登录</string>
+    <string name="or_sign_up_with">快速使用以下方式注册</string>
+    <string name="or_log_with_email">或使用您的电子邮件登录</string>
+    <string name="email_add">电子邮件地址</string>
+    <string name="or_sign_up_email">或使用您的电子邮件注册</string>
+    <string name="email_or_username">电子邮件或用户名</string>
+    <string name="sign_up_for_free">免费注册</string>
+    <string name="or_log_in">或登录</string>
+    <string name="dob">出生日期</string>
+    <string name="password">密码</string>
+    <string name="sign_up">注册</string>
+    <string name="log_in">登录</string>
+    <string name="gg">Google</string>
+    <string name="fb">Facebook</string>
+    <string name="select_dob">选择您的出生日期</string>
+    <string name="email_hint">电子邮件@example.com</string>
+    <string name="pass_hint">*********</string>
+    <string name="forgot_u_p">忘记用户名或密码？</string>
+    <string name="terms_of_service">通过注册，我接受Quizlet的服务条款和隐私政策</string>
+    <string name="forgot_username">忘记用户名</string>
+    <string name="reset_password">重设密码</string>
+    <string name="forgot_pass_text">输入您的Quizlet用户名或注册时使用的电子邮件地址。我们将向您发送一个链接，以登录和重置您的密码</string>
+
+    <string name="hello_blank_fragment">你好，空白片段</string>
+
+    <!-- 登录后 -->
+    <string name="li_home">首页</string>
+    <string name="li_solution">解决方案</string>
+    <string name="li_library">库</string>
+    <string name="li_profile">个人资料</string>
+
+    <!-- 个人资料 -->
+    <string name="pf_upgrade">升级</string>
+    <string name="pf_your_equipment">您的设置</string>
+    <string name="pf_achievement">成就</string>
+    <string name="pf_your_courses">您的课程</string>
+    <string name="pf_achievement_quote">明天学习，保持您的连胜！</string>
+    <string name="view_all">查看全部</string>
+
+    <string name="settings">设置</string>
+    <string name="account_type">帐户类型</string>
+    <string name="free">免费</string>
+    <string name="btn_upgrade_free_trial">升级：免费试用</string>
+    <string name="add_course">添加课程</string>
+    <string name="change_pass">更改密码</string>
+    <string name="notification">通知</string>
+    <string name="night_mode">夜间模式</string>
+    <string name="always_on">始终开启</string>
+    <string name="always_off">始终关闭</string>
+    <string name="save_for_offline">离线保存套卡</string>
+    <string name="recent_sets">最近的套卡将不会被下载</string>
+    <string name="help_center">帮助中心</string>
+    <string name="about">关于</string>
+    <string name="version">版本</string>
+    <string name="log_out">登出</string>
+    <string name="course">课程</string>
+    <string name="add_course_text">添加课程，以便我们为您提供最佳的学习内容</string>
+    <string name="title_activity_add_course">添加课程</string>
+
+    <string name="lb_study_sets">学习集</string>
+    <string name="lb_folders">文件夹</string>
+    <string name="folder">文件夹</string>
+    <string name="lb_classes">班级</string>
+    <string name="filter">筛选</string>
+    <string name="add_classes">创建班级</string>
+    <string name="add_study_set">创建学习集</string>
+    <string name="add_folder">创建文件夹</string>
+
+    <string name="search_hint">学习集，教材，问题</string>
+    <string name="free_trail">免费试用</string>
+    <string name="not_in_course">我不在课程中</string>
+
+    <string name="sl_title">专业解答</string>
+    <string name="sl_search_hint">教材，ISBN，问题</string>
+    <string name="search_splash">搜索</string>
+    <string name="search_enter_topic">输入主题或关键词</string>
+    <string name="search_tip">提示：越具体，越好！</string>
+
+    <string name="oops">哎呀！</string>
+    <string name="sth_went_wrong">出了点问题</string>
+    <string name="go_to_home">回到首页</string>
+
+    <string name="errBlankEmail">电子邮件不能为空！</string>
+    <string name="errEmailInvalid">电子邮件无效</string>
+    <string name="errInsufficientLength">密码太弱</string>
+
+    <string name="errBlankPass">密码不能为空！</string>
+    <string name="helper_email">输入形式为name@gmail.com的电子邮件</string>
+    <string name="helper_pass">至少输入6个字符</string>
+
+    <string name="hint_create_set">学科，章节，单元</string>
+    <string name="title">标题</string>
+    <string name="term">术语</string>
+    <string name="definition">定义</string>
+    <string name="description">描述</string>
+    <string name="create_set">创建集</string>
+    <string name="title_activity_create_set">创建集</string>
+    <string name="create_card">创建新卡</string>
+    <string name="folder_name">文件夹名称</string>
+    <string name="desc_optional">描述（可选）</string>
+    <string name="create_class">创建班级</string>
+    <string name="scan_doc">扫描文档</string>
+    <string name="all_caught_up">你已经全部赶上了</string>
+    <string name="ok">好的</string>
+
+    <string name="class_add_group">将学习资料分组以节省时间并与其他Quizlet成员共享</string>
+    <string name="create_a_class">创建一个班级</string>
+
+    <!-- 菜单选项 -->
+    <string name="edit">编辑</string>
+    <string name="add_set">添加集</string>
+    <string name="share">分享</string>
+    <string name="delete">删除</string>
+    <string name="cancel">取消</string>
+    <string name="edit_folder">编辑文件夹</string>
+    <string name="delete_text">您确定要永久删除此文件夹吗？其中的集将不会被删除</string>
+
+    <string name="course_name">课程名称</string>
+    <string name="done">完成</string>
+
+    <string name="login_success">登录成功 🍾</string>
+    <string name="failed_sign_up">注册时出了点问题！请重试！</string>
+    <string name="sign_in_success">登录账户成功 🍾</string>
+    <string name="wait">加载中，请稍候…</string>
+    <string name="not_enough_age">您年龄不足以注册！</string>
+    <string name="create_folder_success">创建文件夹成功！</string>
+    <string name="creating">创建文件夹中，请稍候…</string>
+    <string name="create_study_set_success">创建学习集成功！</string>
+
+    <string name="wrong_email_or_pass">错误的电子邮件或密码，请重试！</string>
+    <string name="loginNameField">loginName</string>
+    <string name="loginPasswordField">loginPassword</string>
+    <string name="emailField">email</string>
+    <string name="dobField">dateOfBirth</string>
+    <string name="createFolderNameField">name</string>
+    <string name="descriptionField">description</string>
+
+    <string name="add_to_folder">添加到文件夹</string>
+    <string name="add_to_class">添加到班级</string>
+    <string name="save_and_edit">保存并编辑</string>
+    <string name="delete_set">删除集</string>
+
+    <string name="cards">卡片</string>
+    <string name="flashcards">闪卡</string>
+    <string name="review_term">复习术语和定义</string>
+    <string name="test">测试</string>
+    <string name="take_a_practice">进行模拟测试</string>
+    <string name="study_this_set">学习这个集</string>
+    <string name="tab_to_flip">点击卡片翻转</string>
+    <string name="set_options">集选项</string>
+
+    <!-- 用于导航的片段的字符串 -->
+    <string name="first_fragment_label">第一个片段</string>
+    <string name="second_fragment_label">第二个片段</string>
+    <string name="next">下一个</string>
+    <string name="previous">上一个</string>
+    <string name="language">语言</string>
+    <string name="terms">术语</string>
+    <string name="select_language">选择语言</string>
+    <string name="definitions">定义</string>
+    <string name="privacy">隐私</string>
+    <string name="visible_to">对谁可见</string>
+    <string name="just_me">仅自己</string>
+    <string name="new_class">新班级</string>
+    <string name="class_title">班级标题</string>
+    <string name="updateLoadMes">正在上传文件夹…</string>
+    <string name="deleteFolderSuccessful">删除文件夹成功</string>
+    <string name="deleteFolderErr">删除文件夹时出了点问题。请重试！</string>
+    <string name="deleteSetErr">删除学习集时出了点问题。请重试！</string>
+    <string name="update_folder_success">更新文件夹成功</string>
+    <string name="update_study_set_success">更新文件夹成功</string>
+    <string name="deleteFolderLoading">正在删除文件夹…</string>
+    <string name="deleteSetLoading">正在删除文件夹…</string>
+    <string name="created">已创建</string>
+    <string name="studied">已学习</string>
+    <string name="folders">文件夹</string>
+    <string name="sortCard">排序卡片</string>
+    <string name="download">下载</string>
+    <string name="in_original_order">按原始顺序</string>
+    <string name="alphabetically">按字母顺序</string>
+    <string name="sort_term">排序术语</string>
+    <string name="edit_by">可编辑者</string>
+    <string name="delete_this_set">您确定要永久删除此集吗？</string>
+    <string name="creatingStudySet">创建学习集中</string>
+    <string name="allNewCards">所有新卡片</string>
+    <string name="updating_study_set">更新学习集…</string>
+    <string name="good_job">做得好！</string>
+    <string name="you_learn_all">你已经学完了这个学习集中的所有卡片。继续努力！💪💪</string>
+    <string name="learn_other_set">学习其他学习集</string>
+    <string name="quizlette">quizlette</string>
+    <string name="options">选项</string>
+    <string name="shuffle">洗牌</string>
+    <string name="play_audio">播放音频</string>
+    <string name="card_orientation">卡片方向</string>
+    <string name="reset_flashcard">重置卡片</string>
+    <string name="no_data_found">未找到数据！</string>
+    <string name="please_try_learn_other">目前，这个学习集中没有任何卡片。请尝试学习其他学习集</string>
+    <string name="there_no_set_in_folder">在这个文件夹中找不到学习集</string>
+    <string name="no_set_found">没有找到数据</string>
+    <string name="add_set_to_folder">将学习集添加到这个文件夹</string>
+    <string name="studyset_name_required">学习集名称是必需的！</string>
+    <string name="this_field_cannot_empty">此字段不能为空！</string>
+
+
+    <string name="lorem_ipsum">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
+</string>
+
+    <string-array name="academy_autocomple">
+        <item>项目1</item>
+        <item>项目2</item>
+        <item>项目3</item>
+        <item>项目4</item>
+        <item>项目5</item>
+        <item>项目6</item>
+    </string-array>
+
+    <string-array name="languages">
+        <item>英语</item>
+        <item>越南语</item>
+        <item>中文</item>
+    </string-array>
+
+
+</resources>

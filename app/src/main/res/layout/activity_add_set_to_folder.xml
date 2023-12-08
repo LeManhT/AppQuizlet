@@ -17,7 +17,7 @@
         app:title="@string/add_set">
 
         <ImageView
-            android:id="@+id/iconSetting"
+            android:id="@+id/iconAddToSet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
