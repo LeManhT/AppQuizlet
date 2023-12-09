@@ -2,9 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/bg_white_conner_16"
     android:layout_margin="16dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".Change_username">
 
     <TextView
         android:layout_width="match_parent"

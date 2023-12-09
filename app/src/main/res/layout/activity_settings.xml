@@ -360,7 +360,7 @@
             android:id="@+id/cardView10"
             android:layout_width="330dp"
             android:layout_height="60dp"
-            app:cardCornerRadius="25dp"
+            app:cardCornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
@@ -384,7 +384,7 @@
                         android:layout_marginLeft="20dp"
                         android:gravity="bottom"
                         android:text="Language"
-                        android:textSize="20sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/textView102"
@@ -393,7 +393,7 @@
                         android:layout_marginLeft="20dp"
                         android:gravity="start"
                         android:text="Default-Englisgh"
-                        android:textSize="14sp" />
+                        android:textSize="10sp" />
 
                 </LinearLayout>
 
