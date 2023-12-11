@@ -23,6 +23,8 @@ class MainActivity_Logged_In : AppCompatActivity() {
         NotificationUtils.scheduleNotification(this)
 
 
+
+
 //        Toast.makeText(this, userId, Toast.LENGTH_SHORT).show()
 
 
@@ -104,7 +106,7 @@ class MainActivity_Logged_In : AppCompatActivity() {
         addBottomSheet.show(transaction, Add.TAG)
     }
 
-    private fun replaceFragment(fragment: Fragment) {
+    fun replaceFragment(fragment: Fragment) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frameLayout, fragment)
         fragmentTransaction.commit()

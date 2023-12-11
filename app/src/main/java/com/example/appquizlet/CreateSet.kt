@@ -141,6 +141,8 @@ class CreateSet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListener 
                             ).show()
                             UserM.setUserData(it)
                         }
+                        val i = Intent(this@CreateSet, MainActivity_Logged_In::class.java)
+                        startActivity(i)
                     }
                 } else {
                     result.errorBody()?.string()?.let {

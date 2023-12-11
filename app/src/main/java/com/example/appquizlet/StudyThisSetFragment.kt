@@ -26,7 +26,11 @@ class StudyThisSetFragment : BottomSheetDialogFragment() {
         // Inflate the layout for this fragment
         binding = FragmentStudyThisSetBinding.inflate(inflater, container, false)
         binding.layoutLearn.setOnClickListener {
-            val i = Intent(requireContext(), FlashcardLearn::class.java)
+            val i = Intent(context, FlashcardLearn::class.java)
+            startActivity(i)
+        }
+        binding.layoutTest.setOnClickListener {
+            val i = Intent(context, ReviewLearn::class.java)
             startActivity(i)
         }
         return binding.root

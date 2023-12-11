@@ -1,6 +1,5 @@
 package com.example.appquizlet
 
-import android.R.attr
 import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Canvas
@@ -207,7 +206,7 @@ class EditStudySet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListen
         }
     }
 
-    fun validateSetName(name: String): Boolean {
+    private fun validateSetName(name: String): Boolean {
         var errMess: String? = null
         if (name.trim().isEmpty()) {
             errMess = resources.getString(R.string.studyset_name_required)
@@ -277,7 +276,6 @@ class EditStudySet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListen
             listSet.removeAt(position)
             adapterCreateSet.notifyItemRemoved(position)
             adapterCreateSet.notifyDataSetChanged()
-            Log.d("lis", Gson().toJson(listSet))
         }
     }
 
@@ -287,7 +285,6 @@ class EditStudySet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListen
         listSet.add(position + 1, newItem)
         adapterCreateSet.notifyItemInserted(position + 1)
         adapterCreateSet.notifyDataSetChanged()
-        Log.d("lis1", Gson().toJson(listSet))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

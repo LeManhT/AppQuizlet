@@ -25,6 +25,7 @@ import com.example.appquizlet.interfaceFolder.RVStudySetItem
 import com.example.appquizlet.model.StudySetModel
 import com.example.appquizlet.model.UserM
 import com.example.appquizlet.util.Helper
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
 
@@ -90,6 +91,66 @@ class FolderClickActivity : AppCompatActivity() {
         val rvStudySet = binding.rvStudySet
         rvStudySet.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         rvStudySet.adapter = adapterStudySet
+
+        adapterStudySet.setOnItemClickListener(object : RvStudySetItemAdapter.onClickSetItem {
+
+            override fun handleClickDelete(setId: String) {
+                MaterialAlertDialogBuilder(this@FolderClickActivity)
+                    .setTitle(resources.getString(R.string.warning))
+                    .setMessage(resources.getString(R.string.confirm_remove_set_from_folder))
+                    .setNeutralButton(resources.getString(R.string.cancel)) { dialog, which ->
+                        dialog.dismiss()
+                    }
+                    .setPositiveButton(resources.getString(R.string.accept)) { _, _ ->
+                        lifecycleScope.launch {
+                            showLoading(resources.getString(R.string.remove_set_folder_loading))
+                            try {
+                                val result = apiService.removeSetFromFolder(
+                                    Helper.getDataUserId(this@FolderClickActivity),
+                                    folderId,
+                                    setId
+                                )
+                                if (result.isSuccessful) {
+                                    result.body()?.let {
+                                        this@FolderClickActivity.let { it1 ->
+                                            CustomToast(it1).makeText(
+                                                this@FolderClickActivity,
+                                                resources.getString(R.string.update_study_set_success),
+                                                CustomToast.LONG,
+                                                CustomToast.SUCCESS
+                                            ).show()
+                                            UserM.setUserData(it)
+                                        }
+                                    }
+                                } else {
+                                    result.errorBody()?.string()?.let {
+                                        this@FolderClickActivity.let { it1 ->
+                                            CustomToast(it1).makeText(
+                                                this@FolderClickActivity,
+                                                it,
+                                                CustomToast.LONG,
+                                                CustomToast.ERROR
+                                            ).show()
+                                        }
+                                    }
+                                }
+                            } catch (e: Exception) {
+                                CustomToast(this@FolderClickActivity).makeText(
+                                    this@FolderClickActivity,
+                                    e.message.toString(),
+                                    CustomToast.LONG,
+                                    CustomToast.ERROR
+                                ).show()
+                            } finally {
+                                progressDialog.dismiss()
+                            }
+                        }
+                    }
+                    .show()
+
+
+            }
+        })
 
     }
 
@@ -261,43 +322,52 @@ class FolderClickActivity : AppCompatActivity() {
         }
     }
 
-    fun deleteFolder(userId: String, folderId: String) {
-        lifecycleScope.launch {
-            showLoading(resources.getString(R.string.deleteFolderLoading))
-            try {
-                val result = apiService.deleteFolder(userId, folderId)
-                if (result.isSuccessful) {
+    private fun deleteFolder(userId: String, folderId: String) {
+//        MaterialAlertDialogBuilder(this)
+//            .setTitle(resources.getString(R.string.warning))
+//            .setMessage(resources.getString(R.string.confirm_delete_folder))
+//            .setNegativeButton(resources.getString(R.string.cancel)) { dialog, which ->
+//                dialog.dismiss()
+//            }
+//            .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
+                lifecycleScope.launch {
+                    try {
+                        val result = apiService.deleteFolder(userId, folderId)
+                        if (result.isSuccessful) {
 
-                    result.body().let {
-                        if (it != null) {
+                            result.body().let {
+                                if (it != null) {
+                                    CustomToast(this@FolderClickActivity).makeText(
+                                        this@FolderClickActivity,
+                                        resources.getString(R.string.deleteFolderSuccessful),
+                                        CustomToast.LONG,
+                                        CustomToast.SUCCESS
+                                    ).show()
+                                    UserM.setUserData(it)
+                                }
+                            }
+                        } else {
                             CustomToast(this@FolderClickActivity).makeText(
                                 this@FolderClickActivity,
-                                resources.getString(R.string.deleteFolderSuccessful),
+                                resources.getString(R.string.deleteFolderErr),
                                 CustomToast.LONG,
-                                CustomToast.SUCCESS
+                                CustomToast.ERROR
                             ).show()
-                            UserM.setUserData(it)
                         }
+                    } catch (e: Exception) {
+                        CustomToast(this@FolderClickActivity).makeText(
+                            this@FolderClickActivity,
+                            e.message.toString(),
+                            CustomToast.LONG,
+                            CustomToast.ERROR
+                        ).show()
+                    } finally {
+                        progressDialog.dismiss()
                     }
-                } else {
-                    CustomToast(this@FolderClickActivity).makeText(
-                        this@FolderClickActivity,
-                        resources.getString(R.string.deleteFolderErr),
-                        CustomToast.LONG,
-                        CustomToast.ERROR
-                    ).show()
                 }
-            } catch (e: Exception) {
-                CustomToast(this@FolderClickActivity).makeText(
-                    this@FolderClickActivity,
-                    e.message.toString(),
-                    CustomToast.LONG,
-                    CustomToast.ERROR
-                ).show()
-            } finally {
-                progressDialog.dismiss()
-            }
-        }
+//            }
+//            .show()
+
     }
 
     private fun showLoading(msg: String) {

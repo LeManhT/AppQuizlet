@@ -4,17 +4,10 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Color
-import android.graphics.Typeface
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Spannable
 import android.text.SpannableStringBuilder
-import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
-import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 import android.util.Patterns
 import android.view.KeyEvent
 import android.view.MenuItem
@@ -250,7 +243,7 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
     }
 
 
-    fun loginUser(email: String, pass: String) {
+    private fun loginUser(email: String, pass: String) {
         lifecycleScope.launch {
             showLoading()
             try {
@@ -272,6 +265,7 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
                             ).show()
                             saveIdUser(it.id, it.loginName)
                             UserM.setUserData(it)
+                            setLoggedInStatus(this@SignIn, true)
                         }
                     }
 
@@ -433,4 +427,12 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
         editor.putString("key_username", userName)
         editor.apply()
     }
+
+    fun setLoggedInStatus(context: Context, isLoggedIn: Boolean) {
+        val sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("isLoggedIn", isLoggedIn)
+        editor.apply()
+    }
+
 }

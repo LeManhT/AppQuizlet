@@ -222,6 +222,25 @@
     <string name="add_set_to_folder">Add study set to this folder</string>
     <string name="studyset_name_required">Study set name is required !</string>
     <string name="this_field_cannot_empty">This field cannot empty !</string>
+    <string name="remove_set_from_folder">Study set is removed from this folder</string>
+    <string name="remove_set_folder_loading">Removing set</string>
+    <string name="warning">Warning !</string>
+    <string name="confirm_remove_set_from_folder">Are you sure to delete this study set from this folder ?</string>
+    <string name="accept">Accept</string>
+    <string name="confirm_delete_folder">Are you sure to delete this folder ?</string>
+    <string name="deleteSetSuccessful">Delete folder successful</string>
+    <string name="confirm_delete_set">Are you sure to delete this study set ?</string>
+    <string name="the_correct_answer_is">The correct answer is : </string>
+    <string name="oops_incorrect">Opps ! Incorrect answer 🤔</string>
+    <string name="continue_to">Continue</string>
+    <string name="you_choose">You choose : </string>
+    <string name="nice_job">Nice job 😍</string>
+    <string name="great_you_learn_well">Great ! You have learned very well! Keep trying 😊</string>
+    <string name="welcome_to_learn">Welcome to learn mode</string>
+    <string name="this_mode_will">This mode will help you review all the flashcard in the study set</string>
+    <string name="let_go">Let\'s go now</string>
+    <string name="learn_mode">Learn mode</string>
+
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris

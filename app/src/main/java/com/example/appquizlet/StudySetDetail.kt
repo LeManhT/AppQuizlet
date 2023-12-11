@@ -123,6 +123,14 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
                 i.putExtra("listCard", jsonList)
                 startActivity(i)
             }
+
+            binding.layoutFlashcardTest.setOnClickListener {
+                val i = Intent(applicationContext, WelcomeToLearn::class.java)
+                i.putExtra("listCardTest", jsonList)
+                startActivity(i)
+            }
+
+
         })
         binding.viewPagerStudySet.adapter = adapterStudySet
         // Thiết lập lắng nghe sự kiện click cho adapter
@@ -140,7 +148,6 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
     }
 
     override fun onSortTermSelected(sortType: String) {
-
         when (sortType) {
             "OriginalSort" -> {
                 listFlashcardDetails.clear()
@@ -244,7 +251,7 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
         builder.create().show()
     }
 
-    fun deleteStudySet(userId: String, setId: String) {
+    private fun deleteStudySet(userId: String, setId: String) {
         lifecycleScope.launch {
             showLoading(resources.getString(R.string.deleteFolderLoading))
             try {
@@ -255,11 +262,10 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
                         if (it != null) {
                             CustomToast(this@StudySetDetail).makeText(
                                 this@StudySetDetail,
-                                resources.getString(R.string.deleteFolderSuccessful),
+                                resources.getString(R.string.deleteSetSuccessful),
                                 CustomToast.LONG,
                                 CustomToast.SUCCESS
                             ).show()
-//                            UserM.setUserDataStudySets(it.documents.studySets)
                             UserM.setUserData(it)
                         }
                     }

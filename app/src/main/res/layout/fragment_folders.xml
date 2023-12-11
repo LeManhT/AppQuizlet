@@ -6,8 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_profile"
-    android:padding="10dp"
+    android:padding="@dimen/pad_20"
     tools:context=".FoldersFragment">
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progress_circular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:showAnimationBehavior="inward"
+        app:trackCornerRadius="@dimen/mar_15"
+        android:progress="70"
+        android:visibility="gone"
+        android:layout_marginVertical="@dimen/pad_5"
+        android:indeterminate="true" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvFolderFragment"

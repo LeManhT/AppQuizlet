@@ -2,25 +2,30 @@ package com.example.appquizlet
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appquizlet.adapter.RVFolderItemAdapter
+import com.example.appquizlet.api.retrofit.ApiService
+import com.example.appquizlet.api.retrofit.RetrofitHelper
+import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.FragmentFoldersBinding
 import com.example.appquizlet.interfaceFolder.RVFolderItem
 import com.example.appquizlet.model.FolderModel
 import com.example.appquizlet.model.UserM
 import com.example.appquizlet.util.Helper
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.launch
 
 class FoldersFragment : Fragment() {
 
     // Declare the binding property with late initialization
     private lateinit var binding: FragmentFoldersBinding
+    private lateinit var apiService: ApiService
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,18 +41,18 @@ class FoldersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // ...
-
+        apiService = RetrofitHelper.getInstance().create(ApiService::class.java)
         val listFolderItems = mutableListOf<FolderModel>()
 
 
-        val adapterFolder = RVFolderItemAdapter(requireContext(),listFolderItems, object : RVFolderItem {
-            override fun handleClickFolderItem(folderItem: FolderModel, position: Int) {
-                val i = Intent(context, FolderClickActivity::class.java)
-                i.putExtra("idFolder", listFolderItems[position].id)
-                startActivity(i)
-            }
-        })
+        val adapterFolder =
+            RVFolderItemAdapter(requireContext(), listFolderItems, object : RVFolderItem {
+                override fun handleClickFolderItem(folderItem: FolderModel, position: Int) {
+                    val i = Intent(context, FolderClickActivity::class.java)
+                    i.putExtra("idFolder", listFolderItems[position].id)
+                    startActivity(i)
+                }
+            })
         // Thêm một Observer cho userData
         val userData = UserM.getUserData()
         userData.observe(viewLifecycleOwner, Observer { userResponse ->
@@ -68,6 +73,60 @@ class FoldersFragment : Fragment() {
         val rvFolder = binding.rvFolderFragment
         rvFolder.layoutManager = LinearLayoutManager(context)
         rvFolder.adapter = adapterFolder
+
+        adapterFolder.setOnClickFolderListener(object : RVFolderItemAdapter.onClickFolder {
+            override fun handleDeleteFolder(folderId: String) {
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(resources.getString(R.string.warning))
+                    .setMessage(resources.getString(R.string.confirm_delete_folder))
+                    .setNegativeButton(resources.getString(R.string.cancel)) { dialog, which ->
+                        dialog.dismiss()
+                    }
+                    .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
+                        lifecycleScope.launch {
+                            binding.progressCircular.visibility = View.VISIBLE
+                            try {
+                                val result = apiService.deleteFolder(
+                                    Helper.getDataUserId(requireContext()),
+                                    folderId
+                                )
+                                if (result.isSuccessful) {
+
+                                    result.body().let {
+                                        if (it != null) {
+                                            CustomToast(requireContext()).makeText(
+                                                requireContext(),
+                                                resources.getString(R.string.deleteFolderSuccessful),
+                                                CustomToast.LONG,
+                                                CustomToast.SUCCESS
+                                            ).show()
+                                            UserM.setUserData(it)
+                                        }
+                                    }
+                                } else {
+                                    CustomToast(requireContext()).makeText(
+                                        requireContext(),
+                                        resources.getString(R.string.deleteFolderErr),
+                                        CustomToast.LONG,
+                                        CustomToast.ERROR
+                                    ).show()
+                                }
+                            } catch (e: Exception) {
+                                CustomToast(requireContext()).makeText(
+                                    requireContext(),
+                                    e.message.toString(),
+                                    CustomToast.LONG,
+                                    CustomToast.ERROR
+                                ).show()
+                            } finally {
+                                binding.progressCircular.visibility = View.GONE
+                            }
+                        }
+                    }
+                    .show()
+
+            }
+        })
     }
 
 

@@ -1,18 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/studySetItemContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_profile"
-    android:id="@+id/studySetItemContainer"
+    android:padding="@dimen/pad_20"
     tools:context=".StudySets">
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progress_circular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:showAnimationBehavior="inward"
+        app:trackCornerRadius="@dimen/mar_15"
+        android:progress="70"
+        android:visibility="gone"
+        android:layout_marginVertical="@dimen/pad_5"
+        android:indeterminate="true" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvStudySet"
         android:layout_width="match_parent"
-        android:layout_marginTop="20dp"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp" />
 
     <LinearLayout
         android:id="@+id/layoutNoData"

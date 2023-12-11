@@ -21,7 +21,11 @@ class RvStudySetItemAdapter(
 ) : RecyclerView.Adapter<RvStudySetItemAdapter.StudySetItemHolder>() {
 
     private val viewBinderHelper: ViewBinderHelper = ViewBinderHelper()
-    private val listSetSelected = mutableListOf<StudySetModel>()
+    private var onClickSet: onClickSetItem? = null
+
+    interface onClickSetItem {
+        fun handleClickDelete(setId: String)
+    }
 
     inner class StudySetItemHolder(val binding: LayoutCreateSetItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -48,7 +52,12 @@ class RvStudySetItemAdapter(
                 listStudySet[position].timeCreated.toString()
             )
         } else {
-            viewBinderHelper.closeLayout(listStudySet[position].timeCreated.toString())
+            holder.binding.swipeRevealLayout.close(false)
+        }
+
+
+        holder.binding.btnDeleteCard.setOnClickListener {
+            onClickSet?.handleClickDelete(listStudySet[position].id)
         }
 
 
@@ -82,11 +91,9 @@ class RvStudySetItemAdapter(
             cardViewStudySet.background =
                 ContextCompat.getDrawable(context, R.drawable.selected_item_border)
             cardViewStudySet.alpha = 0.8F
-            listSetSelected.add(currentItem)
         } else {
             cardViewStudySet.background =
                 ContextCompat.getDrawable(context, R.drawable.bg_white)
-            listSetSelected.remove(currentItem)
         }
 
         // Set item click listener
@@ -100,11 +107,11 @@ class RvStudySetItemAdapter(
         return listStudySet.size
     }
 
-    fun getSelectedItem(): List<StudySetModel> {
-        return listSetSelected
-    }
-
     private fun shouldEnableSwipeForItem(): Boolean? {
         return enableSwipe
+    }
+
+    fun setOnItemClickListener(listener: onClickSetItem) {
+        this.onClickSet = listener
     }
 }

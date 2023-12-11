@@ -1,5 +1,6 @@
 package com.example.appquizlet
 
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Color
@@ -30,6 +31,9 @@ class SplashActivity : AppCompatActivity() {
         //        Khoi tao viewbinding
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+
 
 //        chuyen mau chu
         //      Spannable text
@@ -173,5 +177,7 @@ class SplashActivity : AppCompatActivity() {
         super.onDestroy()
         unregisterReceiver(br)
     }
+
+
 
 }

@@ -36,15 +36,11 @@ class AddSetToFolder : AppCompatActivity() {
 
         binding.iconAddToSet.setOnClickListener {
             // Lấy fragment hiện tại của ViewPager
-            Log.d("hh", "call")
             val currentFragment =
                 supportFragmentManager.fragments[binding.pagerAddSetLib.currentItem]
-            Log.d("hh1", currentFragment.toString())
 
             if (currentFragment is FragmentCreatedSet) {
                 // Gọi phương thức trong fragment
-                Log.d("hh2", "callFunc")
-
                 currentFragment.insertSetToFolder(folderId)
             }
         }

@@ -7,8 +7,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.Observer
 import com.example.appquizlet.adapter.ViewPagerLibAdapter
 import com.example.appquizlet.databinding.FragmentLibraryBinding
+import com.example.appquizlet.model.UserM
+import com.example.appquizlet.util.Helper
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -39,14 +43,35 @@ class Library : Fragment() {
             when (pos) {
                 0 -> {
                     tab.text = resources.getString(R.string.lb_study_sets)
+                    tab.icon = ResourcesCompat.getDrawable(resources, R.drawable.note, null)
+                    val badge = tab.orCreateBadge
+                    badge.backgroundColor =
+                        ResourcesCompat.getColor(resources, R.color.semi_blue, null)
+                    UserM.getUserData().observe(viewLifecycleOwner, Observer {
+                        badge.number = Helper.getAllStudySets(it).size
+                    })
                 }
 
                 1 -> {
                     tab.text = resources.getString(R.string.folders)
+                    tab.icon =
+                        ResourcesCompat.getDrawable(resources, R.drawable.folder_outlined, null)
+                    val badge = tab.orCreateBadge
+                    badge.backgroundColor =
+                        ResourcesCompat.getColor(resources, R.color.semi_blue, null)
+                    UserM.getUserData().observe(viewLifecycleOwner, Observer {
+                        badge.number = it.documents.folders.size
+                    })
                 }
 
                 2 -> {
                     tab.text = resources.getString(R.string.lb_classes)
+                    tab.icon =
+                        ResourcesCompat.getDrawable(resources, R.drawable.resource_class, null)
+                    val badge = tab.orCreateBadge
+                    badge.backgroundColor =
+                        ResourcesCompat.getColor(resources, R.color.semi_blue, null)
+                    badge.number = 0
                 }
             }
         }.attach()
@@ -83,7 +108,16 @@ class Library : Fragment() {
             }
         })
 
+
+
         return binding.root
     }
+
+    companion object {
+        fun newInstance(): Library {
+            return Library()
+        }
+    }
+
 
 }

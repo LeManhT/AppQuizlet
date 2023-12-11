@@ -24,16 +24,15 @@ class RVFolderItemAdapter(
     RecyclerView.Adapter<RVFolderItemAdapter.FolderItemHolder>(), ItemTouchHelperAdapter {
 
     private val viewBinderHelper: ViewBinderHelper = ViewBinderHelper()
+    private var onClickFolderItem: onClickFolder? = null
 
+    interface onClickFolder {
+        fun handleDeleteFolder(folderId: String)
+    }
 
     inner class FolderItemHolder(val binding: LayoutFoldersItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-//    {
-//        val txtTitle: TextView = itemView.findViewById(R.id.txtFolderItemTitle)
-//        val txtUsername: TextView = itemView.findViewById(R.id.txtFolderItemUsername)
-//        val imgAvatar: ImageView = itemView.findViewById(R.id.imgFolderItemAvatar)
-//    }
 
     override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
         Collections.swap(listFolderItem, fromPosition, toPosition)
@@ -83,9 +82,15 @@ class RVFolderItemAdapter(
         } else {
             cardViewFolder.background = ContextCompat.getDrawable(context, R.drawable.bg_white)
         }
+
+        holder.binding.btnDeleteFolder.setOnClickListener {
+            onClickFolderItem?.handleDeleteFolder(listFolderItem[position].id)
+        }
 //            imgAvatar.setImageResource(listFolderItem[position].avatar)
+    }
 
-
+    fun setOnClickFolderListener(listener: onClickFolder) {
+        this.onClickFolderItem = listener
     }
 
     override fun getItemCount(): Int {

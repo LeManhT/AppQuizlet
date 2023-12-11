@@ -211,6 +211,24 @@
     <string name="add_set_to_folder">将学习集添加到这个文件夹</string>
     <string name="studyset_name_required">学习集名称是必需的！</string>
     <string name="this_field_cannot_empty">此字段不能为空！</string>
+    <string name="remove_set_from_folder">学习集已从此文件夹中移除</string>
+    <string name="remove_set_folder_loading">正在移除学习集</string>
+    <string name="warning">警告！</string>
+    <string name="confirm_remove_set_from_folder">您确定要从此文件夹中删除此学习集吗？</string>
+    <string name="accept">接受</string>
+    <string name="confirm_delete_folder">您确定要删除此文件夹吗？</string>
+    <string name="deleteSetSuccessful">删除文件夹成功</string>
+    <string name="confirm_delete_set">您确定要删除此学习集吗？</string>
+    <string name="the_correct_answer_is">正确答案是：</string>
+    <string name="oops_incorrect">哎呀！答案不正确 🤔</string>
+    <string name="continue_to">继续</string>
+    <string name="you_choose">您选择：</string>
+    <string name="nice_job">干得好 😍</string>
+    <string name="great_you_learn_well">太棒了！您学得很好！继续努力 😊</string>
+    <string name="welcome_to_learn">欢迎进入学习模式</string>
+    <string name="this_mode_will">此模式将帮助您复习学习集中的所有闪卡</string>
+    <string name="let_go">现在开始吧</string>
+    <string name="learn_mode">学习模式</string>
 
 
     <string name="lorem_ipsum">

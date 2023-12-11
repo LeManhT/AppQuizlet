@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -17,7 +16,6 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appquizlet.adapter.RVFolderItemAdapter
 import com.example.appquizlet.adapter.RvStudySetItemAdapter
-import com.example.appquizlet.database.MyDBHelper
 import com.example.appquizlet.databinding.FragmentHomeBinding
 import com.example.appquizlet.interfaceFolder.ItemTouchHelperAdapter
 import com.example.appquizlet.interfaceFolder.RVFolderItem
@@ -26,7 +24,6 @@ import com.example.appquizlet.model.FolderModel
 import com.example.appquizlet.model.NotificationModel
 import com.example.appquizlet.model.StudySetModel
 import com.example.appquizlet.model.UserM
-import com.example.appquizlet.notification.addNotification
 import com.example.appquizlet.util.Helper
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import java.text.SimpleDateFormat
@@ -68,7 +65,7 @@ class Home : Fragment() {
         }
         binding.txtViewAllCourse.setOnClickListener {
             // Lưu thông báo vào cơ sở dữ liệu
-            val notificationDb = context?.let { it1 -> MyDBHelper(it1) }
+//            val notificationDb = context?.let { it1 -> MyDBHelper(it1) }
             val timestamp = System.currentTimeMillis()
             val notificationItem = NotificationModel(
                 0,
@@ -76,7 +73,7 @@ class Home : Fragment() {
                 "Nhắc nhở bạn về điều gì đó quan trọng. Vào app học thôi nào",
                 timestamp
             )
-            notificationDb?.addNotification(notificationItem)
+//            notificationDb?.addNotification(notificationItem)
             Toast.makeText(context, "add", Toast.LENGTH_SHORT).show()
         }
 
@@ -107,15 +104,14 @@ class Home : Fragment() {
             }
         }
 
-
         binding.txtFolderViewAll.setOnClickListener {
-            var i = Intent(requireActivity(), Library::class.java)
-            startActivity(i)
+            val libraryFragment = Library.newInstance()
+            (requireActivity() as MainActivity_Logged_In).replaceFragment(libraryFragment)
         }
 
         binding.txtStudySetViewAll.setOnClickListener {
-            val i = Intent(requireActivity(), StudySets::class.java)
-            startActivity(i)
+            val libraryFragment = Library.newInstance()
+            (requireActivity() as MainActivity_Logged_In).replaceFragment(libraryFragment)
         }
 
 

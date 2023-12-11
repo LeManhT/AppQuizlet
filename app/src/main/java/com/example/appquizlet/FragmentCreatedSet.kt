@@ -22,11 +22,12 @@ import com.example.appquizlet.util.Helper
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
-class FragmentCreatedSet : Fragment() {
+class FragmentCreatedSet : Fragment(),RvStudySetItemAdapter.onClickSetItem {
     private lateinit var binding: FragmentCreatedSetBinding
     private lateinit var apiService: ApiService
     private lateinit var progressDialog: ProgressDialog
     private val listSetSelected: MutableList<StudySetModel> = mutableListOf()
+    private lateinit var adapterStudySet : RvStudySetItemAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -45,7 +46,7 @@ class FragmentCreatedSet : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val listStudySet = mutableListOf<StudySetModel>()
 
-        val adapterStudySet =
+        adapterStudySet =
             RvStudySetItemAdapter(requireContext(), listStudySet, object : RVStudySetItem {
                 override fun handleClickStudySetItem(setItem: StudySetModel, position: Int) {
                     setItem.isSelected = setItem.isSelected?.not() ?: true
@@ -81,6 +82,10 @@ class FragmentCreatedSet : Fragment() {
 
     companion object {
         const val Tag = "fragmentCreateSet"
+    }
+
+    override fun handleClickDelete(setId : String) {
+
     }
 
     fun insertSetToFolder(

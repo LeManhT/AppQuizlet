@@ -211,6 +211,25 @@
         <string name="add_set_to_folder">Thêm bộ học vào thư mục này</string>
         <string name="studyset_name_required">Tên bộ học là bắt buộc!</string>
         <string name="this_field_cannot_empty">Trường này không thể để trống!</string>
+        <string name="remove_set_from_folder">Bộ học đã được loại khỏi thư mục này</string>
+        <string name="remove_set_folder_loading">Đang loại bỏ bộ học</string>
+        <string name="warning">Cảnh báo!</string>
+        <string name="confirm_remove_set_from_folder">Bạn có chắc chắn muốn xóa bộ học này khỏi thư mục không?</string>
+        <string name="accept">Chấp nhận</string>
+        <string name="confirm_delete_folder">Bạn có chắc chắn muốn xóa thư mục này không?</string>
+        <string name="deleteSetSuccessful">Xóa thư mục thành công</string>
+        <string name="confirm_delete_set">Bạn có chắc chắn muốn xóa bộ học này không?</string>
+        <string name="the_correct_answer_is">Câu trả lời đúng là: </string>
+        <string name="oops_incorrect">Ôi! Câu trả lời không đúng 🤔</string>
+        <string name="continue_to">Tiếp tục</string>
+        <string name="you_choose">Bạn đã chọn: </string>
+        <string name="nice_job">Làm tốt lắm 😍</string>
+        <string name="great_you_learn_well">Tuyệt vời! Bạn đã học rất tốt! Tiếp tục cố gắng 😊</string>
+        <string name="welcome_to_learn">Chào mừng bạn đến chế độ học</string>
+        <string name="this_mode_will">Chế độ này sẽ giúp bạn ôn tập tất cả các thẻ học trong bộ học</string>
+        <string name="let_go">Bắt đầu ngay</string>
+        <string name="learn_mode">Chế độ học</string>
+
 
 
 

@@ -72,7 +72,7 @@ interface ApiService {
     ): Response<UserResponse>
 
     @DELETE("Folder/RemoveSet")
-    suspend fun deleteSet(
+    suspend fun removeSetFromFolder(
         @Query("userId") userId: String,
         @Query("folderId") folderId: String,
         @Query("setId") setId: String

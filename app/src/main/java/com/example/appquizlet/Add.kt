@@ -72,7 +72,7 @@ class Add : BottomSheetDialogFragment() {
         const val TAG = "ModalBottomSheet"
     }
 
-    fun showCustomDialog(
+    private fun showCustomDialog(
         title: String,
         content: String,
         edtPlaceholderFolderName: String,
@@ -152,7 +152,7 @@ class Add : BottomSheetDialogFragment() {
         return editText
     }
 
-    fun createNewFolder(name: String, description: String = "", userId: String) {
+    private fun createNewFolder(name: String, description: String = "", userId: String) {
         lifecycleScope.launch {
             showLoading(resources.getString(R.string.creating))
             try {
@@ -199,6 +199,7 @@ class Add : BottomSheetDialogFragment() {
             } finally {
                 if (isAdded) {
                     progressDialog.dismiss()
+                    dismiss()
                 }
             }
 
