@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#E7F3F8"
+    android:background="@drawable/bg_profile"
     tools:context=".Settings"
     android:fillViewport="true">
 
@@ -60,7 +60,7 @@
                     android:gravity="center"
                     android:text="Level up with Q+"
                     android:textColor="#FFFFFF"
-                    android:textSize="23sp" />
+                    android:textSize="18sp" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:background="@drawable/profile_upgrade_btn"
@@ -98,7 +98,7 @@
             android:id="@+id/cardView2"
             android:layout_width="330dp"
             android:layout_height="180dp"
-            app:cardCornerRadius="25dp"
+            app:cardCornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="@+id/linearLayout"
             app:layout_constraintStart_toStartOf="@+id/linearLayout"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout">
@@ -127,7 +127,7 @@
                             android:layout_marginLeft="20dp"
                             android:gravity="bottom"
                             android:text="Username"
-                            android:textSize="20sp" />
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/textView19"
@@ -136,7 +136,7 @@
                             android:layout_marginLeft="20dp"
                             android:gravity="start"
                             android:text="klinh_myg"
-                            android:textSize="14sp" />
+                            android:textSize="10sp" />
                     </LinearLayout>
 
                     <ImageView
@@ -166,7 +166,7 @@
                             android:layout_marginLeft="20dp"
                             android:gravity="bottom"
                             android:text="Email"
-                            android:textSize="20sp" />
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/textView27"
@@ -175,7 +175,7 @@
                             android:layout_marginLeft="20dp"
                             android:gravity="start"
                             android:text="khanhlinh123@gmail.com"
-                            android:textSize="14sp" />
+                            android:textSize="10sp" />
                     </LinearLayout>
 
                     <ImageView
@@ -199,7 +199,7 @@
                         android:layout_marginLeft="20dp"
                         android:gravity="center_vertical"
                         android:text="Change password"
-                        android:textSize="20sp" />
+                        android:textSize="14sp" />
 
                     <ImageView
                         android:id="@+id/imageView22"
@@ -239,7 +239,7 @@
             android:id="@+id/cardView"
             android:layout_width="330dp"
             android:layout_height="60dp"
-            app:cardCornerRadius="25dp"
+            app:cardCornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
@@ -258,7 +258,7 @@
                     android:layout_weight="1"
                     android:gravity="center|start"
                     android:text="Push notifications"
-                    android:textSize="20sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
@@ -288,7 +288,7 @@
             android:id="@+id/cardView3"
             android:layout_width="330dp"
             android:layout_height="60dp"
-            app:cardCornerRadius="25dp"
+            app:cardCornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
@@ -312,7 +312,7 @@
                         android:layout_marginLeft="20dp"
                         android:gravity="bottom"
                         android:text="Theme"
-                        android:textSize="20sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/textView25"
@@ -321,7 +321,7 @@
                         android:layout_marginLeft="20dp"
                         android:gravity="start"
                         android:text="System default"
-                        android:textSize="14sp" />
+                        android:textSize="10sp" />
 
                 </LinearLayout>
 
@@ -360,7 +360,7 @@
             android:id="@+id/cardView10"
             android:layout_width="330dp"
             android:layout_height="60dp"
-            app:cardCornerRadius="25dp"
+            app:cardCornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
@@ -384,7 +384,7 @@
                         android:layout_marginLeft="20dp"
                         android:gravity="bottom"
                         android:text="Language"
-                        android:textSize="20sp" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/textView102"
@@ -393,7 +393,7 @@
                         android:layout_marginLeft="20dp"
                         android:gravity="start"
                         android:text="Default-Englisgh"
-                        android:textSize="14sp" />
+                        android:textSize="10sp" />
 
                 </LinearLayout>
 
@@ -432,7 +432,7 @@
             android:id="@+id/cardView4"
             android:layout_width="330dp"
             android:layout_height="180dp"
-            app:cardCornerRadius="25dp"
+            app:cardCornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout8">
@@ -455,7 +455,7 @@
                         android:layout_marginLeft="20dp"
                         android:gravity="center_vertical"
                         android:text="Privacy policy"
-                        android:textSize="20sp" />
+                        android:textSize="14sp" />
 
                     <ImageView
                         android:id="@+id/imageView23"
@@ -478,7 +478,7 @@
                         android:layout_marginLeft="20dp"
                         android:gravity="center_vertical"
                         android:text="Terms of service"
-                        android:textSize="20sp" />
+                        android:textSize="14sp" />
 
                     <ImageView
                         android:id="@+id/imageView24"
@@ -500,7 +500,7 @@
                         android:layout_marginLeft="20dp"
                         android:gravity="center_vertical"
                         android:text="Help Center"
-                        android:textSize="20sp" />
+                        android:textSize="14sp" />
 
                     <ImageView
                         android:id="@+id/imageView25"
@@ -526,7 +526,7 @@
             android:id="@+id/cardView5"
             android:layout_width="330dp"
             android:layout_height="60dp"
-            app:cardCornerRadius="25dp"
+            app:cardCornerRadius="10dp"
             tools:layout_editor_absoluteY="63dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -544,7 +544,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="Log out"
-                    android:textSize="20sp" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
