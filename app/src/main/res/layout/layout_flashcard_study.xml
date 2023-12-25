@@ -8,6 +8,7 @@
         android:id="@+id/cardViewLearn"
         android:layout_width="match_parent"
         android:layout_height="@dimen/heightFlashcardLearn"
+        app:cardBackgroundColor="@color/bg_flashcard"
         android:layout_gravity="center_vertical"
         android:elevation="@dimen/mar_10"
         android:layout_marginHorizontal="@dimen/pad_20"
@@ -30,6 +31,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="Splash text"
+            android:textColor="@color/txt_black_in_card"
             android:textSize="25dp" />
 
         <TextView

@@ -17,6 +17,7 @@
             android:id="@+id/imageView10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/txt_black_primary"
             android:layout_weight="1"
             app:srcCompat="@drawable/icons_copy" />
 
@@ -25,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:textColor="@color/black"
+            android:textColor="@color/txt_black_primary"
             android:text="@string/add_study_set" />
     </LinearLayout>
 
@@ -48,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:textColor="@color/black"
+            android:textColor="@color/txt_black_primary"
             android:text="@string/add_folder" />
     </LinearLayout>
 
@@ -71,7 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:textColor="@color/black"
+            android:textColor="@color/txt_black_primary"
             android:text="@string/lb_classes" />
     </LinearLayout>
 

@@ -45,6 +45,7 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
     private var listFlashcardDetails: MutableList<FlashCardModel> = mutableListOf()
     private var originalList: MutableList<FlashCardModel> = mutableListOf()
     private lateinit var sharedPreferences: SharedPreferences
+    private var isPublic: Boolean? = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,10 +83,14 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
             }
         })
         adapterFlashcardDetail = FlashcardItemAdapter(listFlashcardDetails)
-        var userData = UserM.getUserData()
-        userData.observe(this, Observer { userResponse ->
+        val userData = UserM.getUserData()
+        userData.observe(this) { userResponse ->
             val studySet = Helper.getAllStudySets(userResponse).find { listStudySets ->
                 listStudySets.id == setId
+            }
+            if (studySet != null) {
+                isPublic = studySet.isPublic
+                Log.d("ttttP", isPublic.toString())
             }
             binding.txtStudySetDetailUsername.text = userResponse.loginName
             if (studySet != null) {
@@ -113,8 +118,6 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
                 }
             }
 
-            // Thông báo cho adapter rằng dữ liệu đã thay đổi để cập nhật giao diện người dùng
-            // Chuyển đổi danh sách FlashCardModel thành chuỗi JSON
             val jsonList = Gson().toJson(listCards)
 
             // Đưa chuỗi JSON vào Intent
@@ -131,7 +134,7 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
             }
 
 
-        })
+        }
         binding.viewPagerStudySet.adapter = adapterStudySet
         // Thiết lập lắng nghe sự kiện click cho adapter
         adapterFlashcardDetail.setOnFlashcardItemClickListener(this)
@@ -141,9 +144,12 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
 
 
         binding.btnStudyThisSet.setOnClickListener {
-            showStudyThisSetBottomsheet()
+            showStudyThisSetBottomsheet(setId)
         }
 
+        binding.iconShare.setOnClickListener {
+            shareDialog(Helper.getDataUserId(this), setId)
+        }
 
     }
 
@@ -174,6 +180,12 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.menu_study_set, menu)
+        val publicMenuItem: MenuItem? = menu.findItem(R.id.option_public)
+        publicMenuItem?.title = if (isPublic == true) {
+            resources.getString(R.string.disable_public_set)
+        } else {
+            resources.getString(R.string.public_set)
+        }
         return true
     }
 
@@ -186,17 +198,29 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
 
             R.id.option_add_to_folder -> {
                 val i = Intent(this, FlashcardAddSetToFolder::class.java)
+                i.putExtra("addSetId", setId)
                 startActivity(i)
             }
 
             R.id.option_share -> {
-                shareDialog("Share content")
+                shareDialog(Helper.getDataUserId(this), setId)
             }
 
             R.id.option_edit -> {
                 val i = Intent(this, EditStudySet::class.java)
                 i.putExtra("editSetId", setId)
                 startActivity(i)
+            }
+
+            R.id.option_public -> {
+                Log.d("isPu", isPublic.toString())
+                if (isPublic == true) {
+                    disablePublicSet(Helper.getDataUserId(this), setId)
+                    item.title = resources.getString(R.string.public_set)
+                } else {
+                    enablePublicSet(Helper.getDataUserId(this), setId)
+                    item.title = resources.getString(R.string.disable_public_set)
+                }
             }
 
             R.id.option_delete -> {
@@ -206,8 +230,59 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
         return super.onOptionsItemSelected(item)
     }
 
-    private fun showStudyThisSetBottomsheet() {
+    private fun enablePublicSet(userId: String, setId: String) {
+        lifecycleScope.launch {
+            showLoading(resources.getString(R.string.publishing_set))
+            try {
+                apiService.enablePublicSet(userId, setId)
+                isPublic = true
+                CustomToast(this@StudySetDetail).makeText(
+                    this@StudySetDetail,
+                    resources.getString(R.string.set_is_public),
+                    CustomToast.LONG,
+                    CustomToast.SUCCESS
+                ).show()
+            } catch (e: Exception) {
+                CustomToast(this@StudySetDetail).makeText(
+                    this@StudySetDetail, e.message.toString(), CustomToast.LONG, CustomToast.ERROR
+                ).show()
+            } finally {
+                progressDialog.dismiss()
+            }
+        }
+    }
+
+    private fun disablePublicSet(userId: String, setId: String) {
+        lifecycleScope.launch {
+            try {
+                showLoading(resources.getString(R.string.privating_set))
+                apiService.disablePublicSet(userId, setId)
+                isPublic = false
+                CustomToast(this@StudySetDetail).makeText(
+                    this@StudySetDetail,
+                    resources.getString(R.string.set_is_private),
+                    CustomToast.LONG,
+                    CustomToast.SUCCESS
+                ).show()
+            } catch (e: Exception) {
+                CustomToast(this@StudySetDetail).makeText(
+                    this@StudySetDetail, e.message.toString(), CustomToast.LONG, CustomToast.ERROR
+                ).show()
+            } finally {
+                progressDialog.dismiss()
+            }
+        }
+    }
+
+
+    private fun showStudyThisSetBottomsheet(setId: String) {
         val addCourseBottomSheet = StudyThisSetFragment()
+        // Tạo một Bundle để truyền dữ liệu
+        val bundle = Bundle()
+        bundle.putString("setIdTo", setId)
+
+        // Đặt Bundle vào Fragment
+        addCourseBottomSheet.arguments = bundle
         addCourseBottomSheet.show(supportFragmentManager, "")
     }
 
@@ -223,18 +298,17 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
     }
 
 
-    private fun shareDialog(content: String) {
+    private fun shareDialog(userId: String, setId: String) {
+        val deepLinkBaseUrl = "www.ttcs_quizlet.com/studyset"
         val sharingIntent = Intent(Intent.ACTION_SEND)
         sharingIntent.type = "text/plain"
         sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject Here")
-        sharingIntent.putExtra(Intent.EXTRA_TEXT, content)
-
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, "$deepLinkBaseUrl/$userId/$setId")
         val packageNames =
             arrayOf("com.facebook.katana", "com.facebook.orca", "com.google.android.gm")
         val chooserIntent = Intent.createChooser(sharingIntent, "Share via")
         chooserIntent.putExtra(Intent.EXTRA_EXCLUDE_COMPONENTS, packageNames)
-
-        startActivity(sharingIntent)
+        startActivity(chooserIntent)
     }
 
     private fun showDeleteDialog(desc: String) {
@@ -276,6 +350,7 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
                         CustomToast.LONG,
                         CustomToast.ERROR
                     ).show()
+
                 }
             } catch (e: Exception) {
                 CustomToast(this@StudySetDetail).makeText(

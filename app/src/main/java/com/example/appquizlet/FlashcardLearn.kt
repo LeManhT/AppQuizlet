@@ -9,6 +9,7 @@ import android.speech.tts.TextToSpeech.OnInitListener
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.example.appquizlet.adapter.LearnFlashcardAdapter
 import com.example.appquizlet.databinding.ActivityFlashcardLearnBinding
@@ -33,6 +34,7 @@ class FlashcardLearn : AppCompatActivity(), OnClickButton, LearnFlashcardAdapter
     private lateinit var settingFragment: LearnFlashCardSetting
     private lateinit var adapterLearn: LearnFlashcardAdapter
     private lateinit var textToSpeech: TextToSpeech
+    private var isFront: Boolean? = true
 
     private val handler = Handler(Looper.getMainLooper())
     private val autoPlayDelay = 5000L // Độ trễ giữa các lần swipe (milliseconds)
@@ -60,6 +62,12 @@ class FlashcardLearn : AppCompatActivity(), OnClickButton, LearnFlashcardAdapter
         adapterLearn = LearnFlashcardAdapter(this, listCards, object : LearnCardClick {
             override fun handleLearnCardClick(position: Int, cardItem: FlashCardModel) {
                 cardItem.isUnMark = cardItem.isUnMark?.not() ?: true
+//                Log.d("io", cardItem.isUnMark.toString())
+//                if (isFront == false) {
+//                    cardItem.isUnMark = true
+//                } else {
+//                    cardItem.isUnMark = cardItem.isUnMark?.not() ?: true
+//                }
             }
         })
         adapterLearn.setOnLearnCardClick(this)
@@ -101,6 +109,23 @@ class FlashcardLearn : AppCompatActivity(), OnClickButton, LearnFlashcardAdapter
     private fun showSettingBottomsheet() {
         settingFragment.show(supportFragmentManager, "")
     }
+
+    override fun handleClickModeDisplay() {
+        isFront = isFront?.not() ?: true
+        val btnToggleMode =
+            settingFragment.dialog?.findViewById<AppCompatButton>(R.id.btnToggleMode)
+        if (isFront == true) {
+            if (btnToggleMode != null) {
+                btnToggleMode.text = resources.getString(R.string.term)
+            }
+        } else {
+            if (btnToggleMode != null) {
+                btnToggleMode.text = resources.getString(R.string.definition)
+            }
+        }
+        adapterLearn.notifyDataSetChanged()
+    }
+
 
     override fun handleClickShuffle() {
         isShuffle = isShuffle?.not() ?: true

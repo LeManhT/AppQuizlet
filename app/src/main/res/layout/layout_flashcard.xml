@@ -89,6 +89,7 @@
                     android:layout_marginTop="@dimen/marginInput"
                     android:text="@string/term"
                     android:textAllCaps="true"
+                    android:textColor="@color/txt_black_in_card"
                     android:textSize="@dimen/titleSizeCard2" />
             </LinearLayout>
 
@@ -132,6 +133,7 @@
                     android:layout_marginStart="@dimen/text_margin"
                     android:layout_marginTop="@dimen/marginInput"
                     android:text="@string/definition"
+                    android:textColor="@color/txt_black_in_card"
                     android:textAllCaps="true"
                     android:textSize="@dimen/titleSizeCard2" />
             </LinearLayout>

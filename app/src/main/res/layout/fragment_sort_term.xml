@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/mar_15"
         android:text="@string/sort_term"
-        android:textColor="@color/my_gray"
+        android:textColor="@color/txt_black_primary"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -30,6 +30,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/in_original_order"
+            android:textColor="@color/txt_black_primary"
             android:textSize="16sp" />
 
         <ImageView
@@ -37,6 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
+            android:textColor="@color/txt_black_primary"
             android:src="@drawable/icons8_tick_24" />
     </LinearLayout>
 

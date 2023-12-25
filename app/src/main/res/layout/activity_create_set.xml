@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/bg_profile"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
@@ -11,9 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:layout_collapseMode="pin"
+        app:titleTextColor="@color/txt_black_primary"
         app:navigationIcon="?attr/homeAsUpIndicator"
         app:popupTheme="@style/Theme.AppQuizlet.PopupOverlay"
-        app:title="">
+        app:title="@string/create_set">
 
         <ImageView
             android:id="@+id/iconTickCreateSet"
@@ -59,6 +61,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtNameStudySet"
                     android:layout_width="match_parent"
+                    android:textColor="@color/txt_black_primary"
                     android:layout_height="wrap_content" />
 
 
@@ -70,6 +73,7 @@
                 android:layout_marginStart="@dimen/pad_5"
                 android:layout_marginTop="@dimen/marginInput"
                 android:text="@string/title"
+                android:textColor="@color/txt_black_primary"
                 android:textAllCaps="true"
                 android:textSize="@dimen/titleSizeCard" />
         </LinearLayout>
@@ -127,11 +131,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/text_margin"
                 android:layout_marginTop="@dimen/marginInput"
-                android:drawableLeft="@drawable/icons8_plus_48_blue"
                 android:drawablePadding="@dimen/pad_5"
                 android:text="@string/scan_doc"
-                android:textColor="@color/my_blue"
-                android:textSize="@dimen/titleSize" />
+                android:textColor="@color/txt_blue"
+                android:textSize="@dimen/titleSize"
+                app:drawableLeftCompat="@drawable/icons8_plus_48_blue" />
 
             <TextView
                 android:id="@+id/txtDesc"
@@ -139,11 +143,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="100dp"
                 android:layout_marginTop="@dimen/marginInput"
-                android:drawableLeft="@drawable/icons8_plus_48_blue"
                 android:drawablePadding="@dimen/pad_5"
                 android:text="@string/description"
-                android:textColor="@color/my_blue"
-                android:textSize="@dimen/titleSize" />
+                android:textColor="@color/txt_blue"
+                android:textSize="@dimen/titleSize"
+                app:drawableLeftCompat="@drawable/icons8_plus_48_blue" />
 
         </LinearLayout>
 

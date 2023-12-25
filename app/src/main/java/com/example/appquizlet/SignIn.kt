@@ -6,8 +6,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.SpannableStringBuilder
-import android.text.style.ClickableSpan
 import android.util.Patterns
 import android.view.KeyEvent
 import android.view.MenuItem
@@ -15,7 +13,6 @@ import android.view.View
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.setPadding
 import androidx.lifecycle.ViewModelProvider
@@ -71,29 +68,29 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
 // Tắt tiêu đề của Action Bar
         supportActionBar?.setDisplayShowTitleEnabled(false)
 //Spannable forgot username or pass
-        val username = binding.txtForgotUsernameOrPass
-        val textForgot = resources.getString(R.string.forgot_u_p)
-        val spannableStringBuilderForgotUser = SpannableStringBuilder(textForgot)
-        val forgotUserNameClickableSpan = object : ClickableSpan() {
-            override fun onClick(widget: View) {
-                showCustomDialog(
-                    resources.getString(R.string.forgot_username),
-                    "",
-                    "Enter email address"
-                )
-            }
-        }
-        val forgotPassClickableSpan = object : ClickableSpan() {
-            override fun onClick(widget: View) {
-                Toast.makeText(this@SignIn, "ffff", Toast.LENGTH_SHORT).show()
-                showCustomDialog(
-                    resources.getString(R.string.reset_password),
-                    resources.getString(R.string.forgot_pass_text),
-                    "Username or email address"
-                )
-            }
-        }
-
+//        val username = binding.txtForgotUsernameOrPass
+//        val textForgot = resources.getString(R.string.forgot_u_p)
+//        val spannableStringBuilderForgotUser = SpannableStringBuilder(textForgot)
+//        val forgotUserNameClickableSpan = object : ClickableSpan() {
+//            override fun onClick(widget: View) {
+//                showCustomDialog(
+//                    resources.getString(R.string.forgot_username),
+//                    "",
+//                    "Enter email address"
+//                )
+//            }
+//        }
+//        val forgotPassClickableSpan = object : ClickableSpan() {
+//            override fun onClick(widget: View) {
+//                Toast.makeText(this@SignIn, "ffff", Toast.LENGTH_SHORT).show()
+//                showCustomDialog(
+//                    resources.getString(R.string.reset_password),
+//                    resources.getString(R.string.forgot_pass_text),
+//                    "Username or email address"
+//                )
+//            }
+//        }
+//
 //        val indexOfForgotUsername = textForgot.indexOf("username")
 //        val indexOfForgotPass = textForgot.indexOf("password")
 //
@@ -263,9 +260,8 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
                                 CustomToast.LONG,
                                 CustomToast.SUCCESS
                             ).show()
-                            saveIdUser(it.id, it.loginName)
+                            saveIdUser(it.id, it.loginName, true)
                             UserM.setUserData(it)
-                            setLoggedInStatus(this@SignIn, true)
                         }
                     }
 
@@ -420,19 +416,12 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
         return errorMess == null
     }
 
-    private fun saveIdUser(userId: String, userName: String) {
+    private fun saveIdUser(userId: String, userName: String, isLoggedIn: Boolean) {
         sharedPreferences = this.getSharedPreferences("idUser", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("key_userid", userId)
         editor.putString("key_username", userName)
-        editor.apply()
-    }
-
-    fun setLoggedInStatus(context: Context, isLoggedIn: Boolean) {
-        val sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
         editor.putBoolean("isLoggedIn", isLoggedIn)
         editor.apply()
     }
-
 }

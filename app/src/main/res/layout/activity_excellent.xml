@@ -28,7 +28,7 @@
             android:layout_marginTop="20dp"
             android:gravity="center_horizontal"
             android:text="@string/good_job"
-            android:textColor="#707070"
+            android:textColor="@color/txt_excellent_gray"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -38,9 +38,9 @@
             android:layout_marginHorizontal="@dimen/pad_30"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
+            android:textColor="@color/txt_excellent_gray"
             android:text="@string/you_learn_all"
             android:textAlignment="center"
-            android:textColor="#707070"
             android:textSize="16sp" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -51,7 +51,7 @@
             android:layout_marginVertical="@dimen/mar_10"
             android:background="@drawable/button_primary"
             android:text="@string/learn_other_set"
-            android:textColor="@color/white" />
+            android:textColor="@color/txt_white_in_btn" />
     </LinearLayout>
 
 </LinearLayout>

@@ -49,12 +49,10 @@ class ChangeLanguage : AppCompatActivity(), View.OnClickListener {
         binding.iconTickChangeLanguage.setOnClickListener {
             restartApp()
         }
-
-
     }
 
 
-    fun changeLanguage(selectedLanguage: String): Locale {
+    private fun changeLanguage(selectedLanguage: String): Locale {
         val newLocale = when (selectedLanguage) {
             "English" -> Locale("en")
             "Vietnamese" -> Locale("vi")

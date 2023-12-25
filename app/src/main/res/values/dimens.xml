@@ -19,6 +19,7 @@
     <dimen name="pad_ver_30">30dp</dimen>
     <dimen name="mar_30">30dp</dimen>
     <dimen name="text_size_primary">18sp</dimen>
+    <dimen name="text_size_22">22sp</dimen>
     <dimen name="title_margin_start">6dp</dimen>
     <dimen name="h_200">200dp</dimen>
     <dimen name="h_300">300dp</dimen>

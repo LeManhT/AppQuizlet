@@ -25,23 +25,29 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="To confirm it's really you, please authenticate with your Quizlet password."
+            android:text="@string/to_confirm_is_you"
             android:textColor="#3A3737"
             android:textSize="14sp"
             android:gravity="center"/>
 
-        <EditText
-            android:id="@+id/edt_update_email"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textField"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:padding="12dp"
-            android:background="@drawable/bg_white_conner_10_boder_gray"
-            android:hint="Password"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="@dimen/mar_15"
+            android:hint="@string/password">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtCheckPassword"
+                android:layout_width="match_parent"
+                android:inputType="textPassword"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_send_update_email"
+            android:id="@+id/btnSendCheck"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Send"

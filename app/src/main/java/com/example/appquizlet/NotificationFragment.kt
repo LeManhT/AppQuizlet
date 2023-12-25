@@ -3,15 +3,11 @@ package com.example.appquizlet
 import android.app.Dialog
 import android.content.res.Resources
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
-import com.example.appquizlet.database.MyDBHelper
 import com.example.appquizlet.databinding.FragmentNotificationBinding
-import com.example.appquizlet.model.NotificationModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -28,17 +24,17 @@ class NotificationFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val notificationDb = context?.let { MyDBHelper(it) }
-        val selectQuery = "SELECT * FROM ${MyDBHelper.TABLE_NAME}"
-        val db = notificationDb?.readableDatabase
-        val cursor = db?.rawQuery(selectQuery, null)
-        if (cursor != null) {
-            if(cursor.moveToLast()) {
-                if (cursor != null) {
-                    Toast.makeText(context,cursor.getString(1), Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
+//        val notificationDb = context?.let { MyDBHelper(it) }
+//        val selectQuery = "SELECT * FROM ${MyDBHelper.TABLE_NAME}"
+//        val db = notificationDb?.readableDatabase
+//        val cursor = db?.rawQuery(selectQuery, null)
+//        if (cursor != null) {
+//            if(cursor.moveToLast()) {
+//                if (cursor != null) {
+//                    Toast.makeText(context,cursor.getString(1), Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//        }
 
         return inflater.inflate(R.layout.fragment_notification, container, false)
     }

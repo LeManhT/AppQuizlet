@@ -23,6 +23,10 @@
                 android:icon="@drawable/icons8_edit_24"
                 android:title="@string/edit" />
             <item
+                android:id="@+id/option_public"
+                android:icon="@drawable/resource_public"
+                android:title="@string/public_set" />
+            <item
                 android:id="@+id/option_delete"
                 android:icon="@drawable/icons8_delete_24"
                 android:title="@string/delete_set" />

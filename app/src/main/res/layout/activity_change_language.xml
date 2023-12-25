@@ -5,15 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/bg_profile"
     tools:context=".ChangeLanguage">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_change_language"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        app:titleTextColor="@color/txt_black_primary"
         app:navigationIcon="?attr/homeAsUpIndicator"
         app:popupTheme="@style/Theme.AppQuizlet.PopupOverlay"
-        app:title="Change Language">
+        app:title="@string/change_language">
 
         <ImageView
             android:id="@+id/iconTickChangeLanguage"
@@ -34,19 +36,22 @@
             android:id="@+id/englishRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="English" />
+            android:textColor="@color/txt_black_primary"
+            android:text="@string/english" />
 
         <RadioButton
             android:id="@+id/vietnameseRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Vietnamese" />
+            android:textColor="@color/txt_black_primary"
+            android:text="@string/vietnamese" />
 
         <RadioButton
             android:id="@+id/chineseRadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chinese" />
+            android:textColor="@color/txt_black_primary"
+            android:text="@string/chinese" />
     </RadioGroup>
 
 </LinearLayout>

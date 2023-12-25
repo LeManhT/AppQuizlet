@@ -25,6 +25,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:maxLines="1"
+            android:textColor="@color/txt_black_primary"
             android:paddingHorizontal="@dimen/md"
             android:text="@string/folder"
             android:textSize="@dimen/titleSize"
@@ -86,6 +87,7 @@
                         android:gravity="center_vertical"
                         android:paddingHorizontal="@dimen/md"
                         android:text="4 sets"
+                        android:textColor="@color/txt_black_primary"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -109,6 +111,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginStart="8dp"
+                            android:textColor="@color/txt_black_primary"
                             android:text="TextView" />
                     </LinearLayout>
                 </LinearLayout>
@@ -122,6 +125,7 @@
                     android:maxLines="1"
                     android:paddingHorizontal="@dimen/md"
                     android:text="Every day New words"
+                    android:textColor="@color/txt_black_primary"
                     android:textSize="@dimen/titleSize"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -9,6 +9,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/frontFlashCardCardView"
         android:layout_width="match_parent"
+        app:cardBackgroundColor="@color/bg_flashcard"
         android:layout_height="200dp"
         android:layout_gravity="center_vertical"
         android:layout_margin="@dimen/pad_20"
@@ -23,6 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
+            android:textColor="@color/txt_black_in_card"
             android:text="Splash text"
             android:textSize="25sp" />
 

@@ -15,6 +15,8 @@ interface OnClickButton {
     fun handleClickShuffle()
 
     fun handleClickPlayAudio()
+
+    fun handleClickModeDisplay()
 }
 
 class LearnFlashCardSetting : BottomSheetDialogFragment() {
@@ -28,7 +30,7 @@ class LearnFlashCardSetting : BottomSheetDialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentLearnFlashCardSettingBinding.inflate(inflater, container, false)
 
         binding.btnShuffle.setOnClickListener {
@@ -37,6 +39,10 @@ class LearnFlashCardSetting : BottomSheetDialogFragment() {
 
         binding.btnPlayAudio.setOnClickListener {
             onCLickListener?.handleClickPlayAudio()
+        }
+
+        binding.btnToggleMode.setOnClickListener {
+            onCLickListener?.handleClickModeDisplay()
         }
 
         return binding.root

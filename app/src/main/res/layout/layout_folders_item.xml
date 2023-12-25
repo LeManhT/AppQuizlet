@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    app:elevation="@dimen/mar_10"
+    app:cardElevation="@dimen/pad_5"
+    android:layout_marginVertical="@dimen/mar_10"
+    android:layout_marginHorizontal="@dimen/mar_10"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_corner"
-    android:elevation="@dimen/pad_5"
-    android:layout_margin="@dimen/mar_10">
+    app:cardCornerRadius="@dimen/mar_15">
 
     <com.chauthai.swipereveallayout.SwipeRevealLayout
         android:id="@+id/swipeLayoutFolder"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:dragEdge="left"
         app:revealMode="same_level">
 
@@ -28,7 +30,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:paddingHorizontal="@dimen/pad_20"
-                android:src="@drawable/icons8_delete_24" />
+                android:src="@drawable/icons8_delete_24"
+                android:contentDescription="@string/dark" />
         </LinearLayout>
 
         <androidx.cardview.widget.CardView
@@ -38,7 +41,6 @@
             android:background="@color/white"
             android:clickable="true"
             android:focusable="true"
-            app:cardCornerRadius="@dimen/mar_15"
             app:elevation="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,12 +57,14 @@
                     android:id="@+id/imageView9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/folder_open_24px" />
+                    app:srcCompat="@drawable/folder_open_24px"
+                    android:contentDescription="@string/dark" />
 
                 <TextView
                     android:id="@+id/txtFolderItemTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/txt_black_in_card"
                     android:layout_marginTop="@dimen/margin_primary"
                     android:text="TextView" />
 
@@ -75,7 +79,8 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center"
-                        app:srcCompat="@drawable/profile" />
+                        app:srcCompat="@drawable/profile"
+                        android:contentDescription="@string/dark" />
 
                     <TextView
                         android:id="@+id/txtFolderItemUsername"
@@ -83,6 +88,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="8dp"
+                        android:textColor="@color/txt_black_in_card"
                         android:text="TextView" />
                 </LinearLayout>
 
@@ -91,6 +97,8 @@
 
     </com.chauthai.swipereveallayout.SwipeRevealLayout>
 
-</LinearLayout>
+</androidx.cardview.widget.CardView>
+
+
 
 

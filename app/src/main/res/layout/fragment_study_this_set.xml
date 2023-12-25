@@ -35,6 +35,7 @@
             android:text="@string/study_this_set"
             android:textSize="@dimen/titleSize"
             android:textStyle="bold"
+            android:textColor="@color/txt_black_primary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -79,6 +80,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/flashcards"
                     android:textSize="18sp"
+                    android:textColor="@color/txt_black_primary"
                     android:textStyle="bold" />
 
                 <!-- Description -->
@@ -121,6 +123,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/test"
+                    android:textColor="@color/txt_black_primary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -129,6 +132,7 @@
                     android:id="@+id/txtDescTest"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/txt_black_primary"
                     android:text="@string/take_a_practice"
                     android:textSize="14sp" />
             </LinearLayout>

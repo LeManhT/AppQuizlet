@@ -1,23 +1,61 @@
 package com.example.appquizlet
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.LinearLayout
+import android.widget.EditText
 import androidx.appcompat.widget.AppCompatButton
+import androidx.lifecycle.Observer
+import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.ActivitySettingsBinding
+import com.example.appquizlet.model.UserM
+import com.example.appquizlet.util.SharedPreferencesManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class Settings : AppCompatActivity() {
     private lateinit var binding: ActivitySettingsBinding
-    lateinit var dialog_change_username: AlertDialog
     lateinit var dialog_update_email: AlertDialog
+    private var currentPass: String = ""
+    private lateinit var sharedPreferences: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(findViewById(R.id.toolbar))    // p co dong nay moi chay dc ham ơ dưới
+
+        sharedPreferences = this.getSharedPreferences("languageChoose", Context.MODE_PRIVATE)
+        val languageDisplay = sharedPreferences.getString("languageDisplay", "English")
+        if (languageDisplay == "English") {
+            binding.txtDisplayLanguage.text = resources.getString(R.string.default_n)
+        } else {
+            binding.txtDisplayLanguage.text = languageDisplay
+        }
+        val userData = UserM.getUserData()
+        userData.observe(this) {
+            currentPass = it.loginPassword
+            binding.txtEmail.text = it.email
+            if (it.setting.darkMode) {
+                binding.txtThemeMode.text = resources.getString(R.string.dark)
+            } else {
+                binding.txtThemeMode.text = resources.getString(R.string.light)
+            }
+        }
+
+        UserM.getDataSettings().observe(this) {
+            binding.txtEmail.text = it.email
+            if (it.setting?.darkMode == true) {
+                binding.txtThemeMode.text = resources.getString(R.string.dark)
+            } else {
+                binding.txtThemeMode.text = resources.getString(R.string.light)
+            }
+        }
+
+
 
         binding.layoutChangeLanguage.setOnClickListener {
             val i = Intent(this, ChangeLanguage::class.java)
@@ -29,22 +67,33 @@ class Settings : AppCompatActivity() {
             startActivity(i)
         }
 
-        val ChangeUsername = findViewById<LinearLayout>(R.id.change_username)
-        ChangeUsername.setOnClickListener {
-            showDialogChangeUsername()
-        }
-
-        val ChangeEmail = findViewById<LinearLayout>(R.id.change_email)
-        ChangeEmail.setOnClickListener {
+        binding.changeEmail.setOnClickListener {
             showDialogChangeEmail()
         }
 
-        val ChangePassword = findViewById<LinearLayout>(R.id.change_password)
-        ChangePassword.setOnClickListener {
-            val Ch_pw = Intent(this, Change_Password::class.java)
-            startActivity(Ch_pw)
+        binding.layoutPolicy.setOnClickListener {
+            val privacyPolicyUrl = "https://quizlet.com/privacy"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(privacyPolicyUrl))
+            startActivity(intent)
         }
-
+        binding.layoutTermAndService.setOnClickListener {
+            val termsOfServiceUrl = "https://quizlet.com/tos"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(termsOfServiceUrl))
+            startActivity(intent)
+        }
+        binding.layoutHelpCenter.setOnClickListener {
+            val termsOfServiceUrl = "https://help.quizlet.com"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(termsOfServiceUrl))
+            startActivity(intent)
+        }
+        binding.changePassword.setOnClickListener {
+            val i = Intent(this, Change_Password::class.java)
+            i.putExtra("currentPass", currentPass)
+            startActivity(i)
+        }
+        binding.layoutLogout.setOnClickListener {
+            showConfirmLogout(this)
+        }
     }
 
 
@@ -55,35 +104,52 @@ class Settings : AppCompatActivity() {
 
         val btn_cancel_update_email =
             view2.findViewById<AppCompatButton>(R.id.btn_cancel_update_email)
+        val edtCheckPass = view2.findViewById<EditText>(R.id.edtCheckPassword)
+
         btn_cancel_update_email.setOnClickListener {
             dialog_update_email.dismiss()
+        }
+
+        val btnSendCheck =
+            view2.findViewById<AppCompatButton>(R.id.btnSendCheck)
+        btnSendCheck.setOnClickListener {
+            val txtCheckPass = edtCheckPass.text.toString()
+            if (currentPass != txtCheckPass) {
+                CustomToast(this@Settings).makeText(
+                    this@Settings,
+                    resources.getString(R.string.password_is_not_correct),
+                    CustomToast.LONG,
+                    CustomToast.ERROR
+                ).show()
+            } else {
+                val i = Intent(this, ChangeEmail::class.java)
+                startActivity(i)
+            }
         }
 
         dialog_update_email = build2.create()
         dialog_update_email.show()
     }
 
-    private fun showDialogChangeUsername() {
-        val build = AlertDialog.Builder(this)
-        val view = layoutInflater.inflate(R.layout.activity_change_username, null)
-        build.setView(view)
+    private fun showConfirmLogout(context: Context) {
+        MaterialAlertDialogBuilder(context)
+            .setTitle(resources.getString(R.string.confirm_logout))
+            .setMessage(resources.getString(R.string.are_u_sure_logout))
+            .setNeutralButton(resources.getString(R.string.cancel)) { dialog, which ->
+                dialog.dismiss()
+            }
+            .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
+                logOut()
+            }
+            .show()
+    }
 
-        val btn_cancel_change_username =
-            view.findViewById<AppCompatButton>(R.id.btn_cancel_change_username)
-        btn_cancel_change_username.setOnClickListener {
-            dialog_change_username.dismiss()
-        }
-
-//        val btn_send_changeusername = view.findViewById<AppCompatButton>(R.id.btn_send_change_username)
-//            btn_send_changeusername.setOnClickListener {
-//                val btn_send_username = Intent(this,Ch_username::class.java)
-//                startActivity(btn_send_username)
-//            }
-
-
-        dialog_change_username = build.create()
-        dialog_change_username.show()
-
+    private fun logOut() {
+        val intent = Intent(this, SplashActivity::class.java)
+        SharedPreferencesManager.clearAllPreferences(this)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

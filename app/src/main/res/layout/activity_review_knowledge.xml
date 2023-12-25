@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@drawable/bg_profile"
     android:padding="16dp">
 
     <TextView
@@ -12,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="Question goes here"
+        android:textColor="@color/txt_black_primary"
         android:textSize="18sp"
         android:textStyle="bold" />
 
@@ -26,12 +29,14 @@
             android:id="@+id/cardViewAnswer1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/bg_card_test_card"
             android:layout_marginBottom="8dp">
 
             <TextView
                 android:id="@+id/answer1TextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/txt_black_primary"
                 android:padding="16dp"
                 android:text="Answer 1" />
         </androidx.cardview.widget.CardView>
@@ -61,6 +66,7 @@
                 android:id="@+id/answer3TextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/txt_black_primary"
                 android:padding="16dp"
                 android:text="Answer 2" />
         </androidx.cardview.widget.CardView>
@@ -78,7 +84,7 @@
         android:background="@drawable/button_primary"
         android:paddingHorizontal="@dimen/pad_30"
         android:text="Submit"
-        android:textColor="@color/white" />
+        android:textColor="@color/txt_white_in_btn" />
 
 </LinearLayout>
 

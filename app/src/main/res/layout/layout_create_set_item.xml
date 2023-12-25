@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/mar_10"
-    android:elevation="@dimen/pad_5"
-    android:background="@color/white">
+    android:background="@color/white"
+    app:cardElevation="@dimen/pad_5"
+    app:cardCornerRadius="@dimen/pad_20"
+    app:elevation="@dimen/mar_10">
 
     <com.chauthai.swipereveallayout.SwipeRevealLayout
         android:id="@+id/swipeRevealLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/bg_corner"
         android:longClickable="true"
         android:orientation="horizontal"
         app:dragEdge="left"
-        android:background="@drawable/bg_corner"
         app:revealMode="same_level">
 
         <LinearLayout
@@ -40,8 +42,6 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:focusable="true"
-            app:cardCornerRadius="@dimen/pad_20"
-            app:elevation="@dimen/mar_15"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingHorizontal="@dimen/pad_hoz_20"
+                android:paddingHorizontal="@dimen/pad_30"
                 android:paddingVertical="@dimen/pad_20">
 
                 <LinearLayout
@@ -73,6 +73,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="@dimen/title_margin_start"
                         android:text="Everyday words"
+                        android:textColor="@color/txt_black_in_card"
                         android:textSize="@dimen/text_size_primary"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -103,6 +104,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="8dp"
+                        android:textColor="@color/txt_black_in_card"
                         android:text="TextView" />
                 </LinearLayout>
 
@@ -110,5 +112,5 @@
         </androidx.cardview.widget.CardView>
     </com.chauthai.swipereveallayout.SwipeRevealLayout>
 
-</LinearLayout>
+</androidx.cardview.widget.CardView>
 

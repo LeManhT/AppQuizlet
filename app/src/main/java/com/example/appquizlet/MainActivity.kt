@@ -6,7 +6,6 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.appquizlet.MainActivity_Logged_In
 import com.example.appquizlet.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -27,19 +26,19 @@ class MainActivity : AppCompatActivity() {
         startActivity(i)
 
         sharedPreferences = this.getSharedPreferences("ChangeLanguage", Context.MODE_PRIVATE)
-        var mylang = sharedPreferences.getString("language", "en")
+        val mylang = sharedPreferences.getString("language", "en")
         updateLocale(Locale(mylang))
 
         binding.btnSlash.setOnClickListener {
-            var intent = Intent(this, SplashActivity::class.java)
+            val intent = Intent(this, SplashActivity::class.java)
             startActivity(intent)
         }
         binding.btnLoggedIn.setOnClickListener {
-            var intent = Intent(this, MainActivity_Logged_In::class.java)
+            val intent = Intent(this, MainActivity_Logged_In::class.java)
             startActivity(intent)
         }
         binding.btn404.setOnClickListener {
-            var intent = Intent(this, NotFound::class.java)
+            val intent = Intent(this, NotFound::class.java)
             startActivity(intent)
         }
 
@@ -82,6 +81,9 @@ class MainActivity : AppCompatActivity() {
             createConfigurationContext(config)
         }
         resources.updateConfiguration(config, resources.displayMetrics)
+        val nativeDisplayLanguage = locale.getDisplayLanguage(locale)
+        val sharedPreferences = this.getSharedPreferences("languageChoose", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString("languageDisplay", nativeDisplayLanguage).apply()
     }
 
     private fun isLoggedIn(context: Context): Boolean {

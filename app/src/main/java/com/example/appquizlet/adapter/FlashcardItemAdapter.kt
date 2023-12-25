@@ -35,6 +35,8 @@ class FlashcardItemAdapter(
         holder.itemView.setOnClickListener {
             txtToSpeech.let { it1 -> itemClickListener?.onFlashcardItemClick(it1) }
         }
+
+
     }
 
     override fun getItemCount(): Int {

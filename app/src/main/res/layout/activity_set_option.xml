@@ -17,6 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="?attr/homeAsUpIndicator"
+        app:titleTextColor="@color/txt_black_primary"
         app:popupTheme="@style/Theme.AppQuizlet.PopupOverlay"
         app:title="@string/set_options">
 
@@ -39,6 +40,7 @@
             android:layout_weight="2"
             android:paddingHorizontal="@dimen/mar_10"
             android:text="@string/language"
+            android:textColor="@color/txt_black_primary"
             android:alpha="0.6"
             android:textSize="18sp" />
 
@@ -54,6 +56,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/txt_black_primary"
                 android:text="@string/terms"
                 android:textSize="18sp" />
 
@@ -63,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/select_language"
-                android:textColor="@color/my_primary_color"
+                android:textColor="@color/txt_blue_primary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -81,6 +84,7 @@
                 android:id="@+id/txtTerms"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textColor="@color/txt_black_primary"
                 android:layout_weight="1"
                 android:text="@string/definitions"
                 android:textSize="18sp" />
@@ -91,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/select_language"
-                android:textColor="@color/my_primary_color"
+                android:textColor="@color/txt_blue_primary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -114,6 +118,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="2"
+            android:textColor="@color/txt_black_primary"
             android:paddingHorizontal="@dimen/mar_10"
             android:text="@string/privacy"
             android:alpha="0.6"
@@ -131,6 +136,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/txt_black_primary"
                 android:text="@string/visible_to"
                 android:textSize="18sp" />
 
@@ -140,7 +146,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Everyone"
-                android:textColor="@color/my_primary_color"
+                android:textColor="@color/txt_blue_primary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -158,6 +164,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/txt_black_primary"
                 android:text="@string/edit_by"
                 android:textSize="18sp" />
 
@@ -167,7 +174,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/just_me"
-                android:textColor="@color/my_primary_color"
+                android:textColor="@color/txt_blue_primary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -189,7 +196,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/delete_set"
-            android:textColor="@color/teal_700"
+            android:textColor="@color/txt_delete_teal"
             android:textSize="18sp" />
 
     </LinearLayout>

@@ -30,6 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/txt_black_primary"
                 app:srcCompat="@drawable/description_24px" />
 
             <TextView
@@ -37,6 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
+                android:textColor="@color/txt_black_primary"
                 android:text="@string/add_study_set" />
         </LinearLayout>
 
@@ -60,6 +62,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
+                android:textColor="@color/txt_black_primary"
+
                 android:text="@string/add_folder" />
         </LinearLayout>
 
@@ -82,6 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
+                android:textColor="@color/txt_black_primary"
                 android:text="@string/lb_classes" />
         </LinearLayout>
 

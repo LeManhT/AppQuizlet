@@ -1,38 +1,62 @@
 package com.example.appquizlet.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.appquizlet.R
-import com.example.appquizlet.model.SolutionItemModel
-import com.google.android.material.chip.Chip
+import com.example.appquizlet.databinding.LayoutSolutionItemBinding
+import com.example.appquizlet.interfaceFolder.RvClickSearchSet
+import com.example.appquizlet.model.SearchSetModel
 
-class SolutionItemAdapter(private val listSolutionItem: List<SolutionItemModel>) :
+class SolutionItemAdapter(
+    private val listSolutionItem: List<SearchSetModel>,
+    private val onClickSetSearch: RvClickSearchSet
+) :
     RecyclerView.Adapter<SolutionItemAdapter.SolutionItemHolder>() {
-    class SolutionItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    private var maxItemCountToShow = 3
+
+    class SolutionItemHolder(val binding: LayoutSolutionItemBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SolutionItemHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.layout_solution_item, parent, false)
-        return SolutionItemHolder(view)
+        return SolutionItemHolder(
+            LayoutSolutionItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: SolutionItemHolder, position: Int) {
-        holder.itemView.apply {
-            val imgSolutionAvatar = findViewById<ImageView>(R.id.imgSolutionAvatar)
-            val txtSolutionTitle = findViewById<TextView>(R.id.txtSolutionTitle)
-            val chipSolution = findViewById<Chip>(R.id.chip)
+        Log.d("Adapter", "onBindViewHolder called for position $position")
+        val txtSolutionTitle = holder.binding.txtStudySetSearchTitle
+        val studySetChip = holder.binding.studySetChip
+        val txtStudySetUsername = holder.binding.txtStudySetUsername
 
-            imgSolutionAvatar.setImageResource(listSolutionItem[position].avatar)
-            txtSolutionTitle.text = listSolutionItem[position].title
-            chipSolution.setText(listSolutionItem[position].countView.toString())
+        txtSolutionTitle.text = listSolutionItem[position].name
+        studySetChip.text =
+            if (listSolutionItem[position].countTerm > 1) "${listSolutionItem[position].countTerm} terms" else "${listSolutionItem[position].countTerm} term"
+        txtStudySetUsername.text = listSolutionItem[position].nameOwner
+
+        holder.itemView.setOnClickListener {
+            onClickSetSearch.handleClickSetSearch(position)
+            notifyDataSetChanged()
         }
     }
 
     override fun getItemCount(): Int {
+//        return if (listSolutionItem.size > maxItemCountToShow) {
+//            maxItemCountToShow
+//        } else {
+//            listSolutionItem.size
+//        }
         return listSolutionItem.size
     }
+
+    fun updateMaxItemCountToShow(newMaxItemCount: Int) {
+        maxItemCountToShow = newMaxItemCount
+        notifyDataSetChanged()
+    }
+
 }

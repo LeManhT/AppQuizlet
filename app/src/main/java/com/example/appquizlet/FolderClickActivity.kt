@@ -66,7 +66,7 @@ class FolderClickActivity : AppCompatActivity() {
 
 
         val userData = UserM.getUserData()
-        userData.observe(this, Observer { userResponse ->
+        userData.observe(this) { userResponse ->
             listStudySet.clear()
             val targetFolder =
                 userResponse.documents.folders.find { folderItem -> folderItem.id == folderId }
@@ -87,7 +87,7 @@ class FolderClickActivity : AppCompatActivity() {
                 binding.layoutNoData.visibility = View.VISIBLE
             }
             adapterStudySet.notifyDataSetChanged()
-        })
+        }
         val rvStudySet = binding.rvStudySet
         rvStudySet.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         rvStudySet.adapter = adapterStudySet
@@ -183,7 +183,7 @@ class FolderClickActivity : AppCompatActivity() {
             }
 
             R.id.option_share -> {
-                shareDialog("Share content")
+                shareDialog(Helper.getDataUserId(this), folderId)
             }
         }
         return super.onOptionsItemSelected(item)
@@ -260,19 +260,19 @@ class FolderClickActivity : AppCompatActivity() {
         builder.create().show()
     }
 
-    private fun shareDialog(content: String) {
+    private fun shareDialog(userId: String, folderId: String) {
+        val deepLinkBaseUrl = "www.ttcs_quizlet.com/folder"
         val sharingIntent = Intent(Intent.ACTION_SEND)
         sharingIntent.type = "text/plain"
         sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject Here")
-        sharingIntent.putExtra(Intent.EXTRA_TEXT, content)
-
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, "$deepLinkBaseUrl/$userId/$folderId")
         val packageNames =
             arrayOf("com.facebook.katana", "com.facebook.orca", "com.google.android.gm")
         val chooserIntent = Intent.createChooser(sharingIntent, "Share via")
         chooserIntent.putExtra(Intent.EXTRA_EXCLUDE_COMPONENTS, packageNames)
-
-        startActivity(sharingIntent)
+        startActivity(chooserIntent)
     }
+
 
     private fun updateFolder(name: String, desc: String? = "", userId: String, folderId: String) {
         lifecycleScope.launch {
@@ -330,41 +330,41 @@ class FolderClickActivity : AppCompatActivity() {
 //                dialog.dismiss()
 //            }
 //            .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
-                lifecycleScope.launch {
-                    try {
-                        val result = apiService.deleteFolder(userId, folderId)
-                        if (result.isSuccessful) {
+        lifecycleScope.launch {
+            try {
+                val result = apiService.deleteFolder(userId, folderId)
+                if (result.isSuccessful) {
 
-                            result.body().let {
-                                if (it != null) {
-                                    CustomToast(this@FolderClickActivity).makeText(
-                                        this@FolderClickActivity,
-                                        resources.getString(R.string.deleteFolderSuccessful),
-                                        CustomToast.LONG,
-                                        CustomToast.SUCCESS
-                                    ).show()
-                                    UserM.setUserData(it)
-                                }
-                            }
-                        } else {
+                    result.body().let {
+                        if (it != null) {
                             CustomToast(this@FolderClickActivity).makeText(
                                 this@FolderClickActivity,
-                                resources.getString(R.string.deleteFolderErr),
+                                resources.getString(R.string.deleteFolderSuccessful),
                                 CustomToast.LONG,
-                                CustomToast.ERROR
+                                CustomToast.SUCCESS
                             ).show()
+                            UserM.setUserData(it)
                         }
-                    } catch (e: Exception) {
-                        CustomToast(this@FolderClickActivity).makeText(
-                            this@FolderClickActivity,
-                            e.message.toString(),
-                            CustomToast.LONG,
-                            CustomToast.ERROR
-                        ).show()
-                    } finally {
-                        progressDialog.dismiss()
                     }
+                } else {
+                    CustomToast(this@FolderClickActivity).makeText(
+                        this@FolderClickActivity,
+                        resources.getString(R.string.deleteFolderErr),
+                        CustomToast.LONG,
+                        CustomToast.ERROR
+                    ).show()
                 }
+            } catch (e: Exception) {
+                CustomToast(this@FolderClickActivity).makeText(
+                    this@FolderClickActivity,
+                    e.message.toString(),
+                    CustomToast.LONG,
+                    CustomToast.ERROR
+                ).show()
+            } finally {
+                progressDialog.dismiss()
+            }
+        }
 //            }
 //            .show()
 

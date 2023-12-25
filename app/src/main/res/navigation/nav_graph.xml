@@ -1,8 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!-- res/navigation/nav_graph.xml -->
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph">
+    android:id="@+id/nav_graph"
+    >
+<!--    app:startDestination="@id/deepLinkFolderActivity"-->
+<!--    <activity-->
+<!--        android:id="@+id/deepLinkFolderActivity"-->
+<!--        android:name="com.example.appquizlet.DeepLinkShareFolder">-->
+<!--        <deepLink-->
+<!--            android:id="@+id/deepLinkFolder"-->
+<!--            app:uri="appquizlet://folder/{folder_id}" />-->
+<!--    </activity>-->
 
-
+<!--    <activity-->
+<!--        android:id="@+id/deepLinkStudySetActivity"-->
+<!--        android:name="com.example.appquizlet.DeepLinkShareStudySet">-->
+<!--        <deepLink-->
+<!--            android:id="@+id/deepLinkStudySet"-->
+<!--            app:uri="appquizlet://studyset/{study_set_id}" />-->
+<!--    </activity>-->
 </navigation>

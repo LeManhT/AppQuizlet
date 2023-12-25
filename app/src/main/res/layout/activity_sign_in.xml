@@ -24,38 +24,38 @@
         app:navigationIcon="?attr/homeAsUpIndicator"
         app:title="" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/or_log_with"
-        android:textAllCaps="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+    <!--    <TextView-->
+    <!--        android:id="@+id/textView3"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="@string/or_log_with"-->
+    <!--        android:textAllCaps="true"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/toolbar" />-->
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnSigninGoogle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/marginInput"
-        android:text="@string/gg"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toStartOf="@+id/btnSignInFb"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+    <!--    <androidx.appcompat.widget.AppCompatButton-->
+    <!--        android:id="@+id/btnSigninGoogle"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="@dimen/marginInput"-->
+    <!--        android:text="@string/gg"-->
+    <!--        android:textColor="@color/white"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/btnSignInFb"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/textView3" />-->
 
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnSignInFb"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/marginInput"
-        android:layout_marginBottom="5dp"
-        android:text="@string/fb"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnSigninGoogle"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+    <!--    <androidx.appcompat.widget.AppCompatButton-->
+    <!--        android:id="@+id/btnSignInFb"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="@dimen/marginInput"-->
+    <!--        android:layout_marginBottom="5dp"-->
+    <!--        android:text="@string/fb"-->
+    <!--        android:textColor="@color/white"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/btnSigninGoogle"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/textView3" />-->
 
     <TextView
         android:id="@+id/textView4"
@@ -63,9 +63,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/marginInput"
         android:text="@string/or_log_with_email"
+        android:textColor="@color/txt_black_primary"
         android:textAllCaps="true"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnSigninGoogle" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -82,11 +83,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
+        android:textColorHint="@color/txt_black_primary"
         app:layout_constraintTop_toBottomOf="@+id/textView4">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtEmail"
             android:layout_width="match_parent"
+            android:textColorHint="@color/txt_black_primary"
             android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -95,6 +98,7 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/txt_black_primary"
         android:layout_marginTop="@dimen/marginInput"
         android:text="@string/email_add"
         android:textAllCaps="true"
@@ -117,6 +121,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6"
+        android:textColorHint="@color/txt_black_primary"
         app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -136,6 +141,7 @@
         android:layout_marginTop="@dimen/marginInput"
         android:text="@string/password"
         android:textAllCaps="true"
+        android:textColor="@color/txt_black_primary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtLayout2" />
 
@@ -156,7 +162,7 @@
             android:layout_marginTop="@dimen/marginInput"
             android:background="@drawable/button_splash"
             android:text="@string/log_in"
-            android:textColor="@color/white" />
+            android:textColor="@color/txt_white_in_btn" />
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -179,6 +185,7 @@
         android:gravity="center"
         android:paddingLeft="40dp"
         android:paddingRight="40dp"
+        android:textColor="@color/txt_black_primary"
         android:text="@string/forgot_u_p"
         app:layout_constraintBottom_toTopOf="@+id/imageView13"
         app:layout_constraintEnd_toEndOf="parent"
@@ -189,9 +196,9 @@
         android:id="@+id/imageView13"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:contentDescription=""
         android:layout_marginTop="@dimen/marginInput"
         android:layout_marginBottom="@dimen/marginInput"
+        android:contentDescription=""
         app:layout_constraintBottom_toTopOf="@+id/txtTermsOfService"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.6"
@@ -209,6 +216,7 @@
         android:gravity="center"
         android:paddingLeft="40dp"
         android:paddingRight="40dp"
+        android:textColor="@color/txt_black_primary"
         android:text="@string/terms_of_service"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

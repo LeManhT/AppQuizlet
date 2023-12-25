@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_profile"
     tools:context=".EditStudySet">
 
     <androidx.appcompat.widget.Toolbar
@@ -13,7 +14,7 @@
         app:layout_collapseMode="pin"
         app:navigationIcon="?attr/homeAsUpIndicator"
         app:popupTheme="@style/Theme.AppQuizlet.PopupOverlay"
-        app:title="">
+        app:title="@string/edit_set">
 
         <ImageView
             android:id="@+id/iconTick"
@@ -59,6 +60,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtSetName"
                     android:layout_width="match_parent"
+                    android:textColor="@color/txt_black_primary"
                     android:layout_height="wrap_content" />
 
 
@@ -69,6 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/pad_5"
                 android:layout_marginTop="@dimen/marginInput"
+                android:textColor="@color/txt_black_primary"
                 android:text="@string/title"
                 android:textAllCaps="true"
                 android:textSize="@dimen/titleSizeCard" />
@@ -125,7 +128,7 @@
                 android:layout_marginTop="@dimen/marginInput"
                 android:drawablePadding="@dimen/pad_5"
                 android:text="@string/scan_doc"
-                android:textColor="@color/my_blue"
+                android:textColor="@color/txt_blue"
                 android:textSize="@dimen/titleSize"
                 app:drawableLeftCompat="@drawable/icons8_plus_48_blue" />
 
@@ -137,7 +140,7 @@
                 android:layout_marginTop="@dimen/marginInput"
                 android:drawablePadding="@dimen/pad_5"
                 android:text="@string/description"
-                android:textColor="@color/my_blue"
+                android:textColor="@color/txt_blue"
                 android:textSize="@dimen/titleSize"
                 app:drawableLeftCompat="@drawable/icons8_plus_48_blue" />
 

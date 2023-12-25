@@ -16,6 +16,8 @@ class CreateSetItemAdapter(
     private val listSet: MutableList<FlashCardModel>
 ) : RecyclerView.Adapter<CreateSetItemAdapter.CreateSetItemHolder>() {
 
+    private var isDefinition: Boolean? = false
+
     interface OnIconClickListener {
         fun onIconClick(position: Int)
         fun onDeleteClick(position: Int)
@@ -51,25 +53,18 @@ class CreateSetItemAdapter(
 
         val txtTerm = holder.binding.edtTerm
         val txtDefinition = holder.binding.edtDefinition
-//        val layoutTerm = holder.binding.btnVoiceTerm
-//        val layoutDefinition = holder.binding.btnVoiceDefinition
+
 
         holder.binding.textFieldDefinition.setEndIconOnClickListener {
+            isDefinition = true
             onIconClickListener?.onIconClick(position)
         }
 
         holder.binding.textFieldTerm.setEndIconOnClickListener {
+            isDefinition = false
             onIconClickListener?.onIconClick(position)
         }
 
-
-//        layoutDefinition.setOnClickListener {
-//            onIconClickListener?.onIconClick(position)
-//        }
-//
-//        layoutTerm.setOnClickListener {
-//            onIconClickListener?.onIconClick(position)
-//        }
 
         holder.binding.btnAddNewCard.setOnClickListener {
             onIconClickListener?.onAddNewCard(position)
@@ -174,5 +169,11 @@ class CreateSetItemAdapter(
     fun getListSet(): MutableList<FlashCardModel> {
         return listSet
     }
+
+
+    fun getIsDefinition() : Boolean? {
+        return isDefinition
+    }
+
 
 }

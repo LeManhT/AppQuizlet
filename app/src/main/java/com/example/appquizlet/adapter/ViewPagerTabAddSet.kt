@@ -6,7 +6,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.appquizlet.FragmentCreatedSet
 import com.example.appquizlet.FragmentFolderSet
-import com.example.appquizlet.FragmentStudiedSet
 
 class ViewPagerTabAddSet(fragment: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fragment, lifecycle) {
@@ -21,7 +20,7 @@ class ViewPagerTabAddSet(fragment: FragmentManager, lifecycle: Lifecycle) :
             }
 
             1 -> {
-                FragmentStudiedSet()
+                FragmentFolderSet()
             }
 
             else -> {

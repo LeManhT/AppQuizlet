@@ -16,6 +16,9 @@
     <color name="semi_blue">#00C6FF</color>
     <color name="my_red">#FF0033</color>
     <color name="my_green">#00FF00</color>
+    <color name="my_moccasin">#FFE4B5</color>
+    <color name="my_papaya">#FFEFD5</color>
+    <color name="my_pink">#FFB6C1</color>
 
     <color name="light_blue">#C1E8FF</color>
     <color name="purple_200">#FFBB86FC</color>
@@ -24,5 +27,28 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="dialog_text">#37966f</color>
+
+
+    <color name="bg_activity">#F0F8FF</color>  <!--mã màu background activity-->
+    <color name="bg_card_achievement">#FFEFD5</color>  <!--mã màu background achievement-->
+    <color name="color_text_achievement_blue">#ff0099cc</color>  <!--mã màu text in achievement-->
+    <color name="bg_card_achievement_azure">#C1CDCD</color> <!--mã màu background contains achievements-->
+    <color name="txt_white_in_btn">#FFFFFFFF</color> <!--mã màu color in custom button-->
+    <color name="txt_black_primary">#FF000000</color><!--mã màu primary text-->
+    <color name="txt_blue">#405AEC</color> <!--mã màu text kiểu ViewAll , ...-->
+    <color name="txt_blue_primary">#6699FF</color>
+    <color name="btn_primary">#6699FF</color>  <!--mã màu background mau xanh cho button ...-->
+    <color name="txt_excellent_gray">#707070</color> <!--mã màu text in modes ...-->
+    <color name="bottom_nav">#FFFFFFFF</color> <!--mã màu cho bottom navigation-->
+    <color name="bg_card_test_card">#FFFFFFFF</color> <!--mã màu background ở trong card-->
+    <color name="txt_delete_teal">#FF018786</color> <!--mã màu cho nut delete-->
+    <color name="bg_azure">#C1CDCD</color>
+    <color name="nice_job_green">#00FF00</color> <!--mã màu background cho dialog trả lời đúng ở trong custom review correct-->
+    <color name="bg_review_wrong">#FF0033</color> <!--mã màu background cho dialog trả lời sai-->
+    <color name="title_app_name_home">#FFFFFFFF</color> <!--mã màu text appname ở trong Home-->
+    <color name="txt_black_in_card">#FF000000</color> <!--mã màu text ở trên folder, set-->
+    <color name="bg_flashcard">#FFFFFFFF</color> <!--mã màu background cho flashcard-->
+
+
 </resources>
 

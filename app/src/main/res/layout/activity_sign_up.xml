@@ -20,43 +20,45 @@
         app:title="" />
 
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/or_sign_up_with"
-        android:textAllCaps="true" />
+<!--    <TextView-->
+<!--        android:id="@+id/textView3"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/or_sign_up_with"-->
+<!--        android:textAllCaps="true" />-->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:orientation="horizontal">
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="15dp"-->
+<!--        android:layout_marginBottom="15dp"-->
+<!--        android:orientation="horizontal">-->
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnSigninGoogle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/gg"
-            android:textColor="@color/white" />
+<!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:id="@+id/btnSigninGoogle"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="@string/gg"-->
+<!--            android:textColor="@color/white" />-->
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnSignInFb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/fb"
-            android:textColor="@color/white" />
-    </LinearLayout>
+<!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:id="@+id/btnSignInFb"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="@string/fb"-->
+<!--            android:textColor="@color/white" />-->
+<!--    </LinearLayout>-->
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/txt_black_primary"
         android:layout_marginBottom="5dp"
         android:text="@string/or_sign_up_email"
+        android:alpha="0.8"
         android:textAllCaps="true" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -72,6 +74,7 @@
             android:layout_marginBottom="5dp"
             android:autofillHints=""
             android:ems="10"
+            android:textColorHint="@color/txt_black_primary"
             android:hint="@string/select_dob"
             android:inputType="date" />
 
@@ -82,6 +85,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/dob"
+        android:textColor="@color/txt_black_primary"
+        android:alpha="0.8"
         android:textAllCaps="true" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -92,6 +97,7 @@
         android:hint="@string/email_hint"
         app:endIconMode="clear_text"
         app:errorEnabled="true"
+        android:textColorHint="@color/txt_black_primary"
         app:errorTextAppearance="@style/CustomTextInputLayout"
         app:helperText="@string/helper_email"
         app:helperTextTextAppearance="@style/CustomTextInputLayout">
@@ -99,6 +105,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtEmail"
             android:layout_width="match_parent"
+            android:textColorHint="@color/txt_black_primary"
             android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -116,6 +123,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:hint="@string/pass_hint"
+        android:textColorHint="@color/txt_black_primary"
         app:counterEnabled="true"
         app:counterMaxLength="15"
         app:endIconMode="clear_text"
@@ -140,6 +148,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:text="@string/password"
+        android:textColor="@color/txt_black_primary"
         android:textAllCaps="true" />
 
 
@@ -150,7 +159,7 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/button_splash"
         android:text="@string/sign_up"
-        android:textColor="@color/white" />
+        android:textColor="@color/txt_white_in_btn" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -168,6 +177,7 @@
         android:gravity="center"
         android:paddingLeft="40dp"
         android:paddingRight="40dp"
+        android:textColor="@color/txt_black_primary"
         android:text="@string/terms_of_service" />
 
     <ImageView

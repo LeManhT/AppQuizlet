@@ -24,10 +24,72 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppQuizlet"
         android:usesCleartextTraffic="true"
-        tools:replace="android:icon"
+        tools:replace="android:allowBackup"
         tools:targetApi="31">
         <activity
+            android:name=".SearchDetail"
+            android:exported="false" />
+        <activity
+            android:name=".ChangeEmail"
+            android:exported="false" />
+        <activity
+            android:name=".SearchNoLogin"
+            android:exported="false" />
+        <activity
+            android:name=".DeepLinkShareStudySet"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="www.ttcs_quizlet.com"
+                    android:pathPrefix="/studyset/{uniqueIdentifier}"
+                    android:scheme="https" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="www.ttcs_quizlet.com"
+                    android:scheme="http" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".DeepLinkShareFolder"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="www.ttcs_quizlet.com"
+                    android:pathPrefix="/folder/{uniqueIdentifier}"
+                    android:scheme="https" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="www.ttcs_quizlet.com"
+                    android:scheme="http" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".Achievement"
+            android:exported="false" />
+        <activity
+            android:name=".Change_Password"
             android:exported="false" />
         <activity
             android:name=".WelcomeToLearn"
@@ -37,9 +99,6 @@
             android:exported="false" />
         <activity
             android:name=".ReviewLearn"
-            android:exported="false" />
-        <activity
-            android:name=".ReviewKnowledge"
             android:exported="false" />
         <activity
             android:name=".ChangeTheme"
@@ -81,12 +140,6 @@
             android:theme="@style/Theme.AppQuizlet" />
         <activity
             android:name=".NotFound"
-            android:exported="false" />
-        <activity
-            android:name=".other.AchievementHome"
-            android:exported="false" />
-        <activity
-            android:name=".other.AddCourseHome"
             android:exported="false" />
         <activity
             android:name=".Add_Course"

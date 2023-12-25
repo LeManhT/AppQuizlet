@@ -2,7 +2,7 @@ package com.example.appquizlet.model
 
 import com.google.gson.annotations.SerializedName
 
-data class UserResponse(
+class UserResponse(
     @SerializedName("id") val id: String,
     @SerializedName("seqId") val seqId: Int,
     @SerializedName("loginName") val loginName: String,
@@ -12,7 +12,8 @@ data class UserResponse(
     @SerializedName("dateOfBirth") val dateOfBirth: String,
     @SerializedName("timeCreated") val timeCreated: Long,
     @SerializedName("documents") val documents: DocumentModel,
-    @SerializedName("setting") val setting: SettingModel
+    @SerializedName("setting") val setting: SettingModel,
+//    @SerializedName("avatar") val avatar: ByteArray
 ) {
 
 }

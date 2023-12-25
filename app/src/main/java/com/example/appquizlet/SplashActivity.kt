@@ -3,6 +3,7 @@ package com.example.appquizlet
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.Typeface
 import android.net.ConnectivityManager
@@ -25,12 +26,15 @@ import com.example.appquizlet.model.PhotoSplash
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
     val br = BroadcastReceiverCheckInternet()
+    private lateinit var sharedPreferences : SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         //        Khoi tao viewbinding
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        sharedPreferences = this.getSharedPreferences("currentStreak", Context.MODE_PRIVATE)
 
 
 

@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.appquizlet"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.appquizlet"
@@ -56,6 +56,8 @@ dependencies {
     implementation("com.google.android.flexbox:flexbox:3.0.0")
 
     implementation ("com.github.rizmaulana:floating-slideup-sheet:0.1.0")
+//    implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")
+//    implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
 
 
     val room_version = "2.5.0"
@@ -67,7 +69,9 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("de.hdodenhof:circleimageview:3.1.0")
 
+
 //    implementation ("com.ismaeldivita.chipnavigation:chip-navigation-bar:1.3.4")
+    implementation ("com.github.nguyenhoanglam:ImagePicker:1.6.2")
 
     testImplementation("junit:junit:4.13.2")
     implementation("me.relex:circleindicator:2.1.6")

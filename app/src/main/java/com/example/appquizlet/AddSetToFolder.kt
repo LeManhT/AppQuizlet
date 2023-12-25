@@ -2,9 +2,8 @@ package com.example.appquizlet
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
-import androidx.appcompat.widget.Toolbar
+import androidx.core.content.res.ResourcesCompat
 import com.example.appquizlet.adapter.ViewPagerTabAddSet
 import com.example.appquizlet.databinding.ActivityAddSetToFolderBinding
 import com.google.android.material.tabs.TabLayoutMediator
@@ -28,9 +27,15 @@ class AddSetToFolder : AppCompatActivity() {
         binding.pagerAddSetLib.adapter = adapterTabSet
         TabLayoutMediator(binding.tabLibAddSet, binding.pagerAddSetLib) { tab, pos ->
             when (pos) {
-                0 -> tab.text = resources.getString(R.string.created)
-                1 -> tab.text = resources.getString(R.string.studied)
-                2 -> tab.text = resources.getString(R.string.folders)
+                0 -> {
+                    tab.text = resources.getString(R.string.created)
+                    tab.icon = ResourcesCompat.getDrawable(resources,R.drawable.note,null)
+                }
+//                1 -> tab.text = resources.getString(R.string.studied)
+                1 -> {
+                    tab.text = resources.getString(R.string.folders)
+                    tab.icon = ResourcesCompat.getDrawable(resources,R.drawable.folder_outlined,null)
+                }
             }
         }.attach()
 
@@ -42,6 +47,10 @@ class AddSetToFolder : AppCompatActivity() {
             if (currentFragment is FragmentCreatedSet) {
                 // Gọi phương thức trong fragment
                 currentFragment.insertSetToFolder(folderId)
+            }
+
+            if (currentFragment is FragmentFolderSet) {
+                currentFragment.insertFolderToFolder(folderId)
             }
         }
     }

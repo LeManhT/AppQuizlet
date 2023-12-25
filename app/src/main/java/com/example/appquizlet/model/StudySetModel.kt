@@ -8,9 +8,11 @@ class StudySetModel(
     val timeCreated: Long,
     @SerializedName("idFolderOwner")
     val folderOwnerId: String,
-    val isPublic: Boolean? = false,
     val countTerm: Int? = 2,
     val cards: List<FlashCardModel>,
-    var isSelected: Boolean? = false
+    var isSelected: Boolean? = false,
+    @SerializedName("isPublic")
+    val isPublic: Boolean? = false,
+    val nameOwner: String
 ) {
 }

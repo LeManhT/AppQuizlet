@@ -49,9 +49,9 @@ class ReviewLearnAdapter(
         val incorrectOptions = studySet.shuffled().filter { it.definition != correctAnswer }
         options = (incorrectOptions.take(2) + studySet[position]).shuffled()
 
-        textOptionCard1.text = options[0].definition
-        textOptionCard2.text = options[1].definition
-        textOptionCard3.text = options[2].definition
+        textOptionCard1.text = options[0].definition ?: ""
+        textOptionCard2.text = options[1].definition ?: ""
+        textOptionCard3.text = options[2].definition ?: ""
 
         holder.binding.cardViewAnswer1.setOnClickListener {
             handleAnswerSelection(holder, holder.binding.cardViewAnswer1, options[0])
@@ -180,7 +180,7 @@ class ReviewLearnAdapter(
         if (nextPosition < studySet.size) {
             recyclerView.smoothScrollToPosition(nextPosition)
         } else {
-            var i = Intent(context, Excellent::class.java)
+            val i = Intent(context, Excellent::class.java)
             context.startActivity(i)
         }
     }

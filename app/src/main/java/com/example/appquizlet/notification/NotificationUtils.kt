@@ -4,32 +4,27 @@ import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.example.appquizlet.BroadcastReceiver.AlarmReceiver
 import com.example.appquizlet.MainActivity_Logged_In
 import com.example.appquizlet.R
-import com.example.appquizlet.database.MyDBHelper
-import com.example.appquizlet.model.NotificationModel
 import java.util.Calendar
 
-fun MyDBHelper.addNotification(notificationItem: NotificationModel) {
-    val db = this.writableDatabase
-    val values = ContentValues()
-    values.put("notificationTitle", notificationItem.notificationTitle)
-    values.put("notificationContent", notificationItem.notificationContent)
-    values.put("notificationTimestamp", notificationItem.notificationTimestamp)
-
-    // Thêm thông báo vào cơ sở dữ liệu
-    db.insert("NOTIFICATION", null, values)
-    Log.d("gg","add success")
-    db.close()
-}
+//fun MyDBHelper.addNotification(notificationItem: NotificationModel) {
+//    val db = this.writableDatabase
+//    val values = ContentValues()
+//    values.put("notificationTitle", notificationItem.notificationTitle)
+//    values.put("notificationContent", notificationItem.notificationContent)
+//    values.put("notificationTimestamp", notificationItem.notificationTimestamp)
+//
+//    // Thêm thông báo vào cơ sở dữ liệu
+//    db.insert("NOTIFICATION", null, values)
+//    Log.d("gg","add success")
+//    db.close()
+//}
 
 class NotificationUtils {
     companion object {
@@ -99,16 +94,16 @@ class NotificationUtils {
                 context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.notify(NOTIFICATION_ID, builder.build())
 
-            // Lưu thông báo vào cơ sở dữ liệu
-            val notificationDb = MyDBHelper(context)
-            val timestamp = System.currentTimeMillis()
-            val notificationItem = NotificationModel(
-                0,
-                "Daily Reminder",
-                "Nhắc nhở bạn về điều gì đó quan trọng. Vào app học thôi nào",
-                timestamp
-            )
-            notificationDb.addNotification(notificationItem)
+//            // Lưu thông báo vào cơ sở dữ liệu
+//            val notificationDb = MyDBHelper(context)
+//            val timestamp = System.currentTimeMillis()
+//            val notificationItem = NotificationModel(
+//                0,
+//                "Daily Reminder",
+//                "Nhắc nhở bạn về điều gì đó quan trọng. Vào app học thôi nào",
+//                timestamp
+//            )
+//            notificationDb.addNotification(notificationItem)
         }
     }
 

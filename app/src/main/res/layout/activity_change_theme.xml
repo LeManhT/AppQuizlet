@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_profile"
     android:orientation="vertical"
     tools:context=".ChangeTheme">
 
@@ -11,40 +11,52 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Select Theme Mode"
+        android:text="@string/select_theme_mode"
         android:textSize="18sp"
+        android:layout_marginTop="@dimen/mar_10"
+        android:textColor="@color/txt_black_primary"
         android:textStyle="bold" />
 
-    <RadioGroup
-        android:id="@+id/radioGroup"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/mar_15"
         android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/radioDark"
-            android:layout_width="wrap_content"
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Dark Mode" />
+            android:layout_marginTop="16dp"
+            android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/radioNight"
-            android:layout_width="wrap_content"
+            <RadioButton
+                android:id="@+id/radioDark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/txt_black_primary"
+                android:text="@string/dark_mode" />
+
+            <RadioButton
+                android:id="@+id/radioNight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/txt_black_primary"
+                android:text="@string/night_mode" />
+
+            <!--        <RadioButton-->
+            <!--            android:id="@+id/radioSystemDefault"-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:text="System Default" />-->
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btnApplyTheme"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Night Mode" />
-
-        <RadioButton
-            android:id="@+id/radioSystemDefault"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="System Default" />
-    </RadioGroup>
-
-    <Button
-        android:id="@+id/btnApplyTheme"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Apply Theme" />
+            android:layout_marginTop="16dp"
+            android:textColor="@color/txt_white_in_btn"
+            android:text="@string/apply_theme" />
+    </LinearLayout>
 </LinearLayout>

@@ -22,7 +22,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/abril_fatface"
             android:text="@string/name"
-            android:textColor="#0000FF"
+            android:textColor="@color/txt_blue"
             android:textSize="30dp" />
 
         <ImageButton
@@ -54,6 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
+        android:textColor="@color/txt_black_primary"
         android:padding="40dp"
         android:text="@string/terms_of_service" />
 
@@ -69,14 +70,14 @@
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:layout_marginBottom="20dp"
-           android:textColor="@color/white"
+           android:textColor="@color/txt_white_in_btn"
            android:text="@string/sign_up_for_free" />
 
        <androidx.appcompat.widget.AppCompatButton
            android:id="@+id/btnSignin"
            android:background="@drawable/button_splash"
            android:layout_width="match_parent"
-           android:textColor="@color/white"
+           android:textColor="@color/txt_white_in_btn"
            android:layout_height="wrap_content"
            android:text="@string/or_log_in" />
    </LinearLayout>

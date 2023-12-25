@@ -4,6 +4,8 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Build
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.TextView
@@ -63,10 +65,30 @@ object Helper {
     }
 
     fun getAllStudySets(userData: UserResponse): List<StudySetModel> {
-        val studySetsInFolders = userData.documents.folders.flatMap { it.studySets }
-        val standaloneStudySets = userData.documents.studySets
-
-        return studySetsInFolders + standaloneStudySets
+        val newStudySets = mutableListOf<StudySetModel>()
+        val studySetsInFolders = userData.documents.folders.flatMap { it ->
+            it.studySets
+        }.distinctBy { it.id }.distinctBy { it.timeCreated }
+//            .filterNot { folderSet ->
+//                userData.documents.studySets.any { standaloneSet ->
+//                    folderSet.name == standaloneSet.name && folderSet.timeCreated == standaloneSet.timeCreated
+//                }
+//            }
+        val standaloneStudySets = userData.documents.studySets.filter { set ->
+            !studySetsInFolders.any { it.id == set.id }
+        }.distinctBy { it.id }
+        newStudySets.addAll(studySetsInFolders)
+        newStudySets.addAll(standaloneStudySets)
+//        standaloneStudySets.map {
+//            Log.d("standaloneStudySets", Gson().toJson(it.id))
+//        }
+//        studySetsInFolders.map {
+//            Log.d("standaloneStudySets22", Gson().toJson(it.id))
+//        }
+//        (newStudySets).map {
+//            Log.d("standaloneStudySets23", Gson().toJson(it.id))
+//        }
+        return newStudySets
     }
 
     fun flipCard(cardView: CardView, txtTerm: TextView, currentItem: FlashCardModel) {
@@ -92,4 +114,32 @@ object Helper {
 
         scaleXInvisible.start()
     }
+
+    fun toGrayscale(originalBitmap: Bitmap): Bitmap {
+        val width = originalBitmap.width
+        val height = originalBitmap.height
+
+        val pixels = IntArray(width * height)
+        originalBitmap.getPixels(pixels, 0, width, 0, 0, width, height)
+
+        for (i in pixels.indices) {
+            val pixel = pixels[i]
+
+            val alpha = Color.alpha(pixel)
+            val red = Color.red(pixel)
+            val green = Color.green(pixel)
+            val blue = Color.blue(pixel)
+
+            val gray = (0.299 * red + 0.587 * green + 0.114 * blue).toInt()
+
+            pixels[i] = Color.argb(alpha, gray, gray, gray)
+        }
+
+        val grayscaleBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        grayscaleBitmap.setPixels(pixels, 0, width, 0, 0, width, height)
+
+        return grayscaleBitmap
+    }
+
+
 }

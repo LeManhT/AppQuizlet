@@ -50,26 +50,25 @@ class FragmentCreatedSet : Fragment(),RvStudySetItemAdapter.onClickSetItem {
             RvStudySetItemAdapter(requireContext(), listStudySet, object : RVStudySetItem {
                 override fun handleClickStudySetItem(setItem: StudySetModel, position: Int) {
                     setItem.isSelected = setItem.isSelected?.not() ?: true
+                    adapterStudySet.notifyItemChanged(position)
+
                     val selectedItems = listStudySet.filter { it.isSelected == true }
+                    listSetSelected.clear()
                     if (selectedItems.isNotEmpty()) {
                         listSetSelected.addAll(selectedItems)
                     } else {
                         Log.d("Selected Items", "No items selected")
                     }
                 }
-            }, true, true)
+            }, enableSwipe = false, true)
 
         val userDataStudySet = UserM.getUserData()
         userDataStudySet.observe(viewLifecycleOwner) {
             listStudySet.clear()
             listStudySet.addAll(Helper.getAllStudySets(it))
-            if (listStudySet.isEmpty()) {
-                Helper.replaceWithNoDataFragment(
-                    requireFragmentManager(),
-                    R.id.studySetItemContainer
-                )
+            Helper.getAllStudySets(it).map{ it1 ->
+                Log.d("all",it1.id)
             }
-
             // Thông báo cho adapter rằng dữ liệu đã thay đổi để cập nhật giao diện người dùng
             adapterStudySet.notifyDataSetChanged()
         }
@@ -94,7 +93,9 @@ class FragmentCreatedSet : Fragment(),RvStudySetItemAdapter.onClickSetItem {
         lifecycleScope.launch {
             try {
                 showLoading("Add set to folder processing ...")
-                val body: ArrayList<String> = ArrayList(listSetSelected.map { it.id })
+                val body: MutableSet<String> = listSetSelected.map { it.id }.toMutableSet()
+                Log.d("llll",Gson().toJson(listSetSelected))
+                Log.d("llll",Gson().toJson(body))
                 val result = apiService.addSetToFolder(
                     Helper.getDataUserId(requireContext()),
                     folderId,
@@ -122,7 +123,7 @@ class FragmentCreatedSet : Fragment(),RvStudySetItemAdapter.onClickSetItem {
                     }
                 } else {
                     result.errorBody()?.string()?.let {
-                        requireContext()?.let { it1 ->
+                        requireContext().let { it1 ->
                             CustomToast(it1).makeText(
                                 requireContext(),
                                 it,

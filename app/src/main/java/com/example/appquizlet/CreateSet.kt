@@ -5,10 +5,12 @@ import android.content.Intent
 import android.graphics.Canvas
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.speech.RecognizerIntent
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -23,8 +25,11 @@ import com.example.appquizlet.model.CreateSetRequest
 import com.example.appquizlet.model.FlashCardModel
 import com.example.appquizlet.model.UserM
 import com.example.appquizlet.util.Helper
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
+import java.util.ArrayList
 import java.util.Collections
+import java.util.Locale
 
 class CreateSet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListener {
     private lateinit var binding: ActivityCreateSetBinding
@@ -32,6 +37,8 @@ class CreateSet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListener 
     private lateinit var apiService: ApiService
     private var listSet = mutableListOf<FlashCardModel>()
     private lateinit var adapterCreateSet: CreateSetItemAdapter
+    private val REQUEST_CODE_SPEECH_INPUT = 1
+    private var speechRecognitionPosition: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +54,10 @@ class CreateSet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListener 
 
         listSet.add(FlashCardModel())
         listSet.add(FlashCardModel())
+        listSet.add(FlashCardModel())
+        listSet.add(FlashCardModel())
         adapterCreateSet = CreateSetItemAdapter(listSet)
+        adapterCreateSet.setOnIconClickListener(this)
         binding.RvCreateSets.layoutManager = LinearLayoutManager(this)
         binding.RvCreateSets.adapter = adapterCreateSet
 
@@ -69,20 +79,37 @@ class CreateSet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListener 
 
             // Lấy danh sách CreateSetModel từ adapter
             val updatedList = adapterCreateSet.getListSet()
+            val isEmptyItemExist =
+                updatedList.any { it.term?.isEmpty() == true || it.definition?.isEmpty() == true }
 
             // Kiểm tra xem updatedList có dữ liệu hay không
-            if (updatedList.isNotEmpty()) {
-                // Chuyển danh sách thành chuỗi JSON để đẩy vào API
-                // Gọi phương thức để tạo mới study set
-                createNewStudySet(userId, name, desc, updatedList)
-            } else {
-                // Nếu danh sách rỗng, thông báo cho người dùng
+            if (isEmptyItemExist) {
                 CustomToast(this).makeText(
                     this,
-                    "Please add at least one flashcard.",
+                    "Please fill in all flashcards before updating.",
                     CustomToast.LONG,
                     CustomToast.ERROR
                 ).show()
+            } else if (updatedList.isNotEmpty()) {
+                if (updatedList.size < 4) {
+                    CustomToast(this).makeText(
+                        this,
+                        "Please add at least 4 flashcards.",
+                        CustomToast.LONG,
+                        CustomToast.ERROR
+                    ).show()
+                } else {
+                    if (name.isEmpty()) {
+                        CustomToast(this).makeText(
+                            this,
+                            resources.getString(R.string.set_name_is_required),
+                            CustomToast.LONG,
+                            CustomToast.ERROR
+                        ).show()
+                    } else {
+                        createNewStudySet(userId, name, desc, updatedList)
+                    }
+                }
             }
         }
 
@@ -128,7 +155,6 @@ class CreateSet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListener 
                     allNewCards = dataSet
                 )
                 val result = apiService.createNewStudySet(userId, body)
-                Log.d("ar", body.toString())
 
                 if (result.isSuccessful) {
                     result.body()?.let {
@@ -192,8 +218,11 @@ class CreateSet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListener 
     }
 
     override fun onIconClick(position: Int) {
-
+        Log.d("startSpeechRecognition1", "click")
+        speechRecognitionPosition = position
+        startSpeechRecognition(position)
     }
+
 
     override fun onDeleteClick(position: Int) {
         if (position != RecyclerView.NO_POSITION) {
@@ -260,6 +289,74 @@ class CreateSet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListener 
 
     private fun showLoading(msg: String) {
         progressDialog = ProgressDialog.show(this, null, msg)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val matches: ArrayList<String>? = data?.getStringArrayListExtra(
+            RecognizerIntent.EXTRA_RESULTS
+        )
+
+        Log.d("goi", Gson().toJson(matches))
+
+        if (requestCode == REQUEST_CODE_SPEECH_INPUT && resultCode == RESULT_OK && data != null) {
+            val position = speechRecognitionPosition
+
+            if (position != -1) {
+                val speechResults = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+
+                if (!speechResults.isNullOrEmpty()) {
+                    val spokenText = speechResults[0]
+                    if (adapterCreateSet.getIsDefinition() == true) {
+                        updateRecyclerViewItemDefinition(position, spokenText)
+                    } else {
+                        updateRecyclerViewItemTerm(position, spokenText)
+                    }
+                } else {
+                    Toast.makeText(this, "No speech results found", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Log.e("onActivityResult", "Position is not available in the intent")
+            }
+            speechRecognitionPosition = -1
+        }
+    }
+
+
+    private fun updateRecyclerViewItemTerm(position: Int, spokenText: String?) {
+        if (position < listSet.size && spokenText != null) {
+            val item = listSet[position]
+            item.term = spokenText
+            adapterCreateSet.notifyItemChanged(position)
+        }
+    }
+
+    private fun updateRecyclerViewItemDefinition(position: Int, spokenText: String?) {
+        if (position < listSet.size && spokenText != null) {
+            val item = listSet[position]
+            item.definition = spokenText
+            adapterCreateSet.notifyItemChanged(position)
+        }
+    }
+
+    private fun startSpeechRecognition(position: Int) {
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        intent.putExtra(
+            RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+            RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+        )
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to text")
+        intent.putExtra(RecognizerIntent.EXTRA_ORIGIN, position)
+
+
+        Log.d("startSpeechRecognition", "Intent extras: ${intent.extras}")
+
+        try {
+            startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT)
+        } catch (e: Exception) {
+            Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
     }
 
 }
