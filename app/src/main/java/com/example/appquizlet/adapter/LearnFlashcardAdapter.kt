@@ -13,7 +13,7 @@ class LearnFlashcardAdapter(
     private val context: Context,
     private val listFlashcards: List<FlashCardModel>,
     private val onClickLearnCard: LearnCardClick,
-    private var itemClickListener: onLearnCardClick? = null
+    private var itemClickListener: onLearnCardClick? = null,
 ) :
     RecyclerView.Adapter<LearnFlashcardAdapter.LearnFlashcardHolder>() {
     private val flippedPositions = HashSet<Int>()
@@ -44,7 +44,11 @@ class LearnFlashcardAdapter(
         holder.itemView.apply {
             val cardView = holder.binding.cardViewLearn
             val txtCardLearn = holder.binding.txtFlashcardStudyTerm
-            txtCardLearn.text = currentItem.term
+            if(currentItem.isUnMark == true) {
+                txtCardLearn.text = currentItem.definition
+            } else {
+                txtCardLearn.text = currentItem.term
+            }
             val btnSpeak = holder.binding.iconSpeak
             btnSpeak.setOnClickListener {
                 if (currentItem.isUnMark == true) {

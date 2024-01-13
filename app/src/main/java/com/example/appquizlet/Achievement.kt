@@ -5,18 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.appquizlet.adapter.AchievementAdapter
-import com.example.appquizlet.adapter.AdapterCustomDatePicker
 import com.example.appquizlet.databinding.ActivityAchievementBinding
 import com.example.appquizlet.model.TaskData
 import com.example.appquizlet.model.UserM
 import com.google.gson.Gson
 import java.time.LocalDate
 import java.time.YearMonth
-import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
 
@@ -113,13 +109,13 @@ class Achievement : AppCompatActivity() {
 //            daysOfWeek.indexOf(day.dayOfWeek.toString())
 //        }
 
-        val formattedDays = daysInMonth.map { day ->
-            day.format(DateTimeFormatter.ofPattern("d"))
-        }
-        val recyclerViewDay: RecyclerView = binding.rvDate
-        val dayAdapter = AdapterCustomDatePicker(formattedDays, formattedDays)
-        recyclerViewDay.layoutManager = GridLayoutManager(this, 7) // Hiển thị 7 cột
-        recyclerViewDay.adapter = dayAdapter
+//        val formattedDays = daysInMonth.map { day ->
+//            day.format(DateTimeFormatter.ofPattern("d"))
+//        }
+//        val recyclerViewDay: RecyclerView = binding.rvDate
+//        val dayAdapter = AdapterCustomDatePicker(formattedDays, formattedDays)
+//        recyclerViewDay.layoutManager = GridLayoutManager(this, 7) // Hiển thị 7 cột
+//        recyclerViewDay.adapter = dayAdapter
     }
 
 

@@ -1,7 +1,9 @@
 package com.example.appquizlet
 
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Canvas
 import android.os.Bundle
 import android.speech.RecognizerIntent
@@ -9,6 +11,7 @@ import android.text.Editable
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -24,6 +27,12 @@ import com.example.appquizlet.model.FlashCardModel
 import com.example.appquizlet.model.UserM
 import com.example.appquizlet.util.Helper
 import com.google.gson.Gson
+import com.google.mlkit.common.model.DownloadConditions
+import com.google.mlkit.nl.languageid.LanguageIdentification
+import com.google.mlkit.nl.languageid.LanguageIdentificationOptions
+import com.google.mlkit.nl.translate.TranslateLanguage
+import com.google.mlkit.nl.translate.Translation
+import com.google.mlkit.nl.translate.TranslatorOptions
 import kotlinx.coroutines.launch
 import java.util.ArrayList
 import java.util.Collections
@@ -48,10 +57,10 @@ class EditStudySet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListen
 
         apiService = RetrofitHelper.getInstance().create(ApiService::class.java)
 
-        binding.iconEditStudySetSetting.setOnClickListener {
-            val i = Intent(this, SetOptionActivity::class.java)
-            startActivity(i)
-        }
+//        binding.iconEditStudySetSetting.setOnClickListener {
+//            val i = Intent(this, SetOptionActivity::class.java)
+//            startActivity(i)
+//        }
         val intent = intent
         val setId = intent.getStringExtra("editSetId")
         listSet = mutableListOf<FlashCardModel>()
@@ -302,7 +311,6 @@ class EditStudySet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListen
             RecognizerIntent.EXTRA_RESULTS
         )
 
-        Log.d("goi", Gson().toJson(matches))
 
         if (requestCode == REQUEST_CODE_SPEECH_INPUT && resultCode == RESULT_OK && data != null) {
             val position = speechRecognitionPosition
@@ -366,5 +374,130 @@ class EditStudySet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListen
 
     private fun showLoading(msg: String) {
         progressDialog = ProgressDialog.show(this, null, msg)
+    }
+
+    private fun btnShowDialogChooseTranslate(position: Int, text: String) {
+        val languageIdentifier = LanguageIdentification.getClient(
+            LanguageIdentificationOptions.Builder().setConfidenceThreshold(0.1f).build()
+        )
+        Log.d("termValue1", text.toString())
+        languageIdentifier.identifyLanguage(text).addOnSuccessListener { languageCode ->
+            Log.i("Language Code", languageCode)
+            if (languageCode == "und") {
+                Toast.makeText(this, "Can't identify language.", Toast.LENGTH_SHORT).show()
+            } else {
+                val builder = AlertDialog.Builder(this)
+                val itemsArray = when (languageCode) {
+                    "en" -> arrayOf("Vietnamese", "Chinese")
+                    "vi" -> arrayOf("English", "Chinese")
+                    "zh" -> arrayOf("English", "Vietnamese")
+                    else -> arrayOf("English", "Vietnamese", "Chinese")
+                }
+                builder.setTitle("Choose Language Format").setItems(itemsArray) { _, which ->
+                    translateText(
+                        position,
+                        text,
+                        languageCode,
+                        getTranslateLanguageCode(itemsArray[which])
+                    )
+                }
+                builder.create().show()
+
+            }
+        }.addOnFailureListener {
+
+        }
+    }
+
+    private fun getTranslateLanguageCode(languageName: String): String {
+        return when (languageName.toUpperCase()) {
+            "ENGLISH" -> TranslateLanguage.ENGLISH
+            "VIETNAMESE" -> TranslateLanguage.VIETNAMESE
+            "CHINESE" -> TranslateLanguage.CHINESE
+            else -> TranslateLanguage.ENGLISH // Handle the default case or unsupported language
+        }
+    }
+
+    private fun translateText(
+        position: Int, text: String, sourceLanguage: String, targetLanguage: String
+    ) {
+        if (ContextCompat.checkSelfPermission(
+                this, android.Manifest.permission.INTERNET
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            val options = TranslatorOptions.Builder().setSourceLanguage(sourceLanguage)
+                .setTargetLanguage(targetLanguage).build()
+            val dualLanguageTranslator = Translation.getClient(options)
+            var conditions = DownloadConditions.Builder().requireWifi().build()
+            dualLanguageTranslator.downloadModelIfNeeded(conditions).addOnSuccessListener {
+                dualLanguageTranslator.translate(text).addOnSuccessListener { translatedText ->
+                    Log.i(
+                        "detectL2", "translatedText: $translatedText"
+                    )
+                    if (adapterCreateSet.getIsDefinitionTranslate() == true) {
+                        listSet[position].definition = translatedText
+                        adapterCreateSet.notifyDataSetChanged()
+                    } else {
+                        listSet[position].term = translatedText
+                        adapterCreateSet.notifyDataSetChanged()
+                    }
+                }.addOnFailureListener { exception ->
+                    Log.i("detectL3", "translatedText: $exception")
+                }
+            }.addOnFailureListener { exception ->
+                Log.i("exception", "exception: $exception")
+            }
+//        val modelManager = RemoteModelManager.getInstance()
+//        modelManager.getDownloadedModels(TranslateRemoteModel::class.java)
+//            .addOnSuccessListener { models ->
+//                Log.d("modelLan", models.toString())
+//            }
+//            .addOnFailureListener {
+//                // Error.
+//            }
+//
+//        val targetModel = TranslateRemoteModel.Builder(targetLanguage).build()
+//        val conditions = DownloadConditions.Builder()
+//            .requireWifi()
+//            .build()
+//        modelManager.download(targetModel, conditions)
+//            .addOnSuccessListener {
+//                dualLanguageTranslator.translate(text)
+//                    .addOnSuccessListener { translatedText ->
+//                        Log.i(
+//                            "detectL2",
+//                            "translatedText: $translatedText"
+//                        )
+//                    }
+//                    .addOnFailureListener { exception ->
+//                        Log.i("detectL3", "translatedText: $exception")
+//                    }
+//            }
+//            .addOnFailureListener { exception ->
+//
+//            }
+//
+//        modelManager.deleteDownloadedModel(targetModel)
+//            .addOnSuccessListener {
+//            }
+//            .addOnFailureListener {
+//                // Error.
+//            }
+//        lifecycle.addObserver(dualLanguageTranslator)
+        } else {
+            Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
+    override fun onTranslateIconClick(position: Int, currentText: String) {
+        if (adapterCreateSet.getIsDefinitionTranslate() == true) {
+            adapterCreateSet.notifyDataSetChanged()
+            btnShowDialogChooseTranslate(position, currentText)
+        } else {
+            Log.d("termValue", currentText)
+            adapterCreateSet.notifyDataSetChanged()
+            btnShowDialogChooseTranslate(position, currentText)
+        }
     }
 }

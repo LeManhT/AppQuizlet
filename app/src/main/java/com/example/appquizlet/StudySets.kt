@@ -38,6 +38,11 @@ class StudySets : Fragment(R.layout.fragment_study_sets) {
 
         apiService = RetrofitHelper.getInstance().create(ApiService::class.java)
 
+        binding.txtCreateNewSet.setOnClickListener {
+            val i = Intent(context, CreateSet::class.java)
+            startActivity(i)
+        }
+
         val listStudySet = mutableListOf<StudySetModel>()
 
         val adapterStudySet =

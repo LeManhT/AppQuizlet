@@ -1,8 +1,15 @@
 package com.example.appquizlet
 
+import android.Manifest
+import android.app.Activity
+import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Canvas
+import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.speech.RecognizerIntent
@@ -12,6 +19,8 @@ import android.view.View
 import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,9 +33,28 @@ import com.example.appquizlet.databinding.ActivityCreateSetBinding
 import com.example.appquizlet.model.CreateSetRequest
 import com.example.appquizlet.model.FlashCardModel
 import com.example.appquizlet.model.UserM
+import com.example.appquizlet.util.FileHelperUtils
 import com.example.appquizlet.util.Helper
+import com.github.dhaval2404.imagepicker.ImagePicker
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import com.google.mlkit.common.model.DownloadConditions
+import com.google.mlkit.nl.languageid.LanguageIdentification
+import com.google.mlkit.nl.languageid.LanguageIdentificationOptions
+import com.google.mlkit.nl.translate.TranslateLanguage
+import com.google.mlkit.nl.translate.Translation
+import com.google.mlkit.nl.translate.Translator
+import com.google.mlkit.nl.translate.TranslatorOptions
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import kotlinx.coroutines.launch
+import org.apache.poi.ss.usermodel.Cell
+import org.apache.poi.ss.usermodel.CellType
+import org.apache.poi.ss.usermodel.Workbook
+import org.apache.poi.ss.usermodel.WorkbookFactory
+import java.io.FileInputStream
 import java.util.ArrayList
 import java.util.Collections
 import java.util.Locale
@@ -39,6 +67,12 @@ class CreateSet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListener 
     private lateinit var adapterCreateSet: CreateSetItemAdapter
     private val REQUEST_CODE_SPEECH_INPUT = 1
     private var speechRecognitionPosition: Int = -1
+    private val REQUEST_CAMERA_CODE = 2404
+    private var uri: Uri? = null
+    private val IMPORT_EXCEL_REQUEST_CODE = 100
+    private var currentPoint: Int = 0
+    private var dualLanguageTranslator: Translator? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,45 +148,55 @@ class CreateSet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListener 
         }
 
 
+        val dataUserRanking = UserM.getDataRanking()
+        dataUserRanking.observe(this) {
+            currentPoint = it.currentScore
+        }
 //        setDragDropItem(listSet, binding.RvCreateSets)
 
         binding.txtDesc.setOnClickListener {
             addSecondLayout()
         }
-
-        binding.iconSetting.setOnClickListener {
-            val intent = Intent(this, SetOptionActivity::class.java)
-            startActivity(intent)
+//
+//        binding.iconSetting.setOnClickListener {
+//            val intent = Intent(this, SetOptionActivity::class.java)
+//            startActivity(intent)
+//        }
+        if (ContextCompat.checkSelfPermission(
+                this, Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this, arrayOf(Manifest.permission.CAMERA), REQUEST_CAMERA_CODE
+            )
         }
+
+//        binding.txtScan.setOnClickListener {
+//            ImagePicker.with(this).crop().compress(1024).maxResultSize(
+//                1080, 1080
+//            ).start()
+//        }
+
+
+        binding.iconImportFile.setOnClickListener {
+            if (currentPoint > 30) {
+                showImportAlertDialog(this)
+            } else {
+                val i = Intent(this, QuizletPlus::class.java)
+                startActivity(i)
+            }
+        }
+
     }
 
     private fun createNewStudySet(
-        userId: String,
-        studySetName: String,
-        studySetDesc: String,
-        dataSet: List<FlashCardModel>
+        userId: String, studySetName: String, studySetDesc: String, dataSet: List<FlashCardModel>
     ) {
         lifecycleScope.launch {
             showLoading(resources.getString(R.string.creatingStudySet))
             try {
-//                val gson = Gson()
-//                val dataSetArray = JsonArray()
-//                dataSet.forEach {
-//                    dataSetArray.add(gson.toJsonTree(it))
-//                }
-//                val body = JsonObject().apply {
-//                    addProperty(resources.getString(R.string.createFolderNameField), studySetName)
-//                    addProperty(resources.getString(R.string.descriptionField), studySetDesc)
-//                    add(
-//                        resources.getString(R.string.allNewCards),
-//                        dataSetArray
-//                    )
-//                }
-
                 val body = CreateSetRequest(
-                    name = studySetName,
-                    description = studySetDesc,
-                    allNewCards = dataSet
+                    name = studySetName, description = studySetDesc, allNewCards = dataSet
                 )
                 val result = apiService.createNewStudySet(userId, body)
 
@@ -161,23 +205,22 @@ class CreateSet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListener 
                         this@CreateSet.let { it1 ->
                             CustomToast(it1).makeText(
                                 this@CreateSet,
-                                resources.getString(R.string.create_folder_success),
+                                resources.getString(R.string.create_study_set_success),
                                 CustomToast.LONG,
                                 CustomToast.SUCCESS
                             ).show()
                             UserM.setUserData(it)
                         }
                         val i = Intent(this@CreateSet, MainActivity_Logged_In::class.java)
+                        i.putExtra("selectedFragment", "Library")
+                        i.putExtra("createMethod", "createSet")
                         startActivity(i)
                     }
                 } else {
                     result.errorBody()?.string()?.let {
                         this@CreateSet.let { it1 ->
                             CustomToast(it1).makeText(
-                                this@CreateSet,
-                                it,
-                                CustomToast.LONG,
-                                CustomToast.ERROR
+                                this@CreateSet, it, CustomToast.LONG, CustomToast.ERROR
                             ).show()
                         }
                         Log.d("err", it)
@@ -185,10 +228,7 @@ class CreateSet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListener 
                 }
             } catch (e: Exception) {
                 CustomToast(this@CreateSet).makeText(
-                    this@CreateSet,
-                    e.message.toString(),
-                    CustomToast.LONG,
-                    CustomToast.ERROR
+                    this@CreateSet, e.message.toString(), CustomToast.LONG, CustomToast.ERROR
                 ).show()
                 Log.d("err2", e.message.toString())
             } finally {
@@ -201,9 +241,23 @@ class CreateSet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListener 
     private fun addSecondLayout() {
         binding.layoutDesc.visibility = View.VISIBLE
         val params = binding.createSetScrollView.layoutParams as RelativeLayout.LayoutParams
-        params.topMargin =
-            resources.getDimensionPixelSize(R.dimen.h_200) + 200 // Add the additional margin
+//        params.topMargin =
+//            resources.getDimensionPixelSize(R.dimen.h_200) + 200 // Add the additional margin
         binding.createSetScrollView.layoutParams = params
+        binding.txtHideDesc.visibility = View.VISIBLE
+        binding.txtDesc.visibility = View.GONE
+        binding.txtHideDesc.setOnClickListener {
+            hideSecondLayout()
+        }
+    }
+
+    private fun hideSecondLayout() {
+        binding.layoutDesc.visibility = View.GONE
+        val params = binding.createSetScrollView.layoutParams as RelativeLayout.LayoutParams
+//        params.topMargin = resources.getDimensionPixelSize(R.dimen.h_200) // Reset the margin
+        binding.createSetScrollView.layoutParams = params
+        binding.txtHideDesc.visibility = View.GONE
+        binding.txtDesc.visibility = View.VISIBLE
     }
 
 
@@ -218,9 +272,16 @@ class CreateSet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListener 
     }
 
     override fun onIconClick(position: Int) {
-        Log.d("startSpeechRecognition1", "click")
-        speechRecognitionPosition = position
-        startSpeechRecognition(position)
+        if (ContextCompat.checkSelfPermission(
+                this, Manifest.permission.RECORD_AUDIO
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            speechRecognitionPosition = position
+            startSpeechRecognition(position)
+        } else {
+            requestSpeechRecognitionPermission()
+        }
+
     }
 
 
@@ -263,19 +324,18 @@ class CreateSet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListener 
                 }
 
                 override fun onChildDraw(
-                    c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
-                    dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean
+                    c: Canvas,
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    dX: Float,
+                    dY: Float,
+                    actionState: Int,
+                    isCurrentlyActive: Boolean
                 ) {
 //                    val itemView = viewHolder.itemView
 
                     super.onChildDraw(
-                        c,
-                        recyclerView,
-                        viewHolder,
-                        dX,
-                        dY,
-                        actionState,
-                        isCurrentlyActive
+                        c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive
                     )
                     recyclerView.invalidate()
 
@@ -297,28 +357,135 @@ class CreateSet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListener 
             RecognizerIntent.EXTRA_RESULTS
         )
 
-        Log.d("goi", Gson().toJson(matches))
+        when (requestCode) {
+            REQUEST_CODE_SPEECH_INPUT -> {
+                if (resultCode == RESULT_OK && data != null) {
+                    val position = speechRecognitionPosition
 
-        if (requestCode == REQUEST_CODE_SPEECH_INPUT && resultCode == RESULT_OK && data != null) {
-            val position = speechRecognitionPosition
+                    if (position != -1) {
+                        val speechResults =
+                            data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
 
-            if (position != -1) {
-                val speechResults = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-
-                if (!speechResults.isNullOrEmpty()) {
-                    val spokenText = speechResults[0]
-                    if (adapterCreateSet.getIsDefinition() == true) {
-                        updateRecyclerViewItemDefinition(position, spokenText)
+                        if (!speechResults.isNullOrEmpty()) {
+                            val spokenText = speechResults[0]
+                            if (adapterCreateSet.getIsDefinition() == true) {
+                                updateRecyclerViewItemDefinition(position, spokenText)
+                            } else {
+                                updateRecyclerViewItemTerm(position, spokenText)
+                            }
+                        } else {
+                            Toast.makeText(this, "No speech results found", Toast.LENGTH_SHORT)
+                                .show()
+                        }
                     } else {
-                        updateRecyclerViewItemTerm(position, spokenText)
+                        Log.e("onActivityResult", "Position is not available in the intent")
                     }
-                } else {
-                    Toast.makeText(this, "No speech results found", Toast.LENGTH_SHORT).show()
+                    speechRecognitionPosition = -1
                 }
-            } else {
-                Log.e("onActivityResult", "Position is not available in the intent")
             }
-            speechRecognitionPosition = -1
+
+            REQUEST_CAMERA_CODE -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    //Image Uri will not be null for RESULT_OK
+                    uri = data?.data!!
+                    recognizeText()
+                } else if (resultCode == ImagePicker.RESULT_ERROR) {
+                    Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            IMPORT_EXCEL_REQUEST_CODE -> {
+                if (resultCode == RESULT_OK) {
+                    val selectedFileUri = data?.data
+                    if (selectedFileUri != null) {
+                        val filePath = FileHelperUtils.getPath(this, selectedFileUri)
+                        Log.d("filePathhh0", filePath.toString())
+                        if (filePath != null) {
+                            // Check if the file has the correct extension (e.g., .xlsx)
+                            Log.d("filePathhh", filePath.toString())
+                            if (filePath.endsWith(".xlsx")) {
+                                importExcelFile(filePath)
+                            } else {
+                                Toast.makeText(
+                                    this, "Please select a valid Excel file", Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        } else {
+                            Snackbar.make(
+                                binding.iconImportFile,
+                                resources.getString(R.string.there_error_when_import_excel_file),
+                                Snackbar.LENGTH_SHORT
+                            ).setBackgroundTint(resources.getColor(R.color.my_red_snackbar))
+                                .show()
+                        }
+                    }
+
+                }
+
+            }
+        }
+    }
+
+    private fun launchFilePicker() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type =
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" // MIME type for Excel files
+        startActivityForResult(intent, IMPORT_EXCEL_REQUEST_CODE)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            IMPORT_EXCEL_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    launchFilePicker()
+                } else {
+                    Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            REQUEST_CODE_SPEECH_INPUT -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    startSpeechRecognition(speechRecognitionPosition)
+                } else {
+                    Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun recognizeText() {
+        if (uri !== null) {
+            val inputImage = InputImage.fromFilePath(this, uri!!)
+            val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+            listSet.clear()
+            val result = recognizer.process(inputImage).addOnSuccessListener { visionText ->
+                for (block in visionText.textBlocks) {
+                    for (line in block.lines) {
+                        val lineText = line.text
+                        // Split the line text into term and definition
+                        val parts = lineText.split(":")
+                        Log.d("Part", "Term: $parts")
+                        if (parts.size == 2) {
+                            val term = parts[0].trim()
+                            val definition = parts[1].trim()
+                            val flashCard = FlashCardModel(term = term, definition = definition)
+                            listSet.add(flashCard)
+                            adapterCreateSet.notifyDataSetChanged()
+                            Log.d("Term", "Term: $term")
+                            Log.d("Definition", "Definition: $definition")
+                        }
+                    }
+                }
+            }.addOnFailureListener { e ->
+                Log.e("recognizeText", "Error recognizing text: ${e.message}")
+            }
         }
     }
 
@@ -342,15 +509,11 @@ class CreateSet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListener 
     private fun startSpeechRecognition(position: Int) {
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
         intent.putExtra(
-            RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-            RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+            RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
         )
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
         intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to text")
         intent.putExtra(RecognizerIntent.EXTRA_ORIGIN, position)
-
-
-        Log.d("startSpeechRecognition", "Intent extras: ${intent.extras}")
 
         try {
             startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT)
@@ -359,4 +522,210 @@ class CreateSet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListener 
         }
     }
 
+    private fun requestSpeechRecognitionPermission() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.RECORD_AUDIO),
+            REQUEST_CODE_SPEECH_INPUT
+        )
+    }
+
+    private fun importExcelFile(filePath: String) {
+        val inputStream = FileInputStream(filePath)
+        try {
+            val workbook: Workbook = WorkbookFactory.create(inputStream)
+//                if (filePath.endsWith(".xlsx")) {
+//                HSSFWorkbook(inputStream)  // For XSSF (Excel 2007+ XML) format
+//            } else if (filePath.endsWith(".xls")) {
+//                HSSFWorkbook(inputStream)  // For HSSF (Excel 97-2003) format
+//            } else {
+//                Log.e("ImportExcel", "Unsupported file type")
+//                return
+//            }
+            val sheet = workbook.getSheetAt(0)
+            listSet.clear()
+            for (rowIndex in 0 until sheet.physicalNumberOfRows) {
+                val row = sheet.getRow(rowIndex)
+                if (row != null) {
+                    val termCell = row.getCell(0)
+                    val definitionCell = row.getCell(1)
+                    val term = termCell?.let { getCellValue(it) } ?: ""
+                    val definition = definitionCell?.let { getCellValue(it) } ?: ""
+                    Log.d("ImportExcel10", Gson().toJson(term))
+
+                    if (term.isNotEmpty() && definition.isNotEmpty()) {
+                        val flashCard = FlashCardModel(term = term, definition = definition)
+                        listSet.add(flashCard)
+                        adapterCreateSet.notifyDataSetChanged()
+                    }
+                }
+            }
+            Log.d("ImportExcel1", Gson().toJson(listSet))
+            workbook.close()
+        } catch (e: Exception) {
+            Log.e("ImportExcel", "Error importing Excel file: ${e.message}")
+        } finally {
+            // Close the input stream in the finally block to ensure it is closed
+            inputStream.close()
+        }
+    }
+
+    private fun getCellValue(cell: Cell): String {
+        return when (cell.cellType) {
+            CellType.STRING -> cell.stringCellValue
+            CellType.NUMERIC -> cell.numericCellValue.toString()
+            CellType.BOOLEAN -> cell.booleanCellValue.toString()
+            else -> ""
+        }
+    }
+
+    private fun showImportAlertDialog(context: Context) {
+        MaterialAlertDialogBuilder(context).setTitle(resources.getString(R.string.alert_import_title))
+            .setMessage(resources.getString(R.string.alert_import_desc))
+
+            .setNegativeButton(resources.getString(R.string.cancel)) { dialog, which ->
+                dialog.dismiss()
+            }.setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+                    val permission = Manifest.permission.READ_EXTERNAL_STORAGE
+                    if (ContextCompat.checkSelfPermission(
+                            this,
+                            permission
+                        ) == PackageManager.PERMISSION_GRANTED
+                    ) {
+                        launchFilePicker()
+                    } else {
+                        ActivityCompat.requestPermissions(
+                            this,
+                            arrayOf(permission),
+                            IMPORT_EXCEL_REQUEST_CODE
+                        )
+                    }
+                } else {
+                    val permissions = arrayOf(
+                        Manifest.permission.READ_MEDIA_AUDIO,
+                        Manifest.permission.READ_MEDIA_VIDEO,
+                        Manifest.permission.READ_MEDIA_IMAGES
+                    )
+
+                    var allPermissionsGranted = true
+
+                    for (permission in permissions) {
+                        if (ContextCompat.checkSelfPermission(
+                                this,
+                                permission
+                            ) == PackageManager.PERMISSION_DENIED
+                        ) {
+                            allPermissionsGranted = false
+                            break
+                        }
+                    }
+
+                    if (!allPermissionsGranted) {
+                        ActivityCompat.requestPermissions(
+                            this,
+                            permissions,
+                            IMPORT_EXCEL_REQUEST_CODE
+                        )
+                    } else {
+                        // Launch the file picker
+                        launchFilePicker()
+                    }
+                }
+
+            }.show()
+    }
+
+    override fun onTranslateIconClick(position: Int, currentText: String) {
+        if (adapterCreateSet.getIsDefinitionTranslate() == true) {
+            adapterCreateSet.notifyDataSetChanged()
+            btnShowDialogChooseTranslate(position, currentText)
+        } else {
+            Log.d("termValue", currentText)
+            adapterCreateSet.notifyDataSetChanged()
+            btnShowDialogChooseTranslate(position, currentText)
+        }
+//        btnShowDialogChooseTranslate(position, "This is test language")
+    }
+
+    private fun btnShowDialogChooseTranslate(position: Int, text: String) {
+        val languageIdentifier = LanguageIdentification.getClient(
+            LanguageIdentificationOptions.Builder().setConfidenceThreshold(0.1f).build()
+        )
+        languageIdentifier.identifyLanguage(text).addOnSuccessListener { languageCode ->
+            if (languageCode == "und") {
+                Toast.makeText(this, "Can't identify language.", Toast.LENGTH_SHORT).show()
+            } else {
+                val builder = AlertDialog.Builder(this)
+                val itemsArray = when (languageCode) {
+                    "en" -> arrayOf("Vietnamese", "Chinese")
+                    "vi" -> arrayOf("English", "Chinese")
+                    "zh" -> arrayOf("English", "Vietnamese")
+                    else -> arrayOf("English", "Vietnamese", "Chinese")
+                }
+                builder.setTitle("Choose Language Format").setItems(itemsArray) { _, which ->
+                    translateText(
+                        position,
+                        text,
+                        languageCode,
+                        getTranslateLanguageCode(itemsArray[which])
+                    )
+                }
+                builder.create().show()
+
+            }
+        }.addOnFailureListener {
+
+        }
+    }
+
+    private fun getTranslateLanguageCode(languageName: String): String {
+        return when (languageName.toUpperCase()) {
+            "ENGLISH" -> TranslateLanguage.ENGLISH
+            "VIETNAMESE" -> TranslateLanguage.VIETNAMESE
+            "CHINESE" -> TranslateLanguage.CHINESE
+            else -> TranslateLanguage.ENGLISH // Handle the default case or unsupported language
+        }
+    }
+
+    private fun translateText(
+        position: Int, text: String, sourceLanguage: String, targetLanguage: String
+    ) {
+        if (ContextCompat.checkSelfPermission(
+                this, Manifest.permission.INTERNET
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            val options = TranslatorOptions.Builder().setSourceLanguage(sourceLanguage)
+                .setTargetLanguage(targetLanguage).build()
+            dualLanguageTranslator = Translation.getClient(options)
+            var conditions = DownloadConditions.Builder().requireWifi().build()
+            dualLanguageTranslator!!.downloadModelIfNeeded(conditions).addOnSuccessListener {
+                dualLanguageTranslator!!.translate(text).addOnSuccessListener { translatedText ->
+                    Log.i(
+                        "detectL2", "translatedText: $translatedText"
+                    )
+                    if (adapterCreateSet.getIsDefinitionTranslate() == true) {
+                        listSet[position].definition = translatedText
+                        adapterCreateSet.notifyDataSetChanged()
+                    } else {
+                        listSet[position].term = translatedText
+                        adapterCreateSet.notifyDataSetChanged()
+                    }
+                }.addOnFailureListener { exception ->
+                    Log.i("detectL3", "translatedText: $exception")
+                }
+            }.addOnFailureListener { exception ->
+                Log.i("exception", "exception: $exception")
+            }
+
+            lifecycle.addObserver(dualLanguageTranslator!!)
+        } else {
+            Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        dualLanguageTranslator?.close()
+    }
 }

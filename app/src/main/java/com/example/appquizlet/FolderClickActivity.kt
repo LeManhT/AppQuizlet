@@ -13,7 +13,6 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.setPadding
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appquizlet.adapter.RvStudySetItemAdapter
@@ -331,6 +330,7 @@ class FolderClickActivity : AppCompatActivity() {
 //            }
 //            .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
         lifecycleScope.launch {
+            showLoading(resources.getString(R.string.deleteFolderLoading))
             try {
                 val result = apiService.deleteFolder(userId, folderId)
                 if (result.isSuccessful) {

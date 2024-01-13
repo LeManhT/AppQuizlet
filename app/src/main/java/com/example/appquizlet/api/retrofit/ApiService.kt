@@ -2,6 +2,8 @@ package com.example.appquizlet.api.retrofit
 
 import com.example.appquizlet.model.CreateSetRequest
 import com.example.appquizlet.model.DetectContinueModel
+import com.example.appquizlet.model.NoticeModel
+import com.example.appquizlet.model.RankResultModel
 import com.example.appquizlet.model.SearchSetModel
 import com.example.appquizlet.model.ShareFolderModel
 import com.example.appquizlet.model.ShareResponse
@@ -146,12 +148,23 @@ interface ApiService {
     @PUT("User/UpdateInfo")
     suspend fun updateUserInfoNoImg(
         @Query("userId") userId: String,
-        @Body body : JsonObject
+        @Body body: JsonObject
     ): Response<UpdateUserResponse>
 
     @PUT("User/ChangePassword")
     suspend fun changePassword(
         @Query("id") id: String,
-        @Body body : JsonObject
+        @Body body: JsonObject
     ): Response<UserResponse>
+
+    @GET("User/GetRankResult")
+    suspend fun getRankResult(
+        @Query("userId") userId: String
+    ): Response<RankResultModel>
+
+
+    @GET("User/GetAllCurrentNotices")
+    suspend fun getAllCurrentNotices(
+        @Query("userId") userId: String
+    ): Response<List<NoticeModel>>
 }

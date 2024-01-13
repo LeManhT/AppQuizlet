@@ -38,11 +38,11 @@
                 android:text="@string/dark_mode" />
 
             <RadioButton
-                android:id="@+id/radioNight"
+                android:id="@+id/radioLight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/txt_black_primary"
-                android:text="@string/night_mode" />
+                android:text="@string/light_mode" />
 
             <!--        <RadioButton-->
             <!--            android:id="@+id/radioSystemDefault"-->

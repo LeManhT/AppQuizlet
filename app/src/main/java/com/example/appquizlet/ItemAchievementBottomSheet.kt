@@ -14,10 +14,6 @@ import com.example.appquizlet.util.Helper
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-
 class ItemAchievementBottomSheet : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentItemAchievementBottomSheetBinding
     private var progressText: String = ""
@@ -43,6 +39,7 @@ class ItemAchievementBottomSheet : BottomSheetDialogFragment() {
         if (taskData != null) {
             binding.txtNameAchievement.text = taskData.taskName
             binding.txtAchievementDesc.text = taskData.description
+            binding.txtPoints.text = taskData.score.toString()
             val imageName = "ac${taskData.id}"
             val imageResourceId =
                 context?.resources?.getIdentifier(
@@ -66,19 +63,35 @@ class ItemAchievementBottomSheet : BottomSheetDialogFragment() {
                     binding.imgAchievement.setImageResource(imageResourceId)
                 }
             }
-            if (taskData.type == "Streak") {
+            if (taskData.type == "Streak" && taskData.condition > 1) {
                 progressText = "$currentAchieveStreak / ${taskData.condition}"
                 val progress =
                     (currentAchieveStreak.toDouble() / taskData.condition.toDouble()) * 100
                 binding.customProgressBar.setProgress(progress.toInt(), progressText)
             } else if (taskData.type == "Study") {
-                if (taskData.status == 2) {
-                    progressText = resources.getString(R.string.awarded)
-                    binding.customProgressBar.setProgress(100, progressText)
+                if (taskData.condition <= 1) {
+                    if (taskData.status == 2) {
+                        progressText = resources.getString(R.string.awarded)
+                        binding.customProgressBar.setProgress(100, progressText)
+                    } else {
+                        progressText = resources.getString(R.string.uncompleted)
+                        binding.customProgressBar.setProgress(0, progressText)
+                    }
                 } else {
-                    progressText = resources.getString(R.string.uncompleted)
-                    binding.customProgressBar.setProgress(0, progressText)
+                    if (taskData.progress >= taskData.condition) {
+                        progressText = "${taskData.condition} / ${taskData.condition}"
+                        val progress =
+                            (taskData.condition.toDouble() / taskData.condition.toDouble()) * 100
+                        binding.customProgressBar.setProgress(progress.toInt(), progressText)
+                    } else {
+                        progressText = "${taskData.progress} / ${taskData.condition}"
+                        val progress =
+                            (taskData.progress.toDouble() / taskData.condition.toDouble()) * 100
+                        binding.customProgressBar.setProgress(progress.toInt(), progressText)
+                    }
+
                 }
+
             }
 
         }

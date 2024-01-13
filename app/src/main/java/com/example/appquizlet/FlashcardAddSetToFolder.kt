@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +19,7 @@ import com.example.appquizlet.interfaceFolder.RVFolderItem
 import com.example.appquizlet.model.FolderModel
 import com.example.appquizlet.model.UserM
 import com.example.appquizlet.util.Helper
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
@@ -55,7 +57,7 @@ class FlashcardAddSetToFolder : AppCompatActivity() {
                     if (selectedFolder.isNotEmpty()) {
                         listFolderSelected.addAll(selectedFolder)
                         listFolderSelected.map {
-                                listFolderId.add(it.id)
+                            listFolderId.add(it.id)
                         }
                         Log.d("ids", Gson().toJson(listFolderId))
                     }
@@ -65,16 +67,18 @@ class FlashcardAddSetToFolder : AppCompatActivity() {
         // Thêm một Observer cho userData
         val userData = UserM.getUserData()
         userData.observe(this) { userResponse ->
-            // Khi dữ liệu thay đổi, cập nhật danh sách listFolderItems
-            // Lưu ý: Trong trường hợp thực tế, bạn có thể cần xử lý dữ liệu từ userResponse một cách thích hợp.
-            // Ở đây, ta giả sử userResponse có một thuộc tính là danh sách các FolderItemData.
             listFolderItems.clear()
-            listFolderItems.addAll(userResponse.documents.folders)
+            val filteredFolders = userResponse.documents.folders.filter { folder ->
+                folder.studySets.none { it.id == setId }
+            }
+            listFolderItems.addAll(filteredFolders)
+
             if (listFolderItems.isEmpty()) {
-                Helper.replaceWithNoDataFragment(
-                    supportFragmentManager,
-                    R.id.fragmentFolderContainer
-                )
+                binding.rvFlashcardAddToFolder.visibility = View.GONE
+                binding.layoutNoData.visibility = View.VISIBLE
+            } else {
+                binding.rvFlashcardAddToFolder.visibility = View.VISIBLE
+                binding.layoutNoData.visibility = View.GONE
             }
 
             // Thông báo cho adapter rằng dữ liệu đã thay đổi để cập nhật giao diện người dùng
@@ -107,60 +111,70 @@ class FlashcardAddSetToFolder : AppCompatActivity() {
         setId: String
     ) {
         lifecycleScope.launch {
-            try {
+            if (listFolderId.isEmpty()) {
+                MaterialAlertDialogBuilder(this@FlashcardAddSetToFolder)
+                    .setTitle(resources.getString(R.string.no_folder_add))
+                    .setMessage(resources.getString(R.string.no_folder_to_add))
+                    .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
+                        finish()
+                    }
+                    .show()
+            } else {
                 showLoading(resources.getString(R.string.add_set_to_folder_processing))
-                val body: MutableSet<String> = listFolderId
-                Log.d("body",Gson().toJson(body))
-                val result = apiService.addSetToManyFolder(
-                    Helper.getDataUserId(this@FlashcardAddSetToFolder),
-                    setId,
-                    body
-                )
-                if (result.isSuccessful) {
-                    result.body()?.let {
-                        this@FlashcardAddSetToFolder.let { it1 ->
-                            CustomToast(it1).makeText(
-                                this@FlashcardAddSetToFolder,
-                                resources.getString(R.string.update_study_set_success),
-                                CustomToast.LONG,
-                                CustomToast.SUCCESS
-                            ).show()
-                            UserM.setUserData(it)
-                            val intent =
-                                Intent(
+                try {
+                    val body: MutableSet<String> = listFolderId
+                    Log.d("body", Gson().toJson(body))
+                    val result = apiService.addSetToManyFolder(
+                        Helper.getDataUserId(this@FlashcardAddSetToFolder),
+                        setId,
+                        body
+                    )
+                    if (result.isSuccessful) {
+                        result.body()?.let {
+                            this@FlashcardAddSetToFolder.let { it1 ->
+                                CustomToast(it1).makeText(
                                     this@FlashcardAddSetToFolder,
-                                    MainActivity_Logged_In::class.java
-                                )
-                            intent.putExtra(
-                                "selectedFragment",
-                                "Home"
-                            ) // "YourFragmentTag" là tag của Fragment cần hiển thị
-                            startActivity(intent)
+                                    resources.getString(R.string.update_study_set_success),
+                                    CustomToast.LONG,
+                                    CustomToast.SUCCESS
+                                ).show()
+                                UserM.setUserData(it)
+                                val intent =
+                                    Intent(
+                                        this@FlashcardAddSetToFolder,
+                                        MainActivity_Logged_In::class.java
+                                    )
+                                intent.putExtra(
+                                    "selectedFragment",
+                                    "Home"
+                                ) // "YourFragmentTag" là tag của Fragment cần hiển thị
+                                startActivity(intent)
 
+                            }
+                        }
+                    } else {
+                        result.errorBody()?.string()?.let {
+                            this@FlashcardAddSetToFolder.let { it1 ->
+                                CustomToast(it1).makeText(
+                                    this@FlashcardAddSetToFolder,
+                                    it,
+                                    CustomToast.LONG,
+                                    CustomToast.ERROR
+                                ).show()
+                            }
+                            Log.d("err", it)
                         }
                     }
-                } else {
-                    result.errorBody()?.string()?.let {
-                        this@FlashcardAddSetToFolder.let { it1 ->
-                            CustomToast(it1).makeText(
-                                this@FlashcardAddSetToFolder,
-                                it,
-                                CustomToast.LONG,
-                                CustomToast.ERROR
-                            ).show()
-                        }
-                        Log.d("err", it)
-                    }
+                } catch (e: Exception) {
+                    CustomToast(this@FlashcardAddSetToFolder).makeText(
+                        this@FlashcardAddSetToFolder,
+                        e.message.toString(),
+                        CustomToast.LONG,
+                        CustomToast.ERROR
+                    ).show()
+                } finally {
+                    progressDialog.dismiss()
                 }
-            } catch (e: Exception) {
-                CustomToast(this@FlashcardAddSetToFolder).makeText(
-                    this@FlashcardAddSetToFolder,
-                    e.message.toString(),
-                    CustomToast.LONG,
-                    CustomToast.ERROR
-                ).show()
-            } finally {
-                progressDialog.dismiss()
             }
         }
     }

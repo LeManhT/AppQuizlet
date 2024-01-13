@@ -13,6 +13,8 @@ import android.view.View
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.setPadding
 import androidx.lifecycle.ViewModelProvider
@@ -21,8 +23,11 @@ import com.example.appquizlet.api.retrofit.ApiService
 import com.example.appquizlet.api.retrofit.RetrofitHelper
 import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.ActivitySignInBinding
+import com.example.appquizlet.model.DetectContinueModel
 import com.example.appquizlet.model.UserM
 import com.example.appquizlet.model.UserViewModel
+import com.example.appquizlet.util.Helper
+import com.google.gson.Gson
 import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
@@ -76,34 +81,34 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
 //                showCustomDialog(
 //                    resources.getString(R.string.forgot_username),
 //                    "",
-//                    "Enter email address"
+//                    resources.getString(R.string.enter_email_address)
 //                )
 //            }
 //        }
 //        val forgotPassClickableSpan = object : ClickableSpan() {
 //            override fun onClick(widget: View) {
-//                Toast.makeText(this@SignIn, "ffff", Toast.LENGTH_SHORT).show()
 //                showCustomDialog(
 //                    resources.getString(R.string.reset_password),
 //                    resources.getString(R.string.forgot_pass_text),
-//                    "Username or email address"
+//                    resources.getString(R.string.username_or_email_adrr),
 //                )
 //            }
 //        }
 //
-//        val indexOfForgotUsername = textForgot.indexOf("username")
-//        val indexOfForgotPass = textForgot.indexOf("password")
+//        val indexOfForgotUsername =
+//            textForgot.indexOf(resources.getString(R.string.username_signin))
+//        val indexOfForgotPass = textForgot.indexOf(resources.getString(R.string.password_signin))
 //
 //        spannableStringBuilderForgotUser.setSpan(
 //            StyleSpan(Typeface.BOLD),
 //            indexOfForgotUsername,
-//            indexOfForgotUsername + "username".length,
+//            indexOfForgotUsername + resources.getString(R.string.username_signin).length,
 //            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
 //        )
 //        spannableStringBuilderForgotUser.setSpan(
 //            StyleSpan(Typeface.BOLD),
 //            indexOfForgotPass,
-//            indexOfForgotPass + "password".length,
+//            indexOfForgotPass + resources.getString(R.string.password_signin).length,
 //            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
 //        )
 //// Thay đổi màu chữ cho "username" và "password"
@@ -111,14 +116,14 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
 //        spannableStringBuilderForgotUser.setSpan(
 //            ForegroundColorSpan(colorForgot),
 //            indexOfForgotUsername,
-//            indexOfForgotUsername + "username".length,
+//            indexOfForgotUsername + resources.getString(R.string.username_signin).length,
 //            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
 //        )
 //
 //        spannableStringBuilderForgotUser.setSpan(
 //            ForegroundColorSpan(colorForgot),
 //            indexOfForgotPass,
-//            indexOfForgotPass + "password".length,
+//            indexOfForgotPass + resources.getString(R.string.password_signin).length,
 //            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
 //        )
 //        // Áp dụng ClickableSpan cho "Terms of Services" và "Privacy Policy"
@@ -126,11 +131,14 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
 //        spannableStringBuilderForgotUser.setSpan(
 //            forgotUserNameClickableSpan,
 //            indexOfForgotUsername,
-//            indexOfForgotUsername + "username".length,
+//            indexOfForgotUsername + resources.getString(R.string.username_signin).length,
 //            0
 //        )
 //        spannableStringBuilderForgotUser.setSpan(
-//            forgotPassClickableSpan, indexOfForgotPass, indexOfForgotPass + "password".length, 0
+//            forgotPassClickableSpan,
+//            indexOfForgotPass,
+//            indexOfForgotPass + resources.getString(R.string.password_signin).length,
+//            0
 //        )
 //
 //        username.text = spannableStringBuilderForgotUser
@@ -147,7 +155,11 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
 //        val termsOfServiceClickableSpan = object : ClickableSpan() {
 //            override fun onClick(widget: View) {
 //                // Xử lý khi người dùng bấm vào "Terms of Services"
-//                Toast.makeText(this@SignIn, "Bấm vào Terms of Services", Toast.LENGTH_SHORT).show()
+////                Toast.makeText(
+////                    this@SignIn,
+////                    resources.getString(R.string.click_tos),
+////                    Toast.LENGTH_SHORT
+////                ).show()
 //
 //                // Chuyển đến trang web của "Terms of Services" (hoặc trang Activity tùy thuộc vào nhu cầu của bạn)
 //                val termsOfServiceUrl = "https://quizlet.com/tos"
@@ -159,7 +171,7 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
 //        val privacyPolicyClickableSpan = object : ClickableSpan() {
 //            override fun onClick(widget: View) {
 //                // Xử lý khi người dùng bấm vào "Privacy Policy"
-//                Toast.makeText(this@SignIn, "Bấm vào Privacy Policy", Toast.LENGTH_SHORT).show()
+////                Toast.makeText(this@SignIn, "Bấm vào Privacy Policy", Toast.LENGTH_SHORT).show()
 //
 //                // Chuyển đến trang web của "Privacy Policy" (hoặc trang Activity tùy thuộc vào nhu cầu của bạn)
 //                val privacyPolicyUrl = "https://quizlet.com/privacy"
@@ -169,52 +181,55 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
 //        }
 //
 //
-//        val indexOfTerms = text.indexOf("Terms of Services")
-//        val indexOfPrivacyPolicy = text.indexOf("Privacy Policy")
+//        val indexOfTerms = text.indexOf(resources.getString(R.string.tos))
+//        val indexOfPrivacyPolicy = text.indexOf(resources.getString(R.string.pp))
 //
-//        // Thay đổi font chữ (đặt kiểu đậm) cho "Terms of Services"
+//        // Thay đổi font chữ (đặt kiểu đậm) cho resources.getString(R.string.tos)
 //        spannableStringBuilder.setSpan(
 //            StyleSpan(Typeface.BOLD),
 //            indexOfTerms,
-//            indexOfTerms + "Terms of Services".length,
+//            indexOfTerms + resources.getString(R.string.tos).length,
 //            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
 //        )
 //
-//        // Thay đổi font chữ (đặt kiểu đậm) cho "Privacy Policy"
+//        // Thay đổi font chữ (đặt kiểu đậm) cho resources.getString(R.string.pp)
 //        spannableStringBuilder.setSpan(
 //            StyleSpan(Typeface.BOLD),
 //            indexOfPrivacyPolicy,
-//            indexOfPrivacyPolicy + "Privacy Policy".length,
+//            indexOfPrivacyPolicy + resources.getString(R.string.pp).length,
 //            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
 //        )
 //
-//// Thay đổi màu chữ cho "Terms of Services" và "Privacy Policy"
+//// Thay đổi màu chữ cho resources.getString(R.string.tos) và resources.getString(R.string.pp)
 //        val color = Color.BLUE // Chọn màu mong muốn
 //        spannableStringBuilder.setSpan(
 //            ForegroundColorSpan(color),
 //            indexOfTerms,
-//            indexOfTerms + "Terms of Services".length,
+//            indexOfTerms + resources.getString(R.string.tos).length,
 //            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
 //        )
 //
 //        spannableStringBuilder.setSpan(
 //            ForegroundColorSpan(color),
 //            indexOfPrivacyPolicy,
-//            indexOfPrivacyPolicy + "Privacy Policy".length,
+//            indexOfPrivacyPolicy + resources.getString(R.string.pp).length,
 //            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
 //        )
 //
 //
-//        // Áp dụng ClickableSpan cho "Terms of Services" và "Privacy Policy"
+//        // Áp dụng ClickableSpan cho resources.getString(R.string.tos) và resources.getString(R.string.pp)
 //
 //        spannableStringBuilder.setSpan(
 //            termsOfServiceClickableSpan,
 //            indexOfPrivacyPolicy,
-//            indexOfPrivacyPolicy + "Privacy Policy".length,
+//            indexOfPrivacyPolicy + resources.getString(R.string.pp).length,
 //            0
 //        )
 //        spannableStringBuilder.setSpan(
-//            privacyPolicyClickableSpan, indexOfTerms, indexOfTerms + "Terms of Services".length, 0
+//            privacyPolicyClickableSpan,
+//            indexOfTerms,
+//            indexOfTerms + resources.getString(R.string.tos).length,
+//            0
 //        )
 //        // Đặt SpannableStringBuilder vào TextView và đặt movementMethod để kích hoạt tính năng bấm vào liên kết
 //        termsTextView.text = spannableStringBuilder
@@ -254,17 +269,27 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
 
                     result.body().let { it ->
                         if (it != null) {
-                            CustomToast(this@SignIn).makeText(
-                                this@SignIn,
-                                msgSuccess,
-                                CustomToast.LONG,
-                                CustomToast.SUCCESS
-                            ).show()
-                            saveIdUser(it.id, it.loginName, true)
+//                            CustomToast(this@SignIn).makeText(
+//                                this@SignIn,
+//                                msgSuccess,
+//                                CustomToast.LONG,
+//                                CustomToast.SUCCESS
+//                            ).show()
+                            saveIdUser(it.id, it.loginName, it.loginPassword, true)
+                            UserM.setDataAchievements(
+                                DetectContinueModel(it.streak, it.achievement)
+                            )
                             UserM.setUserData(it)
+                            val isDarkMode = it.setting.darkMode
+                            val currentNightMode = AppCompatDelegate.getDefaultNightMode()
+
+                            if ((isDarkMode && currentNightMode != AppCompatDelegate.MODE_NIGHT_YES) ||
+                                (!isDarkMode && currentNightMode != AppCompatDelegate.MODE_NIGHT_NO)
+                            ) {
+                                Helper.updateAppTheme(isDarkMode) // Update theme only if needed
+                            }
                         }
                     }
-
                     val intent = Intent(this@SignIn, MainActivity_Logged_In::class.java)
                     startActivity(intent)
                 } else {
@@ -416,10 +441,16 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
         return errorMess == null
     }
 
-    private fun saveIdUser(userId: String, userName: String, isLoggedIn: Boolean) {
+    private fun saveIdUser(
+        userId: String,
+        userName: String,
+        password: String,
+        isLoggedIn: Boolean
+    ) {
         sharedPreferences = this.getSharedPreferences("idUser", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("key_userid", userId)
+        editor.putString("key_userPass", password)
         editor.putString("key_username", userName)
         editor.putBoolean("isLoggedIn", isLoggedIn)
         editor.apply()

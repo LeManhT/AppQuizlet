@@ -7,8 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -28,7 +26,7 @@ import java.util.Locale
 
 class SearchDetail : AppCompatActivity(),
     FlashcardItemAdapter.OnFlashcardItemClickListener, TextToSpeech.OnInitListener,
-    FragmentSortTerm.SortTermListener {
+    FragmentSortTerm.SortTermListener ,StudySetItemAdapter.ClickZoomListener{
     private lateinit var binding: ActivitySearchDetailBinding
     private lateinit var apiService: ApiService
     private lateinit var setId: String
@@ -38,6 +36,8 @@ class SearchDetail : AppCompatActivity(),
     private var listFlashcardDetails: MutableList<FlashCardModel> = mutableListOf()
     private var originalList: MutableList<FlashCardModel> = mutableListOf()
     private lateinit var sharedPreferences: SharedPreferences
+    private val listCards = mutableListOf<FlashCardModel>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,16 +60,16 @@ class SearchDetail : AppCompatActivity(),
 
         setId = intent.getStringExtra("setId").toString()
 
-        Log.d("hhhh", setId)
 
-
-        val listCards = mutableListOf<FlashCardModel>()
         adapterStudySet = StudySetItemAdapter(listCards, object : RvFlashCard {
             override fun handleClickFLashCard(flashcardItem: FlashCardModel) {
                 flashcardItem.isUnMark = flashcardItem.isUnMark?.not() ?: true
                 adapterStudySet.notifyDataSetChanged()
             }
         })
+
+        adapterStudySet.setOnClickZoomBtnListener(this)
+
         adapterFlashcardDetail = FlashcardItemAdapter(listFlashcardDetails)
         var userData = UserM.getDataSetSearch()
         userData.observe(this, Observer { dataSearch ->
@@ -135,16 +135,16 @@ class SearchDetail : AppCompatActivity(),
 //            showStudyThisSetBottomsheet(setId)
 //        }
 
-        binding.iconShare.setOnClickListener {
-            shareDialog(com.example.appquizlet.util.Helper.getDataUserId(this), setId)
-        }
+//        binding.iconShare.setOnClickListener {
+//            shareDialog(com.example.appquizlet.util.Helper.getDataUserId(this), setId)
+//        }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.menu_search_set, menu)
-        return true
-    }
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        val inflater: MenuInflater = menuInflater
+//        inflater.inflate(R.menu.menu_search_set, menu)
+//        return true
+//    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -241,4 +241,10 @@ class SearchDetail : AppCompatActivity(),
         }
     }
 
+    override fun onClickZoomBtn() {
+        val jsonList = Gson().toJson(listCards)
+        val i = Intent(applicationContext, FlashcardLearn::class.java)
+        i.putExtra("listCard", jsonList)
+        startActivity(i)
+    }
 }

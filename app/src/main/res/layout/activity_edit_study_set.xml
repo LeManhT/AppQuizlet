@@ -13,6 +13,7 @@
         android:layout_height="?attr/actionBarSize"
         app:layout_collapseMode="pin"
         app:navigationIcon="?attr/homeAsUpIndicator"
+        app:navigationIconTint="@color/txt_black_in_card"
         app:popupTheme="@style/Theme.AppQuizlet.PopupOverlay"
         app:title="@string/edit_set">
 
@@ -24,13 +25,13 @@
             android:layout_marginEnd="16dp"
             android:src="@drawable/icons8_tick_24" />
 
-        <ImageView
-            android:id="@+id/iconEditStudySetSetting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_setting" />
+<!--        <ImageView-->
+<!--            android:id="@+id/iconEditStudySetSetting"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="end"-->
+<!--            android:layout_marginEnd="16dp"-->
+<!--            android:src="@drawable/ic_setting" />-->
     </androidx.appcompat.widget.Toolbar>
 
 
@@ -60,8 +61,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtSetName"
                     android:layout_width="match_parent"
-                    android:textColor="@color/txt_black_primary"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/txt_black_primary" />
 
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -71,9 +72,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/pad_5"
                 android:layout_marginTop="@dimen/marginInput"
-                android:textColor="@color/txt_black_primary"
                 android:text="@string/title"
                 android:textAllCaps="true"
+                android:textColor="@color/txt_black_primary"
                 android:textSize="@dimen/titleSizeCard" />
         </LinearLayout>
 
@@ -120,25 +121,26 @@
             android:layout_marginStart="0dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/txtScan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/text_margin"
-                android:layout_marginTop="@dimen/marginInput"
-                android:drawablePadding="@dimen/pad_5"
-                android:text="@string/scan_doc"
-                android:textColor="@color/txt_blue"
-                android:textSize="@dimen/titleSize"
-                app:drawableLeftCompat="@drawable/icons8_plus_48_blue" />
+            <!--            <TextView-->
+            <!--                android:id="@+id/txtScan"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="@dimen/text_margin"-->
+            <!--                android:layout_marginTop="@dimen/marginInput"-->
+            <!--                android:drawablePadding="@dimen/pad_5"-->
+            <!--                android:text="@string/scan_doc"-->
+            <!--                android:textColor="@color/txt_blue"-->
+            <!--                android:textSize="@dimen/titleSize"-->
+            <!--                app:drawableLeftCompat="@drawable/icons8_plus_48_blue" />-->
 
             <TextView
                 android:id="@+id/txtDesc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="100dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="@dimen/marginInput"
                 android:drawablePadding="@dimen/pad_5"
+                android:gravity="start"
                 android:text="@string/description"
                 android:textColor="@color/txt_blue"
                 android:textSize="@dimen/titleSize"

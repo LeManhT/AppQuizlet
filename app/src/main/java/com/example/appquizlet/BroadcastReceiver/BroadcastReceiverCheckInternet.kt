@@ -13,7 +13,7 @@ class BroadcastReceiverCheckInternet : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if (ConnectivityManager.CONNECTIVITY_ACTION.equals(intent?.action)) {
             if (isNetworkAvailable(context!!)) {
-                Toast.makeText(context, "Connected to network", Toast.LENGTH_LONG).show()
+//                Toast.makeText(context, "Connected to network", Toast.LENGTH_LONG).show()
             } else {
                 Toast.makeText(context, "Disconnected", Toast.LENGTH_LONG).show()
                 showNetworkDialog(context)

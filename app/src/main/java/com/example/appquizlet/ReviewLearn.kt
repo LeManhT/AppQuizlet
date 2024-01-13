@@ -25,7 +25,7 @@ class ReviewLearn : AppCompatActivity() {
 
         adapterReviewLearn = ReviewLearnAdapter(this, listCards, binding.rvReviewLearn)
         val myLinearLayoutManager =
-            object : LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false) {
+            object : LinearLayoutManager(this, HORIZONTAL, false) {
 //                override fun canScrollHorizontally(): Boolean {
 //                    return false
 //                }
@@ -35,5 +35,10 @@ class ReviewLearn : AppCompatActivity() {
         binding.rvReviewLearn.adapter = adapterReviewLearn
         val snapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(binding.rvReviewLearn)
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        super.onBackPressed()
     }
 }

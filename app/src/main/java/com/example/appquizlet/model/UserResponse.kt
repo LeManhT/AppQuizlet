@@ -14,6 +14,8 @@ class UserResponse(
     @SerializedName("documents") val documents: DocumentModel,
     @SerializedName("setting") val setting: SettingModel,
 //    @SerializedName("avatar") val avatar: ByteArray
+    @SerializedName("streak") val streak: StreakData,
+    @SerializedName("achievement") val achievement: AchievementData
 ) {
 
 }

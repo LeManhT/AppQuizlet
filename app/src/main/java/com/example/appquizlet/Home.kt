@@ -1,5 +1,6 @@
 package com.example.appquizlet
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -25,20 +26,21 @@ import com.example.appquizlet.adapter.RVFolderItemAdapter
 import com.example.appquizlet.adapter.RvStudySetItemAdapter
 import com.example.appquizlet.api.retrofit.ApiService
 import com.example.appquizlet.api.retrofit.RetrofitHelper
+import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.FragmentHomeBinding
 import com.example.appquizlet.interfaceFolder.ItemTouchHelperAdapter
 import com.example.appquizlet.interfaceFolder.RVFolderItem
 import com.example.appquizlet.interfaceFolder.RVStudySetItem
 import com.example.appquizlet.model.FolderModel
-import com.example.appquizlet.model.NotificationModel
 import com.example.appquizlet.model.StudySetModel
 import com.example.appquizlet.model.UserM
 import com.example.appquizlet.util.Helper
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.DayOfWeek
-import java.time.Instant
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
@@ -62,13 +64,51 @@ class Home : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         apiService = RetrofitHelper.getInstance().create(ApiService::class.java)
 
         sharedPreferences = context?.getSharedPreferences("currentStreak", Context.MODE_PRIVATE)!!
 
+        getUserRanking(Helper.getDataUserId(requireContext()))
+        getAllNotices(Helper.getDataUserId(requireContext()))
+
+        val dataRanking = UserM.getDataRanking()
+        dataRanking.observe(viewLifecycleOwner) {
+            if (it.rankSystem.userRanking.size == 1) {
+                binding.layoutTop2.visibility = View.GONE
+                binding.layoutTop3.visibility = View.GONE
+            } else if (it.rankSystem.userRanking.size == 2) {
+                binding.layoutTop2.visibility = View.VISIBLE
+                binding.layoutTop3.visibility = View.GONE
+            } else if (it.rankSystem.userRanking.size >= 3) {
+                binding.txtTop1NameHome.text = it.rankSystem.userRanking[0].userName
+                binding.txtTop2NameHome.text = it.rankSystem.userRanking[1].userName
+                binding.txtTop3NameHome.text = it.rankSystem.userRanking[2].userName
+            }
+            if (it.currentScore > 7000) {
+                binding.btnUpgradeFeature.visibility = View.GONE
+                binding.txtVerified.visibility = View.VISIBLE
+                binding.txtVerified.setOnClickListener {
+                    MaterialAlertDialogBuilder(requireContext()).setTitle(resources.getString(R.string.premium_account))
+                        .setMessage(resources.getString(R.string.premium_account_desc))
+                        .setNegativeButton(resources.getString(R.string.close)) { dialog, which ->
+                            run {
+                                dialog.dismiss()
+                            }
+                        }.show()
+                }
+            } else {
+                binding.btnUpgradeFeature.visibility = View.VISIBLE
+                binding.txtVerified.visibility = View.GONE
+                binding.btnUpgradeFeature.setOnClickListener {
+                    val i = Intent(context, QuizletPlus::class.java)
+                    startActivity(i)
+                }
+            }
+
+        }
 
         binding.searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
@@ -81,24 +121,22 @@ class Home : Fragment() {
         binding.imgNotification.setOnClickListener {
             showDialogBottomSheet()
         }
-        binding.btnHomeAddCourse.setOnClickListener {
-            showAddCourseBottomSheet()
+//        binding.btnHomeAddCourse.setOnClickListener {
+//            showAddCourseBottomSheet()
+//        }
+
+
+        binding.btnOpenRankLeaderBoard.setOnClickListener {
+            val i = Intent(context, RankLeaderBoard::class.java)
+            startActivity(i)
         }
-        binding.txtViewAllCourse.setOnClickListener {
-            // Lưu thông báo vào cơ sở dữ liệu
-//            val notificationDb = context?.let { it1 -> MyDBHelper(it1) }
-            val timestamp = System.currentTimeMillis()
-            val notificationItem = NotificationModel(
-                0,
-                "Daily Reminder",
-                "Nhắc nhở bạn về điều gì đó quan trọng. Vào app học thôi nào",
-                timestamp
-            )
-//            notificationDb?.addNotification(notificationItem)
-            Toast.makeText(context, "add", Toast.LENGTH_SHORT).show()
+        binding.txtViewDetailLeaderBoard.setOnClickListener {
+            val i = Intent(context, RankLeaderBoard::class.java)
+            startActivity(i)
         }
-        // Hiển thị ngày đã được chọn và tính streak
-        displayCheckedDates()
+
+
+//        displayCheckedDates()
 
 
         return binding.root
@@ -115,15 +153,18 @@ class Home : Fragment() {
             }
         }
 
-        streakTextView = binding.textView2
+        streakTextView = binding.txtCountStreak
 
         binding.txtFolderViewAll.setOnClickListener {
             val libraryFragment = Library.newInstance()
+            (requireActivity() as MainActivity_Logged_In).selectBottomNavItem("Library")
             (requireActivity() as MainActivity_Logged_In).replaceFragment(libraryFragment)
+            libraryFragment.setDataMethod("viewAllFolder")
         }
 
         binding.txtStudySetViewAll.setOnClickListener {
             val libraryFragment = Library.newInstance()
+            (requireActivity() as MainActivity_Logged_In).selectBottomNavItem("Library")
             (requireActivity() as MainActivity_Logged_In).replaceFragment(libraryFragment)
         }
         val rvHomeFolder = binding.rvHomeFolders
@@ -162,7 +203,7 @@ class Home : Fragment() {
 
 
         val userData = UserM.getUserData()
-        userData.observe(viewLifecycleOwner, Observer {
+        userData.observe(viewLifecycleOwner, {
             listFolderItems.clear()
             listStudySet.clear()
             listFolderItems.addAll(it.documents.folders)
@@ -195,9 +236,19 @@ class Home : Fragment() {
             startActivity(i)
         }
 
+        binding.txtViewAllTranslate.setOnClickListener {
+            val i = Intent(context, TranslateActivity::class.java)
+            startActivity(i)
+        }
+
         binding.rvCustomDatePicker.setOnClickListener {
             val i = Intent(context, Achievement::class.java)
             startActivity(i)
+        }
+
+        binding.txtTranslatePararaph.setOnClickListener {
+            val intent = Intent(context, TranslateActivity::class.java)
+            startActivity(intent)
         }
 
 
@@ -275,12 +326,13 @@ class Home : Fragment() {
         val achievedDays = mutableListOf<String>()
 
         UserM.getDataAchievements().observe(viewLifecycleOwner, Observer {
+            Log.d("currentStreakkk", it.streak.currentStreak.toString())
             updateStreakText(it.streak.currentStreak)
 //            if (it.streak.currentStreak > sharedPreferences.getInt(
 //                    "countStreak", 0
 //                )
 //            ) {
-                saveCountStreak(it.streak.currentStreak)
+            saveCountStreak(it.streak.currentStreak)
 //            }
             // Tính ngày bắt đầu streak hiện tại
             val startStreakDate = today.minusDays(it.streak.currentStreak.toLong())
@@ -289,7 +341,7 @@ class Home : Fragment() {
             println("Ngày kết thúc streak hiện tại: $today")
 
             // Nếu bạn muốn lấy danh sách các ngày đã đạt được streak, bạn có thể sử dụng vòng lặp
-            for (i in 0..it.streak.currentStreak) {
+            for (i in 0 until it.streak.currentStreak) {
                 achievedDays.add(
                     startStreakDate.plusDays(i.toLong()).format(DateTimeFormatter.ofPattern("d"))
                 )
@@ -309,7 +361,7 @@ class Home : Fragment() {
     }
 
     companion object {
-        const val Tag = "Home"
+        const val TAG = "Home"
     }
 
     private fun showDialogBottomSheet() {
@@ -323,11 +375,6 @@ class Home : Fragment() {
         addCourseBottomSheet.show(parentFragmentManager, addCourseBottomSheet.tag)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun displayCheckedDates() {
-        val unixTime = Instant.now().epochSecond
-        detectContinueStudy(Helper.getDataUserId(requireContext()), unixTime)
-    }
 
     private fun getFormattedDate(calendar: Calendar): String {
         val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -335,36 +382,77 @@ class Home : Fragment() {
     }
 
     private fun updateStreakText(streakCount: Int) {
+        Log.d("currentStreakkk1", streakCount.toString())
         streakTextView.text = "$streakCount-days streak"
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun detectContinueStudy(userId: String, timeDetect: Long) {
-        lifecycleScope.launch {
-            try {
-                val result = apiService.detectContinueStudy(userId, timeDetect)
-                if (result.isSuccessful) {
-                    result.body().let {
-                        if (it != null) {
-                            Log.d("data", it.streak.currentStreak.toString())
-                        }
-                        if (it != null) {
-                            UserM.setDataAchievements(it)
-                        }
-                    }
-                } else {
-                    Log.d("error", result.errorBody().toString())
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
 
     private fun saveCountStreak(streak: Int) {
         val editor = sharedPreferences.edit()
         editor.putInt("countStreak", streak)
         editor.apply()
+    }
+
+    private fun getUserRanking(userId: String) {
+        lifecycleScope.launch {
+//            showLoading(resources.getString(R.string.loading_data))
+            try {
+                val result = apiService.getRankResult(userId)
+                if (result.isSuccessful) {
+                    result.body().let {
+                        Log.e("Error get rank 0", "Error response: ${Gson().toJson(it)}")
+                        if (it != null) {
+                            UserM.setDataRanking(it)
+                        }
+                    }
+                } else {
+                    CustomToast(requireContext()).makeText(
+                        requireContext(),
+                        result.errorBody().toString(),
+                        CustomToast.LONG,
+                        CustomToast.ERROR
+                    ).show()
+                }
+            } catch (e: Exception) {
+//                CustomToast(requireContext()).makeText(
+//                    requireContext(),
+//                    e.message.toString(),
+//                    CustomToast.LONG,
+//                    CustomToast.ERROR
+//                ).show()
+                Log.d("Error get rank", e.message.toString())
+            } finally {
+//                progressDialog.dismiss()
+            }
+        }
+    }
+
+    private fun getAllNotices(userId: String) {
+        lifecycleScope.launch {
+            try {
+                val result = apiService.getAllCurrentNotices(userId)
+                if (result.isSuccessful) {
+                    result.body()?.let {
+                        UserM.setDataNotification(it)
+                    }
+                } else {
+                    result.errorBody()?.string()?.let {
+                        context?.let { it1 ->
+                            CustomToast(it1).makeText(
+                                requireContext(),
+                                it,
+                                CustomToast.LONG,
+                                CustomToast.ERROR
+                            ).show()
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.d("Exception Notice", e.message.toString())
+            } finally {
+
+            }
+        }
     }
 
 }

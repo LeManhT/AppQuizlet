@@ -72,7 +72,7 @@ class Add : BottomSheetDialogFragment() {
         const val TAG = "ModalBottomSheet"
     }
 
-    fun showCustomDialog(
+    private fun showCustomDialog(
         title: String,
         content: String,
         edtPlaceholderFolderName: String,
@@ -173,6 +173,10 @@ class Add : BottomSheetDialogFragment() {
                                 ).show()
                                 UserM.setUserData(it)
                             }
+                            val i = Intent(requireContext(), MainActivity_Logged_In::class.java)
+                            i.putExtra("selectedFragment", "Library")
+                            i.putExtra("createMethod", "createFolder")
+                            startActivity(i)
                         }
                     }
                 } else {

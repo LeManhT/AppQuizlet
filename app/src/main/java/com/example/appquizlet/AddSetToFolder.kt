@@ -25,16 +25,18 @@ class AddSetToFolder : AppCompatActivity() {
 
         val adapterTabSet = ViewPagerTabAddSet(supportFragmentManager, lifecycle)
         binding.pagerAddSetLib.adapter = adapterTabSet
+        adapterTabSet.setFolderId(folderId)
         TabLayoutMediator(binding.tabLibAddSet, binding.pagerAddSetLib) { tab, pos ->
             when (pos) {
                 0 -> {
                     tab.text = resources.getString(R.string.created)
-                    tab.icon = ResourcesCompat.getDrawable(resources,R.drawable.note,null)
+                    tab.icon = ResourcesCompat.getDrawable(resources, R.drawable.note, null)
                 }
 //                1 -> tab.text = resources.getString(R.string.studied)
                 1 -> {
                     tab.text = resources.getString(R.string.folders)
-                    tab.icon = ResourcesCompat.getDrawable(resources,R.drawable.folder_outlined,null)
+                    tab.icon =
+                        ResourcesCompat.getDrawable(resources, R.drawable.folder_outlined, null)
                 }
             }
         }.attach()

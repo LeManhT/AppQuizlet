@@ -12,6 +12,8 @@ object UserM {
     private var dataAchievement = MutableLiveData<DetectContinueModel>()
     private var dataSetSearch = MutableLiveData<List<SearchSetModel>>()
     private var dataSettings = MutableLiveData<UpdateUserResponse>()
+    private var dataRanking = MutableLiveData<RankResultModel>()
+    private var dataNotification = MutableLiveData<List<NoticeModel>>()
 
     fun setUserData(data: UserResponse) {
         userData.value = data
@@ -20,14 +22,6 @@ object UserM {
     fun getUserData(): LiveData<UserResponse> {
         return userData
     }
-
-//    fun getUserDataStudySets(): LiveData<List<StudySetModel>> {
-//        return userDataStudySets
-//    }
-//
-//    fun setUserDataStudySets(data: List<StudySetModel>) {
-//        userDataStudySets.value = data
-//    }
 
     fun getAllStudySets(): LiveData<StudySetModel> {
         return allStudySets
@@ -53,13 +47,28 @@ object UserM {
         dataSetSearch.value = data
     }
 
-    fun getDataSettings() : LiveData<UpdateUserResponse> {
+    fun getDataSettings(): LiveData<UpdateUserResponse> {
         return dataSettings
     }
 
-    fun setDataSettings(data : UpdateUserResponse) {
+    fun setDataSettings(data: UpdateUserResponse) {
         dataSettings.value = data
     }
 
+    fun getDataRanking(): LiveData<RankResultModel> {
+        return dataRanking
+    }
+
+    fun setDataRanking(data: RankResultModel) {
+        dataRanking.value = data
+    }
+
+    fun getDataNotification(): LiveData<List<NoticeModel>> {
+        return dataNotification
+    }
+
+    fun setDataNotification(data: List<NoticeModel>) {
+        dataNotification.value = data
+    }
 
 }

@@ -11,6 +11,7 @@ object SharedPreferencesManager {
     private const val CHANGE_THEME = "changeTheme"
     private const val TYPE_SELECTED = "TypeSelected"
     private const val LANGUAGE_CHOOSE = "languageChoose"
+    private const val COUNT_DETECT = "countDetect"
 
     // Thêm các tên SharedPreferences khác nếu cần
     fun clearAllPreferences(context: Context) {
@@ -22,5 +23,6 @@ object SharedPreferencesManager {
         context.getSharedPreferences(CHANGE_THEME, Context.MODE_PRIVATE).edit().clear().apply()
         context.getSharedPreferences(TYPE_SELECTED, Context.MODE_PRIVATE).edit().clear().apply()
         context.getSharedPreferences(LANGUAGE_CHOOSE, Context.MODE_PRIVATE).edit().clear().apply()
+        context.getSharedPreferences(COUNT_DETECT, Context.MODE_PRIVATE).edit().clear().apply()
     }
 }

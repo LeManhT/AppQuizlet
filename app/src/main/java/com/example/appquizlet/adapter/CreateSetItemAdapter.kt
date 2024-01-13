@@ -2,14 +2,12 @@ package com.example.appquizlet.adapter
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.chauthai.swipereveallayout.ViewBinderHelper
 import com.example.appquizlet.databinding.LayoutFlashcardBinding
 import com.example.appquizlet.model.FlashCardModel
-import com.google.gson.Gson
 
 
 class CreateSetItemAdapter(
@@ -17,9 +15,11 @@ class CreateSetItemAdapter(
 ) : RecyclerView.Adapter<CreateSetItemAdapter.CreateSetItemHolder>() {
 
     private var isDefinition: Boolean? = false
+    private var isDefinitionTranslate: Boolean? = false
 
     interface OnIconClickListener {
         fun onIconClick(position: Int)
+        fun onTranslateIconClick(position: Int, currentText: String)
         fun onDeleteClick(position: Int)
 
         fun onAddNewCard(position: Int)
@@ -55,15 +55,31 @@ class CreateSetItemAdapter(
         val txtDefinition = holder.binding.edtDefinition
 
 
-        holder.binding.textFieldDefinition.setEndIconOnClickListener {
+//        holder.binding.textFieldDefinition.setEndIconOnClickListener {
+//            isDefinition = true
+//            onIconClickListener?.onIconClick(position)
+//        }
+
+        holder.binding.btnVoiceTerm.setOnClickListener {
+            isDefinition = false
+            onIconClickListener?.onIconClick(position)
+        }
+
+        holder.binding.btnVoiceDefinition.setOnClickListener {
             isDefinition = true
             onIconClickListener?.onIconClick(position)
         }
 
-        holder.binding.textFieldTerm.setEndIconOnClickListener {
-            isDefinition = false
-            onIconClickListener?.onIconClick(position)
+        holder.binding.btnTranslateTerm.setOnClickListener {
+            isDefinitionTranslate = false
+            onIconClickListener?.onTranslateIconClick(position, txtTerm.text.toString())
         }
+
+        holder.binding.btnTranslateDefinition.setOnClickListener {
+            isDefinitionTranslate = true
+            onIconClickListener?.onTranslateIconClick(position, txtDefinition.text.toString())
+        }
+
 
 
         holder.binding.btnAddNewCard.setOnClickListener {
@@ -126,8 +142,6 @@ class CreateSetItemAdapter(
         holder.binding.btnDeleteCard.setOnClickListener {
             onIconClickListener?.onDeleteClick(position)
         }
-        Log.d("pos6", Gson().toJson(getListSet()))
-
     }
 
 
@@ -171,9 +185,12 @@ class CreateSetItemAdapter(
     }
 
 
-    fun getIsDefinition() : Boolean? {
+    fun getIsDefinition(): Boolean? {
         return isDefinition
     }
 
+    fun getIsDefinitionTranslate(): Boolean? {
+        return isDefinitionTranslate
+    }
 
 }

@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appquizlet.adapter.RVFolderItemAdapter
@@ -29,6 +28,8 @@ class FragmentFolderSet : Fragment() {
     private lateinit var progressDialog: ProgressDialog
     private val listFolderSelected: MutableList<FolderModel> = mutableListOf()
     private val listSetId: MutableSet<String> = mutableSetOf()
+    private var folderId: String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,15 +54,26 @@ class FragmentFolderSet : Fragment() {
             RVFolderItemAdapter(requireContext(), listFolderItems, object : RVFolderItem {
                 override fun handleClickFolderItem(folderItem: FolderModel, position: Int) {
                     folderItem.isSelected = folderItem.isSelected?.not() ?: true
-                    val selectedFolder = listFolderItems.filter { it.isSelected == true }
-                    if (selectedFolder.isNotEmpty()) {
-                        listFolderSelected.addAll(selectedFolder)
-                        listFolderSelected.map {
-                            it.studySets.forEach { it1 ->
-                                listSetId.add(it1.id)
-                            }
+                    if (folderItem.studySets.isEmpty()) {
+                        context?.let {
+                            CustomToast(it).makeText(
+                                requireContext(),
+                                resources.getString(R.string.this_folder_empty),
+                                CustomToast.LONG,
+                                CustomToast.WARNING
+                            ).show()
                         }
-                        Log.d("ids", Gson().toJson(listSetId))
+                    } else {
+                        val selectedFolder = listFolderItems.filter { it.isSelected == true }
+                        if (selectedFolder.isNotEmpty()) {
+                            listFolderSelected.addAll(selectedFolder)
+                            listFolderSelected.map {
+                                it.studySets.forEach { it1 ->
+                                    listSetId.add(it1.id)
+                                }
+                            }
+                            Log.d("ids", Gson().toJson(listSetId))
+                        }
                     }
                 }
             })
@@ -73,14 +85,18 @@ class FragmentFolderSet : Fragment() {
             // Lưu ý: Trong trường hợp thực tế, bạn có thể cần xử lý dữ liệu từ userResponse một cách thích hợp.
             // Ở đây, ta giả sử userResponse có một thuộc tính là danh sách các FolderItemData.
             listFolderItems.clear()
-            listFolderItems.addAll(userResponse.documents.folders)
-            if (listFolderItems.isEmpty()) {
-                Helper.replaceWithNoDataFragment(
-                    requireFragmentManager(),
-                    R.id.fragmentFolderContainer
-                )
+            val listFolderAdd = userResponse.documents.folders.filter {
+                it.id != folderId
             }
 
+            listFolderItems.addAll(listFolderAdd)
+            if (listFolderItems.isEmpty()) {
+                binding.layoutNoData.visibility = View.VISIBLE
+                binding.rvFolderFragment.visibility = View.GONE
+            } else {
+                binding.layoutNoData.visibility = View.GONE
+                binding.rvFolderFragment.visibility = View.VISIBLE
+            }
             // Thông báo cho adapter rằng dữ liệu đã thay đổi để cập nhật giao diện người dùng
             adapterFolder.notifyDataSetChanged()
         }
@@ -88,8 +104,6 @@ class FragmentFolderSet : Fragment() {
         val rvFolder = binding.rvFolderFragment
         rvFolder.layoutManager = LinearLayoutManager(context)
         rvFolder.adapter = adapterFolder
-
-
     }
 
     companion object {
@@ -100,45 +114,56 @@ class FragmentFolderSet : Fragment() {
         folderId: String
     ) {
         lifecycleScope.launch {
+            showLoading("Add sets to folder processing ...")
             try {
-                showLoading("Add sets to folder processing ...")
                 val body: MutableSet<String> = listSetId
-                val result = apiService.addSetToFolder(
-                    Helper.getDataUserId(requireContext()),
-                    folderId,
-                    body
-                )
-                if (result.isSuccessful) {
-                    result.body()?.let {
-                        requireContext().let { it1 ->
-                            CustomToast(it1).makeText(
-                                requireContext(),
-                                resources.getString(R.string.update_study_set_success),
-                                CustomToast.LONG,
-                                CustomToast.SUCCESS
-                            ).show()
-                            UserM.setUserData(it)
-                            val intent =
-                                Intent(requireContext(), MainActivity_Logged_In::class.java)
-                            intent.putExtra(
-                                "selectedFragment",
-                                "Home"
-                            ) // "YourFragmentTag" là tag của Fragment cần hiển thị
-                            startActivity(intent)
-
-                        }
+                if (body.isEmpty()) {
+                    context?.let {
+                        CustomToast(it).makeText(
+                            requireContext(),
+                            resources.getString(R.string.there_no_folder_selected),
+                            CustomToast.LONG,
+                            CustomToast.WARNING
+                        ).show()
                     }
                 } else {
-                    result.errorBody()?.string()?.let {
-                        requireContext().let { it1 ->
-                            CustomToast(it1).makeText(
-                                requireContext(),
-                                it,
-                                CustomToast.LONG,
-                                CustomToast.ERROR
-                            ).show()
+                    val result = apiService.addSetToFolder(
+                        Helper.getDataUserId(requireContext()),
+                        folderId,
+                        body
+                    )
+                    if (result.isSuccessful) {
+                        result.body()?.let {
+                            requireContext().let { it1 ->
+                                CustomToast(it1).makeText(
+                                    requireContext(),
+                                    resources.getString(R.string.update_study_set_success),
+                                    CustomToast.LONG,
+                                    CustomToast.SUCCESS
+                                ).show()
+                                UserM.setUserData(it)
+                                val intent =
+                                    Intent(requireContext(), MainActivity_Logged_In::class.java)
+                                intent.putExtra(
+                                    "selectedFragment",
+                                    "Home"
+                                ) // "YourFragmentTag" là tag của Fragment cần hiển thị
+                                startActivity(intent)
+
+                            }
                         }
-                        Log.d("err", it)
+                    } else {
+                        result.errorBody()?.string()?.let {
+                            requireContext().let { it1 ->
+                                CustomToast(it1).makeText(
+                                    requireContext(),
+                                    it,
+                                    CustomToast.LONG,
+                                    CustomToast.ERROR
+                                ).show()
+                            }
+                            Log.d("err", it)
+                        }
                     }
                 }
             } catch (e: Exception) {
@@ -156,5 +181,9 @@ class FragmentFolderSet : Fragment() {
 
     private fun showLoading(msg: String) {
         progressDialog = ProgressDialog.show(requireContext(), null, msg)
+    }
+
+    fun setFolderId(folderId: String) {
+        this.folderId = folderId
     }
 }

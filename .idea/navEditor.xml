@@ -8,39 +8,30 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
-                  <entry key="deepLinkFolderActivity">
+                  <entry key="foldersFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="12" />
-                            <option name="y" value="12" />
+                            <option name="x" value="229" />
+                            <option name="y" value="-70" />
                           </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="deepLinkFolder">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="deepLinkStudySetActivity">
+                  <entry key="library">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="256" />
-                            <option name="y" value="12" />
+                            <option name="x" value="-2" />
+                            <option name="y" value="-59" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="deepLinkStudySet">
+                            <entry key="action_library_to_foldersFragment">
                               <value>
                                 <LayoutPositions />
                               </value>

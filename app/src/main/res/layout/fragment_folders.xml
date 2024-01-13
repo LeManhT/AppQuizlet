@@ -54,7 +54,7 @@
             android:layout_marginEnd="20dp"
             android:gravity="center"
             android:lineSpacingExtra="8dp"
-            android:text="@string/please_try_learn_other"
+            android:text="@string/no_folder_created"
             android:textSize="16sp" />
 
         <com.airbnb.lottie.LottieAnimationView
@@ -67,20 +67,6 @@
             app:lottie_loop="true" />
 
 
-        <TextView
-            android:id="@+id/txtLearnOther"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginVertical="@dimen/mar_30"
-            android:drawablePadding="@dimen/mar_10"
-            android:paddingStart="80dp"
-            android:paddingEnd="80dp"
-            android:text="@string/learn_other_set"
-            android:textColor="#324460"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:drawableEndCompat="@drawable/arrow_right_alt_24px" />
     </LinearLayout>
 
 

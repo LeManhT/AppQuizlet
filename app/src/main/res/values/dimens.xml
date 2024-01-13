@@ -22,6 +22,8 @@
     <dimen name="text_size_22">22sp</dimen>
     <dimen name="title_margin_start">6dp</dimen>
     <dimen name="h_200">200dp</dimen>
+    <dimen name="h_250">250dp</dimen>
+    <dimen name="h_230">230dp</dimen>
     <dimen name="h_300">300dp</dimen>
     <dimen name="pad_20">20dp</dimen>
     <dimen name="pad_30">30dp</dimen>
@@ -31,6 +33,7 @@
     <dimen name="pad_5">5dp</dimen>
     <dimen name="mar_60">60dp</dimen>
     <dimen name="mar_80">80dp</dimen>
+    <dimen name="max_length_leader_board">10</dimen>
     <dimen name="heightFlashcardLearn">500dp</dimen>
 
 

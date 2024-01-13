@@ -17,12 +17,14 @@ interface OnClickButton {
     fun handleClickPlayAudio()
 
     fun handleClickModeDisplay()
+
+    fun handleResetCard()
 }
 
 class LearnFlashCardSetting : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentLearnFlashCardSettingBinding
-    private var onCLickListener: OnClickButton ?= null
-
+    private var onCLickListener: OnClickButton? = null
+    private var isFront: Boolean = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -37,18 +39,28 @@ class LearnFlashCardSetting : BottomSheetDialogFragment() {
             onCLickListener?.handleClickShuffle()
         }
 
-        binding.btnPlayAudio.setOnClickListener {
-            onCLickListener?.handleClickPlayAudio()
-        }
+//        binding.btnPlayAudio.setOnClickListener {
+//            onCLickListener?.handleClickPlayAudio()
+//        }
 
         binding.btnToggleMode.setOnClickListener {
             onCLickListener?.handleClickModeDisplay()
         }
 
+        binding.txtResetCard.setOnClickListener {
+            onCLickListener?.handleResetCard()
+        }
+
+        if(isFront) {
+            binding.btnToggleMode.text = "Term"
+        } else {
+            binding.btnToggleMode.text = "Definition"
+        }
+
         return binding.root
     }
 
-    fun setOnButtonSettingClickListener(listener : OnClickButton) {
+    fun setOnButtonSettingClickListener(listener: OnClickButton) {
         this.onCLickListener = listener
     }
 
@@ -71,5 +83,10 @@ class LearnFlashCardSetting : BottomSheetDialogFragment() {
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
         return dialog
+    }
+
+
+    fun setIsFront(isFrontData: Boolean) {
+        isFront = isFrontData
     }
 }

@@ -26,6 +26,7 @@ class ChangeEmail : AppCompatActivity() {
 
         apiService = RetrofitHelper.getInstance().create(ApiService::class.java)
 
+        val currentEmail = intent.getStringExtra("currentEmail")
 
         binding.btnChangeEmail.setOnClickListener {
             if (binding.edtEmailChange.text?.isEmpty() == true) {
@@ -37,7 +38,16 @@ class ChangeEmail : AppCompatActivity() {
                 ).show()
             } else {
                 val newEmail = binding.edtEmailChange.text.toString()
-                changeEmail(Helper.getDataUserId(this), newEmail)
+                if (newEmail == currentEmail) {
+                    CustomToast(this).makeText(
+                        this,
+                        resources.getString(R.string.your_current_mail_concide),
+                        CustomToast.LONG,
+                        CustomToast.WARNING
+                    ).show()
+                } else {
+                    changeEmail(Helper.getDataUserId(this), newEmail)
+                }
             }
         }
 
@@ -58,7 +68,7 @@ class ChangeEmail : AppCompatActivity() {
     private fun changeEmail(userId: String, newEmail: String) {
         lifecycleScope.launch {
             try {
-                showLoading(resources.getString(R.string.changing_your_pass))
+                showLoading(resources.getString(R.string.changing_your_email))
                 val body = JsonObject().apply {
                     addProperty("email", newEmail)
                 }

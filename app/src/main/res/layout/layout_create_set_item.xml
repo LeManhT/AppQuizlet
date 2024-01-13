@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/mar_10"
-    android:background="@color/white"
-    app:cardElevation="@dimen/pad_5"
+    app:cardBackgroundColor="@color/bg_card_secondary"
     app:cardCornerRadius="@dimen/pad_20"
+    app:cardElevation="@dimen/pad_5"
     app:elevation="@dimen/mar_10">
 
     <com.chauthai.swipereveallayout.SwipeRevealLayout
@@ -25,6 +25,7 @@
             android:layout_width="@dimen/h_200"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:background="@color/bg_activity"
             android:orientation="horizontal">
 
             <ImageView
@@ -37,18 +38,20 @@
         </LinearLayout>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/studySetCardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:focusable="true"
+            android:background="@color/bg_card_secondary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
+                android:id="@+id/studySetCardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/bg_card_secondary"
                 android:orientation="vertical"
                 android:paddingHorizontal="@dimen/pad_30"
                 android:paddingVertical="@dimen/pad_20">
@@ -104,8 +107,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="8dp"
-                        android:textColor="@color/txt_black_in_card"
-                        android:text="TextView" />
+                        android:text="TextView"
+                        android:textColor="@color/txt_black_in_card" />
                 </LinearLayout>
 
             </LinearLayout>

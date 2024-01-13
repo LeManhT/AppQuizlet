@@ -1,23 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?><!-- res/navigation/nav_graph.xml -->
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/navigation/nav_graph.xml -->
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    >
-<!--    app:startDestination="@id/deepLinkFolderActivity"-->
-<!--    <activity-->
-<!--        android:id="@+id/deepLinkFolderActivity"-->
-<!--        android:name="com.example.appquizlet.DeepLinkShareFolder">-->
-<!--        <deepLink-->
-<!--            android:id="@+id/deepLinkFolder"-->
-<!--            app:uri="appquizlet://folder/{folder_id}" />-->
-<!--    </activity>-->
+    app:startDestination="@id/library">
 
-<!--    <activity-->
-<!--        android:id="@+id/deepLinkStudySetActivity"-->
-<!--        android:name="com.example.appquizlet.DeepLinkShareStudySet">-->
-<!--        <deepLink-->
-<!--            android:id="@+id/deepLinkStudySet"-->
-<!--            app:uri="appquizlet://studyset/{study_set_id}" />-->
-<!--    </activity>-->
+    <fragment
+        android:id="@+id/library"
+        android:name="com.example.appquizlet.Library"
+        android:label="fragment_library"
+        tools:layout="@layout/fragment_library" >
+        <action
+            android:id="@+id/action_library_to_foldersFragment"
+            app:destination="@id/foldersFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/foldersFragment"
+        android:name="com.example.appquizlet.FoldersFragment"
+        android:label="fragment_folders"
+        tools:layout="@layout/fragment_folders" />
 </navigation>

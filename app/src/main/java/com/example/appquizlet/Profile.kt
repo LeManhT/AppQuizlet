@@ -19,7 +19,6 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,15 +33,16 @@ import com.example.appquizlet.model.UpdateUserResponse
 import com.example.appquizlet.model.UserM
 import com.example.appquizlet.util.Helper
 import com.example.appquizlet.util.URIPathHelper
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import com.nguyenhoanglam.imagepicker.model.CustomColor
 import com.nguyenhoanglam.imagepicker.model.CustomMessage
+import com.nguyenhoanglam.imagepicker.model.Image
 import com.nguyenhoanglam.imagepicker.model.ImagePickerConfig
 import com.nguyenhoanglam.imagepicker.model.IndicatorType
 import com.nguyenhoanglam.imagepicker.model.RootDirectory
 import com.nguyenhoanglam.imagepicker.ui.imagepicker.registerImagePicker
 import kotlinx.coroutines.launch
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import java.io.File
@@ -56,8 +56,15 @@ class Profile : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private lateinit var apiService: ApiService
     private lateinit var progressDialog: ProgressDialog
+    private var currentPoint: Int = 0
 
+    private val predefinedImagePaths = arrayListOf(
+        Image(Uri.parse("android.resource://com.example.appquizlet/drawable/ac100"), "anh1"),
+        Image(Uri.parse("android.resource://com.example.appquizlet/drawable/ac101"), "anh1"),
+        // Add more Image objects as needed
+    )
     private val binding get() = _binding!!
+
     val REQUEST_CODE = 10
     private val launcher = registerImagePicker { images ->
         // selected images
@@ -71,15 +78,14 @@ class Profile : Fragment() {
             lifecycleScope.launch {
                 context?.let {
                     showLoading(
-                        it,
-                        resources.getString(R.string.upload_avatar_loading)
+                        it, resources.getString(R.string.upload_avatar_loading)
                     )
                 }
                 try {
                     val file = filePath?.let { File(it) }
                     // Chuyển đổi file thành chuỗi Base64
                     val base64String = convertFileToBase64(filePath)
-                    Log.d("ggggg",base64String)
+                    Log.d("ggggg", base64String)
 
 
                     val json = Gson().toJson(
@@ -131,8 +137,9 @@ class Profile : Fragment() {
     }
 
     private val config = ImagePickerConfig(
-        isFolderMode = true,
+        isFolderMode = false,
         isShowCamera = true,
+//        selectedImages = predefinedImagePaths,
         selectedIndicatorType = IndicatorType.NUMBER,
         rootDirectory = RootDirectory.DCIM,
         subDirectory = "Image Picker",
@@ -227,6 +234,34 @@ class Profile : Fragment() {
 //                binding.imgAvatar.setImageBitmap(bitmap)
 //            }
         }
+
+        UserM.getDataRanking().observe(viewLifecycleOwner) {
+            currentPoint = it.currentScore
+        }
+        if (currentPoint > 7000) {
+            binding.btnUpgrade.visibility = View.GONE
+            binding.txtVerified.visibility = View.VISIBLE
+            binding.btnUpgrade.setOnClickListener {
+                context?.let { it1 ->
+                    MaterialAlertDialogBuilder(it1)
+                        .setTitle(resources.getString(R.string.premium_account))
+                        .setMessage(resources.getString(R.string.premium_account_desc))
+                        .setNegativeButton(resources.getString(R.string.close)) { dialog, which ->
+                            run {
+                                dialog.dismiss()
+                            }
+                        }.show()
+                }
+            }
+        } else {
+            binding.btnUpgrade.visibility = View.VISIBLE
+            binding.txtVerified.visibility = View.GONE
+            binding.btnUpgrade.setOnClickListener {
+                val i = Intent(context, QuizletPlus::class.java)
+                startActivity(i)
+            }
+        }
+
 
 
         binding.txtUploadImage.setOnClickListener {
@@ -325,6 +360,10 @@ class Profile : Fragment() {
             e.printStackTrace()
         }
         return base64String
+    }
+
+    companion object {
+        const val TAG = "ProfileT"
     }
 
 }

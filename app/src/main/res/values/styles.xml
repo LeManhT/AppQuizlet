@@ -47,6 +47,10 @@
         <item name="android:progressDrawable">@drawable/circle</item>
     </style>
 
+    <style name="MySearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <!-- Customize hint text color -->
+        <item name="android:textColorHint">#333B3E</item>
+    </style>
 
 
 

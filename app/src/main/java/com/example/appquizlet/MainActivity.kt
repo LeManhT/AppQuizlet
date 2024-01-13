@@ -1,14 +1,21 @@
 package com.example.appquizlet
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.example.appquizlet.api.retrofit.ApiService
+import com.example.appquizlet.api.retrofit.RetrofitHelper
+import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.ActivityMainBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import com.example.appquizlet.model.DetectContinueModel
+import com.example.appquizlet.model.UserM
+import com.example.appquizlet.util.Helper
+import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
 import java.util.Locale
 
@@ -16,59 +23,29 @@ private lateinit var binding: ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var progressDialog: ProgressDialog
+    private lateinit var apiService: ApiService
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //        Khoi tao viewbinding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val i = Intent(this, SplashActivity::class.java)
-        startActivity(i)
+        apiService = RetrofitHelper.getInstance().create(ApiService::class.java)
 
         sharedPreferences = this.getSharedPreferences("ChangeLanguage", Context.MODE_PRIVATE)
         val mylang = sharedPreferences.getString("language", "en")
         updateLocale(Locale(mylang))
 
-        binding.btnSlash.setOnClickListener {
-            val intent = Intent(this, SplashActivity::class.java)
-            startActivity(intent)
-        }
-        binding.btnLoggedIn.setOnClickListener {
-            val intent = Intent(this, MainActivity_Logged_In::class.java)
-            startActivity(intent)
-        }
-        binding.btn404.setOnClickListener {
-            val intent = Intent(this, NotFound::class.java)
-            startActivity(intent)
-        }
+        val sharedPreferences = this.getSharedPreferences("idUser", Context.MODE_PRIVATE)
+        val username = sharedPreferences.getString("key_username", "")
+        val password = sharedPreferences.getString("key_userPass", "")
 
-        if (isLoggedIn(this)) {
-            loadDataAfterLogin()
+        if (username?.isNotEmpty() == true && password?.isNotEmpty() == true) {
+            loginUser(username, password)
         } else {
-            startActivity(Intent(this, SignIn::class.java))
-        }
-
-    }
-
-    private fun loadDataAfterLogin() {
-        // Hiển thị hoặc ẩn ProgressBar nếu cần
-//        showProgressBar()
-        CoroutineScope(Dispatchers.Main).launch {
-//            try {
-//                val result = fetchDataFromServer()
-//
-//                // Xử lý kết quả tải dữ liệu
-//                handleData(result)
-//                startActivity(Intent(this@MainActivity, MainActivity_Logged_In::class.java))
-//                finish()  // Đóng Activity hiện tại nếu cần
-//
-//            } catch (e: Exception) {
-//                // Xử lý lỗi nếu cần thiết
-//                showErrorDialog(e.message ?: "Unknown error")
-//            } finally {
-//                // Ẩn ProgressBar nếu cần
-//                hideProgressBar()
-//            }
+            val i = Intent(this, SplashActivity::class.java)
+            startActivity(i)
         }
     }
 
@@ -86,9 +63,67 @@ class MainActivity : AppCompatActivity() {
         sharedPreferences.edit().putString("languageDisplay", nativeDisplayLanguage).apply()
     }
 
-    private fun isLoggedIn(context: Context): Boolean {
-        val sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        return sharedPreferences.getBoolean("isLoggedIn", false)
+    private fun loginUser(email: String, pass: String) {
+        lifecycleScope.launch {
+            showLoading(resources.getString(R.string.logging_in))
+            try {
+                val body = JsonObject().apply {
+                    addProperty(resources.getString(R.string.loginNameField), email)
+                    addProperty(resources.getString(R.string.loginPasswordField), pass)
+                }
+                val result = apiService.loginUser(body)
+                if (result.isSuccessful) {
+//                    val msgSuccess = resources.getString(R.string.login_success)
+                    result.body().let { it ->
+                        if (it != null) {
+//                            CustomToast(this@MainActivity).makeText(
+//                                this@MainActivity,
+//                                msgSuccess,
+//                                CustomToast.LONG,
+//                                CustomToast.SUCCESS
+//                            ).show()
+                            UserM.setUserData(it)
+                            UserM.setDataAchievements(
+                                DetectContinueModel(it.streak, it.achievement)
+                            )
+                            Helper.updateAppTheme(it.setting.darkMode)
+
+                        }
+                    }
+                    val intent =
+                        Intent(this@MainActivity, MainActivity_Logged_In::class.java)
+                    startActivity(intent)
+
+                } else {
+                    result.errorBody()?.string()?.let {
+                        CustomToast(this@MainActivity).makeText(
+                            this@MainActivity,
+                            it,
+                            CustomToast.LONG,
+                            CustomToast.ERROR
+                        ).show()
+                    }
+                    val intent = Intent(this@MainActivity, SplashActivity::class.java)
+                    startActivity(intent)
+                }
+            } catch (e: Exception) {
+                CustomToast(this@MainActivity).makeText(
+                    this@MainActivity,
+                    e.message.toString(),
+                    CustomToast.LONG,
+                    CustomToast.ERROR
+                ).show()
+                val intent = Intent(this@MainActivity, SplashActivity::class.java)
+                startActivity(intent)
+            } finally {
+                progressDialog.dismiss()
+            }
+        }
     }
+
+    private fun showLoading(msg: String) {
+        progressDialog = ProgressDialog.show(this@MainActivity, null, msg)
+    }
+
 
 }

@@ -1,4 +1,4 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+ <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_study_set_wrapper"
@@ -10,10 +10,10 @@
                 android:id="@+id/option_add_to_folder"
                 android:icon="@drawable/icons8_folder_24_00001"
                 android:title="@string/add_to_folder" />
-            <item
-                android:id="@+id/add_to_class"
-                android:icon="@drawable/icons8_users_24"
-                android:title="@string/add_to_class" />
+<!--            <item-->
+<!--                android:id="@+id/add_to_class"-->
+<!--                android:icon="@drawable/icons8_users_24"-->
+<!--                android:title="@string/add_to_class" />-->
             <item
                 android:id="@+id/option_share"
                 android:icon="@drawable/icons8_share_24"

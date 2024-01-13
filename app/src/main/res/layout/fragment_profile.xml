@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_profile"
     android:fillViewport="true"
-    android:padding="20dp"
+    android:padding="@dimen/mar_15"
     tools:context=".Profile">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,18 +34,18 @@
             android:id="@+id/txtUploadImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_marginTop="16dp"
             android:drawablePadding="@dimen/pad_5"
+            android:gravity="center"
             android:text="@string/upload_avatar"
             android:textColor="@color/txt_blue_primary"
             android:textSize="14sp"
-            android:layout_marginTop="16dp"
             android:textStyle="bold"
+            app:drawableEndCompat="@drawable/camera"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.474"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgAvatar"
-            app:drawableEndCompat="@drawable/camera" />
+            app:layout_constraintTop_toBottomOf="@+id/imgAvatar" />
 
         <TextView
             android:id="@+id/txtUsername"
@@ -53,35 +53,52 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="Le Manh"
-            android:textSize="20sp"
             android:textColor="@color/txt_black_primary"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.474"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtUploadImage" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <TextView
             android:id="@+id/btnUpgrade"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
-            android:textColor="@color/txt_black_primary"
             android:background="@drawable/profile_upgrade_btn"
-            android:text="@string/pf_upgrade"
+            android:drawablePadding="@dimen/pad_5"
+            android:paddingVertical="@dimen/mar_10"
+            android:text="@string/unlock_premium_features"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/imgAvatar"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtVerified"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingVertical="@dimen/mar_10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            android:background="@drawable/profile_upgrade_btn"
+            android:text="@string/verified"
+            android:visibility="gone"
+            android:drawablePadding="@dimen/pad_5"
+            app:layout_constraintStart_toEndOf="@+id/imgAvatar"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/txt_black_primary"
+            app:drawableEndCompat="@drawable/verified" />
 
         <LinearLayout
             android:id="@+id/linearLayoutCourse"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="16dp"
-            android:background="@color/white"
+            android:background="@color/bg_card_setting"
             android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -98,16 +115,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:textColor="@color/txt_black_primary"
-                android:text="@string/pf_your_courses" />
+                android:text="@string/pf_your_courses"
+                android:textColor="@color/txt_black_primary" />
 
             <ImageView
                 android:id="@+id/imageView3"
-                android:layout_width="65dp"
-                android:layout_height="19dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-
-                android:src="@drawable/forward_arr" />
+                android:src="@drawable/forward_32" />
         </LinearLayout>
 
         <LinearLayout
@@ -115,8 +131,8 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="16dp"
-            android:background="@color/white"
             android:gravity="center"
+            android:background="@color/bg_card_setting"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -133,16 +149,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:textColor="@color/txt_black_primary"
-                android:text="@string/pf_your_equipment" />
+                android:text="@string/pf_your_equipment"
+                android:textColor="@color/txt_black_primary" />
 
             <ImageView
                 android:id="@+id/imageView6"
-                android:layout_width="65dp"
-                android:layout_height="19dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-
-                android:src="@drawable/forward_arr" />
+                android:src="@drawable/forward_32" />
         </LinearLayout>
 
         <LinearLayout
@@ -180,7 +195,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="4dp"
-            android:background="@color/white"
+            android:background="@color/bg_card_secondary"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -213,8 +228,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:gravity="center"
-                android:textColor="@color/txt_black_primary"
-                android:text="@string/pf_achievement_quote" />
+                android:text="@string/pf_achievement_quote"
+                android:textColor="@color/txt_black_primary" />
 
 
             <LinearLayout

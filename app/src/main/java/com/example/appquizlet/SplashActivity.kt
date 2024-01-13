@@ -26,7 +26,7 @@ import com.example.appquizlet.model.PhotoSplash
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
     val br = BroadcastReceiverCheckInternet()
-    private lateinit var sharedPreferences : SharedPreferences
+    private lateinit var sharedPreferences: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -35,8 +35,6 @@ class SplashActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         sharedPreferences = this.getSharedPreferences("currentStreak", Context.MODE_PRIVATE)
-
-
 
 
 //        chuyen mau chu
@@ -70,14 +68,14 @@ class SplashActivity : AppCompatActivity() {
         }
 
 
-        val indexOfTerms = text.indexOf("Terms of Services")
-        val indexOfPrivacyPolicy = text.indexOf("Privacy Policy")
+        val indexOfTerms = text.indexOf(resources.getString(R.string.tos))
+        val indexOfPrivacyPolicy = text.indexOf(resources.getString(R.string.pp))
         if (indexOfTerms != -1 && indexOfPrivacyPolicy != -1) {
             // Thay đổi font chữ (đặt kiểu đậm) cho "Terms of Services"
             spannableStringBuilder.setSpan(
                 StyleSpan(Typeface.BOLD),
                 indexOfTerms,
-                indexOfTerms + "Terms of Services".length,
+                indexOfTerms + resources.getString(R.string.tos).length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
 
@@ -85,7 +83,7 @@ class SplashActivity : AppCompatActivity() {
             spannableStringBuilder.setSpan(
                 StyleSpan(Typeface.BOLD),
                 indexOfPrivacyPolicy,
-                indexOfPrivacyPolicy + "Privacy Policy".length,
+                indexOfPrivacyPolicy + resources.getString(R.string.pp).length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
 
@@ -94,14 +92,14 @@ class SplashActivity : AppCompatActivity() {
             spannableStringBuilder.setSpan(
                 ForegroundColorSpan(color),
                 indexOfTerms,
-                indexOfTerms + "Terms of Services".length,
+                indexOfTerms + resources.getString(R.string.tos).length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
 
             spannableStringBuilder.setSpan(
                 ForegroundColorSpan(color),
                 indexOfPrivacyPolicy,
-                indexOfPrivacyPolicy + "Privacy Policy".length,
+                indexOfPrivacyPolicy + resources.getString(R.string.pp).length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
 
@@ -111,13 +109,13 @@ class SplashActivity : AppCompatActivity() {
             spannableStringBuilder.setSpan(
                 termsOfServiceClickableSpan,
                 indexOfPrivacyPolicy,
-                indexOfPrivacyPolicy + "Privacy Policy".length,
+                indexOfPrivacyPolicy + resources.getString(R.string.pp).length,
                 0
             )
             spannableStringBuilder.setSpan(
                 privacyPolicyClickableSpan,
                 indexOfTerms,
-                indexOfTerms + "Terms of Services".length,
+                indexOfTerms + resources.getString(R.string.tos).length,
                 0
             )
             // Đặt SpannableStringBuilder vào TextView và đặt movementMethod để kích hoạt tính năng bấm vào liên kết
@@ -181,7 +179,6 @@ class SplashActivity : AppCompatActivity() {
         super.onDestroy()
         unregisterReceiver(br)
     }
-
 
 
 }

@@ -2,6 +2,8 @@ package com.example.appquizlet.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -11,9 +13,11 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appquizlet.Excellent
 import com.example.appquizlet.R
+import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.ActivityReviewKnowledgeBinding
 import com.example.appquizlet.model.FlashCardModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.gson.Gson
 
 class ReviewLearnAdapter(
     private val context: Context,
@@ -24,6 +28,8 @@ class ReviewLearnAdapter(
     private var selectedAnswer: String? = null
     private var isQuestionAnswered = false
     private var selectedCardView: CardView? = null
+    private var countFalse: Int? = 0
+    private var countTrue: Int? = 0
 
 
     inner class ReviewLearnHolder(val binding: ActivityReviewKnowledgeBinding) :
@@ -48,6 +54,7 @@ class ReviewLearnAdapter(
         val correctAnswer: String = studySet[position].definition.toString()
         val incorrectOptions = studySet.shuffled().filter { it.definition != correctAnswer }
         options = (incorrectOptions.take(2) + studySet[position]).shuffled()
+        Log.d("lllll", Gson().toJson(options))
 
         textOptionCard1.text = options[0].definition ?: ""
         textOptionCard2.text = options[1].definition ?: ""
@@ -66,8 +73,25 @@ class ReviewLearnAdapter(
         }
         holder.binding.submitButton.setOnClickListener {
             if (!isQuestionAnswered) {
-                handleCheckAnswer(holder, context, selectedCardView, selectedAnswer, correctAnswer)
-                isQuestionAnswered = true
+                Log.d("selectedAnswer",selectedAnswer.toString())
+                if (selectedAnswer.isNullOrBlank()) {
+                    Log.d("selectedAnswer1",selectedAnswer.toString())
+                    CustomToast(context).makeText(
+                        context,
+                        "Please choose your answer before submitting",
+                        CustomToast.LONG,
+                        CustomToast.WARNING
+                    ).show()
+                } else {
+                    handleCheckAnswer(
+                        holder,
+                        context,
+                        selectedCardView,
+                        selectedAnswer,
+                        correctAnswer
+                    )
+                    isQuestionAnswered = true
+                }
             }
         }
 
@@ -80,15 +104,14 @@ class ReviewLearnAdapter(
     ) {
         if (!isQuestionAnswered) {
             holder.binding.cardViewAnswer1.setBackgroundColor(
-                ContextCompat.getColor(context, android.R.color.white)
+                ContextCompat.getColor(context, android.R.color.holo_red_light)
             )
             holder.binding.cardViewAnswer2.setBackgroundColor(
-                ContextCompat.getColor(context, android.R.color.white)
+                ContextCompat.getColor(context, android.R.color.holo_red_light)
             )
             holder.binding.cardViewAnswer3.setBackgroundColor(
-                ContextCompat.getColor(context, android.R.color.white)
+                ContextCompat.getColor(context, android.R.color.holo_red_light)
             )
-
             cardView.setBackgroundColor(
                 ContextCompat.getColor(context, R.color.semi_blue)
             )
@@ -108,17 +131,19 @@ class ReviewLearnAdapter(
         highlight(context, selectedCardView, isCorrect)
         if (isCorrect) {
             showNiceDoneDialog()
+            countTrue = countTrue!! + 1;
         } else {
             showIncorrectDialog(correctAnswer)
+            countFalse = countFalse!! + 1;
         }
         holder.binding.cardViewAnswer1.setBackgroundColor(
-            ContextCompat.getColor(context, android.R.color.white)
+            ContextCompat.getColor(context, android.R.color.holo_red_light)
         )
         holder.binding.cardViewAnswer2.setBackgroundColor(
-            ContextCompat.getColor(context, android.R.color.white)
+            ContextCompat.getColor(context, android.R.color.holo_red_light)
         )
         holder.binding.cardViewAnswer3.setBackgroundColor(
-            ContextCompat.getColor(context, android.R.color.white)
+            ContextCompat.getColor(context, android.R.color.holo_red_light)
         )
     }
 
@@ -181,6 +206,12 @@ class ReviewLearnAdapter(
             recyclerView.smoothScrollToPosition(nextPosition)
         } else {
             val i = Intent(context, Excellent::class.java)
+            val bundle = Bundle()
+            countTrue?.let { bundle.putInt("countTrue", it) }
+            countFalse?.let { bundle.putInt("countFalse", it) }
+            bundle.putInt("listSize", studySet.size)
+            i.putExtra("listCardTest", Gson().toJson(studySet))
+            i.putExtras(bundle)
             context.startActivity(i)
         }
     }

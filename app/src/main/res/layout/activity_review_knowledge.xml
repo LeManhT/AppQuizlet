@@ -29,6 +29,7 @@
             android:id="@+id/cardViewAnswer1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:cardCornerRadius="@dimen/mar_10"
             app:cardBackgroundColor="@color/bg_card_test_card"
             android:layout_marginBottom="8dp">
 
@@ -46,6 +47,8 @@
             android:id="@+id/cardViewAnswer2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:cardCornerRadius="@dimen/mar_10"
+            app:cardBackgroundColor="@color/bg_card_test_card"
             android:layout_marginBottom="8dp">
 
             <TextView
@@ -59,7 +62,9 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cardViewAnswer3"
             android:layout_width="match_parent"
+            app:cardBackgroundColor="@color/bg_card_test_card"
             android:layout_height="wrap_content"
+            app:cardCornerRadius="@dimen/mar_10"
             android:layout_marginBottom="8dp">
 
             <TextView

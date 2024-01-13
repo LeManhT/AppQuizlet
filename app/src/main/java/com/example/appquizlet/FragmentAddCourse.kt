@@ -13,6 +13,7 @@ import com.example.appquizlet.databinding.FragmentAddCourseBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class FragmentAddCourse : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentAddCourseBinding
@@ -46,6 +47,15 @@ class FragmentAddCourse : BottomSheetDialogFragment() {
 //                binding.inputLayoutAutoSchool.boxBackgroundMode =
 //                    TextInputLayout.BOX_BACKGROUND_NONE
                 binding.autoSchool.showDropDown()
+            }
+        }
+
+        binding.btnDoneCourse.setOnClickListener {
+            context?.let { it1 ->
+                MaterialAlertDialogBuilder(it1)
+                    .setTitle(R.string.notification)
+                    .setMessage(R.string.the_feature_will_coming_soon)
+                    .show()
             }
         }
 //

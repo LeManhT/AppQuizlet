@@ -34,10 +34,10 @@ class FlashcardLearn : AppCompatActivity(), OnClickButton, LearnFlashcardAdapter
     private lateinit var settingFragment: LearnFlashCardSetting
     private lateinit var adapterLearn: LearnFlashcardAdapter
     private lateinit var textToSpeech: TextToSpeech
-    private var isFront: Boolean? = true
+    private var isFront: Boolean = true
 
     private val handler = Handler(Looper.getMainLooper())
-    private val autoPlayDelay = 5000L // Độ trễ giữa các lần swipe (milliseconds)
+    private val autoPlayDelay = 2000L // Độ trễ giữa các lần swipe (milliseconds)
     private var isAutoPlay = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -112,17 +112,25 @@ class FlashcardLearn : AppCompatActivity(), OnClickButton, LearnFlashcardAdapter
 
     override fun handleClickModeDisplay() {
         isFront = isFront?.not() ?: true
+        Log.d("isFront",isFront.toString())
         val btnToggleMode =
             settingFragment.dialog?.findViewById<AppCompatButton>(R.id.btnToggleMode)
         if (isFront == true) {
             if (btnToggleMode != null) {
                 btnToggleMode.text = resources.getString(R.string.term)
+                listCards.map {
+                    it.isUnMark = false
+                }
             }
         } else {
             if (btnToggleMode != null) {
                 btnToggleMode.text = resources.getString(R.string.definition)
+                listCards.map {
+                    it.isUnMark = true
+                }
             }
         }
+        settingFragment.setIsFront(isFront)
         adapterLearn.notifyDataSetChanged()
     }
 
@@ -155,13 +163,11 @@ class FlashcardLearn : AppCompatActivity(), OnClickButton, LearnFlashcardAdapter
                 binding.txtCount.text =
                     "${if (currentPosition + 1 > listCards.size) currentPosition else currentPosition + 1}/${listCards.size}"
                 if (manager.topPosition == listCards.size) {
-                    Toast.makeText(this@FlashcardLearn, "hhhh", Toast.LENGTH_SHORT).show()
-                    Log.d("lll", manager.topPosition.toString())
                     binding.swipeStack.visibility = View.GONE
                     binding.layoutLearnedFull.visibility = View.VISIBLE
                     binding.learnBottomBtn.visibility = View.GONE
                     binding.toolbar.visibility = View.GONE
-                    binding.layoutLearnedFull.setOnClickListener {
+                    binding.btnGoHome.setOnClickListener {
                         finish()
                     }
                 }
@@ -211,6 +217,10 @@ class FlashcardLearn : AppCompatActivity(), OnClickButton, LearnFlashcardAdapter
             textToSpeech.stop()
         }
         textToSpeech.shutdown()
+        isFront = true
+        isShuffle = false
+        isAutoPlay = false
+        isPlayAudio = false
         super.onDestroy()
     }
 
@@ -248,5 +258,10 @@ class FlashcardLearn : AppCompatActivity(), OnClickButton, LearnFlashcardAdapter
             isAutoPlay = false
             stopAutoPlay()
         }
+    }
+
+    override fun handleResetCard() {
+        recreate()
+        settingFragment.dismiss()
     }
 }

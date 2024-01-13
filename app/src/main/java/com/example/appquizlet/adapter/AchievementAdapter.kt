@@ -15,6 +15,7 @@ import com.example.appquizlet.ItemAchievementBottomSheet
 import com.example.appquizlet.R
 import com.example.appquizlet.model.TaskData
 import com.example.appquizlet.util.Helper
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlin.math.min
 
 class AchievementAdapter(
@@ -44,7 +45,6 @@ class AchievementAdapter(
         val imageName = "ac${listAchievements[position].id}"
         val imageResourceId =
             context.resources.getIdentifier(imageName, "drawable", context.packageName)
-        Log.d("image", imageResourceId.toString() + " " + imageName)
         // Check if drawable is set
         if (listAchievements[position].status != 2) {
             val originalBitmap: Bitmap? =
@@ -56,6 +56,16 @@ class AchievementAdapter(
             imgAchievement.setImageBitmap(grayscaleBitmap)
         } else {
             imgAchievement.setImageResource(imageResourceId)
+            // Retrieve the FCM token
+            FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val token = task.result
+                    Log.d("FCMToken", "Current token: $token")
+                    // Use the token as needed
+                } else {
+                    Log.e("FCMToken", "Failed to get token")
+                }
+            }
         }
         txtAchievementName.text = listAchievements[position].taskName
         txtAchievementStatus.text = listAchievements[position].description

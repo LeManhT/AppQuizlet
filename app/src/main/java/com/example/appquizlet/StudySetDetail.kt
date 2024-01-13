@@ -1,24 +1,36 @@
 package com.example.appquizlet
 
+import CustomPopUpWindow
 import android.app.AlertDialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.Settings
 import android.speech.tts.TextToSpeech
-import android.speech.tts.TextToSpeech.OnInitListener
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.Observer
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.appquizlet.BroadcastReceiver.DownloadSuccessReceiver
 import com.example.appquizlet.adapter.FlashcardItemAdapter
 import com.example.appquizlet.adapter.StudySetItemAdapter
 import com.example.appquizlet.api.retrofit.ApiService
@@ -30,11 +42,20 @@ import com.example.appquizlet.model.FlashCardModel
 import com.example.appquizlet.model.UserM
 import com.example.appquizlet.util.Helper
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.apache.poi.hssf.usermodel.HSSFWorkbook
+import org.apache.poi.xwpf.usermodel.XWPFDocument
+import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.time.Instant
 import java.util.Locale
 
-class StudySetDetail : AppCompatActivity(), OnInitListener,
-    FlashcardItemAdapter.OnFlashcardItemClickListener, FragmentSortTerm.SortTermListener {
+
+class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
+    FlashcardItemAdapter.OnFlashcardItemClickListener, FragmentSortTerm.SortTermListener,
+    StudySetItemAdapter.ClickZoomListener {
     private lateinit var binding: ActivityStudySetDetailBinding
     private lateinit var progressDialog: ProgressDialog
     private lateinit var apiService: ApiService
@@ -45,15 +66,25 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
     private var listFlashcardDetails: MutableList<FlashCardModel> = mutableListOf()
     private var originalList: MutableList<FlashCardModel> = mutableListOf()
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var sharedPreferencesDetect: SharedPreferences
     private var isPublic: Boolean? = false
+    private val listCards = mutableListOf<FlashCardModel>()
+    private val downloadCompleteReceiver = DownloadSuccessReceiver()
+    private var nameSet: String = ""
+    private var currentPoint: Int = 0
 
 
+    private val STORAGE_CODE = 1001
+
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityStudySetDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         sharedPreferences = this.getSharedPreferences("TypeSelected", Context.MODE_PRIVATE)
+        sharedPreferencesDetect = this.getSharedPreferences("countDetect", Context.MODE_PRIVATE)
 
         // Khởi tạo TextToSpeech
         textToSpeech = TextToSpeech(this, this)
@@ -66,8 +97,20 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
 // Tắt tiêu đề của Action Bar
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        setId = intent.getStringExtra("setId").toString()
 
+        val countDetect = sharedPreferencesDetect.getInt("countLearn", 0)
+        Log.d("countDetect", countDetect.toString())
+        if (countDetect == 0) {
+            displayCheckedDates()
+        }
+
+        this.registerReceiver(
+            downloadCompleteReceiver,
+            IntentFilter("PDF_DOWNLOAD_COMPLETE"),
+            RECEIVER_NOT_EXPORTED
+        );
+
+        setId = intent.getStringExtra("setId").toString()
 
 
         binding.layoutSortText.setOnClickListener {
@@ -75,13 +118,15 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
         }
 
 
-        val listCards = mutableListOf<FlashCardModel>()
         adapterStudySet = StudySetItemAdapter(listCards, object : RvFlashCard {
             override fun handleClickFLashCard(flashcardItem: FlashCardModel) {
                 flashcardItem.isUnMark = flashcardItem.isUnMark?.not() ?: true
                 adapterStudySet.notifyDataSetChanged()
             }
         })
+
+        adapterStudySet.setOnClickZoomBtnListener(this)
+
         adapterFlashcardDetail = FlashcardItemAdapter(listFlashcardDetails)
         val userData = UserM.getUserData()
         userData.observe(this) { userResponse ->
@@ -90,11 +135,11 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
             }
             if (studySet != null) {
                 isPublic = studySet.isPublic
-                Log.d("ttttP", isPublic.toString())
             }
             binding.txtStudySetDetailUsername.text = userResponse.loginName
             if (studySet != null) {
                 binding.txtSetName.text = studySet.name
+                nameSet = studySet.name
             }
             if (studySet != null) {
                 listCards.clear()
@@ -132,8 +177,6 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
                 i.putExtra("listCardTest", jsonList)
                 startActivity(i)
             }
-
-
         }
         binding.viewPagerStudySet.adapter = adapterStudySet
         // Thiết lập lắng nghe sự kiện click cho adapter
@@ -151,6 +194,335 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
             shareDialog(Helper.getDataUserId(this), setId)
         }
 
+        UserM.getDataRanking().observe(this) {
+            currentPoint = it.currentScore
+        }
+
+        binding.txtDownload.setOnClickListener {
+            if (currentPoint > 50) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    if (!Environment.isExternalStorageManager()) {
+                        try {
+                            val intent = Intent()
+                            intent.action = Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
+                            val uri = Uri.fromParts("package", this.packageName, null)
+                            intent.data = uri
+                            storageActivityLauncher.launch(intent)
+                        } catch (e: Exception) {
+                            Log.e("requestPermission", e.toString())
+                            val intent = Intent()
+                            intent.action = Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
+                            storageActivityLauncher.launch(intent)
+                        }
+                    } else {
+                        showSaveFormatDialog()
+                    }
+                } else {
+                    if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                        val permission = android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        ActivityCompat.requestPermissions(
+                            this,
+                            arrayOf(permission),
+                            STORAGE_CODE
+                        )
+                    } else {
+                        showSaveFormatDialog()
+                    }
+                }
+            } else {
+                val i = Intent(this, QuizletPlus::class.java)
+                startActivity(i)
+            }
+
+        }
+
+    }
+
+    private val storageActivityLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                if (Environment.isExternalStorageManager()) {
+                    showSaveFormatDialog()
+                } else {
+                    Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+
+//    private fun savePdf(listCard: MutableList<FlashCardModel>) {
+//        val mDoc = com.itextpdf.text.Document()
+//
+//        // Use the "Download" directory
+//        val mDirectory = Environment.DIRECTORY_DOWNLOADS
+//
+//
+//        // Create a file in the "Download" directory
+//        val mFilename = SimpleDateFormat(
+//            "yyyyMMdd_HHmmss",
+//            Locale.getDefault()
+//        ).format(System.currentTimeMillis())
+//        val mFilePath = Environment.getExternalStoragePublicDirectory(mDirectory)
+//            .toString() + "/" + mFilename + ".pdf"
+//
+//        val notificationManager =
+//            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+//        val notificationId = 1
+//        val channelId = "download_channel"
+//        val channelName = "Download Channel"
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            val channel =
+//                NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_LOW)
+//            notificationManager.createNotificationChannel(channel)
+//        }
+//
+//        val notificationBuilder = NotificationCompat.Builder(this, channelId)
+//            .setContentTitle("Downloading PDF")
+//            .setContentText("Download in progress")
+//            .setSmallIcon(R.drawable.icons8_download_24)
+//            .setPriority(NotificationCompat.PRIORITY_LOW)
+//            .setProgress(100, 0, true)
+//            .setOngoing(true)
+//
+//        notificationManager.notify(notificationId, notificationBuilder.build())
+//
+//        lifecycleScope.launch {
+//            try {
+//                withContext(Dispatchers.IO) {
+//                    PdfWriter.getInstance(mDoc, FileOutputStream(mFilePath))
+//                }
+//                mDoc.open()
+//                // Simulate a long download process
+//                for (progress in 1..100) {
+//                    // Update the notification progress
+//                    notificationBuilder.setProgress(100, progress, false)
+//                    notificationManager.notify(notificationId, notificationBuilder.build())
+//                    // Simulate some work being done
+//                    withContext(Dispatchers.IO) {
+//                        Thread.sleep(50)
+//                    }
+//                }
+//                for (flashCard in listCard) {
+//                    val term = flashCard.term ?: ""
+//                    val definition = flashCard.definition ?: ""
+//                    val data = "$term : $definition"
+//                    mDoc.add(Paragraph(data))
+//                }
+//                mDoc.addAuthor("Le Manh")
+//                mDoc.close()
+//                // Send broadcast when download is complete
+//                val downloadCompleteIntent = Intent("PDF_DOWNLOAD_COMPLETE")
+//                downloadCompleteIntent.putExtra("file_path", mFilePath)
+//                sendBroadcast(downloadCompleteIntent)
+//                Toast.makeText(this@StudySetDetail, "$mFilename.pdf is created", Toast.LENGTH_SHORT)
+//                    .show()
+//            } catch (e: Exception) {
+//                Toast.makeText(this@StudySetDetail, e.message.toString(), Toast.LENGTH_SHORT).show()
+//            } finally {
+//                // Remove the ongoing notification when the download is complete
+//                notificationManager.cancel(notificationId)
+//            }
+//        }
+//    }
+
+    private fun showSaveFormatDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Choose Save Format")
+            .setItems(arrayOf("Excel (.xlsx)", "Word (.docx)")) { _, which ->
+                when (which) {
+                    0 -> lifecycleScope.launch { saveExcel(listCards) }
+                    1 -> lifecycleScope.launch { saveDocx(listCards) }
+                }
+            }
+        builder.create().show()
+    }
+
+    private suspend fun saveDocx(listCard: MutableList<FlashCardModel>) {
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationId = 1
+        val channelId = "download_channel"
+        val channelName = "Download Channel"
+
+        val channel =
+            NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_LOW)
+        notificationManager.createNotificationChannel(channel)
+
+        val notificationBuilder = NotificationCompat.Builder(this, channelId)
+            .setContentTitle("Downloading DOCX")
+            .setContentText("Download in progress")
+            .setSmallIcon(R.drawable.icons8_download_24)
+            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .setProgress(100, 0, true)
+            .setOngoing(true)
+
+        notificationManager.notify(notificationId, notificationBuilder.build())
+
+        withContext(Dispatchers.IO) {
+            try {
+                val document = XWPFDocument()
+
+                for (progress in 1..100) {
+                    // Update the notification progress
+                    notificationBuilder.setProgress(100, progress, false)
+                    notificationManager.notify(notificationId, notificationBuilder.build())
+                    // Simulate some work being done
+                    withContext(Dispatchers.IO) {
+                        Thread.sleep(50)
+                    }
+                }
+
+                for (flashCard in listCard) {
+                    val term = flashCard.term ?: ""
+                    val definition = flashCard.definition ?: ""
+                    val content = "$term : $definition"
+
+                    val paragraph = document.createParagraph()
+                    val run = paragraph.createRun()
+                    run.setText(content)
+                }
+
+                // Specify the directory and filename for saving the DOCX file
+                val mDirectory = Environment.DIRECTORY_DOWNLOADS
+                val mFilename = SimpleDateFormat(
+                    "yyyyMMdd_HHmmss",
+                    Locale.getDefault()
+                ).format(System.currentTimeMillis())
+                val mFilePath = Environment.getExternalStoragePublicDirectory(mDirectory)
+                    .toString() + "/" + mFilename + ".docx"
+
+                // Save the DOCX document to a file
+                val outputStream = FileOutputStream(mFilePath)
+                document.write(outputStream)
+                outputStream.close()
+
+                runOnUiThread {
+                    Toast.makeText(
+                        this@StudySetDetail,
+                        "$mFilename.docx is created",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                // Send broadcast when download is complete
+                runOnUiThread {
+                    val downloadCompleteIntent = Intent("PDF_DOWNLOAD_COMPLETE")
+                    downloadCompleteIntent.putExtra("file_path", mFilePath)
+                    this@StudySetDetail.sendBroadcast(downloadCompleteIntent)
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this@StudySetDetail, e.message.toString(), Toast.LENGTH_SHORT)
+                    .show()
+            } finally {
+                // Remove the ongoing notification when the download is complete
+                notificationManager.cancel(notificationId)
+            }
+        }
+    }
+
+    // Import necessary classes
+    private suspend fun saveExcel(listCard: MutableList<FlashCardModel>) {
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationId = 1
+        val channelId = "download_channel"
+        val channelName = "Download Channel"
+
+        val channel =
+            NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_LOW)
+        notificationManager.createNotificationChannel(channel)
+
+        val notificationBuilder = NotificationCompat.Builder(this, channelId)
+            .setContentTitle(resources.getString(R.string.download_excel))
+            .setContentText(resources.getString(R.string.download_in_progess))
+            .setSmallIcon(R.drawable.icons8_download_24)
+            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .setProgress(100, 0, true)
+            .setOngoing(true)
+
+        notificationManager.notify(notificationId, notificationBuilder.build())
+        withContext(Dispatchers.IO) {
+            try {
+                val workbook = HSSFWorkbook()
+                val sheet = workbook.createSheet(nameSet)
+
+                for (progress in 1..100) {
+                    // Update the notification progress
+                    notificationBuilder.setProgress(100, progress, false)
+                    notificationManager.notify(notificationId, notificationBuilder.build())
+                    // Simulate some work being done
+                    Thread.sleep(50)
+                }
+
+                for ((rowIndex, flashCard) in listCard.withIndex()) {
+                    val row = sheet.createRow(rowIndex)
+                    val termCell = row.createCell(0)
+                    val definitionCell = row.createCell(1)
+
+                    termCell.setCellValue(flashCard.term)
+                    definitionCell.setCellValue(flashCard.definition)
+                }
+
+                // Specify the directory and filename for saving the Excel file
+                val mDirectory = Environment.DIRECTORY_DOWNLOADS
+                val mFilename = SimpleDateFormat(
+                    "yyyyMMdd_HHmmss",
+                    Locale.getDefault()
+                ).format(System.currentTimeMillis())
+                val mFilePath = Environment.getExternalStoragePublicDirectory(mDirectory)
+                    .toString() + "/" + mFilename + ".xlsx"
+
+                // Write the workbook to a file
+                val fileOutputStream = FileOutputStream(mFilePath)
+                workbook.write(fileOutputStream)
+                fileOutputStream.close()
+
+                // Display a toast message
+                runOnUiThread {
+                    Toast.makeText(
+                        this@StudySetDetail,
+                        "$mFilename.xlsx is created",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                // Send broadcast when download is complete
+                runOnUiThread {
+                    val downloadCompleteIntent = Intent("PDF_DOWNLOAD_COMPLETE")
+                    downloadCompleteIntent.putExtra("file_path", mFilePath)
+                    this@StudySetDetail.sendBroadcast(downloadCompleteIntent)
+                }
+
+                Log.d("saveExcel1", "error 1")
+            } catch (e: Exception) {
+                // Handle exceptions
+                Log.d("saveExcel", e.message.toString())
+                Toast.makeText(this@StudySetDetail, e.message.toString(), Toast.LENGTH_SHORT).show()
+            } finally {
+                // Remove the ongoing notification when the download is complete
+                notificationManager.cancel(notificationId)
+            }
+        }
+    }
+
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            STORAGE_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    showSaveFormatDialog()
+                } else {
+                    Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+        }
     }
 
     override fun onSortTermSelected(sortType: String) {
@@ -370,11 +742,13 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
             val result = textToSpeech.setLanguage(Locale.US)
-
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                Toast.makeText(this, "Language not supported.", Toast.LENGTH_SHORT).show()
+                val installIntent = Intent()
+                installIntent.action = TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA
+                startActivity(installIntent)
             }
         } else {
+            Log.e("TTSpeech2", "Initialization failed with status: $status")
             Toast.makeText(this, "Initialization failed.", Toast.LENGTH_SHORT).show()
         }
     }
@@ -386,15 +760,51 @@ class StudySetDetail : AppCompatActivity(), OnInitListener,
     override fun onDestroy() {
         if (textToSpeech.isSpeaking) {
             textToSpeech.stop()
+            textToSpeech.shutdown()
         }
         textToSpeech.shutdown()
+        unregisterReceiver(downloadCompleteReceiver)
         super.onDestroy()
     }
 
     override fun onFlashcardItemClick(term: String) {
         speakOut(term)
-        Log.d("StudySetDetail", "Clicked on term: $term")
     }
 
+    override fun onClickZoomBtn() {
+        val jsonList = Gson().toJson(listCards)
+        val i = Intent(applicationContext, FlashcardLearn::class.java)
+        i.putExtra("listCard", jsonList)
+        startActivity(i)
+    }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun displayCheckedDates() {
+        val unixTime = Instant.now().epochSecond
+        detectContinueStudy(Helper.getDataUserId(this), unixTime)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun detectContinueStudy(userId: String, timeDetect: Long) {
+        lifecycleScope.launch {
+            try {
+                val result = apiService.detectContinueStudy(userId, timeDetect)
+                if (result.isSuccessful) {
+                    result.body()?.let {
+                        val editor = sharedPreferencesDetect.edit()
+                        editor.putInt("countLearn", 1)
+                        editor.apply()
+                        UserM.setDataAchievements(it)
+                        val congratulationsPopup =
+                            CustomPopUpWindow(this@StudySetDetail, it.streak.currentStreak)
+                        congratulationsPopup.showCongratulationsPopup()
+                    }
+                } else {
+                    Log.d("error", result.errorBody().toString())
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 }

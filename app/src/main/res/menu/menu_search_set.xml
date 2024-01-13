@@ -11,10 +11,6 @@
                 android:icon="@drawable/icons8_folder_24_00001"
                 android:title="@string/add_to_folder" />
             <item
-                android:id="@+id/add_to_class"
-                android:icon="@drawable/icons8_users_24"
-                android:title="@string/add_to_class" />
-            <item
                 android:id="@+id/option_share"
                 android:icon="@drawable/icons8_share_24"
                 android:title="@string/share" />

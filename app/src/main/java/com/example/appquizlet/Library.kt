@@ -16,7 +16,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.setPadding
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.example.appquizlet.adapter.ViewPagerLibAdapter
 import com.example.appquizlet.api.retrofit.ApiService
@@ -35,6 +34,8 @@ class Library : Fragment() {
     private lateinit var binding: FragmentLibraryBinding
     private lateinit var apiService: ApiService
     private lateinit var progressDialog: ProgressDialog
+    private lateinit var adapterLibPager: ViewPagerLibAdapter
+    private var receivedData: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,14 +45,14 @@ class Library : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         apiService = RetrofitHelper.getInstance().create(ApiService::class.java)
         binding = FragmentLibraryBinding.inflate(inflater, container, false)
 
 
-//        Adapter
-        val adapterLibPager =
+        //        Adapter
+        adapterLibPager =
             ViewPagerLibAdapter(childFragmentManager, lifecycle)
         binding.pagerLib.adapter = adapterLibPager
         TabLayoutMediator(binding.tabLib, binding.pagerLib) { tab, pos ->
@@ -78,30 +79,29 @@ class Library : Fragment() {
                         badge.number = it.documents.folders.size
                     }
                 }
-
-                2 -> {
-                    tab.text = resources.getString(R.string.lb_classes)
-                    tab.icon =
-                        ResourcesCompat.getDrawable(resources, R.drawable.resource_class, null)
-                    val badge = tab.orCreateBadge
-                    badge.backgroundColor =
-                        ResourcesCompat.getColor(resources, R.color.semi_blue, null)
-                    badge.number = 0
-                }
+                //
+                //                2 -> {
+                //                    tab.text = resources.getString(R.string.lb_classes)
+                //                    tab.icon =
+                //                        ResourcesCompat.getDrawable(resources, R.drawable.resource_class, null)
+                //                    val badge = tab.orCreateBadge
+                //                    badge.backgroundColor =
+                //                        ResourcesCompat.getColor(resources, R.color.semi_blue, null)
+                //                    badge.number = 0
+                //                }
             }
         }.attach()
-
 
         binding.txtLibPlus.setOnClickListener {
 
             val currentItem = binding.pagerLib.currentItem
-//            Log.d(
-//                "tf",
-//                "currentItem: $currentItem, fragments size: ${childFragmentManager.fragments.size}"
-//            )
+            //            Log.d(
+            //                "tf",
+            //                "currentItem: $currentItem, fragments size: ${childFragmentManager.fragments.size}"
+            //            )
             if (currentItem < childFragmentManager.fragments.size) {
                 val currentFragment = childFragmentManager.fragments[currentItem]
-                Log.d("tf", "$currentItem $currentFragment")
+                //                Log.d("tf", "$currentItem $currentFragment")
                 if (currentFragment is FoldersFragment) {
                     showCustomDialog(
                         resources.getString(R.string.add_folder),
@@ -117,23 +117,27 @@ class Library : Fragment() {
             }
         }
 
+        binding.txtBack.setOnClickListener {
+            val i = Intent(context, MainActivity_Logged_In::class.java)
+            startActivity(i)
+        }
+
+
         binding.tabLib.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                val currentPosition = tab?.position
-                Log.d("tab", currentPosition.toString())
-                when (currentPosition) {
+                when (tab?.position) {
                     0 -> {
 
                     }
 
                     1 -> {
-//                        val add = Add()
-//                        add.showCustomDialog(
-//                            resources.getString(R.string.add_folder),
-//                            "",
-//                            resources.getString(R.string.folder_name),
-//                            resources.getString(R.string.desc_optional)
-//                        )
+                        //                        val add = Add()
+                        //                        add.showCustomDialog(
+                        //                            resources.getString(R.string.add_folder),
+                        //                            "",
+                        //                            resources.getString(R.string.folder_name),
+                        //                            resources.getString(R.string.desc_optional)
+                        //                        )
                     }
 
                     2 -> {}
@@ -148,18 +152,31 @@ class Library : Fragment() {
 
             }
         })
+
+        if (receivedData == "createFolder" || receivedData == "viewAllFolder") {
+            binding.pagerLib.currentItem = 1
+        } else if (receivedData == "createSet" || receivedData.isEmpty()) {
+            binding.pagerLib.currentItem = 0
+        }
+
         return binding.root
     }
 
 
     companion object {
+        const val TAG = "LibraryT"
+        private var instance: Library? = null
+
         fun newInstance(): Library {
-            return Library()
+            if (instance == null) {
+                instance = Library()
+            }
+            return instance!!
         }
     }
 
 
-    fun showCustomDialog(
+    private fun showCustomDialog(
         title: String,
         content: String,
         edtPlaceholderFolderName: String,
@@ -173,7 +190,7 @@ class Library : Fragment() {
         layout.orientation = LinearLayout.VERTICAL
         layout.setPadding(40)
         if (!content.isEmpty()) {
-//            builder.setMessage(content)
+            //            builder.setMessage(content)
             val textContent = TextView(context)
             textContent.setText(content)
             textContent.setPadding(10, 0, 10, 0)
@@ -181,11 +198,11 @@ class Library : Fragment() {
         }
         // Tạo EditText
         val editTextFolder = createEditTextWithCustomBottomBorder(edtPlaceholderFolderName)
-//        editTextFolder.hint = edtPlaceholderFolderName
+        //        editTextFolder.hint = edtPlaceholderFolderName
         layout.addView(editTextFolder)
 
         val editTextDesc = createEditTextWithCustomBottomBorder(edtPlaceholderDesc)
-//        editTextDesc.hint = edtPlaceholderDesc
+        //        editTextDesc.hint = edtPlaceholderDesc
         layout.addView(editTextDesc)
 
         builder.setView(layout)
@@ -229,12 +246,12 @@ class Library : Fragment() {
         editText.layoutParams = layoutParams
 
 
-//        editText.background = defaultBottomBorder
+        //        editText.background = defaultBottomBorder
 
         // Set a listener to change the border color when focused
-//        editText.setOnFocusChangeListener { view, hasFocus ->
-//            editText.background = if (hasFocus) focusBottomBorder else defaultBottomBorder
-//        }
+        //        editText.setOnFocusChangeListener { view, hasFocus ->
+        //            editText.background = if (hasFocus) focusBottomBorder else defaultBottomBorder
+        //        }
 
         return editText
     }
@@ -259,6 +276,10 @@ class Library : Fragment() {
                                     CustomToast.SUCCESS
                                 ).show()
                                 UserM.setUserData(it)
+                                val i = Intent(requireContext(), MainActivity_Logged_In::class.java)
+                                i.putExtra("selectedFragment", "Library")
+                                i.putExtra("createMethod", "createFolder")
+                                startActivity(i)
                             }
                         }
                     }
@@ -296,6 +317,14 @@ class Library : Fragment() {
         progressDialog = ProgressDialog.show(context, null, msg)
     }
 
+    fun setDataMethod(method: String) {
+        receivedData = method
+    }
 
+
+    override fun onDestroy() {
+        super.onDestroy()
+        receivedData = ""
+    }
 
 }

@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.EditText
 import androidx.appcompat.widget.AppCompatButton
-import androidx.lifecycle.Observer
 import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.ActivitySettingsBinding
 import com.example.appquizlet.model.UserM
@@ -21,6 +20,7 @@ class Settings : AppCompatActivity() {
     private lateinit var binding: ActivitySettingsBinding
     lateinit var dialog_update_email: AlertDialog
     private var currentPass: String = ""
+    private var currentEmail: String = ""
     private lateinit var sharedPreferences: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +38,7 @@ class Settings : AppCompatActivity() {
         val userData = UserM.getUserData()
         userData.observe(this) {
             currentPass = it.loginPassword
+            currentEmail = it.email
             binding.txtEmail.text = it.email
             if (it.setting.darkMode) {
                 binding.txtThemeMode.text = resources.getString(R.string.dark)
@@ -123,6 +124,7 @@ class Settings : AppCompatActivity() {
                 ).show()
             } else {
                 val i = Intent(this, ChangeEmail::class.java)
+                i.putExtra("currentEmail",currentEmail)
                 startActivity(i)
             }
         }
