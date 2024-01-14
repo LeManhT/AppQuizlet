@@ -42,7 +42,7 @@
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:text="@string/no_data_found"
-            android:textColor="#000000"
+            android:textColor="@color/txt_black_primary"
             android:textSize="22sp"
             android:textStyle="bold" />
 

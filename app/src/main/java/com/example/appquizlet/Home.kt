@@ -35,6 +35,7 @@ import com.example.appquizlet.model.FolderModel
 import com.example.appquizlet.model.StudySetModel
 import com.example.appquizlet.model.UserM
 import com.example.appquizlet.util.Helper
+import com.example.appquizlet.util.SharedPreferencesManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
@@ -203,7 +204,7 @@ class Home : Fragment() {
 
 
         val userData = UserM.getUserData()
-        userData.observe(viewLifecycleOwner, {
+        userData.observe(viewLifecycleOwner) {
             listFolderItems.clear()
             listStudySet.clear()
             listFolderItems.addAll(it.documents.folders)
@@ -225,7 +226,7 @@ class Home : Fragment() {
             }
             adapterHomeFolder.notifyDataSetChanged()
             adapterHomeStudySet.notifyDataSetChanged()
-        })
+        }
 
         // Access the RecyclerView through the binding
         rvHomeFolder.adapter = adapterHomeFolder
@@ -414,12 +415,13 @@ class Home : Fragment() {
                     ).show()
                 }
             } catch (e: Exception) {
-//                CustomToast(requireContext()).makeText(
-//                    requireContext(),
-//                    e.message.toString(),
-//                    CustomToast.LONG,
-//                    CustomToast.ERROR
-//                ).show()
+                CustomToast(requireContext()).makeText(
+                    requireContext(),
+                    e.message.toString(),
+                    CustomToast.LONG,
+                    CustomToast.ERROR
+                ).show()
+                requireActivity().recreate()
                 Log.d("Error get rank", e.message.toString())
             } finally {
 //                progressDialog.dismiss()
@@ -453,6 +455,14 @@ class Home : Fragment() {
 
             }
         }
+    }
+
+    private fun logOut() {
+        val intent = Intent(context, SplashActivity::class.java)
+        context?.let { SharedPreferencesManager.clearAllPreferences(it) }
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        requireActivity().finish()
     }
 
 }

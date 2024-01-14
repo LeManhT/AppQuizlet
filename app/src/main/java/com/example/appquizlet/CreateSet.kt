@@ -12,12 +12,15 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
+import android.provider.Settings
 import android.speech.RecognizerIntent
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -70,8 +73,20 @@ class CreateSet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListener 
     private val REQUEST_CAMERA_CODE = 2404
     private var uri: Uri? = null
     private val IMPORT_EXCEL_REQUEST_CODE = 100
+    private val STORAGE_CODE = 1001
     private var currentPoint: Int = 0
     private var dualLanguageTranslator: Translator? = null
+
+    private val storageActivityLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                if (Environment.isExternalStorageManager()) {
+
+                } else {
+                    Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,6 +100,33 @@ class CreateSet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListener 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // Hiển thị biểu tượng quay lại
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (!Environment.isExternalStorageManager()) {
+                try {
+                    val intent = Intent()
+                    intent.action = Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
+                    val uri = Uri.fromParts("package", this.packageName, null)
+                    intent.data = uri
+                    storageActivityLauncher.launch(intent)
+                } catch (e: Exception) {
+                    Log.e("requestPermission", e.toString())
+                    val intent = Intent()
+                    intent.action = Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
+                    storageActivityLauncher.launch(intent)
+                }
+            }
+        } else {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                val permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(permission),
+                    STORAGE_CODE
+                )
+            }
+        }
 
         listSet.add(FlashCardModel())
         listSet.add(FlashCardModel())

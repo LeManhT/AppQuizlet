@@ -195,13 +195,12 @@
         android:id="@+id/imageView13"
         android:layout_width="match_parent"
         android:layout_height="@dimen/h_250"
-        android:layout_marginTop="@dimen/marginInput"
-        android:layout_marginBottom="@dimen/marginInput"
         android:contentDescription=""
-        app:layout_constraintBottom_toTopOf="@+id/txtTermsOfService"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.6"
+        android:layout_marginTop="@dimen/pad_20"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutBtn"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/intro_pic" />
 
@@ -210,16 +209,17 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
+        android:layout_marginTop="@dimen/pad_20"
         android:gravity="center"
         android:paddingLeft="40dp"
         android:paddingRight="40dp"
-        android:textColor="@color/txt_black_primary"
         android:text="@string/terms_of_service"
+        android:textColor="@color/txt_black_primary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView13" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

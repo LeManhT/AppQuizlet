@@ -42,7 +42,7 @@ class NotificationAdapter(
         titleNotification.text = notification.title
         detailNotification.text = notification.detail
         imgNotification.setImageResource(imageResourceId)
-        holder.binding.notificationDivider.visibility = View.VISIBLE
+//        holder.binding.notificationDivider.visibility = View.VISIBLE
 
 
         holder.itemView.setOnClickListener {

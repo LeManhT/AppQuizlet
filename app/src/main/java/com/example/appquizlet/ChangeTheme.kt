@@ -87,7 +87,7 @@ class ChangeTheme : AppCompatActivity() {
     private fun changeTheme(userId: String, darkMode: Boolean) {
         lifecycleScope.launch {
             try {
-                showLoading(resources.getString(R.string.changing_your_pass))
+                showLoading(resources.getString(R.string.changing_your_theme))
                 val body = JsonObject().apply {
                     add("setting", JsonObject().apply {
                         addProperty("darkMode", darkMode)

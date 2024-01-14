@@ -115,6 +115,7 @@ class Add : BottomSheetDialogFragment() {
         builder.setNegativeButton("Cancel") { dialog, _ ->
             // Xử lý khi người dùng nhấn Cancel
             dialog.dismiss()
+            dismiss()
         }
         builder.create().show()
     }
@@ -212,6 +213,16 @@ class Add : BottomSheetDialogFragment() {
 
     private fun showLoading(msg: String) {
         progressDialog = ProgressDialog.show(context, null, msg)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        dismiss()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        dismiss()
     }
 
 }
