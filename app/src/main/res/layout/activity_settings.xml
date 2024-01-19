@@ -59,11 +59,12 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/textView16"
-                        android:layout_width="203dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/mar_10"
                         android:gravity="center_vertical"
@@ -72,13 +73,30 @@
                         android:textSize="18sp" />
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/button3"
+                        android:id="@+id/btnPremium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/pad_20"
                         android:layout_marginVertical="@dimen/mar_10"
                         android:background="@drawable/profile_upgrade_btn"
                         android:gravity="center|end"
-                        android:text="@string/free_trail" />
+                        android:text="@string/unlock_premium" />
+                    <TextView
+                        android:id="@+id/txtVerified"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="@dimen/mar_10"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        android:background="@drawable/profile_upgrade_btn"
+                        android:text="@string/premium_account"
+                        android:drawablePadding="@dimen/pad_5"
+                        android:visibility="gone"
+                        android:layout_marginStart="@dimen/mar_15"
+                        app:layout_constraintStart_toEndOf="@+id/imgAvatar"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:textColor="@color/txt_black_primary"
+                        app:drawableEndCompat="@drawable/verified" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -182,53 +200,53 @@
 
             </androidx.cardview.widget.CardView>
 
-            <LinearLayout
-                android:id="@+id/linearLayout2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/mar_10"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView2">
+<!--            <LinearLayout-->
+<!--                android:id="@+id/linearLayout2"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginVertical="@dimen/mar_10"-->
+<!--                android:orientation="horizontal"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/cardView2">-->
 
-                <TextView
-                    android:id="@+id/textView21"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="10dp"
-                    android:layout_weight="1"
-                    android:alpha="0.8"
-                    android:gravity="bottom"
-                    android:text="@string/notification"
-                    android:textColor="@color/txt_black_primary"
-                    android:textSize="14sp" />
-            </LinearLayout>
+<!--                <TextView-->
+<!--                    android:id="@+id/textView21"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_marginStart="10dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:alpha="0.8"-->
+<!--                    android:gravity="bottom"-->
+<!--                    android:text="@string/notification"-->
+<!--                    android:textColor="@color/txt_black_primary"-->
+<!--                    android:textSize="14sp" />-->
+<!--            </LinearLayout>-->
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="10dp">
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:id="@+id/cardView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:cardCornerRadius="10dp">-->
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/border"
-                    android:orientation="vertical"
-                    android:padding="@dimen/mar_10">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:background="@drawable/border"-->
+<!--                    android:orientation="vertical"-->
+<!--                    android:padding="@dimen/mar_10">-->
 
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/switch1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center|start"
-                        android:text="@string/push_noti"
-                        android:textColor="@color/txt_black_primary"
-                        android:textSize="14sp" />
-                </LinearLayout>
+<!--                    <androidx.appcompat.widget.SwitchCompat-->
+<!--                        android:id="@+id/switch1"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:gravity="center|start"-->
+<!--                        android:text="@string/push_noti"-->
+<!--                        android:textColor="@color/txt_black_primary"-->
+<!--                        android:textSize="14sp" />-->
+<!--                </LinearLayout>-->
 
-            </androidx.cardview.widget.CardView>
+<!--            </androidx.cardview.widget.CardView>-->
 
             <LinearLayout
                 android:id="@+id/linearLayout7"

@@ -14,14 +14,17 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import at.favre.lib.crypto.bcrypt.BCrypt
 import com.example.appquizlet.NoDataFragment
 import com.example.appquizlet.model.FlashCardModel
 import com.example.appquizlet.model.StudySetModel
 import com.example.appquizlet.model.UserResponse
+import java.security.SecureRandom
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
+import java.util.Base64
 import java.util.Locale
 
 object Helper {
@@ -143,14 +146,34 @@ object Helper {
     }
 
 
-     fun updateAppTheme(isDarkMode: Boolean) {
+    fun updateAppTheme(isDarkMode: Boolean) {
         setAppTheme(isDarkMode)
     }
-     private fun setAppTheme(isDarkMode: Boolean) {
+
+    private fun setAppTheme(isDarkMode: Boolean) {
         if (isDarkMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
     }
+
+    fun hashPassword(password: String): String {
+        val salt: String = generateRandomSalt()
+        val hashedPassword: String = BCrypt.withDefaults().hashToString(12, password.toCharArray())
+        return hashedPassword
+    }
+
+    fun verifyPassword(password: String, hashedPassword: String): Boolean {
+        return BCrypt.verifyer().verify(password.toCharArray(), hashedPassword).verified
+    }
+
+    fun generateRandomSalt(): String {
+        val random = SecureRandom()
+        val salt = ByteArray(16)
+        random.nextBytes(salt)
+        return Base64.getEncoder().encodeToString(salt)
+    }
+
+
 }

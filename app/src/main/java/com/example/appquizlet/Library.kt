@@ -155,7 +155,7 @@ class Library : Fragment() {
 
         if (receivedData == "createFolder" || receivedData == "viewAllFolder") {
             binding.pagerLib.currentItem = 1
-        } else if (receivedData == "createSet" || receivedData.isEmpty()) {
+        } else if (receivedData == "createSet" || receivedData.isEmpty() || receivedData == "") {
             binding.pagerLib.currentItem = 0
         }
 

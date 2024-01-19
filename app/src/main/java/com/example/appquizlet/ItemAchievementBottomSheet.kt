@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.example.appquizlet.databinding.FragmentItemAchievementBottomSheetBind
 import com.example.appquizlet.model.TaskData
 import com.example.appquizlet.util.Helper
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.gson.Gson
 
 
 class ItemAchievementBottomSheet : BottomSheetDialogFragment() {
@@ -63,10 +65,12 @@ class ItemAchievementBottomSheet : BottomSheetDialogFragment() {
                     binding.imgAchievement.setImageResource(imageResourceId)
                 }
             }
+            Log.d("testTask", "${taskData.progress} ti ${Gson().toJson(taskData)}")
+
             if (taskData.type == "Streak" && taskData.condition > 1) {
-                progressText = "$currentAchieveStreak / ${taskData.condition}"
+                progressText = "${taskData.progress} / ${taskData.condition}"
                 val progress =
-                    (currentAchieveStreak.toDouble() / taskData.condition.toDouble()) * 100
+                    (taskData.progress.toDouble() / taskData.condition.toDouble()) * 100
                 binding.customProgressBar.setProgress(progress.toInt(), progressText)
             } else if (taskData.type == "Study") {
                 if (taskData.condition <= 1) {

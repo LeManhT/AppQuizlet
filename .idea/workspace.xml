@@ -19,26 +19,54 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f561f4fb-df91-4045-a5ec-bc9208bd9d46" name="Changes" comment="terminate main function app">
+    <list default="true" id="f561f4fb-df91-4045-a5ec-bc9208bd9d46" name="Changes" comment="fix text in change theme and modify check permission">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ViewImage.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/badge_noti.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/gradient.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_view_image2.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/Add.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/Add.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ChangeTheme.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ChangeTheme.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/Change_Password.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/Change_Password.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/CreateSet.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/CreateSet.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/Excellent.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/Excellent.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/Home.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/Home.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/NotificationAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/NotificationAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_in.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_in.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_folders.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_folders.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ItemAchievementBottomSheet.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ItemAchievementBottomSheet.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ItemUserRankDetail.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ItemUserRankDetail.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/Library.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/Library.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/MainActivity_Logged_In.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/MainActivity_Logged_In.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/Profile.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/Profile.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/RankLeaderBoard.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/RankLeaderBoard.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/Settings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/Settings.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/SignIn.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/SignIn.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/SignUp.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/SignUp.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/SplashActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/SplashActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/ReviewLearnAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/ReviewLearnAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/FlashCardModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/FlashCardModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/util/Helper.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/util/Helper.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/left_arrow.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/left_arrow.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_change_theme.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_change_theme.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_rank_leader_board.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_rank_leader_board.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_up.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_up.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_profile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_profile.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-night/themes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-night/themes.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values-v23/themes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-v23/themes.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values-vi/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-vi/strings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values-zh/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values-zh/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/themes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/themes.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[adb-e123d7c9-VCh6mR._adb-tls-connect._tcp]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[emulator-5554]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -90,9 +118,9 @@
         <option value="Class" />
         <option value="Kotlin Object" />
         <option value="Kotlin Interface" />
+        <option value="layoutResourceFile" />
         <option value="Kotlin Class" />
         <option value="resourceFile" />
-        <option value="layoutResourceFile" />
       </list>
     </option>
   </component>
@@ -136,6 +164,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;android-custom-viewC:/Users/LeManhDev/.gradle/caches/modules-2/files-2.1/androidx.appcompat/appcompat/1.6.1/ace9a78b961165396147e8691faa18c1b0e48e20/appcompat-1.6.1-sources.jar!/androidx/appcompat/widget/AppCompatButton.java_SELECTED&quot;: &quot;AppCompatButton&quot;,
     &quot;android-custom-viewC:/Users/LeManhDev/.gradle/caches/modules-2/files-2.1/androidx.recyclerview/recyclerview/1.1.0/f2bdf79e1977939817f54a9d3e2f6bc52b63bdd0/recyclerview-1.1.0-sources.jar!/androidx/recyclerview/widget/RecyclerView.java_SELECTED&quot;: &quot;RecyclerView&quot;,
     &quot;android-custom-viewC:/Users/LeManhDev/.gradle/caches/modules-2/files-2.1/androidx.recyclerview/recyclerview/1.3.2/7bc0f04ccbe0159dc303408af769dc1bbb80d584/recyclerview-1.3.2-sources.jar!/androidx/recyclerview/widget/RecyclerView.java_SELECTED&quot;: &quot;RecyclerView&quot;,
@@ -148,7 +177,7 @@
     &quot;com.android.tools.idea.devicemanager.tab&quot;: &quot;Physical&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
     &quot;last_directory_selection&quot;: &quot;C:/Users/LeManhDev/StudioProjects/AppQuizlet/app/src/main/res/drawable&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/LeManhDev/StudioProjects/AppQuizlet/app/src/main/assets&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/LeManhDev/StudioProjects/AppQuizlet/app/src/main/res/drawable&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Dependencies&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
@@ -225,9 +254,9 @@
       <recent name="com.example.appquizlet" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\LeManhDev\StudioProjects\AppQuizlet\app\src\main\res\drawable" />
       <recent name="C:\Users\LeManhDev\StudioProjects\AppQuizlet\app\src\main\assets" />
       <recent name="C:\Users\LeManhDev\StudioProjects\AppQuizlet\app\src\main\res\raw" />
-      <recent name="C:\Users\LeManhDev\StudioProjects\AppQuizlet\app\src\main\res\drawable" />
       <recent name="C:\Users\LeManhDev\StudioProjects\AppQuizlet\app" />
     </key>
     <key name="android.template.2129197547">
@@ -237,6 +266,9 @@
       <recent name="com.example.appquizlet" />
     </key>
     <key name="android.template.37269880">
+      <recent name="com.example.appquizlet" />
+    </key>
+    <key name="android.template.1716893889">
       <recent name="com.example.appquizlet" />
     </key>
     <key name="android.template.1481849997">
@@ -391,7 +423,14 @@
       <option name="project" value="LOCAL" />
       <updated>1705162797099</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="fix text in change theme and modify check permission">
+      <created>1705207267940</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1705207267940</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -416,7 +455,8 @@
     <MESSAGE value="initial create achievement" />
     <MESSAGE value="display achievements" />
     <MESSAGE value="terminate main function app" />
-    <option name="LAST_COMMIT_MESSAGE" value="terminate main function app" />
+    <MESSAGE value="fix text in change theme and modify check permission" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix text in change theme and modify check permission" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

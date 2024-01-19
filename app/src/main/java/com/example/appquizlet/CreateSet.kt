@@ -741,11 +741,13 @@ class CreateSet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListener 
                 .setTargetLanguage(targetLanguage).build()
             dualLanguageTranslator = Translation.getClient(options)
             var conditions = DownloadConditions.Builder().requireWifi().build()
+            showLoading(resources.getString(R.string.please_wait_to_load_model))
             dualLanguageTranslator!!.downloadModelIfNeeded(conditions).addOnSuccessListener {
                 dualLanguageTranslator!!.translate(text).addOnSuccessListener { translatedText ->
                     Log.i(
                         "detectL2", "translatedText: $translatedText"
                     )
+                    progressDialog.dismiss()
                     if (adapterCreateSet.getIsDefinitionTranslate() == true) {
                         listSet[position].definition = translatedText
                         adapterCreateSet.notifyDataSetChanged()
@@ -755,9 +757,11 @@ class CreateSet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListener 
                     }
                 }.addOnFailureListener { exception ->
                     Log.i("detectL3", "translatedText: $exception")
+                    progressDialog.dismiss()
                 }
             }.addOnFailureListener { exception ->
                 Log.i("exception", "exception: $exception")
+                progressDialog.dismiss()
             }
 
             lifecycle.addObserver(dualLanguageTranslator!!)

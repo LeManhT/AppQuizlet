@@ -375,6 +375,11 @@
     <string name="you_gained">你获得了</string>
     <string name="day_streak">天连续</string>
     <string name="changing_your_theme">更改您的主题...</string>
+    <string name="please_answer_all_question">请在提交前回答所有问题</string>
+    <string name="please_choose_answer">请在提交前选择您的答案</string>
+    <string name="sth_went_wrong_try_again">出现问题，请重试</string>
+    <string name="title_activity_view_image">查看图片</string>
+
 
 
 

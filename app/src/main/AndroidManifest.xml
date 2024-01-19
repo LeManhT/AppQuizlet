@@ -8,8 +8,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <!--    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />-->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" /> -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -23,16 +22,16 @@
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
-
-    <!-- Required only if your app needs to access audio files
-         that other apps created. -->
+    <!--
+ Required only if your app needs to access audio files
+         that other apps created.
+    -->
     <queries>
         ...
         <intent>
             <action android:name="android.intent.action.TTS_SERVICE" />
         </intent>
     </queries>
-
 
     <application
         android:allowBackup="true"
@@ -46,6 +45,11 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup"
         tools:targetApi="31">
+        <activity
+            android:name=".ViewImage"
+            android:exported="false"
+            android:label="@string/title_activity_view_image"
+            android:theme="@style/Theme.AppQuizlet" />
 
         <receiver
             android:name=".BroadcastReceiver.DownloadSuccessReceiver"
@@ -55,8 +59,6 @@
                 <action android:name="PDF_DOWNLOAD_COMPLETE" />
             </intent-filter>
         </receiver>
-
-
 
         <activity
             android:name=".QuizletPlus"

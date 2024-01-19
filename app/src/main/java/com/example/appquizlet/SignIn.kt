@@ -280,14 +280,14 @@ class SignIn : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListen
                                 DetectContinueModel(it.streak, it.achievement)
                             )
                             UserM.setUserData(it)
-                            val isDarkMode = it.setting.darkMode
-                            val currentNightMode = AppCompatDelegate.getDefaultNightMode()
-
-                            if ((isDarkMode && currentNightMode != AppCompatDelegate.MODE_NIGHT_YES) ||
-                                (!isDarkMode && currentNightMode != AppCompatDelegate.MODE_NIGHT_NO)
-                            ) {
-                                Helper.updateAppTheme(isDarkMode) // Update theme only if needed
-                            }
+//                            val isDarkMode = it.setting.darkMode
+//                            val currentNightMode = AppCompatDelegate.getDefaultNightMode()
+//
+//                            if ((isDarkMode && currentNightMode != AppCompatDelegate.MODE_NIGHT_YES) ||
+//                                (!isDarkMode && currentNightMode != AppCompatDelegate.MODE_NIGHT_NO)
+//                            ) {
+//                                Helper.updateAppTheme(isDarkMode) // Update theme only if needed
+//                            }
                         }
                     }
                     val intent = Intent(this@SignIn, MainActivity_Logged_In::class.java)

@@ -30,6 +30,7 @@ class ReviewLearnAdapter(
     private var selectedCardView: CardView? = null
     private var countFalse: Int? = 0
     private var countTrue: Int? = 0
+    private var countAnswer: Int = 0
 
 
     inner class ReviewLearnHolder(val binding: ActivityReviewKnowledgeBinding) :
@@ -61,28 +62,27 @@ class ReviewLearnAdapter(
         textOptionCard3.text = options[2].definition ?: ""
 
         holder.binding.cardViewAnswer1.setOnClickListener {
-            handleAnswerSelection(holder, holder.binding.cardViewAnswer1, options[0])
+            handleAnswerSelection(holder, holder.binding.cardViewAnswer1, options[0], position)
         }
 
         holder.binding.cardViewAnswer2.setOnClickListener {
-            handleAnswerSelection(holder, holder.binding.cardViewAnswer2, options[1])
+            handleAnswerSelection(holder, holder.binding.cardViewAnswer2, options[1], position)
         }
 
         holder.binding.cardViewAnswer3.setOnClickListener {
-            handleAnswerSelection(holder, holder.binding.cardViewAnswer3, options[2])
+            handleAnswerSelection(holder, holder.binding.cardViewAnswer3, options[2], position)
         }
         holder.binding.submitButton.setOnClickListener {
-            if (!isQuestionAnswered) {
-                Log.d("selectedAnswer",selectedAnswer.toString())
-                if (selectedAnswer.isNullOrBlank()) {
-                    Log.d("selectedAnswer1",selectedAnswer.toString())
-                    CustomToast(context).makeText(
-                        context,
-                        "Please choose your answer before submitting",
-                        CustomToast.LONG,
-                        CustomToast.WARNING
-                    ).show()
-                } else {
+//            if (!isQuestionAnswered) {
+            if (selectedAnswer.isNullOrBlank()) {
+                CustomToast(context).makeText(
+                    context,
+                    context.resources.getString(R.string.please_choose_answer),
+                    CustomToast.LONG,
+                    CustomToast.WARNING
+                ).show()
+            } else {
+                if (studySet[position].isAnswer == false) {
                     handleCheckAnswer(
                         holder,
                         context,
@@ -90,9 +90,11 @@ class ReviewLearnAdapter(
                         selectedAnswer,
                         correctAnswer
                     )
-                    isQuestionAnswered = true
+                    studySet[position].isAnswer = true
                 }
+                isQuestionAnswered = true
             }
+//            }
         }
 
     }
@@ -100,24 +102,27 @@ class ReviewLearnAdapter(
     private fun handleAnswerSelection(
         holder: ReviewLearnHolder,
         cardView: CardView,
-        option: FlashCardModel
+        option: FlashCardModel,
+        position: Int
     ) {
-        if (!isQuestionAnswered) {
-            holder.binding.cardViewAnswer1.setBackgroundColor(
-                ContextCompat.getColor(context, android.R.color.holo_red_light)
+//        if (!isQuestionAnswered) {
+        if (studySet[position].isAnswer == false) {
+            holder.binding.cardViewAnswer1.setCardBackgroundColor(
+                ContextCompat.getColor(context, android.R.color.holo_orange_light)
             )
-            holder.binding.cardViewAnswer2.setBackgroundColor(
-                ContextCompat.getColor(context, android.R.color.holo_red_light)
+            holder.binding.cardViewAnswer2.setCardBackgroundColor(
+                ContextCompat.getColor(context, android.R.color.holo_orange_light)
             )
-            holder.binding.cardViewAnswer3.setBackgroundColor(
-                ContextCompat.getColor(context, android.R.color.holo_red_light)
+            holder.binding.cardViewAnswer3.setCardBackgroundColor(
+                ContextCompat.getColor(context, android.R.color.holo_orange_light)
             )
-            cardView.setBackgroundColor(
+            cardView.setCardBackgroundColor(
                 ContextCompat.getColor(context, R.color.semi_blue)
             )
             selectedAnswer = option.definition
             selectedCardView = cardView
         }
+//        }
     }
 
     private fun handleCheckAnswer(
@@ -136,14 +141,17 @@ class ReviewLearnAdapter(
             showIncorrectDialog(correctAnswer)
             countFalse = countFalse!! + 1;
         }
-        holder.binding.cardViewAnswer1.setBackgroundColor(
-            ContextCompat.getColor(context, android.R.color.holo_red_light)
+        holder.binding.cardViewAnswer1.setCardBackgroundColor(
+            ContextCompat.getColor(context, android.R.color.holo_orange_light)
         )
-        holder.binding.cardViewAnswer2.setBackgroundColor(
-            ContextCompat.getColor(context, android.R.color.holo_red_light)
+        holder.binding.cardViewAnswer2.setCardBackgroundColor(
+            ContextCompat.getColor(context, android.R.color.holo_orange_light)
         )
-        holder.binding.cardViewAnswer3.setBackgroundColor(
-            ContextCompat.getColor(context, android.R.color.holo_red_light)
+        holder.binding.cardViewAnswer3.setCardBackgroundColor(
+            ContextCompat.getColor(context, android.R.color.holo_orange_light)
+        )
+        selectedCardView?.setCardBackgroundColor(
+            ContextCompat.getColor(context, R.color.semi_blue)
         )
     }
 
@@ -172,6 +180,7 @@ class ReviewLearnAdapter(
         val dialog = MaterialAlertDialogBuilder(context)
 //            .setTitle(context.resources.getString(R.string.cancel))
             .setView(customView)
+            .setCancelable(false)
             .show()
         android.os.Handler().postDelayed({
             dialog.dismiss()
@@ -186,6 +195,7 @@ class ReviewLearnAdapter(
         customView.findViewById<TextView>(R.id.txtCorrectAnswer).text = correctAnswer
         val dialog = MaterialAlertDialogBuilder(context)
             .setView(customView)
+            .setCancelable(false)
             .show()
 
         val btnContinue: AppCompatButton = customView.findViewById(R.id.btnShuffle)
@@ -201,10 +211,9 @@ class ReviewLearnAdapter(
     }
 
     private fun scrollToNextQuestion() {
+        countAnswer++
         val nextPosition = recyclerView.getChildAdapterPosition(recyclerView.getChildAt(0)) + 1
-        if (nextPosition < studySet.size) {
-            recyclerView.smoothScrollToPosition(nextPosition)
-        } else {
+        if (countAnswer >= studySet.size) {
             val i = Intent(context, Excellent::class.java)
             val bundle = Bundle()
             countTrue?.let { bundle.putInt("countTrue", it) }
@@ -214,6 +223,17 @@ class ReviewLearnAdapter(
             i.putExtras(bundle)
             context.startActivity(i)
         }
+        if (nextPosition < studySet.size) {
+            recyclerView.smoothScrollToPosition(nextPosition)
+        } else {
+            if (countAnswer < studySet.size) {
+                CustomToast(context).makeText(
+                    context,
+                    context.resources.getString(R.string.please_answer_all_question),
+                    CustomToast.LONG,
+                    CustomToast.WARNING
+                ).show()
+            }
+        }
     }
-
 }

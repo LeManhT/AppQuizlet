@@ -1,5 +1,6 @@
 package com.example.appquizlet
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -38,6 +39,11 @@ class ItemUserRankDetail : BottomSheetDialogFragment() {
         binding.txtUsername.text = userName
         binding.txtDob.text = dateOfBirth
         binding.txtTotalPoint.text = score.toString()
+
+        binding.imgAvatar.setOnClickListener {
+            val i = Intent(requireContext(), ViewImage::class.java)
+            startActivity(i)
+        }
     }
 
     companion object {

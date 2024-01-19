@@ -7,12 +7,15 @@ import android.content.SharedPreferences
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.EditText
 import androidx.appcompat.widget.AppCompatButton
 import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.ActivitySettingsBinding
 import com.example.appquizlet.model.UserM
+import com.example.appquizlet.util.Helper
 import com.example.appquizlet.util.SharedPreferencesManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -20,8 +23,11 @@ class Settings : AppCompatActivity() {
     private lateinit var binding: ActivitySettingsBinding
     lateinit var dialog_update_email: AlertDialog
     private var currentPass: String = ""
+    private var currentPassHash: String = ""
     private var currentEmail: String = ""
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var sharedPreferencesTheme: SharedPreferences
+    private var currentPoint: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
@@ -38,24 +44,32 @@ class Settings : AppCompatActivity() {
         val userData = UserM.getUserData()
         userData.observe(this) {
             currentPass = it.loginPassword
+            currentPassHash = Helper.hashPassword(it.loginPassword)
             currentEmail = it.email
             binding.txtEmail.text = it.email
-            if (it.setting.darkMode) {
-                binding.txtThemeMode.text = resources.getString(R.string.dark)
-            } else {
-                binding.txtThemeMode.text = resources.getString(R.string.light)
-            }
+//            if (it.setting.darkMode) {
+//                binding.txtThemeMode.text = resources.getString(R.string.dark)
+//            } else {
+//                binding.txtThemeMode.text = resources.getString(R.string.light)
+//            }
         }
 
-        UserM.getDataSettings().observe(this) {
-            binding.txtEmail.text = it.email
-            if (it.setting?.darkMode == true) {
-                binding.txtThemeMode.text = resources.getString(R.string.dark)
-            } else {
-                binding.txtThemeMode.text = resources.getString(R.string.light)
-            }
+        sharedPreferencesTheme = this.getSharedPreferences("changeTheme", Context.MODE_PRIVATE)
+        when (sharedPreferencesTheme.getInt("theme", -1)) {
+            1 -> binding.txtThemeMode.text = resources.getString(R.string.light)
+            2 -> binding.txtThemeMode.text = resources.getString(R.string.dark)
+            -1 -> binding.txtThemeMode.text = resources.getString(R.string.system_default)
+
         }
 
+//        UserM.getDataSettings().observe(this) {
+//            binding.txtEmail.text = it.email
+//            if (it.setting?.darkMode == true) {
+//                binding.txtThemeMode.text = resources.getString(R.string.dark)
+//            } else {
+//                binding.txtThemeMode.text = resources.getString(R.string.light)
+//            }
+//        }
 
 
         binding.layoutChangeLanguage.setOnClickListener {
@@ -89,12 +103,40 @@ class Settings : AppCompatActivity() {
         }
         binding.changePassword.setOnClickListener {
             val i = Intent(this, Change_Password::class.java)
-            i.putExtra("currentPass", currentPass)
+            i.putExtra("currentPass", currentPassHash)
             startActivity(i)
         }
         binding.layoutLogout.setOnClickListener {
             showConfirmLogout(this)
         }
+
+        UserM.getDataRanking().observe(this) {
+            currentPoint = it.currentScore
+        }
+        if (currentPoint > 7000) {
+            binding.btnPremium.visibility = View.GONE
+            binding.txtVerified.visibility = View.VISIBLE
+            binding.btnPremium.setOnClickListener {
+                MaterialAlertDialogBuilder(this)
+                    .setTitle(resources.getString(R.string.premium_account))
+                    .setMessage(resources.getString(R.string.premium_account_desc))
+                    .setNegativeButton(resources.getString(R.string.close)) { dialog, which ->
+                        run {
+                            dialog.dismiss()
+                        }
+                    }.show()
+            }
+        } else {
+            binding.btnPremium.visibility = View.VISIBLE
+            binding.txtVerified.visibility = View.GONE
+            binding.btnPremium.setOnClickListener {
+                val i = Intent(
+                    this, QuizletPlus::class.java
+                )
+                startActivity(i)
+            }
+        }
+
     }
 
 
@@ -115,7 +157,8 @@ class Settings : AppCompatActivity() {
             view2.findViewById<AppCompatButton>(R.id.btnSendCheck)
         btnSendCheck.setOnClickListener {
             val txtCheckPass = edtCheckPass.text.toString()
-            if (currentPass != txtCheckPass) {
+            val isPassCorrect = Helper.verifyPassword(txtCheckPass, currentPassHash)
+            if (!isPassCorrect) {
                 CustomToast(this@Settings).makeText(
                     this@Settings,
                     resources.getString(R.string.password_is_not_correct),
@@ -124,7 +167,7 @@ class Settings : AppCompatActivity() {
                 ).show()
             } else {
                 val i = Intent(this, ChangeEmail::class.java)
-                i.putExtra("currentEmail",currentEmail)
+                i.putExtra("currentEmail", currentEmail)
                 startActivity(i)
             }
         }

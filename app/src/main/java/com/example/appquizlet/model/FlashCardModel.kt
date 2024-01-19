@@ -12,6 +12,7 @@ class FlashCardModel(
     val setOwnerId: String? = "",
     val isSelected: Boolean? = false,
     var isUnMark: Boolean? = false,
-    var isNew: Boolean? = false
+    var isNew: Boolean? = false,
+    var isAnswer : Boolean ?= false
 ) {
 }

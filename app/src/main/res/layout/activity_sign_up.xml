@@ -126,7 +126,7 @@
         android:textColorHint="@color/txt_black_primary"
         app:counterEnabled="true"
         app:counterMaxLength="15"
-        app:endIconMode="clear_text"
+        app:endIconMode="password_toggle"
         app:errorTextAppearance="@style/CustomTextInputLayout"
         app:helperText="@string/helper_pass"
         app:helperTextTextAppearance="@style/CustomTextInputLayout"

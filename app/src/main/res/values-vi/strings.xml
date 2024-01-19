@@ -375,6 +375,12 @@
         <string name="you_gained">Bạn đã đạt được</string>
         <string name="day_streak">ngày liên tiếp</string>
         <string name="changing_your_theme">Đang thay đổi giao diện của bạn…</string>
+        <string name="please_answer_all_question">Vui lòng trả lời tất cả các câu hỏi trước khi gửi</string>
+        <string name="please_choose_answer">Vui lòng chọn câu trả lời của bạn trước khi gửi</string>
+        <string name="sth_went_wrong_try_again">Có điều gì đó đã xảy ra. Vui lòng thử lại</string>
+        <string name="title_activity_view_image">XemHình</string>
+
+
 
 
 

@@ -10,6 +10,7 @@ import android.net.ConnectivityManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.method.LinkMovementMethod
@@ -17,6 +18,7 @@ import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.View
+import android.widget.Toast
 import com.example.appquizlet.BroadcastReceiver.BroadcastReceiverCheckInternet
 import com.example.appquizlet.adapter.PhotoSplashAdapter
 import com.example.appquizlet.databinding.ActivitySplashBinding
@@ -24,6 +26,7 @@ import com.example.appquizlet.model.PhotoSplash
 
 
 class SplashActivity : AppCompatActivity() {
+    private var doubleBackToExitPressedOnce = false
     private lateinit var binding: ActivitySplashBinding
     val br = BroadcastReceiverCheckInternet()
     private lateinit var sharedPreferences: SharedPreferences
@@ -180,5 +183,23 @@ class SplashActivity : AppCompatActivity() {
         unregisterReceiver(br)
     }
 
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed()
+            finishAffinity()
+        } else {
+            this.doubleBackToExitPressedOnce = true
+            Toast.makeText(
+                this,
+                resources.getString(R.string.back_press_again_to_out_app),
+                Toast.LENGTH_SHORT
+            ).show()
+
+            Handler().postDelayed({
+                doubleBackToExitPressedOnce = false
+            }, 2000)
+        }
+    }
 
 }

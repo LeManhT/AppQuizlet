@@ -288,10 +288,28 @@ class SignUp : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeList
                 }
             } catch (e: IOException) {
                 Log.e("IOException", e.message.toString())
+                CustomToast(this@SignUp).makeText(
+                    this@SignUp,
+                    e.message.toString(),
+                    CustomToast.LONG,
+                    CustomToast.ERROR
+                ).show()
             } catch (e: HttpException) {
                 Log.e("HttpException", e.message.toString())
+                CustomToast(this@SignUp).makeText(
+                    this@SignUp,
+                    e.message.toString(),
+                    CustomToast.LONG,
+                    CustomToast.ERROR
+                ).show()
             } catch (e: Exception) {
                 Log.e("Exception", e.message.toString())
+                CustomToast(this@SignUp).makeText(
+                    this@SignUp,
+                    e.message.toString(),
+                    CustomToast.LONG,
+                    CustomToast.ERROR
+                ).show()
             } finally {
                 hideLoading()
             }

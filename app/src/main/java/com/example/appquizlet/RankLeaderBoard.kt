@@ -1,14 +1,19 @@
 package com.example.appquizlet
 
-import androidx.appcompat.app.AppCompatActivity
+import android.R
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appquizlet.adapter.RankItemAdapter
 import com.example.appquizlet.databinding.ActivityRankLeaderBoardBinding
 import com.example.appquizlet.model.RankItemModel
 import com.example.appquizlet.model.UserM
+import com.github.chrisbanes.photoview.PhotoView
 import com.google.gson.Gson
+
 
 class RankLeaderBoard : AppCompatActivity() {
     private lateinit var binding: ActivityRankLeaderBoardBinding
@@ -18,11 +23,17 @@ class RankLeaderBoard : AppCompatActivity() {
         binding = ActivityRankLeaderBoardBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        binding.imgAvatar.setOnClickListener {
+            val i = Intent(this, ViewImage::class.java)
+            startActivity(i)
+        }
+
         val listRankItems = mutableListOf<RankItemModel>()
         val dataRanking = UserM.getDataRanking()
         rankItemAdapter = RankItemAdapter(listRankItems, this)
         dataRanking.observe(this) {
-            Log.d("dataRanking",Gson().toJson(it))
+            Log.d("dataRanking", Gson().toJson(it))
             listRankItems.addAll(it.rankSystem.userRanking)
             binding.txtMyOrder.text = (it.currentRank + 1).toString()
             binding.txtMyPoint.text = it.currentScore.toString()

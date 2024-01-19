@@ -27,17 +27,24 @@
                 android:layout_marginBottom="20dp"
                 app:layout_constrainedHeight="true">
 
-                <LinearLayout
+                <ImageView
+                    android:id="@+id/imageView14"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/h_300"
-                    android:background="@drawable/bg_blue">
+                    android:layout_height="300dp"
+                    android:layout_alignParentTop="true"
+                    android:contentDescription=""
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/gradient" />
 
-                </LinearLayout>
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="-2dp"
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/Theme.AppQuizlet.PopupOverlay">
 
@@ -54,6 +61,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="@string/rank_leader_board"
+                        android:textColor="@color/white"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -79,7 +87,6 @@
 
                 </androidx.appcompat.widget.Toolbar>
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -94,6 +101,7 @@
                         android:gravity="center"
                         android:text="@string/rank1"
                         android:textAlignment="center"
+                        android:textColor="@color/my_yellow"
                         android:textSize="@dimen/text_size_22"
                         android:textStyle="bold"
                         app:drawableStartCompat="@drawable/medal" />
@@ -111,6 +119,8 @@
                         app:layout_constraintStart_toStartOf="parent" />
 
 
+
+
                     <TextView
                         android:id="@+id/txtTop1Name"
                         android:layout_width="wrap_content"
@@ -119,16 +129,18 @@
                         android:text="@string/username"
                         android:textAlignment="center"
                         android:textSize="@dimen/titleSize"
+                        android:textColor="@color/white"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/txtTop1Point"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/next"
-                        android:textAlignment="center"
                         android:drawableEnd="@drawable/dollar_coins"
                         android:drawablePadding="@dimen/pad_5"
+                        android:text="@string/next"
+                        android:textColor="@color/white"
+                        android:textAlignment="center"
                         android:textSize="@dimen/titleSizeCard" />
                 </LinearLayout>
 

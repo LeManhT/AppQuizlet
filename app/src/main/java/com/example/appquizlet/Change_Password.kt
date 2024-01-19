@@ -52,6 +52,7 @@ class Change_Password : AppCompatActivity(), OnFocusChangeListener {
         binding.txtSave.setOnClickListener {
             val currentPass =
                 binding.edtCurrentPassword.text.toString()
+            val isCurPassCorrect = curPass?.let { it1 -> Helper.verifyPassword(currentPass, it1) }
             val newPass = binding.edtNewPassword.text.toString()
             val confirmPass =
                 binding.edtConfirmYourPassword.text.toString()
@@ -63,7 +64,7 @@ class Change_Password : AppCompatActivity(), OnFocusChangeListener {
                     CustomToast.ERROR
                 ).show()
             } else {
-                if (currentPass != curPass) {
+                if (!isCurPassCorrect!!) {
                     CustomToast(this@Change_Password).makeText(
                         this@Change_Password,
                         resources.getString(R.string.current_pass_incorrect),

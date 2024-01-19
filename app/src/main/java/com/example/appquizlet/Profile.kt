@@ -176,15 +176,19 @@ class Profile : Fragment() {
         val today = LocalDate.now()
         val achievedDays = mutableListOf<String>()
 
+        binding.imgAvatar.setOnClickListener {
+            val i = Intent(requireContext(), ViewImage::class.java)
+            startActivity(i)
+        }
 
         binding.linearLayoutSettings.setOnClickListener {
             val i = Intent(context, Settings::class.java)
             startActivity(i)
         }
-        binding.linearLayoutCourse.setOnClickListener {
-            val i = Intent(context, Add_Course::class.java)
-            startActivity(i)
-        }
+//        binding.linearLayoutCourse.setOnClickListener {
+//            val i = Intent(context, Add_Course::class.java)
+//            startActivity(i)
+//        }
         // Lấy ngày hiện tại
         val currentDate = LocalDate.now()
 

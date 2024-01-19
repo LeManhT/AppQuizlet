@@ -1,6 +1,5 @@
 package com.example.appquizlet
 
-import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -56,6 +55,9 @@ class Home : Fragment() {
     private lateinit var adapterHomeStudySet: RvStudySetItemAdapter
     private lateinit var adapterHomeFolder: RVFolderItemAdapter
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var sharedPreferencesTheme: SharedPreferences
+    private var apiCallsInProgress = false
+
 
     //        Studyset adapter
     private val listStudySet = mutableListOf<StudySetModel>()
@@ -71,9 +73,22 @@ class Home : Fragment() {
         apiService = RetrofitHelper.getInstance().create(ApiService::class.java)
 
         sharedPreferences = context?.getSharedPreferences("currentStreak", Context.MODE_PRIVATE)!!
+        sharedPreferencesTheme =
+            context?.getSharedPreferences("changeTheme", Context.MODE_PRIVATE)!!
 
-        getUserRanking(Helper.getDataUserId(requireContext()))
-        getAllNotices(Helper.getDataUserId(requireContext()))
+        val themeChangeFlag = sharedPreferencesTheme.getBoolean("themeChange", false)
+        // Clear the theme change flag
+        sharedPreferencesTheme.edit().putBoolean("themeChange", false).apply()
+
+
+        if (!themeChangeFlag) {
+            // Check if API calls are already in progress
+            if (!apiCallsInProgress) {
+                apiCallsInProgress = true
+                getUserRanking(Helper.getDataUserId(requireContext()))
+                getAllNotices(Helper.getDataUserId(requireContext()))
+            }
+        }
 
         val dataRanking = UserM.getDataRanking()
         dataRanking.observe(viewLifecycleOwner) {
@@ -155,6 +170,7 @@ class Home : Fragment() {
         }
 
         streakTextView = binding.txtCountStreak
+
 
         binding.txtFolderViewAll.setOnClickListener {
             val libraryFragment = Library.newInstance()
@@ -383,7 +399,6 @@ class Home : Fragment() {
     }
 
     private fun updateStreakText(streakCount: Int) {
-        Log.d("currentStreakkk1", streakCount.toString())
         streakTextView.text = "$streakCount-days streak"
     }
 
@@ -416,15 +431,13 @@ class Home : Fragment() {
                 }
             } catch (e: Exception) {
                 CustomToast(requireContext()).makeText(
-                    requireContext(),
-                    e.message.toString(),
-                    CustomToast.LONG,
-                    CustomToast.ERROR
+                    requireContext(), e.message.toString(), CustomToast.LONG, CustomToast.ERROR
                 ).show()
                 requireActivity().recreate()
-                Log.d("Error get rank", e.message.toString())
+                Log.d("Error get rank12", e.message.toString())
             } finally {
 //                progressDialog.dismiss()
+                apiCallsInProgress = false
             }
         }
     }
@@ -438,21 +451,27 @@ class Home : Fragment() {
                         UserM.setDataNotification(it)
                     }
                 } else {
+//                    val i = Intent(context, SignIn::class.java)
+//                    startActivity(i)
                     result.errorBody()?.string()?.let {
                         context?.let { it1 ->
                             CustomToast(it1).makeText(
                                 requireContext(),
-                                it,
+                                resources.getString(R.string.sth_went_wrong),
                                 CustomToast.LONG,
                                 CustomToast.ERROR
                             ).show()
                         }
                     }
+                    return@launch
                 }
             } catch (e: Exception) {
-                Log.d("Exception Notice", e.message.toString())
+                Log.d("Exception Notice12", e.message.toString())
+                val i = Intent(context, SignIn::class.java)
+                startActivity(i)
+                return@launch
             } finally {
-
+                apiCallsInProgress = false
             }
         }
     }

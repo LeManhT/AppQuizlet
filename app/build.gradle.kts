@@ -13,7 +13,7 @@ android {
         minSdk = 26
         targetSdk = 34
         versionCode = 1
-        versionName = "1.2.1"
+        versionName = "1.3.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -110,6 +110,10 @@ dependencies {
 
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+    implementation("com.github.chrisbanes:PhotoView:2.3.0")
+    implementation("at.favre.lib", "bcrypt", "0.10.2")
+
+
 
 
     testImplementation("junit:junit:4.13.2")

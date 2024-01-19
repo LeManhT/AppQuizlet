@@ -31,8 +31,12 @@ class Excellent : AppCompatActivity() {
         binding.txtTotalFalse.text = countFalse.toString()
 
         binding.btnGoHome.setOnClickListener {
-            val i = Intent(this, WelcomeToLearn::class.java)
-            i.putExtra("listCardTest", Gson().toJson(listCards))
+//            val i = Intent(this, WelcomeToLearn::class.java)
+//            i.putExtra("listCardTest", Gson().toJson(listCards))
+//            startActivity(i)
+            val i = Intent(this@Excellent, MainActivity_Logged_In::class.java)
+            i.putExtra("selectedFragment", "Library")
+            i.putExtra("createMethod", "createSet")
             startActivity(i)
         }
 
@@ -70,8 +74,12 @@ class Excellent : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        val i = Intent(this, WelcomeToLearn::class.java)
-        i.putExtra("listCardTest", Gson().toJson(listCards))
+//        val i = Intent(this, WelcomeToLearn::class.java)
+//        i.putExtra("listCardTest", Gson().toJson(listCards))
+//        startActivity(i)
+        val i = Intent(this@Excellent, MainActivity_Logged_In::class.java)
+        i.putExtra("selectedFragment", "Library")
+        i.putExtra("createMethod", "")
         startActivity(i)
     }
 }

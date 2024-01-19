@@ -130,11 +130,9 @@ class MainActivity_Logged_In : AppCompatActivity() {
                 selectBottomNavItem(selectedFragmentTag)
                 libraryFragment.setDataMethod(createMethod)
                 this.replaceFragment(libraryFragment)
-            } else if (createMethod == "createSet" || createMethod == null) {
+            } else if (createMethod == "createSet" || createMethod == "") {
                 selectBottomNavItem(selectedFragmentTag)
-                if (createMethod != null) {
-                    libraryFragment.setDataMethod(createMethod)
-                }
+                libraryFragment.setDataMethod(createMethod)
                 this.replaceFragment(libraryFragment)
             }
         }

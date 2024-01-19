@@ -361,7 +361,7 @@
     <string name="there_no_text_to_speech">There\'s no text to speech</string>
     <string name="there_no_text_to_copy">There\'s no text to copy</string>
     <string name="text_translated_will_here">Text translated will be here</string>
-    <string name="default_translate">If resource or target language is not choose, text will translate in default with resource : English, Target : Vietnamese </string>
+    <string name="default_translate">If resource or target language is not chosen, text will translate in default Resource : English, Target : Vietnamese </string>
     <string name="alert_import_word_desc">You can only import text from file .docx. The application only accepts word file with simple format. It will have errors with complex format</string>
     <string name="alert_import_word_title">Import .docx file</string>
     <string name="logging_in">Logging in</string>
@@ -386,6 +386,9 @@
     <string name="you_gained">You gained</string>
     <string name="day_streak">days streak</string>
     <string name="changing_your_theme">Changing your theme…</string>
+    <string name="please_answer_all_question">Please answer all questions before submitting</string>
+    <string name="please_choose_answer">Please choose your answer before submitting</string>
+    <string name="sth_went_wrong_try_again">Something went wrong. Please try again</string>
 
 
     <string name="lorem_ipsum">
@@ -406,4 +409,5 @@
         <item>Vietnamese</item>
         <item>Chinese</item>
     </string-array>
+    <string name="title_activity_view_image">ViewImage</string>
 </resources>

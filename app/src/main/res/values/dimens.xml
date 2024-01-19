@@ -35,7 +35,8 @@
     <dimen name="mar_80">80dp</dimen>
     <dimen name="max_length_leader_board">10</dimen>
     <dimen name="heightFlashcardLearn">500dp</dimen>
-
+    <dimen name="badge_size">3dp</dimen>
+    <dimen name="badge_text_size">12sp</dimen>
 
 
     <dimen name="default_stack_spacing">12dp</dimen>
