@@ -6,13 +6,13 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -148,6 +148,16 @@ class Home : Fragment() {
         }
         binding.txtViewDetailLeaderBoard.setOnClickListener {
             val i = Intent(context, RankLeaderBoard::class.java)
+            startActivity(i)
+        }
+
+        binding.txtViewAllQuote.setOnClickListener {
+            val i = Intent(context, QuoteInLanguage::class.java)
+            startActivity(i)
+        }
+
+        binding.txtGoQuote.setOnClickListener {
+            val i = Intent(context, QuoteInLanguage::class.java)
             startActivity(i)
         }
 

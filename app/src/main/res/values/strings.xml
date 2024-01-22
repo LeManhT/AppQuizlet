@@ -389,6 +389,9 @@
     <string name="please_answer_all_question">Please answer all questions before submitting</string>
     <string name="please_choose_answer">Please choose your answer before submitting</string>
     <string name="sth_went_wrong_try_again">Something went wrong. Please try again</string>
+    <string name="quote">Quote</string>
+    <string name="language_quote">Quotes language</string>
+    <string name="you_can_get_quote">You can get, create and manage quotes in many language by yourself</string>
 
 
     <string name="lorem_ipsum">

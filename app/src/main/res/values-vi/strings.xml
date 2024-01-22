@@ -379,6 +379,9 @@
         <string name="please_choose_answer">Vui lòng chọn câu trả lời của bạn trước khi gửi</string>
         <string name="sth_went_wrong_try_again">Có điều gì đó đã xảy ra. Vui lòng thử lại</string>
         <string name="title_activity_view_image">XemHình</string>
+        <string name="quote">Trích dẫn</string>
+        <string name="language_quote">Ngôn ngữ của Trích dẫn</string>
+        <string name="you_can_get_quote">Bạn có thể đọc, tạo và quản lý các trích dẫn trong nhiều ngôn ngữ khác nhau</string>
 
 
 

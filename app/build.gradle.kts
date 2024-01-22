@@ -2,6 +2,9 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
+    id("kotlin-kapt")
+//    id("com.google.devtools.ksp") version "1.8.10-1.0.9" apply false
+//    id("com.google.devtools.ksp")
 }
 
 android {
@@ -31,14 +34,19 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+//        sourceCompatibility = JavaVersion.VERSION_1_8
+//        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+//        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
+
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
     packagingOptions {
         exclude("META-INF/LICENSE")
@@ -71,9 +79,13 @@ dependencies {
 
 
     val room_version = "2.5.0"
+    implementation("androidx.room:room-runtime:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")
 
-//    implementation("androidx.room:room-runtime:$room_version")
-//    annotationProcessor("androidx.room:room-compiler:$room_version")
+
+
     implementation("com.github.yuyakaido:cardstackview:2.3.4")
     implementation("com.github.amsiq:swipereveallayout:1.4.1-x")
     implementation("com.github.bumptech.glide:glide:4.16.0")
