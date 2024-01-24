@@ -1,35 +1,20 @@
 package com.example.appquizlet
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.res.ResourcesCompat
-import androidx.lifecycle.lifecycleScope
+import androidx.databinding.DataBindingUtil
 import com.example.appquizlet.adapter.SearchPagerLibAdapter
-import com.example.appquizlet.api.retrofit.ApiService
-import com.example.appquizlet.api.retrofit.RetrofitHelper
-import com.example.appquizlet.custom.CustomToast
-import com.example.appquizlet.databinding.ActivitySplashSearchBinding
-import com.example.appquizlet.model.UserM
+import com.example.appquizlet.databinding.ActivitySearchQuoteBinding
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.coroutines.launch
 
-
-class SplashSearch : AppCompatActivity() {
-    lateinit var binding: ActivitySplashSearchBinding
-    private lateinit var apiService: ApiService
+class SearchQuoteActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySearchQuoteBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //        Khoi tao viewbinding
-        binding = ActivitySplashSearchBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-//Set back icon
-        setSupportActionBar(binding.toolbarSearch)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        apiService = RetrofitHelper.getInstance().create(ApiService::class.java)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_search_quote)
 
         //        Adapter
         val adapterLibPager =
@@ -66,13 +51,10 @@ class SplashSearch : AppCompatActivity() {
             }
         }.attach()
 
-
-
-
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrBlank()) {
-                    findSetByKeyword(query)
+//                    findQuoteByKeyword(query)
                 }
                 binding.searchView.clearFocus();
 //                query?.let {
@@ -86,7 +68,6 @@ class SplashSearch : AppCompatActivity() {
                 return true
             }
         })
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -99,45 +80,4 @@ class SplashSearch : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
-    private fun findSetByKeyword(keyword: String) {
-        showLoading()
-        lifecycleScope.launch {
-            try {
-                val result = apiService.findStudySet(keyword)
-                if (result.isSuccessful) {
-                    result.body().let { it ->
-                        if (it != null) {
-                            UserM.setDataSetSearch(it)
-                        }
-                    }
-                    binding.layoutShowDataSearch.visibility = View.VISIBLE
-                    binding.layoutSuggestionSearch.visibility = View.GONE
-                } else {
-                    result.errorBody().let {
-                        CustomToast(this@SplashSearch).makeText(
-                            this@SplashSearch,
-                            this@SplashSearch.toString(),
-                            CustomToast.LONG,
-                            CustomToast.ERROR
-                        ).show()
-                    }
-                }
-            } catch (e: Exception) {
-                CustomToast(this@SplashSearch).makeText(
-                    this@SplashSearch, e.message.toString(), CustomToast.LONG, CustomToast.ERROR
-                ).show()
-            } finally {
-//                binding.progressBar.visibility = View.GONE
-//                binding.rvSolution.visibility = View.VISIBLE
-            }
-        }
-    }
-
-    private fun showLoading() {
-//        binding.progressBar.visibility = View.VISIBLE
-//        binding.rvSolution.visibility = View.GONE
-    }
-
-
 }

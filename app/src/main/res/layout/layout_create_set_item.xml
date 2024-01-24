@@ -94,12 +94,14 @@
                     android:layout_marginTop="@dimen/margin_primary"
                     android:orientation="horizontal">
 
-                    <ImageView
+                    <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/imgStudySetAvatar"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:layout_gravity="center"
-                        app:srcCompat="@drawable/profile" />
+                        android:gravity="center"
+                        android:src="@drawable/owl_default_avatar"
+                        app:civ_border_color="@color/my_alice_blue"
+                        app:civ_border_width="2dp" />
 
                     <TextView
                         android:id="@+id/txtStudySetUsername"

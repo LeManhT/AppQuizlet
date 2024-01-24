@@ -2,9 +2,9 @@ package com.example.appquizlet
 
 import android.app.ProgressDialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.appquizlet.api.retrofit.ApiService
 import com.example.appquizlet.api.retrofit.RetrofitHelper
@@ -51,18 +51,11 @@ class ChangeEmail : AppCompatActivity() {
             }
         }
 
-
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                // Xử lý khi nút "Quay lại" được bấm
-                finish()
-                return true
-            }
+        binding.txtBack.setOnClickListener {
+            finish()
         }
-        return super.onOptionsItemSelected(item)
+
+
     }
 
     private fun changeEmail(userId: String, newEmail: String) {
@@ -111,6 +104,7 @@ class ChangeEmail : AppCompatActivity() {
             }
         }
     }
+
 
     private fun showLoading(msg: String) {
         progressDialog = ProgressDialog.show(this, null, msg)

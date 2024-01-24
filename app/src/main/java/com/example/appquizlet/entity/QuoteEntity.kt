@@ -7,10 +7,10 @@ import androidx.room.PrimaryKey
 class QuoteEntity(
     @PrimaryKey(autoGenerate = true)
     val quoteId: Long = 0,
-    val _id: String,
+    val _id: String ?= "",
     val content: String,
     val author: String,
-    val authorSlug: String,
-    val length: Int,
-//    val userId: String
+    val authorSlug: String ?= "",
+    val length: Int ?= 0,
+    val userId: String ?= ""
 )

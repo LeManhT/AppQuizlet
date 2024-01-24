@@ -3,7 +3,6 @@ package com.example.appquizlet
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -11,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.setPadding
 import androidx.lifecycle.lifecycleScope
@@ -79,6 +79,12 @@ class FolderClickActivity : AppCompatActivity() {
             }
             if (targetFolder != null) {
                 binding.txtFolderName.text = targetFolder.name
+                if (targetFolder.description.isEmpty()) {
+                    binding.txtDesc.visibility = View.GONE
+                } else {
+                    binding.txtDesc.visibility = View.VISIBLE
+                    binding.txtDesc.text = targetFolder.description
+                }
             }
             binding.txtFolderClickUsername.text = userResponse.loginName
             if (listStudySet.isEmpty()) {
@@ -345,6 +351,8 @@ class FolderClickActivity : AppCompatActivity() {
                             ).show()
                             UserM.setUserData(it)
                         }
+                        val i = Intent(this@FolderClickActivity, MainActivity_Logged_In::class.java)
+                        startActivity(i)
                     }
                 } else {
                     CustomToast(this@FolderClickActivity).makeText(

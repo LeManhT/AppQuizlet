@@ -7,7 +7,6 @@ import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.setPadding
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.appquizlet.adapter.ViewPagerLibAdapter
 import com.example.appquizlet.api.retrofit.ApiService
@@ -37,11 +37,6 @@ class Library : Fragment() {
     private lateinit var adapterLibPager: ViewPagerLibAdapter
     private var receivedData: String = ""
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,6 +44,21 @@ class Library : Fragment() {
         // Inflate the layout for this fragment
         apiService = RetrofitHelper.getInstance().create(ApiService::class.java)
         binding = FragmentLibraryBinding.inflate(inflater, container, false)
+
+        return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        if (receivedData == "createFolder" || receivedData == "viewAllFolder") {
+            binding.pagerLib.currentItem = 1
+        } else if (receivedData == "createSet" || receivedData.isEmpty() || receivedData == "") {
+            binding.pagerLib.currentItem = 0
+        }
+        Log.d("LibraryFragment", "onActivityCreated: receivedData=$receivedData")
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
 
         //        Adapter
@@ -153,15 +163,8 @@ class Library : Fragment() {
             }
         })
 
-        if (receivedData == "createFolder" || receivedData == "viewAllFolder") {
-            binding.pagerLib.currentItem = 1
-        } else if (receivedData == "createSet" || receivedData.isEmpty() || receivedData == "") {
-            binding.pagerLib.currentItem = 0
-        }
 
-        return binding.root
     }
-
 
     companion object {
         const val TAG = "LibraryT"

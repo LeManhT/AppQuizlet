@@ -8,6 +8,7 @@ class StudySetModel(
     val timeCreated: Long,
     @SerializedName("idFolderOwner")
     val folderOwnerId: String,
+    val description: String,
     val countTerm: Int? = 2,
     val cards: List<FlashCardModel>,
     var isSelected: Boolean? = false,

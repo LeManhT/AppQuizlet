@@ -137,8 +137,17 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="8dp"
                         android:text="TextView"
+
                         android:textColor="@color/txt_black_primary" />
                 </LinearLayout>
+
+<!--                <TextView-->
+<!--                    android:id="@+id/txtSetDesc"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="@dimen/pad_5"-->
+<!--                    android:layout_marginHorizontal="@dimen/pad_20"-->
+<!--                    android:textColor="@color/txt_black_primary" />-->
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardFlashCard"

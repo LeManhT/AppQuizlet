@@ -382,6 +382,21 @@
         <string name="quote">Trích dẫn</string>
         <string name="language_quote">Ngôn ngữ của Trích dẫn</string>
         <string name="you_can_get_quote">Bạn có thể đọc, tạo và quản lý các trích dẫn trong nhiều ngôn ngữ khác nhau</string>
+        <string name="create_quote">Tạo câu nói</string>
+        <string name="type_author">Nhập tác giả của câu nói</string>
+        <string name="type_content_quote">Nhập nội dung của câu nói</string>
+        <string name="my_quote">Câu nói của tôi</string>
+        <string name="there_no_quote">Không có câu nói nào trong thư viện câu nói của bạn</string>
+        <string name="create_new_quote">Tạo câu nói mới</string>
+        <string name="confirm_delete_quote">Bạn có chắc muốn xóa câu nói này không?</string>
+        <string name="creating_quote">Đang tạo câu nói…</string>
+        <string name="default_choose_target">Nếu ngôn ngữ đích chưa được chọn, văn bản sẽ được dịch sang tiếng Việt</string>
+        <string name="cannot_indentify_lan">Không thể xác định ngôn ngữ</string>
+        <string name="search_hint_quote">Tìm kiếm nội dung câu nói, tác giả</string>
+        <string name="add_to_your_quote_success">Thêm câu nói vào thư viện câu nói của bạn thành công</string>
+        <string name="view">Xem</string>
+        <string name="there_no_desc_for_this_folder">Không có mô tả cho thư mục này</string>
+
 
 
 

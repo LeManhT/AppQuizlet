@@ -392,6 +392,20 @@
     <string name="quote">Quote</string>
     <string name="language_quote">Quotes language</string>
     <string name="you_can_get_quote">You can get, create and manage quotes in many language by yourself</string>
+    <string name="create_quote">Create quote</string>
+    <string name="type_author">Type quote\'s author</string>
+    <string name="type_content_quote">Type content quote</string>
+    <string name="my_quote">My quote</string>
+    <string name="creating_quote">Creating quote…</string>
+    <string name="there_no_quote">There no quote in your quotes library</string>
+    <string name="create_new_quote">Create new quote</string>
+    <string name="confirm_delete_quote">Are you sure to delete this quote ?</string>
+    <string name="default_choose_target">If target language is not chosen, text will translate in Vietnamese</string>
+    <string name="cannot_indentify_lan">Can\'t identify language</string>
+    <string name="search_hint_quote">Search quote content, author</string>
+    <string name="add_to_your_quote_success">Add quote to your quote successful</string>
+    <string name="view">View</string>
+    <string name="there_no_desc_for_this_folder">There\'s no description for this folder</string>
 
 
     <string name="lorem_ipsum">

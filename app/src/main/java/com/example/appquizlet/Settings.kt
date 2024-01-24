@@ -62,14 +62,9 @@ class Settings : AppCompatActivity() {
 
         }
 
-//        UserM.getDataSettings().observe(this) {
-//            binding.txtEmail.text = it.email
-//            if (it.setting?.darkMode == true) {
-//                binding.txtThemeMode.text = resources.getString(R.string.dark)
-//            } else {
-//                binding.txtThemeMode.text = resources.getString(R.string.light)
-//            }
-//        }
+        UserM.getDataSettings().observe(this) {
+            binding.txtEmail.text = it.email
+        }
 
 
         binding.layoutChangeLanguage.setOnClickListener {

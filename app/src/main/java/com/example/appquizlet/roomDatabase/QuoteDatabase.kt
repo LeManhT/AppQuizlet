@@ -22,7 +22,7 @@ abstract class QuoteDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     QuoteDatabase::class.java,
-                    "quoteDB3"
+                    "quoteDB4"
                 ).build()
                 INSTANCE = instance
                 instance

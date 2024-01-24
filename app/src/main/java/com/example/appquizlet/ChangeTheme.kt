@@ -3,11 +3,11 @@ package com.example.appquizlet
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.RadioGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
 import com.example.appquizlet.api.retrofit.ApiService
@@ -59,6 +59,10 @@ class ChangeTheme : AppCompatActivity() {
 
             }
         }
+
+    binding.txtBack.setOnClickListener {
+        finish()
+    }
 
 //        val dataSetting = UserM.getUserData()
 //        dataSetting.observe(this) {

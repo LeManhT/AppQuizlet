@@ -133,6 +133,21 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <TextView
+                    android:id="@+id/txtDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/margin_primary"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:paddingHorizontal="@dimen/md"
+                    android:text="Every day New words"
+                    android:textColor="@color/txt_black_primary"
+                    android:textSize="@dimen/titleSize"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -162,7 +177,7 @@
                     android:layout_marginTop="20dp"
                     android:gravity="center"
                     android:text="@string/no_set_found"
-                    android:textColor="#000000"
+                    android:textColor="@color/txt_black_primary"
                     android:textSize="22sp"
                     android:textStyle="bold" />
 
@@ -194,10 +209,10 @@
                     android:layout_marginVertical="@dimen/mar_30"
                     android:drawableEnd="@drawable/arrow_right_alt_24px"
                     android:drawablePadding="@dimen/mar_10"
-                    android:paddingStart="80dp"
-                    android:paddingEnd="80dp"
+                    android:paddingStart="@dimen/mar_60"
+                    android:paddingEnd="@dimen/mar_60"
                     android:text="@string/add_set_to_folder"
-                    android:textColor="#324460"
+                    android:textColor="@color/txt_black_primary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
             </LinearLayout>

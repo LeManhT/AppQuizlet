@@ -374,7 +374,7 @@
     <string name="congratulations">恭喜</string>
     <string name="you_gained">你获得了</string>
     <string name="day_streak">天连续</string>
-    <string name="changing_your_theme">更改您的主题...</string>
+    <string name="changing_your_theme">更改您的主题…</string>
     <string name="please_answer_all_question">请在提交前回答所有问题</string>
     <string name="please_choose_answer">请在提交前选择您的答案</string>
     <string name="sth_went_wrong_try_again">出现问题，请重试</string>
@@ -382,6 +382,22 @@
     <string name="quote">引文</string>
     <string name="language_quote">引文语言</string>
     <string name="you_can_get_quote">您可以自己获取、创建和管理多种语言的引文</string>
+    <string name="create_quote">创建引语</string>
+    <string name="type_author">输入引语作者</string>
+    <string name="type_content_quote">输入引语内容</string>
+    <string name="my_quote">我的引语</string>
+    <string name="there_no_quote">您的引语库中没有引语</string>
+    <string name="create_new_quote">创建新引语</string>
+    <string name="confirm_delete_quote">您确定要删除此引语吗？</string>
+    <string name="creating_quote">创建引语中…</string>
+    <string name="default_choose_target">如果未选择目标语言，文本将被翻译成越南语</string>
+    <string name="cannot_indentify_lan">无法识别语言</string>
+    <string name="search_hint_quote">搜索引语内容、作者</string>
+    <string name="add_to_your_quote_success">成功将引语添加到您的引语库</string>
+    <string name="view">查看</string>
+    <string name="there_no_desc_for_this_folder">此文件夹没有描述</string>
+
+
 
 
 

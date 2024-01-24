@@ -1,5 +1,6 @@
 package com.example.appquizlet.adapter
 
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,11 +30,14 @@ class FlashcardItemAdapter(
         txtTerm.text = listFlashcard[position].term
         txtDefinition.text = listFlashcard[position].definition
 
-        val txtToSpeech = listFlashcard[position].term + listFlashcard[position].definition
-
-
         holder.itemView.setOnClickListener {
-            txtToSpeech.let { it1 -> itemClickListener?.onFlashcardItemClick(it1) }
+            // Đọc listFlashcard[position].term ngay lập tức
+            itemClickListener?.onFlashcardItemClick(listFlashcard[position].term.toString())
+
+            // Tạo một delay 1 giây trước khi đọc listFlashcard[position].definition
+            Handler().postDelayed({
+                itemClickListener?.onFlashcardItemClick(listFlashcard[position].definition.toString())
+            }, 1000) // 1000 milliseconds = 1 second
         }
 
 

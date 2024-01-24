@@ -9,16 +9,40 @@
     tools:context=".ChangeEmail">
 
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_change_password"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/headerWrap"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:navigationIcon="?attr/homeAsUpIndicator"
-        app:title="@string/change_email"
-        app:popupTheme="@style/Theme.AppQuizlet.PopupOverlay">
+        android:layout_height="?actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    </androidx.appcompat.widget.Toolbar>
+        <TextView
+            android:id="@+id/txtBack"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:gravity="start"
+            android:paddingHorizontal="@dimen/md"
+            app:drawableStartCompat="@drawable/left_arrow"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/txtTitleQuotify"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/montserrat_semibold"
+            android:gravity="center"
+            android:text="@string/change_email"
+            android:textAlignment="center"
+            android:textColor="@color/txt_black_primary"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textField"

@@ -140,6 +140,12 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
             if (studySet != null) {
                 binding.txtSetName.text = studySet.name
                 nameSet = studySet.name
+//                if (studySet.description.isEmpty()) {
+//                    binding.txtSetDesc.visibility = View.GONE
+//                } else {
+//                    binding.txtSetDesc.visibility = View.VISIBLE
+//                    binding.txtSetDesc.text = studySet.description
+//                }
             }
             if (studySet != null) {
                 listCards.clear()
