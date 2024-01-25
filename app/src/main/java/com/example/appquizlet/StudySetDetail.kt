@@ -721,6 +721,10 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
                             UserM.setUserData(it)
                         }
                     }
+                    val i = Intent(this@StudySetDetail, MainActivity_Logged_In::class.java)
+                    i.putExtra("selectedFragment", "Library")
+                    i.putExtra("createMethod", "createSet")
+                    startActivity(i)
                 } else {
                     CustomToast(this@StudySetDetail).makeText(
                         this@StudySetDetail,

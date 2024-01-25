@@ -16,15 +16,16 @@ import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.setPadding
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.appquizlet.adapter.ViewPagerLibAdapter
 import com.example.appquizlet.api.retrofit.ApiService
 import com.example.appquizlet.api.retrofit.RetrofitHelper
 import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.FragmentLibraryBinding
+import com.example.appquizlet.model.MethodModel
 import com.example.appquizlet.model.UserM
 import com.example.appquizlet.util.Helper
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
@@ -35,7 +36,8 @@ class Library : Fragment() {
     private lateinit var apiService: ApiService
     private lateinit var progressDialog: ProgressDialog
     private lateinit var adapterLibPager: ViewPagerLibAdapter
-    private var receivedData: String = ""
+    private val sharedViewModel: MethodModel by activityViewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,24 +46,7 @@ class Library : Fragment() {
         // Inflate the layout for this fragment
         apiService = RetrofitHelper.getInstance().create(ApiService::class.java)
         binding = FragmentLibraryBinding.inflate(inflater, container, false)
-
-        return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        if (receivedData == "createFolder" || receivedData == "viewAllFolder") {
-            binding.pagerLib.currentItem = 1
-        } else if (receivedData == "createSet" || receivedData.isEmpty() || receivedData == "") {
-            binding.pagerLib.currentItem = 0
-        }
-        Log.d("LibraryFragment", "onActivityCreated: receivedData=$receivedData")
-    }
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-        //        Adapter
+//        Adapter
         adapterLibPager =
             ViewPagerLibAdapter(childFragmentManager, lifecycle)
         binding.pagerLib.adapter = adapterLibPager
@@ -101,6 +86,33 @@ class Library : Fragment() {
                 //                }
             }
         }.attach()
+        return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+//        if (isAdded) {
+//            if (receivedData == "createFolder" || receivedData == "viewAllFolder") {
+//                binding.pagerLib.currentItem = 1
+//            } else if (receivedData == "createSet" || receivedData.isEmpty() || receivedData == "") {
+//                binding.pagerLib.currentItem = 0
+//            }
+//            Log.d("LibraryFragmenthe", "onActivityCreated: receivedData=$receivedData")
+//        }
+
+        sharedViewModel.createMethod?.let {
+            if (it == "createFolder" || it == "viewAllFolder") {
+                binding.pagerLib.currentItem = 1
+            } else if (it == "createSet" || it.isEmpty() || it == "") {
+                binding.pagerLib.currentItem = 0
+            }
+            Log.d("LibraryFragmenthe", "onActivityCreated: receivedData=$it")
+        }
 
         binding.txtLibPlus.setOnClickListener {
 
@@ -131,39 +143,6 @@ class Library : Fragment() {
             val i = Intent(context, MainActivity_Logged_In::class.java)
             startActivity(i)
         }
-
-
-        binding.tabLib.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                when (tab?.position) {
-                    0 -> {
-
-                    }
-
-                    1 -> {
-                        //                        val add = Add()
-                        //                        add.showCustomDialog(
-                        //                            resources.getString(R.string.add_folder),
-                        //                            "",
-                        //                            resources.getString(R.string.folder_name),
-                        //                            resources.getString(R.string.desc_optional)
-                        //                        )
-                    }
-
-                    2 -> {}
-                }
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-
-            }
-        })
-
-
     }
 
     companion object {
@@ -269,7 +248,7 @@ class Library : Fragment() {
                 }
                 val result = apiService.createNewFolder(userId, body)
                 if (result.isSuccessful) {
-                    result.body().let { it ->
+                    result.body().let {
                         if (it != null) {
                             context?.let { it1 ->
                                 CustomToast(it1).makeText(
@@ -279,10 +258,6 @@ class Library : Fragment() {
                                     CustomToast.SUCCESS
                                 ).show()
                                 UserM.setUserData(it)
-                                val i = Intent(requireContext(), MainActivity_Logged_In::class.java)
-                                i.putExtra("selectedFragment", "Library")
-                                i.putExtra("createMethod", "createFolder")
-                                startActivity(i)
                             }
                         }
                     }
@@ -320,14 +295,10 @@ class Library : Fragment() {
         progressDialog = ProgressDialog.show(context, null, msg)
     }
 
-    fun setDataMethod(method: String) {
-        receivedData = method
-    }
-
 
     override fun onDestroy() {
         super.onDestroy()
-        receivedData = ""
+        sharedViewModel.createMethod = null
     }
 
 }

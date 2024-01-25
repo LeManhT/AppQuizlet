@@ -228,7 +228,7 @@
     <string name="confirm_remove_set_from_folder">Are you sure to delete this study set from this folder ?</string>
     <string name="accept">Accept</string>
     <string name="confirm_delete_folder">Are you sure to delete this folder ?</string>
-    <string name="deleteSetSuccessful">Delete folder successful</string>
+    <string name="deleteSetSuccessful">Delete studyset successful</string>
     <string name="confirm_delete_set">Are you sure to delete this study set ?</string>
     <string name="the_correct_answer_is">The correct answer is : </string>
     <string name="oops_incorrect">Opps ! Incorrect answer 🤔</string>

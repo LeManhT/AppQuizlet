@@ -183,16 +183,14 @@ class Home : Fragment() {
 
 
         binding.txtFolderViewAll.setOnClickListener {
-            val libraryFragment = Library.newInstance()
-            (requireActivity() as MainActivity_Logged_In).selectBottomNavItem("Library")
-            (requireActivity() as MainActivity_Logged_In).replaceFragment(libraryFragment)
-            libraryFragment.setDataMethod("viewAllFolder")
+            (requireActivity() as MainActivity_Logged_In).selectBottomNavItem(
+                "Library",
+                "viewAllFolder"
+            )
         }
 
         binding.txtStudySetViewAll.setOnClickListener {
-            val libraryFragment = Library.newInstance()
-            (requireActivity() as MainActivity_Logged_In).selectBottomNavItem("Library")
-            (requireActivity() as MainActivity_Logged_In).replaceFragment(libraryFragment)
+            (requireActivity() as MainActivity_Logged_In).selectBottomNavItem("Library", "createSet")
         }
         val rvHomeFolder = binding.rvHomeFolders
         rvHomeFolder.layoutManager = LinearLayoutManager(

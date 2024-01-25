@@ -10,6 +10,7 @@ import android.os.Handler
 import android.util.Log
 import android.widget.Toast
 import android.window.OnBackInvokedDispatcher
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -17,6 +18,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.appquizlet.databinding.ActivityMainLoggedInBinding
+import com.example.appquizlet.model.MethodModel
 import com.example.appquizlet.notification.NotificationUtils
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
@@ -26,7 +28,7 @@ class MainActivity_Logged_In : AppCompatActivity() {
     private lateinit var binding: ActivityMainLoggedInBinding
     private val REQUEST_NOTIFICATION = 102
     private var doubleBackToExitPressedOnce = false
-
+    private val sharedViewModel: MethodModel by viewModels()
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -127,13 +129,11 @@ class MainActivity_Logged_In : AppCompatActivity() {
         if (selectedFragmentTag != null) {
             val libraryFragment = Library.newInstance()
             if (createMethod == "createFolder") {
-                selectBottomNavItem(selectedFragmentTag)
-                libraryFragment.setDataMethod(createMethod)
-                this.replaceFragment(libraryFragment)
+                selectBottomNavItem(selectedFragmentTag, createMethod)
+//                this.replaceFragment(libraryFragment)
             } else if (createMethod == "createSet" || createMethod == "") {
-                selectBottomNavItem(selectedFragmentTag)
-                libraryFragment.setDataMethod(createMethod)
-                this.replaceFragment(libraryFragment)
+                selectBottomNavItem(selectedFragmentTag, createMethod)
+//                this.replaceFragment(libraryFragment)
             }
         }
 
@@ -181,7 +181,7 @@ class MainActivity_Logged_In : AppCompatActivity() {
     }
 
 
-    fun selectBottomNavItem(fragmentName: String) {
+    fun selectBottomNavItem(fragmentName: String, createMethod: String) {
         // Map fragment names to menu item ids
         val itemId = when (fragmentName) {
             "Home" -> R.id.bottom_home
@@ -190,7 +190,11 @@ class MainActivity_Logged_In : AppCompatActivity() {
             "Profile" -> R.id.bottom_edit_account
             else -> -1 // Invalid fragment name
         }
-        binding.bottomNavigationView.selectedItemId = itemId
+        if (itemId != -1) {
+            binding.bottomNavigationView.selectedItemId = itemId
+            // Cập nhật dữ liệu trong ViewModel khi chọn mục
+            sharedViewModel.createMethod = createMethod
+        }
     }
 
     private fun requestNotificationPermission() {

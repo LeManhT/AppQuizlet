@@ -352,6 +352,8 @@ class FolderClickActivity : AppCompatActivity() {
                             UserM.setUserData(it)
                         }
                         val i = Intent(this@FolderClickActivity, MainActivity_Logged_In::class.java)
+                        i.putExtra("selectedFragment", "Library")
+                        i.putExtra("createMethod", "createFolder")
                         startActivity(i)
                     }
                 } else {
