@@ -2,12 +2,12 @@ package com.example.appquizlet
 
 import android.app.ProgressDialog
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.View.OnFocusChangeListener
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.appquizlet.api.retrofit.ApiService
 import com.example.appquizlet.api.retrofit.RetrofitHelper
@@ -52,7 +52,7 @@ class Change_Password : AppCompatActivity(), OnFocusChangeListener {
         binding.txtSave.setOnClickListener {
             val currentPass =
                 binding.edtCurrentPassword.text.toString()
-            val isCurPassCorrect = curPass?.let { it1 -> Helper.verifyPassword(currentPass, it1) }
+//            val isCurPassCorrect = curPass?.let { it1 -> Helper.verifyPassword(currentPass, it1) }
             val newPass = binding.edtNewPassword.text.toString()
             val confirmPass =
                 binding.edtConfirmYourPassword.text.toString()
@@ -64,7 +64,7 @@ class Change_Password : AppCompatActivity(), OnFocusChangeListener {
                     CustomToast.ERROR
                 ).show()
             } else {
-                if (!isCurPassCorrect!!) {
+                if (currentPass != curPass) {
                     CustomToast(this@Change_Password).makeText(
                         this@Change_Password,
                         resources.getString(R.string.current_pass_incorrect),

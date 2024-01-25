@@ -55,7 +55,6 @@ class ReviewLearnAdapter(
         val correctAnswer: String = studySet[position].definition.toString()
         val incorrectOptions = studySet.shuffled().filter { it.definition != correctAnswer }
         options = (incorrectOptions.take(2) + studySet[position]).shuffled()
-        Log.d("lllll", Gson().toJson(options))
 
         textOptionCard1.text = options[0].definition ?: ""
         textOptionCard2.text = options[1].definition ?: ""
@@ -74,6 +73,7 @@ class ReviewLearnAdapter(
         }
         holder.binding.submitButton.setOnClickListener {
 //            if (!isQuestionAnswered) {
+            Log.d("selectedAnswer", selectedAnswer.toString())
             if (selectedAnswer.isNullOrBlank()) {
                 CustomToast(context).makeText(
                     context,
@@ -186,6 +186,7 @@ class ReviewLearnAdapter(
             dialog.dismiss()
             scrollToNextQuestion()
             isQuestionAnswered = false
+            selectedAnswer = null
         }, 1000)
     }
 
@@ -203,6 +204,7 @@ class ReviewLearnAdapter(
             scrollToNextQuestion()
             dialog.dismiss()
             isQuestionAnswered = false
+            selectedAnswer = null
         }
     }
 

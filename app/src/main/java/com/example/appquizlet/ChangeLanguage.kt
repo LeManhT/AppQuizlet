@@ -26,6 +26,10 @@ class ChangeLanguage : AppCompatActivity(), View.OnClickListener {
         binding.chineseRadioButton.setOnClickListener(this)
         binding.vietnameseRadioButton.setOnClickListener(this)
 
+        binding.txtBack.setOnClickListener {
+            finish()
+        }
+
         sharedPreferences = this.getSharedPreferences("ChangeLanguage", Context.MODE_PRIVATE)
         var mylang = sharedPreferences.getString("language", "en")
 

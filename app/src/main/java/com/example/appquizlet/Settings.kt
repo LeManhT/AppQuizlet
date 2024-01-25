@@ -5,17 +5,15 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.ActivitySettingsBinding
 import com.example.appquizlet.model.UserM
-import com.example.appquizlet.util.Helper
 import com.example.appquizlet.util.SharedPreferencesManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -44,7 +42,7 @@ class Settings : AppCompatActivity() {
         val userData = UserM.getUserData()
         userData.observe(this) {
             currentPass = it.loginPassword
-            currentPassHash = Helper.hashPassword(it.loginPassword)
+//            currentPassHash = Helper.hashPassword(it.loginPassword)
             currentEmail = it.email
             binding.txtEmail.text = it.email
 //            if (it.setting.darkMode) {
@@ -98,7 +96,7 @@ class Settings : AppCompatActivity() {
         }
         binding.changePassword.setOnClickListener {
             val i = Intent(this, Change_Password::class.java)
-            i.putExtra("currentPass", currentPassHash)
+            i.putExtra("currentPass", currentPass)
             startActivity(i)
         }
         binding.layoutLogout.setOnClickListener {
@@ -152,8 +150,8 @@ class Settings : AppCompatActivity() {
             view2.findViewById<AppCompatButton>(R.id.btnSendCheck)
         btnSendCheck.setOnClickListener {
             val txtCheckPass = edtCheckPass.text.toString()
-            val isPassCorrect = Helper.verifyPassword(txtCheckPass, currentPassHash)
-            if (!isPassCorrect) {
+//            val isPassCorrect = Helper.verifyPassword(txtCheckPass, currentPassHash)
+            if (currentPass != txtCheckPass) {
                 CustomToast(this@Settings).makeText(
                     this@Settings,
                     resources.getString(R.string.password_is_not_correct),

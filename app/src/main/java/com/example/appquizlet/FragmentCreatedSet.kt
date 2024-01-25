@@ -4,10 +4,10 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appquizlet.adapter.RvStudySetItemAdapter
@@ -129,14 +129,16 @@ class FragmentCreatedSet : Fragment(), RvStudySetItemAdapter.onClickSetItem {
                                     CustomToast.SUCCESS
                                 ).show()
                                 UserM.setUserData(it)
-                                val intent =
-                                    Intent(requireContext(), MainActivity_Logged_In::class.java)
-                                intent.putExtra(
-                                    "selectedFragment",
-                                    "Home"
-                                ) // "YourFragmentTag" là tag của Fragment cần hiển thị
-                                startActivity(intent)
-
+//                                val intent =
+//                                    Intent(requireContext(), MainActivity_Logged_In::class.java)
+//                                intent.putExtra(
+//                                    "selectedFragment",
+//                                    "Home"
+//                                ) // "YourFragmentTag" là tag của Fragment cần hiển thị
+//                                startActivity(intent)
+                                val i = Intent(context, FolderClickActivity::class.java)
+                                i.putExtra("idFolder", folderId)
+                                startActivity(i)
                             }
                         }
                     } else {

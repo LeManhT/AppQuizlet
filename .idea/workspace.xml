@@ -18,15 +18,18 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f561f4fb-df91-4045-a5ec-bc9208bd9d46" name="Changes" comment="finish quotify feature">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/MethodModel.kt" afterDir="false" />
+    <list default="true" id="f561f4fb-df91-4045-a5ec-bc9208bd9d46" name="Changes" comment="fix bug navigate to tab folder and studyset">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/FolderClickActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/FolderClickActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/Home.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/Home.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/Library.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/Library.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/MainActivity_Logged_In.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/MainActivity_Logged_In.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/StudySetDetail.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/StudySetDetail.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ChangeLanguage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ChangeLanguage.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/Change_Password.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/Change_Password.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/FragmentCreatedSet.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/FragmentCreatedSet.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/Settings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/Settings.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/ReviewLearnAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/ReviewLearnAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_change_language.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_change_language.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_all_results.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_all_results.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_search_set.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_search_set.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_photo_splash.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_photo_splash.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -425,7 +428,14 @@
       <option name="project" value="LOCAL" />
       <updated>1706114573521</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="fix bug navigate to tab folder and studyset">
+      <created>1706162153239</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1706162153239</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -453,7 +463,8 @@
     <MESSAGE value="fix text in change theme and modify check permission" />
     <MESSAGE value="hash password and fix set theme double recreate" />
     <MESSAGE value="finish quotify feature" />
-    <option name="LAST_COMMIT_MESSAGE" value="finish quotify feature" />
+    <MESSAGE value="fix bug navigate to tab folder and studyset" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix bug navigate to tab folder and studyset" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
