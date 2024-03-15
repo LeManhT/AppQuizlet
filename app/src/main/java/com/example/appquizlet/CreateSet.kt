@@ -68,7 +68,7 @@ class CreateSet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListener 
     private lateinit var apiService: ApiService
     private var listSet = mutableListOf<FlashCardModel>()
     private lateinit var adapterCreateSet: CreateSetItemAdapter
-    private val REQUEST_CODE_SPEECH_INPUT = 1
+    private val REQUEST_CODE_SPEECH_INPUT = 150
     private var speechRecognitionPosition: Int = -1
     private val REQUEST_CAMERA_CODE = 2404
     private var uri: Uri? = null
@@ -560,7 +560,7 @@ class CreateSet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListener 
         try {
             startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT)
         } catch (e: Exception) {
-            Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Error RecognizerIntent: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 

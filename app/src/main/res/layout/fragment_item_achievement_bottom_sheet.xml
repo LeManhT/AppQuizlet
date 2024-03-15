@@ -18,6 +18,7 @@
         android:textSize="@dimen/text_size_22"
         android:textStyle="bold" />
 
+
     <ImageView
         android:id="@+id/imgAchievement"
         android:layout_width="match_parent"

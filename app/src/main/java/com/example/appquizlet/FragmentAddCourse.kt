@@ -25,7 +25,7 @@ class FragmentAddCourse : BottomSheetDialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentAddCourseBinding.inflate(inflater, container, false)
         return binding.root
     }

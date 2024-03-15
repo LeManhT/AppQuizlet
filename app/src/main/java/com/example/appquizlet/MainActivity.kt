@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity() {
                             CustomToast.LONG,
                             CustomToast.ERROR
                         ).show()
-                        Log.d("hhehhehe1", it.toString())
+//                        Log.d("hhehhehe1", it.toString())
 
                     }
                     val intent = Intent(this@MainActivity, SplashActivity::class.java)

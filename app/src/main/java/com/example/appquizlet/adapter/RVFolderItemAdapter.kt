@@ -70,12 +70,12 @@ class RVFolderItemAdapter(
         txtTitle.text = listFolderItem[position].name
         txtUsername.text = Helper.getDataUsername(context)
         val cardViewFolder = holder.binding.layoutCardFolder
-        holder.binding.layoutCardFolder.setOnClickListener {
+        holder.binding.cardViewFolder.setOnClickListener {
             onFolderItemClick.handleClickFolderItem(currentItem, position)
             notifyItemChanged(position)
             Log.d("RVFolderItemAdapter", "Item clicked at position $position")
         }
-        if (currentItem.isSelected == true && currentItem.studySets.isNotEmpty()) {
+        if (currentItem.isSelected == true) {
             cardViewFolder.background =
                 ContextCompat.getDrawable(context, R.drawable.selected_item_border)
             cardViewFolder.alpha = 0.8F

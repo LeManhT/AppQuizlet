@@ -527,7 +527,6 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
                     Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
                 }
             }
-
         }
     }
 
