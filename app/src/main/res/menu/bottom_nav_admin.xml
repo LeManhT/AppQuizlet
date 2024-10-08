@@ -1,0 +1,22 @@
+<!-- res/menu/bottom_nav_menu.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/manageUser"
+        android:icon="@drawable/user"
+        android:title="@string/manage_user" />
+    <item
+        android:id="@+id/manageStudySet"
+        android:icon="@drawable/book"
+        android:title="@string/manage_study_set" />
+
+    <item
+        android:id="@+id/fragmentManageStory"
+        android:icon="@drawable/book"
+        android:title="@string/manage_story" />
+
+    <item
+        android:id="@+id/profileAdmin"
+        android:icon="@drawable/settings_admin"
+        android:title="@string/setting" />
+
+</menu>

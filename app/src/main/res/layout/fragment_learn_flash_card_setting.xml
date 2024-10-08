@@ -1,95 +1,151 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg_activity"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_corners_bg"
     android:orientation="vertical"
-    android:id="@+id/fragmentSettingBottomsheet"
-    tools:context=".LearnFlashCardSetting">
+    android:padding="16dp">
 
-
-    <TextView
-        android:id="@+id/textView29"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginVertical="@dimen/mar_10"
-        android:text="@string/options"
-        android:textSize="@dimen/pad_20"
-        android:textColor="@color/txt_black_primary"
-        android:textStyle="bold" />
-
-    <com.google.android.flexbox.FlexboxLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <!-- Settings Title -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:alignContent="stretch"
-        app:alignItems="stretch"
-        app:flexWrap="wrap"
-        app:justifyContent="space_around">
+        android:layout_marginBottom="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingVertical="@dimen/mar_15">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnShuffle"
-            android:layout_width="@dimen/mar_60"
-            android:layout_height="@dimen/mar_60"
-            android:background="@drawable/round_button"
-            android:text="@string/shuffle"
-            android:textColor="@color/black_gray"
-            android:textSize="10sp" />
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_setting" />
 
-<!--        <androidx.appcompat.widget.AppCompatButton-->
-<!--            android:id="@+id/btnPlayAudio"-->
-<!--            android:layout_width="@dimen/mar_60"-->
-<!--            android:layout_height="@dimen/mar_60"-->
-<!--            android:background="@drawable/round_button"-->
-<!--            android:text="@string/play_audio"-->
-<!--            android:textColor="@color/black_gray"-->
-<!--            android:textSize="10sp" />-->
-    </com.google.android.flexbox.FlexboxLayout>
-
-
-    <TextView
-        android:id="@+id/textView36"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginVertical="@dimen/mar_10"
-        android:text="@string/card_orientation"
-        android:gravity="center"
-        android:textColor="@color/txt_black_primary"
-        android:textSize="15sp"
-        android:textStyle="bold" />
-
-    <com.google.android.flexbox.FlexboxLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:alignContent="stretch"
-        app:alignItems="stretch"
-        app:flexWrap="wrap"
-        app:justifyContent="center">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnToggleMode"
-            android:layout_width="150dp"
+        <TextView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/mar_10"
-            android:background="@drawable/button_splash"
-            android:text="@string/term"
-            android:textColor="@color/txt_white_in_btn" />
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/settings"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
 
-    </com.google.android.flexbox.FlexboxLayout>
+        <ImageView
+            android:id="@+id/iconClose"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:onClick="dismissDialog"
+            android:src="@drawable/icons8_close_48" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/txtResetCard"
+    <!-- My Playlist Item -->
+    <LinearLayout
+        android:id="@+id/layoutShuffle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/pad_20"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/layout_item_selector"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/mar_15">
+
+        <ImageView
+            android:id="@+id/iconShuffle"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/shuffle" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Shuffle"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <!-- Shuffle Item with Switch -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/mar_15">
+
+        <ImageView
+            android:id="@+id/iconSpeaker"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/speaker" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/sound"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <Switch
+            android:id="@+id/switchShuffle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/layoutOrientation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/layout_item_selector"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/mar_15">
+
+        <ImageView
+            android:id="@+id/iconOrientation"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/orientation" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/term"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/layoutReset"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/layout_item_selector"
         android:gravity="center"
-        android:text="@string/reset_flashcard"
-        android:textColor="@color/txt_blue"
-        android:textSize="@dimen/pad_20"
-        android:textStyle="bold" />
+        android:orientation="horizontal"
+        android:padding="@dimen/mar_15">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/sync" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reset_flashcard"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+    </LinearLayout>
+
 
 </LinearLayout>

@@ -22,16 +22,13 @@ class SplashSearch : AppCompatActivity() {
     private lateinit var apiService: ApiService
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //        Khoi tao viewbinding
         binding = ActivitySplashSearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//Set back icon
         setSupportActionBar(binding.toolbarSearch)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         apiService = RetrofitHelper.getInstance().create(ApiService::class.java)
 
-        //        Adapter
         val adapterLibPager =
             SearchPagerLibAdapter(supportFragmentManager, lifecycle)
         binding.pagerLib.adapter = adapterLibPager

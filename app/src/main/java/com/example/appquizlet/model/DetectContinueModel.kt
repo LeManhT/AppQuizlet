@@ -2,11 +2,14 @@ package com.example.appquizlet.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 
-data class StreakData(
+@Parcelize
+class StreakData(
     val lastTime: Long,
     val currentStreak: Int
-)
+) : Parcelable
 
 data class TaskData(
     val id: Int,
@@ -57,11 +60,12 @@ data class TaskData(
     }
 }
 
-data class AchievementData(
+@Parcelize
+class AchievementData(
     val version: Int,
     val specialName: String,
-    val taskList: List<TaskData>
-)
+    val taskList: @RawValue List<TaskData>
+) : Parcelable
 
 data class DetectContinueModel(
     val streak: StreakData,

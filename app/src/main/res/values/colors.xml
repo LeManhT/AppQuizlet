@@ -62,6 +62,13 @@
     <color name="bg_tab">#F0F8FF</color>
     <color name="txt_black_flashcard">#FF000000</color>
 
+    <color name="colorActive">#424242</color>
+    <color name="colorPressed">#E0E0E0</color>
+    <color name="colorNormal">#FFFFFF</color>
+
+    <color name = "input_background">#ECECEC</color>
+    <color name = "primary_text">#212121</color>
+    <color name = "secondary_text">#757575</color>
 
 
 </resources>

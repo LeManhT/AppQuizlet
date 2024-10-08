@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".RankLeaderBoard">
+    android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/layoutView"
@@ -79,7 +77,7 @@
                             android:gravity="center"
                             android:paddingHorizontal="@dimen/mar_10"
                             android:paddingVertical="@dimen/pad_5"
-                            android:text="5600"
+                            android:text="680"
                             android:textSize="15sp"
                             android:textStyle="bold"
                             app:drawableEndCompat="@drawable/dollar_coins" />
@@ -119,17 +117,15 @@
                         app:layout_constraintStart_toStartOf="parent" />
 
 
-
-
                     <TextView
                         android:id="@+id/txtTop1Name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/mar_10"
-                        android:text="@string/username"
+                        android:text="lemanh@gmail.com"
                         android:textAlignment="center"
-                        android:textSize="@dimen/titleSize"
                         android:textColor="@color/white"
+                        android:textSize="@dimen/titleSize"
                         android:textStyle="bold" />
 
                     <TextView
@@ -138,9 +134,9 @@
                         android:layout_height="wrap_content"
                         android:drawableEnd="@drawable/dollar_coins"
                         android:drawablePadding="@dimen/pad_5"
-                        android:text="@string/next"
-                        android:textColor="@color/white"
+                        android:text="680"
                         android:textAlignment="center"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/titleSizeCard" />
                 </LinearLayout>
 
@@ -163,6 +159,11 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/txtTop1Point" />
+
+                <com.example.appquizlet.custom.RankView
+                    android:id="@+id/rankView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_leaderboard"
@@ -267,7 +268,7 @@
                 android:alpha="0.8"
                 android:drawablePadding="@dimen/pad_5"
                 android:gravity="center"
-                android:text="5600"
+                android:text="680"
                 android:textColor="@color/my_gray"
                 android:textSize="18sp"
                 android:textStyle="bold"

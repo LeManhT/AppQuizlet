@@ -15,8 +15,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MyViewModel(private val quoteRepository: RemoteQuoteRepository) : ViewModel() {
-
-    //    val dataQuote: MutableLiveData<List<QuoteModel>> = MutableLiveData()
     val isLoading: MutableLiveData<Boolean> = MutableLiveData(false)
     private var currentPosition = 0
     fun getCurrentPosition(): Int {
@@ -52,7 +50,6 @@ class MyViewModel(private val quoteRepository: RemoteQuoteRepository) : ViewMode
     //    init {
     fun getRemoteQuote(context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
-            // Set isLoading to true before making the network call
             isLoading.postValue(true)
 
             try {
@@ -70,7 +67,6 @@ class MyViewModel(private val quoteRepository: RemoteQuoteRepository) : ViewMode
             }
         }
 }
-//    }
 
     fun getLocalQuotes(userId: String) {
         Log.d("getLocalQuotes", userId.toString())

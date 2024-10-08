@@ -47,7 +47,7 @@ class RemoteQuoteRepository(
     }
 
     suspend fun deleteLocalQuote(quoteId: Long) {
-        quoteDb.quoteDao().deleteQuote(quoteId)
+//        quoteDb.quoteDao().deleteQuote(quoteId)
     }
 
     fun getLocalQuotes(userId: String) {

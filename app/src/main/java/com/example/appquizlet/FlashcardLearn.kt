@@ -1,6 +1,5 @@
 package com.example.appquizlet
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,6 +8,7 @@ import android.speech.tts.TextToSpeech.OnInitListener
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.example.appquizlet.adapter.LearnFlashcardAdapter
@@ -22,6 +22,15 @@ import com.yuyakaido.android.cardstackview.CardStackListener
 import com.yuyakaido.android.cardstackview.Direction
 import java.util.Locale
 
+interface OnClickButton {
+    fun handleClickShuffle()
+
+    fun handleClickPlayAudio()
+
+    fun handleClickModeDisplay()
+
+    fun handleResetCard()
+}
 class FlashcardLearn : AppCompatActivity(), OnClickButton, LearnFlashcardAdapter.onLearnCardClick,
     OnInitListener {
     private lateinit var binding: ActivityFlashcardLearnBinding
@@ -111,27 +120,27 @@ class FlashcardLearn : AppCompatActivity(), OnClickButton, LearnFlashcardAdapter
     }
 
     override fun handleClickModeDisplay() {
-        isFront = isFront?.not() ?: true
-        Log.d("isFront",isFront.toString())
-        val btnToggleMode =
-            settingFragment.dialog?.findViewById<AppCompatButton>(R.id.btnToggleMode)
-        if (isFront == true) {
-            if (btnToggleMode != null) {
-                btnToggleMode.text = resources.getString(R.string.term)
-                listCards.map {
-                    it.isUnMark = false
-                }
-            }
-        } else {
-            if (btnToggleMode != null) {
-                btnToggleMode.text = resources.getString(R.string.definition)
-                listCards.map {
-                    it.isUnMark = true
-                }
-            }
-        }
-        settingFragment.setIsFront(isFront)
-        adapterLearn.notifyDataSetChanged()
+//        isFront = isFront?.not() ?: true
+//        Log.d("isFront",isFront.toString())
+//        val btnToggleMode =
+//            settingFragment.dialog?.findViewById<AppCompatButton>(R.id.btnToggleMode)
+//        if (isFront == true) {
+//            if (btnToggleMode != null) {
+//                btnToggleMode.text = resources.getString(R.string.term)
+//                listCards.map {
+//                    it.isUnMark = false
+//                }
+//            }
+//        } else {
+//            if (btnToggleMode != null) {
+//                btnToggleMode.text = resources.getString(R.string.definition)
+//                listCards.map {
+//                    it.isUnMark = true
+//                }
+//            }
+//        }
+//        settingFragment.setIsFront(isFront)
+//        adapterLearn.notifyDataSetChanged()
     }
 
 

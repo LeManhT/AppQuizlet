@@ -26,7 +26,5 @@ interface QuoteDao {
 
     @Query("SELECT * FROM quoteEntity")
     fun getQuotes(): List<QuoteEntity>
-//    fun getQuotes(): LiveData<List<QuoteEntity>>
-
 
 }

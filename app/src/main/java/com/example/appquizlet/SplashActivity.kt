@@ -8,19 +8,23 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.net.ConnectivityManager
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.text.Spannable
+import android.text.SpannableString
 import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.appquizlet.BroadcastReceiver.BroadcastReceiverCheckInternet
 import com.example.appquizlet.adapter.PhotoSplashAdapter
+import com.example.appquizlet.admin.FragmentLoginAdmin
 import com.example.appquizlet.databinding.ActivitySplashBinding
 import com.example.appquizlet.model.PhotoSplash
 
@@ -69,7 +73,35 @@ class SplashActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+        val spannableString =
+            SpannableString(getString(R.string.if_you_want_sign_in_with_admin_account_please_click_here))
+        val clickableSpan = object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                // Handle the click event for "click here"
+//                findNavController().navigate(R.id.action_startAppFragment_to_fragmentLoginAdmin)
+                val intent = Intent(this@SplashActivity, FragmentLoginAdmin::class.java)
+                startActivity(intent)
+            }
 
+            override fun updateDrawState(ds: TextPaint) {
+                super.updateDrawState(ds)
+                ds.color = Color.BLUE // Set the color for the clickable text
+                ds.isUnderlineText = false // Remove underline if not needed
+            }
+        }
+
+        val startIndex = spannableString.indexOf("click here")
+        val endIndex = startIndex + "click here".length
+
+        spannableString.setSpan(
+            clickableSpan,
+            startIndex,
+            endIndex,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        binding.txtLoginAdmin.text = spannableString
+        binding.txtLoginAdmin.movementMethod = LinkMovementMethod.getInstance()
 
         val indexOfTerms = text.indexOf(resources.getString(R.string.tos))
         val indexOfPrivacyPolicy = text.indexOf(resources.getString(R.string.pp))

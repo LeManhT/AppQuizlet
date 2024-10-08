@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/admin_nav_graph"
+    app:startDestination="@id/manageUser">
+
+    <fragment
+        android:id="@+id/profileAdmin"
+        android:name="com.example.appquizlet.admin.ProfileAdmin"
+        android:label="ProfileAdmin" />
+    <fragment
+        android:id="@+id/manageStudySet"
+        android:name="com.example.appquizlet.admin.FragmentManageStudySet"
+        android:label="ManageStudySet" />
+    <fragment
+        android:id="@+id/manageUser"
+        android:name="com.example.appquizlet.admin.FragmentManageUser"
+        android:label="ManageUser" >
+        <action
+            android:id="@+id/action_manageUser_to_fragmentEditUser"
+            app:destination="@id/fragmentEditUser" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/fragmentEditUser"
+        android:name="com.example.appquizlet.admin.FragmentEditUser"
+        android:label="FragmentEditUser" >
+        <action
+            android:id="@+id/action_fragmentEditUser_to_manageUser"
+            app:destination="@id/manageUser" />
+        <argument
+            android:name="user"
+            app:argType="com.example.appquizlet.model.UserResponse" />
+
+    </dialog>
+<!--    <fragment-->
+<!--        android:id="@+id/fragmentManageStory"-->
+<!--        android:name="com.example.quizletappandroidv1.ui.fragments.FragmentManageStory"-->
+<!--        android:label="fragment_manage_story"-->
+<!--        tools:layout="@layout/fragment_manage_story" />-->
+</navigation>

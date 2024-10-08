@@ -9,6 +9,7 @@ import com.example.appquizlet.model.ShareFolderModel
 import com.example.appquizlet.model.ShareResponse
 import com.example.appquizlet.model.UpdateUserResponse
 import com.example.appquizlet.model.UserResponse
+import com.example.quizletappandroidv1.models.admin.UserAdmin
 import com.google.gson.JsonObject
 
 import okhttp3.RequestBody
@@ -167,4 +168,33 @@ interface ApiService {
     suspend fun getAllCurrentNotices(
         @Query("userId") userId: String
     ): Response<List<NoticeModel>>
+
+    @POST("User/GetInfoByID")
+    suspend fun getUserData(
+        @Query("ID") userId: String
+    ): Response<UserResponse>
+
+    @GET("Admin/GetUsers")
+    suspend fun getListUserAdmin(
+        @Query("from") from: Int,
+        @Query("to") to: Int
+    ): Response<List<UserResponse>>
+
+    @POST("Admin/SetSuspendUser")
+    suspend fun suspendUser(
+        @Query("userId") userId: String,
+        @Query("suspend") suspend: Boolean
+    )
+
+    @DELETE("Admin/DeleteUser")
+    suspend fun deleteUser(
+        @Query("userId") userId: String,
+    )
+
+    @POST("Admin/Login")
+    suspend fun loginAdmin(
+        @Query("loginName") username: String,
+        @Query("password") password: String
+    ): Response<UserAdmin>
+
 }

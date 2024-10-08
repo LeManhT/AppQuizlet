@@ -279,7 +279,6 @@ class CreateSet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListener 
         }
     }
 
-
     private fun addSecondLayout() {
         binding.layoutDesc.visibility = View.VISIBLE
         val params = binding.createSetScrollView.layoutParams as RelativeLayout.LayoutParams

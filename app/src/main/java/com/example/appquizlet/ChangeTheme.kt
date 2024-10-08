@@ -30,7 +30,6 @@ class ChangeTheme : AppCompatActivity() {
 
         apiService = RetrofitHelper.getInstance().create(ApiService::class.java)
 
-
         val radioGroup: RadioGroup = findViewById(R.id.radioGroup)
         val btnApplyTheme: Button = findViewById(R.id.btnApplyTheme)
 

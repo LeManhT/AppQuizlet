@@ -5,6 +5,10 @@ plugins {
     id("kotlin-kapt")
 //    id("com.google.devtools.ksp") version "1.8.10-1.0.9" apply false
 //    id("com.google.devtools.ksp")
+    id ("kotlin-parcelize")
+    id("androidx.navigation.safeargs")
+    id("com.google.dagger.hilt.android")
+    id("com.google.devtools.ksp") version "1.9.23-1.0.20"
 }
 
 android {
@@ -52,10 +56,14 @@ android {
         exclude("META-INF/LICENSE")
         exclude("META-INF/NOTICE")
     }
+//    kapt {
+//        correctErrorTypes = true
+//    }
 }
 
 dependencies {
-    val nav_version = "2.7.6"
+    implementation("androidx.activity:activity:1.9.2")
+    val nav_version = "2.7.7"
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -82,9 +90,11 @@ dependencies {
     implementation("androidx.room:room-runtime:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
-    kapt("androidx.room:room-compiler:$room_version")
+//    kapt("androidx.room:room-compiler:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
 
-
+    val paging_version = "3.3.2"
+    implementation("androidx.paging:paging-runtime:$paging_version")
 
     implementation("com.github.yuyakaido:cardstackview:2.3.4")
     implementation("com.github.amsiq:swipereveallayout:1.4.1-x")
@@ -125,7 +135,11 @@ dependencies {
     implementation("com.github.chrisbanes:PhotoView:2.3.0")
     implementation("at.favre.lib", "bcrypt", "0.10.2")
 
+    //    Hilt
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
 
+    implementation("com.jakewharton.timber:timber:4.7.1")
 
 
     testImplementation("junit:junit:4.13.2")

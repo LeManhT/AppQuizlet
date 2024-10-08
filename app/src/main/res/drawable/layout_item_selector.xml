@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- State khi mục được kích hoạt (active) -->
+    <item android:drawable="@color/colorActive" android:state_selected="true" />
+
+    <!-- State khi mục được nhấn -->
+    <item android:drawable="@color/colorPressed" android:state_pressed="true" />
+
+    <!-- State mặc định -->
+    <item android:drawable="@color/colorNormal" />
+</selector>

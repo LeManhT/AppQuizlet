@@ -47,6 +47,14 @@
         tools:replace="android:allowBackup"
         tools:targetApi="31">
         <activity
+            android:name=".AdminActvity"
+            android:exported="false" />
+
+        <activity
+            android:name=".admin.FragmentLoginAdmin"
+            android:exported="false" />
+
+        <activity
             android:name=".SearchQuoteActivity"
             android:exported="false" />
         <activity

@@ -82,5 +82,19 @@
            android:text="@string/or_log_in" />
    </LinearLayout>
 
+    <TextView
+        android:id="@+id/txtLoginAdmin"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/mar_30"
+        android:layout_weight="1"
+        android:alpha="0.6"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="@string/if_you_want_sign_in_with_admin_account_please_click_here"
+        android:textColor="@color/primary_text"
+        android:textSize="12sp"
+        android:textStyle="bold" />
 
 </LinearLayout>

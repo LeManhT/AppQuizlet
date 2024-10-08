@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:overScrollMode="never"
+    android:padding="@dimen/pad_20"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/mar_30"
+            android:text="@string/login_to_admin_app"
+            android:textColor="@color/my_primary_color"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/corner_5"
+            android:text="@string/login_to_continue"
+            android:textColor="@color/secondary_text"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/ivLogin"
+            android:layout_width="@dimen/mar_80"
+            android:layout_height="@dimen/mar_80"
+            android:layout_marginTop="16dp"
+            android:src="@raw/log_in" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/marginInput"
+            android:hint="@string/email_hint"
+            android:textColorHint="@color/txt_black_primary"
+            app:endIconMode="clear_text"
+            app:errorEnabled="true"
+            app:errorTextAppearance="@style/CustomTextInputLayout"
+            app:helperText="@string/helper_email"
+            app:helperTextTextAppearance="@style/CustomTextInputLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/txt_black_primary" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/marginInput"
+            android:hint="@string/pass_hint"
+            android:textColorHint="@color/txt_black_primary"
+            app:counterEnabled="true"
+            app:counterMaxLength="15"
+            app:errorTextAppearance="@style/CustomTextInputLayout"
+            app:helperText="@string/helper_pass"
+            app:helperTextTextAppearance="@style/CustomTextInputLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView6"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:maxLength="15"
+                app:errorEnabled="true" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/pad_20"
+            android:animateLayoutChanges="true">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnLogin"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/btn_primary"
+                android:text="@string/log_in"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:cornerRadius="@dimen/corner_5" />
+
+            <ProgressBar
+                android:id="@id/progressBar"
+                android:layout_width="@dimen/pad_20"
+                android:layout_height="@dimen/pad_20"
+                android:layout_gravity="center"
+                android:visibility="invisible" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tvResetPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/mar_30"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/enter_your_admin_username_or_the_email_address_which_is_signed_up_with"
+            android:textColor="@color/my_primary_color"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+</ScrollView>
