@@ -7,7 +7,7 @@ import android.view.View
 import android.view.View.OnFocusChangeListener
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.example.appquizlet.AdminActvity
+import com.example.appquizlet.AdminActivity
 import com.example.appquizlet.R
 import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.FragmentLoginAdminBinding
@@ -49,7 +49,7 @@ class FragmentLoginAdmin : AppCompatActivity(), OnFocusChangeListener {
         adminViewModel.loginAdminResult.observe(this) { result ->
             hideLoading()
             result.onSuccess {
-                val intent = Intent(this, AdminActvity::class.java)
+                val intent = Intent(this, AdminActivity::class.java)
                 startActivity(intent)
             }.onFailure {
                 Timber.e(it, "Login admin failed")

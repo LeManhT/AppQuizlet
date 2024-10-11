@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Background when the item is selected/active -->
+    <item android:state_selected="true">
+        <shape>
+            <solid android:color="#FFFFFF" /> <!-- Màu nền khi chọn -->
+            <corners android:radius="12dp" /> <!-- Góc bo tròn -->
+            <stroke android:width="2dp" android:color="#FFA500" /> <!-- Viền màu cam -->
+        </shape>
+    </item>
+
+    <!-- Background when the item is pressed -->
+    <item android:state_pressed="true">
+        <shape>
+            <solid android:color="#FFFFFF" /> <!-- Màu nền khi ấn -->
+            <corners android:radius="12dp" />
+            <stroke android:width="2dp" android:color="#87CEEB" /> <!-- Viền màu xanh nhạt khi ấn -->
+        </shape>
+    </item>
+
+    <!-- Default background (unselected) -->
+    <item>
+        <shape>
+            <solid android:color="#FFFFFF" /> <!-- Màu nền mặc định -->
+            <corners android:radius="12dp" />
+            <stroke android:width="2dp" android:color="#D3D3D3" /> <!-- Viền màu xám nhạt -->
+        </shape>
+    </item>
+</selector>

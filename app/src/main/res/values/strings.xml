@@ -472,4 +472,6 @@
     <string name="removed_from_favorites">Remove new word from favourite</string>
     <string name="are_you_sure_to_delete_word_from_favourite">Are you sure to delete this word from favourite ?</string>
     <string name="manage_story">Manage Story</string>
+    <string name="delete_user_loading">Deleting user ...</string>
+    <string name="story">Story</string>
 </resources>

@@ -42,8 +42,13 @@ class AdminRepository @Inject constructor(private val apiService: ApiService) {
         apiService.suspendUser(userId, suspend)
     }
 
-    suspend fun deleteUser(userId: String) {
-        apiService.deleteUser(userId)
+    suspend fun deleteUser(userId: String): Result<Boolean> {
+        return try {
+            apiService.deleteUser(userId)
+            Result.success(true)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 
     suspend fun loginAdmin(username: String, password: String): Result<UserAdmin> {

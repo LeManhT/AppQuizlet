@@ -3,9 +3,11 @@ package com.example.appquizlet.adapter
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatButton
 import androidx.cardview.widget.CardView
@@ -21,7 +23,6 @@ import com.google.gson.Gson
 
 class ReviewLearnAdapter(
     private val context: Context,
-    private val studySet: List<FlashCardModel>,
     private val recyclerView: RecyclerView
 ) :
     RecyclerView.Adapter<ReviewLearnAdapter.ReviewLearnHolder>() {
@@ -32,9 +33,13 @@ class ReviewLearnAdapter(
     private var countTrue: Int? = 0
     private var countAnswer: Int = 0
 
+    private var listFlashcards: List<FlashCardModel> = mutableListOf()
+
 
     inner class ReviewLearnHolder(val binding: ActivityReviewKnowledgeBinding) :
-        RecyclerView.ViewHolder(binding.root)
+        RecyclerView.ViewHolder(binding.root) {
+        var countDownTimer: CountDownTimer? = null
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewLearnHolder {
         val view = ActivityReviewKnowledgeBinding.inflate(
@@ -44,17 +49,45 @@ class ReviewLearnAdapter(
     }
 
     override fun onBindViewHolder(holder: ReviewLearnHolder, position: Int) {
-        val question: TextView = holder.binding.questionTextView
-        question.text = studySet[position].term.toString()
+
+
+        val progressBar: ProgressBar = holder.itemView.findViewById(R.id.questionProgressBar)
+        val tvTimer: TextView = holder.itemView.findViewById(R.id.tvTimer)
+
+        // Cancel any previous timer when a new item is bound
+        holder.countDownTimer?.cancel()
+
+        val totalTime = 10000L // 10 seconds
+        progressBar.max = (totalTime / 1000).toInt()
+        progressBar.progress = progressBar.max
+
+        holder.countDownTimer = object : CountDownTimer(totalTime, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                val secondsLeft = millisUntilFinished / 1000
+                tvTimer.text = "0:$secondsLeft"
+                progressBar.progress = secondsLeft.toInt()
+            }
+
+            override fun onFinish() {
+                // Handle when time runs out and no answer was provided
+                tvTimer.text = "0:00"
+                progressBar.progress = 0
+                handleTimeOut(holder)
+            }
+        }.start()
+
+
+        val question: TextView = holder.binding.tvQuestion
+        question.text = listFlashcards[position].term.toString()
         val options: List<FlashCardModel>
         val textOptionCard1: TextView = holder.binding.answer1TextView
         val textOptionCard2: TextView = holder.binding.answer2TextView
         val textOptionCard3: TextView = holder.binding.answer3TextView
 
         // Shuffle options randomly
-        val correctAnswer: String = studySet[position].definition.toString()
-        val incorrectOptions = studySet.shuffled().filter { it.definition != correctAnswer }
-        options = (incorrectOptions.take(2) + studySet[position]).shuffled()
+        val correctAnswer: String = listFlashcards[position].definition.toString()
+        val incorrectOptions = listFlashcards.shuffled().filter { it.definition != correctAnswer }
+        options = (incorrectOptions.take(2) + listFlashcards[position]).shuffled()
 
         textOptionCard1.text = options[0].definition ?: ""
         textOptionCard2.text = options[1].definition ?: ""
@@ -82,7 +115,7 @@ class ReviewLearnAdapter(
                     CustomToast.WARNING
                 ).show()
             } else {
-                if (studySet[position].isAnswer == false) {
+                if (listFlashcards[position].isAnswer == false) {
                     handleCheckAnswer(
                         holder,
                         context,
@@ -90,7 +123,7 @@ class ReviewLearnAdapter(
                         selectedAnswer,
                         correctAnswer
                     )
-                    studySet[position].isAnswer = true
+                    listFlashcards[position].isAnswer = true
                 }
                 isQuestionAnswered = true
             }
@@ -106,7 +139,7 @@ class ReviewLearnAdapter(
         position: Int
     ) {
 //        if (!isQuestionAnswered) {
-        if (studySet[position].isAnswer == false) {
+        if (listFlashcards[position].isAnswer == false) {
             holder.binding.cardViewAnswer1.setCardBackgroundColor(
                 ContextCompat.getColor(context, android.R.color.holo_orange_light)
             )
@@ -171,12 +204,11 @@ class ReviewLearnAdapter(
                 )
             )
         }
-
     }
 
     private fun showNiceDoneDialog() {
 //Trong Android, Context được sử dụng để truy cập tài nguyên của ứng dụng, chẳng hạn như chuỗi (string), hình ảnh, màu sắc, vv. Một số phương thức như getString cần một đối tượng Context để có thể truy cập đúng tài nguyên từ tập tin res/values/strings.xml hoặc các thư mục tương ứng.
-        val customView = LayoutInflater.from(context).inflate(R.layout.custom_review_correct, null)
+        val customView = LayoutInflater.from(context).inflate(R.layout.custom_result_dialog, null)
         val dialog = MaterialAlertDialogBuilder(context)
 //            .setTitle(context.resources.getString(R.string.cancel))
             .setView(customView)
@@ -209,26 +241,27 @@ class ReviewLearnAdapter(
     }
 
     override fun getItemCount(): Int {
-        return studySet.size
+        return listFlashcards.size
     }
 
     private fun scrollToNextQuestion() {
         countAnswer++
         val nextPosition = recyclerView.getChildAdapterPosition(recyclerView.getChildAt(0)) + 1
-        if (countAnswer >= studySet.size) {
+        if (countAnswer >= listFlashcards.size) {
             val i = Intent(context, Excellent::class.java)
             val bundle = Bundle()
             countTrue?.let { bundle.putInt("countTrue", it) }
             countFalse?.let { bundle.putInt("countFalse", it) }
-            bundle.putInt("listSize", studySet.size)
-            i.putExtra("listCardTest", Gson().toJson(studySet))
+            bundle.putInt("listSize", listFlashcards.size)
+            i.putExtra("listCardTest", Gson().toJson(listFlashcards))
             i.putExtras(bundle)
             context.startActivity(i)
         }
-        if (nextPosition < studySet.size) {
+        if (nextPosition < listFlashcards.size) {
             recyclerView.smoothScrollToPosition(nextPosition)
+            notifyItemChanged(nextPosition)
         } else {
-            if (countAnswer < studySet.size) {
+            if (countAnswer < listFlashcards.size) {
                 CustomToast(context).makeText(
                     context,
                     context.resources.getString(R.string.please_answer_all_question),
@@ -238,4 +271,20 @@ class ReviewLearnAdapter(
             }
         }
     }
+
+    fun updateData(newData: List<FlashCardModel>) {
+        this.listFlashcards = newData
+        notifyDataSetChanged()
+    }
+
+    private fun handleTimeOut(holder: ReviewLearnHolder) {
+        if (listFlashcards[holder.bindingAdapterPosition].isAnswer == false) {
+            val correctAnswer = listFlashcards[holder.bindingAdapterPosition].definition.toString()
+            showIncorrectDialog(correctAnswer)
+            countFalse = (countFalse ?: 0) + 1
+            listFlashcards[holder.bindingAdapterPosition].isAnswer = true
+        }
+    }
+
+
 }

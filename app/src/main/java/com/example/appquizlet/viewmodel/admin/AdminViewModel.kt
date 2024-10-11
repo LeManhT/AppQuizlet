@@ -23,6 +23,10 @@ class AdminViewModel @Inject constructor(private val adminRepository: AdminRepos
     private val _loginAdminResult = MutableLiveData<Result<UserAdmin>>()
     val loginAdminResult: MutableLiveData<Result<UserAdmin>> = _loginAdminResult
 
+    private val _deleteResult = MutableLiveData<Result<Boolean>>()
+    val deleteResult: MutableLiveData<Result<Boolean>> = _deleteResult
+
+
     val pagingUsers = Pager(
         config = PagingConfig(
             pageSize = 10,
@@ -53,7 +57,8 @@ class AdminViewModel @Inject constructor(private val adminRepository: AdminRepos
 
     fun deleteUser(userId: String) {
         viewModelScope.launch {
-            adminRepository.deleteUser(userId)
+            val result = adminRepository.deleteUser(userId)
+            _deleteResult.postValue(result)
         }
     }
 

@@ -1,37 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progress_circular"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/manage_story"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:layout_marginVertical="@dimen/pad_5"
+        android:indeterminate="true"
+        android:progress="70"
+        android:visibility="gone"
+        app:showAnimationBehavior="inward"
+        app:trackCornerRadius="@dimen/mar_15" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvManageStory"
+        android:id="@+id/rvListFavouriteWords"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/title" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addNewStory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="16dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="25dp"
-        android:contentDescription="@string/create_card"
-        android:src="@drawable/icons8_plus_48" />
+        android:layout_marginTop="20dp" />
 
     <LinearLayout
         android:id="@+id/layoutNoData"
@@ -48,7 +36,7 @@
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:text="@string/no_data_found"
-            android:textColor="@color/txt_black_primary"
+            android:textColor="#000000"
             android:textSize="22sp"
             android:textStyle="bold" />
 
@@ -60,7 +48,7 @@
             android:layout_marginEnd="20dp"
             android:gravity="center"
             android:lineSpacingExtra="8dp"
-            android:text="@string/no_folder_created"
+            android:text="@string/please_try_learn_other"
             android:textSize="16sp" />
 
         <com.airbnb.lottie.LottieAnimationView
@@ -71,6 +59,20 @@
             app:lottie_autoPlay="true"
             app:lottie_fileName="noda.json"
             app:lottie_loop="true" />
+
+        <TextView
+            android:id="@+id/txtCreateNewSet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="@dimen/mar_30"
+            android:drawablePadding="@dimen/mar_10"
+            android:text="@string/create_new_set"
+            android:textColor="#324460"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:drawableEndCompat="@drawable/arrow_right_alt_24px" />
     </LinearLayout>
 
-</RelativeLayout>
+
+</FrameLayout>

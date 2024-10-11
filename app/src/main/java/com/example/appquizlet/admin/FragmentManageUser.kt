@@ -1,6 +1,8 @@
 package com.example.appquizlet.admin
 
+import android.app.ProgressDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +28,7 @@ class FragmentManageUser : Fragment() {
     private lateinit var binding: FragmentManageUserBinding
     private val adminViewModel: AdminViewModel by activityViewModels()
     private lateinit var listUserAdapter: ManageUserAdapter
+    private lateinit var progressDialog: ProgressDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +50,7 @@ class FragmentManageUser : Fragment() {
                         dialog.dismiss()
                     }
                     .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
+                        showLoading(resources.getString(R.string.delete_user_loading))
                         adminViewModel.deleteUser(user.id)
                     }
                     .show()
@@ -97,24 +101,31 @@ class FragmentManageUser : Fragment() {
             }
         }
 
-        binding.recyclerViewUsers.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        binding.recyclerViewUsers.adapter = listUserAdapter
-
-        adminViewModel.allUser.observe(viewLifecycleOwner) { result ->
-            result.onSuccess { userList ->
-                if (userList.isEmpty()) {
-                    binding.recyclerViewUsers.visibility = View.GONE
-                    binding.layoutNoData.visibility = View.VISIBLE
-                } else {
-                    binding.recyclerViewUsers.visibility = View.VISIBLE
-                    binding.layoutNoData.visibility = View.GONE
-                    listUserAdapter.submitData(lifecycle, PagingData.from(userList))
+        adminViewModel.deleteResult.observe(viewLifecycleOwner) { result ->
+            result.onSuccess {
+                Log.d("Delete",it.toString())
+                if (it) {
+                    lifecycleScope.launch {
+                        adminViewModel.pagingUsers.collectLatest { pagingData: PagingData<UserResponse> ->
+                            listUserAdapter.submitData(pagingData)
+                        }
+                    }
                 }
+                progressDialog.dismiss()
             }.onFailure {
                 Timber.log(1, it.message.toString())
             }
         }
+
+        binding.recyclerViewUsers.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.recyclerViewUsers.adapter = listUserAdapter
+
     }
+
+    private fun showLoading(msg: String) {
+        progressDialog = ProgressDialog.show(context, null, msg)
+    }
+
 
 }

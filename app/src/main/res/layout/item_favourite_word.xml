@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvWord"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Word"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvMeaning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Meaning"
+        android:textSize="16sp" />
+
+    <ImageButton
+        android:id="@+id/btnRemove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icons8_delete_24"
+        android:contentDescription="@string/remove_set_folder_loading"
+        android:layout_gravity="end"
+        android:background="?attr/selectableItemBackgroundBorderless" />
+
+</LinearLayout>

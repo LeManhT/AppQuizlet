@@ -34,7 +34,23 @@
             app:argType="com.example.appquizlet.model.UserResponse" />
 
     </dialog>
-<!--    <fragment-->
+    <fragment
+        android:id="@+id/fragmentCreateNewStory2"
+        android:name="com.example.appquizlet.admin.FragmentCreateNewStory"
+        android:label="FragmentCreateNewStory" >
+        <action
+            android:id="@+id/action_fragmentCreateNewStory2_to_fragmentManageStory2"
+            app:destination="@id/fragmentManageStory2" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentManageStory2"
+        android:name="com.example.appquizlet.admin.FragmentManageStory"
+        android:label="FragmentManageStory" >
+        <action
+            android:id="@+id/action_fragmentManageStory2_to_fragmentCreateNewStory2"
+            app:destination="@id/fragmentCreateNewStory2" />
+    </fragment>
+    <!--    <fragment-->
 <!--        android:id="@+id/fragmentManageStory"-->
 <!--        android:name="com.example.quizletappandroidv1.ui.fragments.FragmentManageStory"-->
 <!--        android:label="fragment_manage_story"-->

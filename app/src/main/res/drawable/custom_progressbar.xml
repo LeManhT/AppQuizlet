@@ -1,0 +1,19 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background color (unfilled part of progress bar) -->
+    <item>
+        <shape>
+            <corners android:radius="4dp" />
+            <solid android:color="#D3D3D3"/> <!-- Màu xám nhạt cho phần nền chưa được lấp -->
+        </shape>
+    </item>
+
+    <!-- Progress color (filled part of progress bar) -->
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <corners android:radius="4dp" />
+                <solid android:color="#00FF7F"/> <!-- Màu xanh lục nhạt cho phần tiến độ -->
+            </shape>
+        </clip>
+    </item>
+</layer-list>

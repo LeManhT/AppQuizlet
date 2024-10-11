@@ -24,6 +24,11 @@
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main_logged_in.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_my_quote.xml">
         <config>
           <theme>@style/Theme.AppQuizlet</theme>
@@ -35,6 +40,11 @@
         </config>
       </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_rank_leader_board.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_review_knowledge.xml">
         <config>
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
@@ -54,12 +64,37 @@
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_story.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/custom_result_dialog.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_all_results.xml">
         <config>
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_create_new_story.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_edit_user.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_favourite_new_word.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml">
         <config>
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
@@ -74,7 +109,17 @@
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_list_story.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_login_admin.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_manage_story.xml">
         <config>
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
@@ -89,7 +134,17 @@
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_story.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_admin_studyset.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_favourite_word.xml">
         <config>
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
@@ -145,92 +200,53 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f561f4fb-df91-4045-a5ec-bc9208bd9d46" name="Changes" comment="fix bug review learn submit btn and navigate when add set to folder">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/AdminActvity.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/NewWordAdapter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/admin/ManageStudySetAdapter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/admin/ManageUserAdapter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/admin/FragmentEditUser.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/admin/FragmentLoginAdmin.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/admin/FragmentManageStudySet.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/admin/FragmentManageUser.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/admin/ProfileAdmin.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/custom/PodiumView.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/custom/RankView.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/dao/FavouriteDao.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/di/NetworkModule.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/entity/Story.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/admin/UserAdmin.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/repository/admin/AdminRepository.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/repository/favourite/FavouriteRepository.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/viewmodel/admin/AdminViewModel.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/viewmodel/favourite/FavouriteNewWordViewModel.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/favourite.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/favourite_off.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/language_translator.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/layout_item_selector.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/orientation.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/rounded_corners_bg.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/settings_admin.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/shuffle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/speaker.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/sync.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_admin_actvity.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_edit_user.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_login_admin.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_manage_story.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_manage_study_set.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_manage_user.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_profile_admin.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_admin_studyset.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_new_word.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_user_admin.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/story_item.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/view_podium.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/view_rank.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/menu/bottom_nav_admin.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/navigation/admin_nav_graph.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/raw/admin.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/raw/log_in.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/raw/stories.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/raw/t2_removebg_preview.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/raw/t3_removebg_preview.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/raw/top1_img.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/raw/top1_removebg_preview.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/raw/top2_img.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/raw/top3_img.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
+    <list default="true" id="f561f4fb-df91-4045-a5ec-bc9208bd9d46" name="Changes" comment="edit new code app">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/AdminActivity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/FragmentFavouriteNewWord.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/FragmentListStory.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/FragmentStory.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/AdapterFavouriteWord.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/StoryAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/admin/FragmentCreateNewStory.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/admin/FragmentManageStory.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/dao/StoryDao.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/repository/story/StoryRepository.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/typeconverters/Converter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/viewmodel/story/StoryViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/bg_dialog.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/btn_result.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/custom_progressbar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/question_background.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/tick.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_story.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/custom_result_dialog.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_create_new_story.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_favourite_new_word.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_list_story.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_story.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_favourite_word.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/navEditor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/navEditor.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ChangeTheme.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ChangeTheme.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/CreateSet.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/CreateSet.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/FlashcardLearn.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/FlashcardLearn.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/LearnFlashCardSetting.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/LearnFlashCardSetting.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/QuoteApplication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/QuoteApplication.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/RankLeaderBoard.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/RankLeaderBoard.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/SplashActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/SplashActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/SplashSearch.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/SplashSearch.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/api/retrofit/ApiService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/api/retrofit/ApiService.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/dao/QuoteDao.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/dao/QuoteDao.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/DetectContinueModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/DetectContinueModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/DocumentModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/DocumentModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/MyViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/MyViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/UserResponse.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/UserResponse.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/repository/QuoteRespository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/repository/QuoteRespository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/repository/RemoteQuoteRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/repository/RemoteQuoteRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/AdminActvity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/StoryActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/Home.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/Home.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ReviewLearn.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ReviewLearn.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/ReviewLearnAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/ReviewLearnAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/admin/FragmentLoginAdmin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/admin/FragmentLoginAdmin.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/admin/FragmentManageUser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/admin/FragmentManageUser.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/di/NetworkModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/di/NetworkModule.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/entity/Story.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/entity/Story.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/repository/admin/AdminRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/repository/admin/AdminRepository.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/roomDatabase/QuoteDatabase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/roomDatabase/QuoteDatabase.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/util/Constants.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/util/Constants.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/util/Helper.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/util/Helper.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_rank_leader_board.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_rank_leader_board.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_splash.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_splash.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_learn_flash_card_setting.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_learn_flash_card_setting.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/viewmodel/admin/AdminViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/viewmodel/admin/AdminViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_admin_actvity.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_admin_actvity.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main_logged_in.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main_logged_in.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_review_knowledge.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_review_knowledge.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_manage_story.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_manage_story.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/menu/bottom_nav_admin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/menu/bottom_nav_admin.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/navigation/admin_nav_graph.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/navigation/admin_nav_graph.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -240,7 +256,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=Default, isTemplate=false, identifier=serial=emulator-5554;connection=ab322126)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=Default, isTemplate=false, identifier=serial=emulator-5554;connection=9f8d6d13)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -291,9 +307,9 @@
         <option value="valueResourceFile" />
         <option value="resourceFile" />
         <option value="Kotlin Object" />
-        <option value="Kotlin Interface" />
         <option value="Class" />
         <option value="layoutResourceFile" />
+        <option value="Kotlin Interface" />
         <option value="Kotlin Class" />
       </list>
     </option>
@@ -371,7 +387,7 @@
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
     "last_directory_selection": "C:/Users/LeManhDev/StudioProjects/AppQuizlet/app/src/main/res/drawable",
-    "last_opened_file_path": "C:/Users/LeManhDev/StudioProjects/AppQuizlet/app/src/main/res/layout",
+    "last_opened_file_path": "C:/Users/LeManhDev/StudioProjects/AppQuizlet/app/src/main/res/drawable",
     "project.structure.last.edited": "Dependencies",
     "project.structure.proportion": "0.17",
     "project.structure.side.proportion": "0.2",
@@ -419,6 +435,9 @@
     <key name="android.template.-542575180">
       <recent name="com.example.appquizlet" />
     </key>
+    <key name="android.template.-1626481676">
+      <recent name="com.example.appquizlet" />
+    </key>
     <key name="android.template.-337133272">
       <recent name="com.example.appquizlet" />
     </key>
@@ -461,9 +480,9 @@
       <recent name="com.example.appquizlet" />
     </key>
     <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="com.example.appquizlet.adapter" />
       <recent name="com.example.appquizlet.di" />
       <recent name="com.example.appquizlet.custom" />
-      <recent name="com.example.appquizlet.adapter" />
       <recent name="com.example.appquizlet.dao" />
     </key>
     <key name="android.template.-420739584">
@@ -473,9 +492,9 @@
       <recent name="com.example.appquizlet" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\LeManhDev\StudioProjects\AppQuizlet\app\src\main\res\drawable" />
       <recent name="C:\Users\LeManhDev\StudioProjects\AppQuizlet\app\src\main\res\layout" />
       <recent name="C:\Users\LeManhDev\StudioProjects\AppQuizlet\app\src\main\res\raw" />
-      <recent name="C:\Users\LeManhDev\StudioProjects\AppQuizlet\app\src\main\res\drawable" />
       <recent name="C:\Users\LeManhDev\StudioProjects\AppQuizlet\app\src\main\res\menu" />
       <recent name="C:\Users\LeManhDev\StudioProjects\AppQuizlet\app\src\main\res\navigation" />
     </key>
@@ -681,7 +700,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706182348649</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="edit new code app">
+      <option name="closed" value="true" />
+      <created>1728410479524</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1728410479524</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -711,7 +738,8 @@
     <MESSAGE value="finish quotify feature" />
     <MESSAGE value="fix bug navigate to tab folder and studyset" />
     <MESSAGE value="fix bug review learn submit btn and navigate when add set to folder" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix bug review learn submit btn and navigate when add set to folder" />
+    <MESSAGE value="edit new code app" />
+    <option name="LAST_COMMIT_MESSAGE" value="edit new code app" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -383,6 +383,11 @@ class Home : Fragment() {
             recyclerViewDay.adapter = dayAdapter
         })
 
+        binding.txtStory.setOnClickListener {
+            val intent = Intent(requireContext(), StoryActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     companion object {

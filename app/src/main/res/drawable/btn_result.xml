@@ -1,0 +1,12 @@
+<!-- res/drawable/btn_green_continue.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/my_green" /> <!-- Green color -->
+
+    <corners android:radius="8dp" /> <!-- Rounded corners -->
+
+    <padding
+        android:left="16dp"
+        android:top="8dp"
+        android:right="16dp"
+        android:bottom="8dp" />
+</shape>
