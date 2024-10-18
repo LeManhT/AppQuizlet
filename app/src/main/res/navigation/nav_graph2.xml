@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph2"
+    app:startDestination="@id/fragmentListStory">
+
+
+    <fragment
+        android:id="@+id/fragmentListStory"
+        android:name="com.example.appquizlet.FragmentListStory"
+        android:label="FragmentListStory">
+        <action
+            android:id="@+id/action_fragmentListStory_to_fragmentStory"
+            app:destination="@id/fragmentStory" />
+        <action
+            android:id="@+id/action_fragmentListStory_to_fragmentFavouriteNewWord"
+            app:destination="@id/fragmentFavouriteNewWord" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentStory"
+        android:name="com.example.appquizlet.FragmentStory"
+        android:label="FragmentStory">
+        <action
+            android:id="@+id/action_fragmentStory_to_fragmentListStory"
+            app:destination="@id/fragmentListStory" />
+        <argument
+            android:name="story"
+            app:argType="com.example.appquizlet.entity.Story" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentFavouriteNewWord"
+        android:name="com.example.appquizlet.FragmentFavouriteNewWord"
+        android:label="FragmentFavouriteNewWord" >
+        <action
+            android:id="@+id/action_fragmentFavouriteNewWord_to_fragmentListStory"
+            app:destination="@id/fragmentListStory" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentCreateNewStory"
+        android:name="com.example.appquizlet.admin.FragmentCreateNewStory"
+        android:label="FragmentCreateNewStory" />
+</navigation>
