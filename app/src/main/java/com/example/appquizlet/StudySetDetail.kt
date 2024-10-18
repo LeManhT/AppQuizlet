@@ -492,7 +492,6 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-
                 // Send broadcast when download is complete
                 runOnUiThread {
                     val downloadCompleteIntent = Intent("PDF_DOWNLOAD_COMPLETE")
@@ -550,7 +549,6 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
 
             }
         }
-
         adapterFlashcardDetail.notifyDataSetChanged()
     }
 

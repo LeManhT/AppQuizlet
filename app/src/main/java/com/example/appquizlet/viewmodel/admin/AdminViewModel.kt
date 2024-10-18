@@ -1,5 +1,6 @@
 package com.example.appquizlet.viewmodel.admin
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -26,6 +27,12 @@ class AdminViewModel @Inject constructor(private val adminRepository: AdminRepos
     private val _deleteResult = MutableLiveData<Result<Boolean>>()
     val deleteResult: MutableLiveData<Result<Boolean>> = _deleteResult
 
+    private val _updateResult = MutableLiveData<Boolean>()
+    val updateResult: MutableLiveData<Boolean> = _updateResult
+
+    fun setUpdateResult(result: Boolean) {
+        _updateResult.postValue(result)
+    }
 
     val pagingUsers = Pager(
         config = PagingConfig(
@@ -59,6 +66,7 @@ class AdminViewModel @Inject constructor(private val adminRepository: AdminRepos
         viewModelScope.launch {
             val result = adminRepository.deleteUser(userId)
             _deleteResult.postValue(result)
+            adminRepository.getPagingUsers().invalidate()
         }
     }
 

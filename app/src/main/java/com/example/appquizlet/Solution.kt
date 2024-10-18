@@ -52,6 +52,10 @@ class Solution : Fragment() {
             }
         }
 
+        binding.txtStory.setOnClickListener {
+            val intent = Intent(requireContext(), StoryActivity::class.java)
+            startActivity(intent)
+        }
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {

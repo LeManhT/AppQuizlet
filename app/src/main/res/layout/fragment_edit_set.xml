@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_profile"
-    tools:context=".CreateSet">
+    android:background="@drawable/bg_profile">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -15,11 +13,10 @@
         app:navigationIcon="?attr/homeAsUpIndicator"
         app:navigationIconTint="@color/txt_black_in_card"
         app:popupTheme="@style/Theme.AppQuizlet.PopupOverlay"
-        app:title="@string/create_set"
-        app:titleTextColor="@color/txt_black_primary">
+        app:title="@string/edit_set">
 
         <ImageView
-            android:id="@+id/iconTickCreateSet"
+            android:id="@+id/iconTick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -27,21 +24,12 @@
             android:src="@drawable/icons8_tick_24" />
 
         <!--        <ImageView-->
-        <!--            android:id="@+id/iconSetting"-->
+        <!--            android:id="@+id/iconEditStudySetSetting"-->
         <!--            android:layout_width="wrap_content"-->
         <!--            android:layout_height="wrap_content"-->
         <!--            android:layout_gravity="end"-->
         <!--            android:layout_marginEnd="16dp"-->
         <!--            android:src="@drawable/ic_setting" />-->
-
-
-        <ImageView
-            android:id="@+id/iconImportFile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/resource_import" />
     </androidx.appcompat.widget.Toolbar>
 
 
@@ -49,9 +37,6 @@
         android:id="@id/layoutTop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
         android:orientation="vertical">
 
         <LinearLayout
@@ -62,7 +47,7 @@
             android:paddingHorizontal="10dp">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textField"
+                android:id="@+id/layoutSetName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="60dp"
@@ -72,7 +57,7 @@
                 app:boxStrokeWidth="@dimen/marginInput">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txtNameStudySet"
+                    android:id="@+id/txtSetName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/txt_black_primary" />
@@ -171,43 +156,37 @@
     </LinearLayout>
 
 
-    <RelativeLayout
-        android:id="@+id/layoutNest"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/createSetScrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/layoutTop"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@+id/layoutTop"
         android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="@dimen/h_200"
+        android:layout_marginBottom="2dp">
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/createSetScrollView"
+        <LinearLayout
+            android:id="@+id/layoutFlashcardView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="0dp"
-            android:layout_marginBottom="2dp">
+            android:longClickable="true"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/layoutFlashcardView"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/RvCreateSets"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:longClickable="true"
-                android:orientation="vertical">
+                android:padding="@dimen/pad_20" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/RvCreateSets"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="@dimen/pad_20" />
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
-
-    </RelativeLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
@@ -216,9 +195,6 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-
-        <!--on below line we are creating a settings fab
-            and setting its visibility to gone-->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addNewCard"
             android:layout_width="wrap_content"

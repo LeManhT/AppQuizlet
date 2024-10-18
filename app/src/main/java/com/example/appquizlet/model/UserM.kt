@@ -8,7 +8,7 @@ object UserM {
     private val userData = MutableLiveData<UserResponse>()
 
     //    private var userDataStudySets = MutableLiveData<List<StudySetModel>>()
-    private var allStudySets = MutableLiveData<StudySetModel>()
+    private var allStudySets = MutableLiveData<List<SearchSetModel>>()
 
     private var dataAchievement = MutableLiveData<DetectContinueModel>()
     private var dataSetSearch = MutableLiveData<List<SearchSetModel>>()
@@ -24,11 +24,11 @@ object UserM {
         return userData
     }
 
-    fun getAllStudySets(): LiveData<StudySetModel> {
+    fun getAllStudySets(): LiveData<List<SearchSetModel>> {
         return allStudySets
     }
 
-    fun setAllStudySet(data: StudySetModel) {
+    fun setAllStudySet(data: List<SearchSetModel>) {
         allStudySets.value = data
     }
 

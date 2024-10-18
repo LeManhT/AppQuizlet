@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/admin_nav_graph"
     app:startDestination="@id/manageUser">
 
@@ -12,7 +11,11 @@
     <fragment
         android:id="@+id/manageStudySet"
         android:name="com.example.appquizlet.admin.FragmentManageStudySet"
-        android:label="ManageStudySet" />
+        android:label="ManageStudySet">
+        <action
+            android:id="@+id/action_manageStudySet_to_fragmentEditSet"
+            app:destination="@id/fragmentEditSet" />
+    </fragment>
     <fragment
         android:id="@+id/manageUser"
         android:name="com.example.appquizlet.admin.FragmentManageUser"
@@ -49,6 +52,22 @@
         <action
             android:id="@+id/action_fragmentManageStory2_to_fragmentCreateNewStory2"
             app:destination="@id/fragmentCreateNewStory2" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentManageNotification"
+        android:name="com.example.appquizlet.admin.FragmentManageNotification"
+        android:label="FragmentManageNotification" />
+    <fragment
+        android:id="@+id/fragmentEditSet"
+        android:name="com.example.appquizlet.admin.FragmentEditSet"
+        android:label="FragmentEditSet">
+        <action
+            android:id="@+id/action_fragmentEditSet_to_manageStudySet"
+            app:destination="@id/manageStudySet" />
+        <argument
+            android:name="targetSet"
+            app:argType="com.example.appquizlet.model.StudySetModel" />
+
     </fragment>
     <!--    <fragment-->
 <!--        android:id="@+id/fragmentManageStory"-->

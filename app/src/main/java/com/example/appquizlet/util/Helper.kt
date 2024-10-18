@@ -20,6 +20,7 @@ import com.example.appquizlet.NoDataFragment
 import com.example.appquizlet.R
 import com.example.appquizlet.entity.Story
 import com.example.appquizlet.model.FlashCardModel
+import com.example.appquizlet.model.SearchSetModel
 import com.example.appquizlet.model.StudySetModel
 import com.example.appquizlet.model.UserResponse
 import com.google.android.material.textfield.TextInputLayout
@@ -197,9 +198,92 @@ object Helper {
     }
 
     fun getStories(context: Context): List<Story> {
-        val inputStream = context.resources.openRawResource(R.raw.stories)
+        // Open the stories.json file from the assets folder
+        val inputStream = context.assets.open("stories.json")
         val reader = InputStreamReader(inputStream)
         val storyType = object : TypeToken<List<Story>>() {}.type
+
         return Gson().fromJson(reader, storyType)
     }
+
+    fun calculateJaccardSimilarity(left: String, right: String): Double {
+        val intersectionSet = mutableSetOf<Char>()
+        val unionSet = mutableSetOf<Char>()
+        var unionFilled = false
+        val leftLength = left.length
+        val rightLength = right.length
+        if (leftLength == 0 || rightLength == 0) {
+            return 0.0
+        }
+
+        for (leftIndex in left.indices) {
+            unionSet.add(left[leftIndex])
+            for (rightIndex in right.indices) {
+                if (!unionFilled) {
+                    unionSet.add(right[rightIndex])
+                }
+                if (left[leftIndex] == right[rightIndex]) {
+                    intersectionSet.add(left[leftIndex])
+                }
+            }
+            unionFilled = true
+        }
+        return intersectionSet.size.toDouble() / unionSet.size.toDouble()
+    }
+
+    fun getRecommendedStudySets(
+        allStudySets: List<SearchSetModel>, // Tất cả các study set trong thư viện
+        userStudySets: List<StudySetModel> // Các study set mà người dùng đã tạo
+    ): List<SearchSetModel> {
+        val recommendedSets = mutableListOf<SearchSetModel>()
+        val threshold = 0.5
+
+        // Lặp qua từng study set trong thư viện
+        for (librarySet in allStudySets) {
+            // Lặp qua từng study set mà người dùng đã tạo
+            for (userSet in userStudySets) {
+                val nameSimilarity =
+                    calculateJaccardSimilarity(librarySet.name ?: "", userSet.name ?: "")
+                val descriptionSimilarity = calculateJaccardSimilarity(
+                    librarySet.description ?: "",
+                    userSet.description ?: ""
+                )
+
+                // Nếu độ tương đồng của tên hoặc mô tả vượt qua ngưỡng, thêm vào danh sách gợi ý
+                if (nameSimilarity > threshold || descriptionSimilarity > threshold) {
+                    recommendedSets.add(librarySet)
+                    break // Dừng lặp qua study set của người dùng, vì đã tìm thấy một set phù hợp
+                }
+            }
+        }
+
+        return recommendedSets
+    }
+
+    fun readJsonFromAsset(context: Context, fileName: String): String? {
+        return try {
+            val inputStream = context.assets.open(fileName)
+            val size = inputStream.available()
+            val buffer = ByteArray(size)
+            inputStream.read(buffer)
+            inputStream.close()
+            String(buffer, Charsets.UTF_8)
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+            null
+        }
+    }
+
+    fun parseStoriesFromJson(jsonString: String): List<Story>? {
+        return try {
+            val gson = Gson()
+            val storyListType = object : TypeToken<List<Story>>() {}.type
+            gson.fromJson<List<Story>>(jsonString, storyListType)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+
 }

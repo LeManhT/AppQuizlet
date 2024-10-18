@@ -1,7 +1,10 @@
 package com.example.appquizlet.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 class FlashCardModel(
     var id: String? = "",
     var term: String? = "",
@@ -14,5 +17,4 @@ class FlashCardModel(
     var isUnMark: Boolean? = false,
     var isNew: Boolean? = false,
     var isAnswer : Boolean ?= false
-) {
-}
+) : Parcelable

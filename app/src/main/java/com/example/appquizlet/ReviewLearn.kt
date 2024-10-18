@@ -1,6 +1,7 @@
 package com.example.appquizlet
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -22,15 +23,11 @@ class ReviewLearn : AppCompatActivity() {
         val intent = intent
         val jsonList = intent.getStringExtra("listCardTest")
         listCards = Gson().fromJson(jsonList, object : TypeToken<List<FlashCardModel>>() {}.type)
-
+        Log.d("ReviewLearn", Gson().toJson(listCards))
         adapterReviewLearn = ReviewLearnAdapter(this, binding.rvReviewLearn)
         adapterReviewLearn.updateData(listCards)
         val myLinearLayoutManager =
-            object : LinearLayoutManager(this, HORIZONTAL, false) {
-//                override fun canScrollHorizontally(): Boolean {
-//                    return false
-//                }
-            }
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.rvReviewLearn.layoutManager =
             myLinearLayoutManager
         binding.rvReviewLearn.adapter = adapterReviewLearn
@@ -41,5 +38,11 @@ class ReviewLearn : AppCompatActivity() {
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
+
     }
+//
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        adapterReviewLearn.updateData(emptyList())
+//    }
 }

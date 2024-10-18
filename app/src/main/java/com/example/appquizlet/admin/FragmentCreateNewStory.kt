@@ -71,16 +71,16 @@ class FragmentCreateNewStory : Fragment() {
     private fun saveStory() {
         val title = binding.storyTitleInput.text.toString()
         val content = binding.storyContentInput.text.toString()
-
+        val imagePath = binding.storyImagePath.text.toString()
         val newWords = newWordsList.map { (wordInput, meaningInput) ->
             NewWord(
                 0,
                 word = wordInput.text.toString(),
-                meaning = meaningInput.text.toString()
+                meaning = meaningInput.text.toString(),
             )
         }
 
-        val story = Story(0, title, content, newWords, "")
+        val story = Story(0, title, content, newWords, imagePath)
         storyViewModel.insert(story)
         Log.d("AddStoryFragment", "Story: $story")
     }

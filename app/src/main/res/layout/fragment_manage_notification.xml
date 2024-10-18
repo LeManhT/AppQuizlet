@@ -1,0 +1,45 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/notification_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Notification Title"
+        android:inputType="text"
+        android:layout_marginBottom="16dp"/>
+
+    <EditText
+        android:id="@+id/notification_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Notification Detail"
+        android:inputType="textMultiLine"
+        android:layout_marginBottom="16dp"/>
+
+    <EditText
+        android:id="@+id/id_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter user id"
+        android:inputType="textMultiLine"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/push_notification_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Push Notification"
+        android:layout_gravity="center_horizontal"/>
+
+    <Button
+        android:id="@+id/push_notification_button_to_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Push Notification to user"
+        android:layout_gravity="center_horizontal"/>
+</LinearLayout>

@@ -9,16 +9,16 @@ import com.example.appquizlet.model.ShareFolderModel
 import com.example.appquizlet.model.ShareResponse
 import com.example.appquizlet.model.UpdateUserResponse
 import com.example.appquizlet.model.UserResponse
+import com.example.appquizlet.model.admin.NotificationBody
 import com.example.quizletappandroidv1.models.admin.UserAdmin
 import com.google.gson.JsonObject
-
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.Body
-import retrofit2.http.POST
-import retrofit2.http.PUT
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Query
 
 interface ApiService {
@@ -114,9 +114,8 @@ interface ApiService {
 
     @PUT("User/UpdateInfo")
     suspend fun updateUserInfo(
-        @Query("userId") userId: String,
-        @Body body: RequestBody
-    ): Response<UpdateUserResponse>
+        @Query("userId") userId: String, @Body body: RequestBody
+    ): Response<UserResponse>
 
     @POST("StudySet/EnablePublic")
     suspend fun enablePublicSet(
@@ -196,5 +195,18 @@ interface ApiService {
         @Query("loginName") username: String,
         @Query("password") password: String
     ): Response<UserAdmin>
+
+    // API to push notification to a specific user with body
+    @POST("Admin/PingNoticeUser")
+    suspend fun pushNoticeForUser(
+        @Query("userID") userID: String,
+        @Body notificationBody: NotificationBody
+    ): Response<Unit>
+
+    // API to push notification to all users with body
+    @POST("Admin/PingNoticeForAllUsers")
+    suspend fun pushNoticeForAllUser(
+        @Body notificationBody: NotificationBody
+    ): Response<Unit>
 
 }

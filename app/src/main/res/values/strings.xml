@@ -474,4 +474,6 @@
     <string name="manage_story">Manage Story</string>
     <string name="delete_user_loading">Deleting user ...</string>
     <string name="story">Story</string>
+    <string name="rcm_list_sets">Recommendation list</string>
+    <string name="manage_notification">Manage Notification</string>
 </resources>

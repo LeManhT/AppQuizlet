@@ -80,6 +80,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         if (remoteMessage.notification != null) {
             Log.d("gainmes", remoteMessage.notification!!.title.toString())
+            remoteMessage.notification?.let {
+                Log.d("FCM", "Message Notification Title: ${it.title}")
+                Log.d("FCM", "Message Notification Body: ${it.body}")
+                // Display notification to user using NotificationManager
+            }
             generateNotification(
                 remoteMessage.notification!!.title.toString(),
                 remoteMessage.notification!!.body.toString()

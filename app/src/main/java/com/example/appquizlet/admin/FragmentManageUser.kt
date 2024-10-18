@@ -52,6 +52,19 @@ class FragmentManageUser : Fragment() {
                     .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
                         showLoading(resources.getString(R.string.delete_user_loading))
                         adminViewModel.deleteUser(user.id)
+                        adminViewModel.deleteResult.observe(viewLifecycleOwner) { result ->
+                            result.onSuccess {
+                                val currentSnapshot = listUserAdapter.snapshot()
+                                val position = currentSnapshot.indexOf(user)
+                                if (position != -1) {
+                                    listUserAdapter.notifyItemRemoved(position)
+                                }
+                                progressDialog.dismiss()
+                            }.onFailure {
+                                Timber.e(it)
+                                progressDialog.dismiss()
+                            }
+                        }
                     }
                     .show()
             }
@@ -98,22 +111,6 @@ class FragmentManageUser : Fragment() {
         lifecycleScope.launch {
             adminViewModel.pagingUsers.collectLatest { pagingData: PagingData<UserResponse> ->
                 listUserAdapter.submitData(pagingData)
-            }
-        }
-
-        adminViewModel.deleteResult.observe(viewLifecycleOwner) { result ->
-            result.onSuccess {
-                Log.d("Delete",it.toString())
-                if (it) {
-                    lifecycleScope.launch {
-                        adminViewModel.pagingUsers.collectLatest { pagingData: PagingData<UserResponse> ->
-                            listUserAdapter.submitData(pagingData)
-                        }
-                    }
-                }
-                progressDialog.dismiss()
-            }.onFailure {
-                Timber.log(1, it.message.toString())
             }
         }
 

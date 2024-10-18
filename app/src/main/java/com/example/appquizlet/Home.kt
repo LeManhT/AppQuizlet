@@ -23,6 +23,7 @@ import com.example.appquizlet.adapter.AdapterCustomDatePicker
 import com.example.appquizlet.adapter.DayOfWeekAdapter
 import com.example.appquizlet.adapter.RVFolderItemAdapter
 import com.example.appquizlet.adapter.RvStudySetItemAdapter
+import com.example.appquizlet.adapter.SolutionItemAdapter
 import com.example.appquizlet.api.retrofit.ApiService
 import com.example.appquizlet.api.retrofit.RetrofitHelper
 import com.example.appquizlet.custom.CustomToast
@@ -30,7 +31,10 @@ import com.example.appquizlet.databinding.FragmentHomeBinding
 import com.example.appquizlet.interfaceFolder.ItemTouchHelperAdapter
 import com.example.appquizlet.interfaceFolder.RVFolderItem
 import com.example.appquizlet.interfaceFolder.RVStudySetItem
+import com.example.appquizlet.interfaceFolder.RvClickSearchSet
+import com.example.appquizlet.model.FlashCardModel
 import com.example.appquizlet.model.FolderModel
+import com.example.appquizlet.model.SearchSetModel
 import com.example.appquizlet.model.StudySetModel
 import com.example.appquizlet.model.UserM
 import com.example.appquizlet.util.Helper
@@ -39,6 +43,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -53,6 +58,7 @@ class Home : Fragment() {
     private lateinit var streakTextView: TextView
     private lateinit var apiService: ApiService
     private lateinit var adapterHomeStudySet: RvStudySetItemAdapter
+    private lateinit var adapterRecommendationListSet: SolutionItemAdapter
     private lateinit var adapterHomeFolder: RVFolderItemAdapter
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var sharedPreferencesTheme: SharedPreferences
@@ -61,6 +67,7 @@ class Home : Fragment() {
 
     //        Studyset adapter
     private val listStudySet = mutableListOf<StudySetModel>()
+    private val listRcmSets = mutableListOf<SearchSetModel>()
     private val listFolderItems = mutableListOf<FolderModel>()
 
 
@@ -80,6 +87,11 @@ class Home : Fragment() {
         // Clear the theme change flag
         sharedPreferencesTheme.edit().putBoolean("themeChange", false).apply()
 
+        getAllStudySet()
+
+        if (loadSuggestedFlashcards()?.isNotEmpty() == true) {
+            showReviewDialog()
+        }
 
         if (!themeChangeFlag) {
             // Check if API calls are already in progress
@@ -92,17 +104,13 @@ class Home : Fragment() {
 
         val dataRanking = UserM.getDataRanking()
         dataRanking.observe(viewLifecycleOwner) {
-            if (it.rankSystem.userRanking.size == 1) {
-                binding.layoutTop2.visibility = View.GONE
-                binding.layoutTop3.visibility = View.GONE
-            } else if (it.rankSystem.userRanking.size == 2) {
-                binding.layoutTop2.visibility = View.VISIBLE
-                binding.layoutTop3.visibility = View.GONE
-            } else if (it.rankSystem.userRanking.size >= 3) {
-                binding.txtTop1NameHome.text = it.rankSystem.userRanking[0].userName
-                binding.txtTop2NameHome.text = it.rankSystem.userRanking[1].userName
-                binding.txtTop3NameHome.text = it.rankSystem.userRanking[2].userName
-            }
+            binding.podiumView.setPodiumData(
+                it, it, it,
+                item1 = "2" to "Avenger",
+                item2 = "1" to "Super hero",
+                item3 = "3" to "Hero"
+            )
+
             if (it.currentScore > 7000) {
                 binding.btnUpgradeFeature.visibility = View.GONE
                 binding.txtVerified.visibility = View.VISIBLE
@@ -123,7 +131,6 @@ class Home : Fragment() {
                     startActivity(i)
                 }
             }
-
         }
 
         binding.searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
@@ -151,20 +158,18 @@ class Home : Fragment() {
             startActivity(i)
         }
 
-        binding.txtViewAllQuote.setOnClickListener {
-            val i = Intent(context, QuoteInLanguage::class.java)
-            startActivity(i)
-        }
-
-        binding.txtGoQuote.setOnClickListener {
-            val i = Intent(context, QuoteInLanguage::class.java)
-            startActivity(i)
-        }
+//        binding.txtViewAllQuote.setOnClickListener {
+//            val i = Intent(context, QuoteInLanguage::class.java)
+//            startActivity(i)
+//        }
+//
+//        binding.txtGoQuote.setOnClickListener {
+//            val i = Intent(context, QuoteInLanguage::class.java)
+//            startActivity(i)
+//        }
 
 
 //        displayCheckedDates()
-
-
         return binding.root
     }
 
@@ -180,7 +185,6 @@ class Home : Fragment() {
         }
 
         streakTextView = binding.txtCountStreak
-
 
         binding.txtFolderViewAll.setOnClickListener {
             (requireActivity() as MainActivity_Logged_In).selectBottomNavItem(
@@ -219,12 +223,21 @@ class Home : Fragment() {
                 }
             }, false)
 
+        adapterRecommendationListSet =
+            SolutionItemAdapter(listRcmSets, object : RvClickSearchSet {
+                override fun handleClickSetSearch(position: Int) {
+                    val intent = Intent(requireContext(), StudySetDetail::class.java)
+                    intent.putExtra("setId", listStudySet[position].id)
+                    startActivity(intent)
+                }
+            })
 
 //PagerSnapHelper will provide the smooth swipe effect in the horizontal RecyclerView,
         val snapHelper = PagerSnapHelper()
         val snapHelperFolder = PagerSnapHelper()
         snapHelperFolder.attachToRecyclerView(binding.rvHomeFolders)
         snapHelper.attachToRecyclerView(binding.rvHomeStudySet)
+        snapHelper.attachToRecyclerView(binding.rvListRecommendationLists)
 
 
         val userData = UserM.getUserData()
@@ -232,6 +245,7 @@ class Home : Fragment() {
             listFolderItems.clear()
             listStudySet.clear()
             listFolderItems.addAll(it.documents.folders)
+
             listStudySet.addAll(Helper.getAllStudySets(it))
             if (listFolderItems.isEmpty()) {
                 binding.rvHomeFolders.visibility = View.GONE
@@ -252,9 +266,26 @@ class Home : Fragment() {
             adapterHomeStudySet.notifyDataSetChanged()
         }
 
+
+        UserM.getAllStudySets().observe(viewLifecycleOwner) {
+            listRcmSets.clear()
+            listRcmSets.addAll(Helper.getRecommendedStudySets(it, listStudySet))
+
+            if (listRcmSets.isEmpty()) {
+                binding.layoutRecommendationList.visibility = View.GONE
+            } else {
+                binding.layoutRecommendationList.visibility = View.VISIBLE
+            }
+            adapterRecommendationListSet.notifyDataSetChanged()
+        }
+
         // Access the RecyclerView through the binding
         rvHomeFolder.adapter = adapterHomeFolder
         rvStudySet.adapter = adapterHomeStudySet
+        binding.rvListRecommendationLists.adapter = adapterRecommendationListSet
+        binding.rvListRecommendationLists.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
 
         binding.txtViewAll.setOnClickListener {
             val i = Intent(context, Achievement::class.java)
@@ -275,7 +306,6 @@ class Home : Fragment() {
             val intent = Intent(context, TranslateActivity::class.java)
             startActivity(intent)
         }
-
 
         val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.START or ItemTouchHelper.END,
@@ -312,7 +342,6 @@ class Home : Fragment() {
                 // Đặt lại thuộc tính khi kéo kết thúc
                 viewHolder.itemView.animate().translationY(0f).alpha(1f).setDuration(300).start()
             }
-
         })
 
         itemTouchHelper.attachToRecyclerView(rvHomeFolder)
@@ -383,10 +412,6 @@ class Home : Fragment() {
             recyclerViewDay.adapter = dayAdapter
         })
 
-        binding.txtStory.setOnClickListener {
-            val intent = Intent(requireContext(), StoryActivity::class.java)
-            startActivity(intent)
-        }
 
     }
 
@@ -495,6 +520,50 @@ class Home : Fragment() {
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         requireActivity().finish()
+    }
+
+    private fun getAllStudySet() {
+        try {
+            lifecycleScope.launch {
+                val result = apiService.getAllSet()
+                if (result.isSuccessful) {
+                    result.body()?.let {
+                        UserM.setAllStudySet(it)
+                    }
+                } else {
+                    result.errorBody()?.string()?.let {
+                        Log.e("Error get rank 0", "Error response: ${Gson().toJson(it)}")
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Timber.e(e)
+        }
+    }
+
+    private fun loadSuggestedFlashcards(): List<FlashCardModel>? {
+        val sharedPreferences = context?.getSharedPreferences("quizlet_prefs", Context.MODE_PRIVATE)
+        val jsonFlashcards = sharedPreferences?.getString("suggested_flashcards", null)
+        return if (jsonFlashcards != null) {
+            Gson().fromJson(jsonFlashcards, Array<FlashCardModel>::class.java).toList()
+        } else {
+            null
+        }
+    }
+
+    private fun showReviewDialog() {
+        val jsonList = Gson().toJson(loadSuggestedFlashcards())
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Ôn luyện cần thiết")
+            .setMessage("Bạn có một số câu trả lời sai, hãy vào ôn luyện.")
+            .setPositiveButton("Bắt đầu ôn luyện") { _, _ ->
+                val i = Intent(requireContext(), WelcomeToLearn::class.java)
+                i.putExtra("listCardTest", jsonList)
+                startActivity(i)
+            }
+            .setNegativeButton("Để sau", null)
+            .setCancelable(false)
+            .show()
     }
 
 }

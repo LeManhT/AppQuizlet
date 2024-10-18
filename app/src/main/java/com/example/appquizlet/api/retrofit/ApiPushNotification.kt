@@ -1,5 +1,6 @@
 package com.example.appquizlet.api.retrofit
 
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
@@ -10,7 +11,7 @@ interface ApiPushNotification {
         "Authorization: key=AAAARXQOT2I:APA91bE2gz0e-e3FkKfk9Usv0GU94XcmWzhATTsAwhw5ykttQUa7boDCiH0I9tz1FSjwmpZT2lHL0z6YO0oX89wYswbJ9mUH2DiHNQusslHzGzLNVqjEXzPElj-ONGchvQQ9bonVWgkF"
     )
     @POST("fcm/send")
-    suspend fun sendNotificationToServer(@Body notificationData: NotificationData)
+    suspend fun sendNotificationToServer(@Body notificationData: NotificationData): Response<Any>
 }
 
 data class NotificationData(

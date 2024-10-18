@@ -1,9 +1,9 @@
 package com.example.appquizlet.admin
 
 import android.app.Dialog
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.text.Editable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +12,12 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.appquizlet.R
 import com.example.appquizlet.databinding.FragmentEditUserBinding
 import com.example.appquizlet.model.UpdateUserResponse
-import com.example.appquizlet.viewmodel.admin.AdminViewModel
+import com.example.appquizlet.viewmodel.document.DocumentViewModel
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -26,8 +27,9 @@ import okhttp3.RequestBody
 @AndroidEntryPoint
 class FragmentEditUser : DialogFragment(), View.OnFocusChangeListener {
     private lateinit var binding: FragmentEditUserBinding
-    private val adminViewModel by viewModels<AdminViewModel>()
+    private val documentViewModel by viewModels<DocumentViewModel>()
     private val args: FragmentEditUserArgs by navArgs()
+    private lateinit var progressDialog: ProgressDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,16 +58,17 @@ class FragmentEditUser : DialogFragment(), View.OnFocusChangeListener {
 //        binding.edtEditImageUrl.text =
 //            Editable.Factory.getInstance().newEditable(args.user)
 
+        documentViewModel.updateUserInfoResponse.observe(viewLifecycleOwner) {
+            findNavController().popBackStack()
+            progressDialog.dismiss()
+        }
+
         binding.btnSaveEditContact.setOnClickListener {
             val newName = binding.edtName.text.toString()
             val newDOB = binding.edtDOB.text.toString()
             val newEmail = binding.edtEmail.text.toString()
             val newImageUrl = binding.edtEditImageUrl.text.toString()
 
-            Log.d(
-                "FragmentEditUser",
-                "newName: $newName old name ${args.user.userName}  email ${newEmail}"
-            )
             if (newName == args.user.userName && newEmail == args.user.email) {
                 Toast.makeText(
                     context, "No changes detected. Data remains unchanged.", Toast.LENGTH_SHORT
@@ -88,8 +91,10 @@ class FragmentEditUser : DialogFragment(), View.OnFocusChangeListener {
                             RequestBody.create("application/json".toMediaTypeOrNull(), json)
 
                         lifecycleScope.launch {
-//                            documentViewModel.updateUserInfo(args.user.id, requestBody)
+                            showLoading("Updating user info ...")
+                            documentViewModel.updateUserInfo(args.user.id, requestBody)
                         }
+
                     } else {
                         Toast.makeText(
                             context,
@@ -156,6 +161,10 @@ class FragmentEditUser : DialogFragment(), View.OnFocusChangeListener {
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
+    }
+
+    private fun showLoading(msg: String) {
+        progressDialog = ProgressDialog.show(context, null, msg)
     }
 
 }

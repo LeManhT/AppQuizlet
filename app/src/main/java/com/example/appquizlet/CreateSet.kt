@@ -10,7 +10,6 @@ import android.content.pm.PackageManager
 import android.graphics.Canvas
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
@@ -21,6 +20,7 @@ import android.view.View
 import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -58,7 +58,6 @@ import org.apache.poi.ss.usermodel.CellType
 import org.apache.poi.ss.usermodel.Workbook
 import org.apache.poi.ss.usermodel.WorkbookFactory
 import java.io.FileInputStream
-import java.util.ArrayList
 import java.util.Collections
 import java.util.Locale
 
@@ -150,7 +149,7 @@ class CreateSet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListener 
         }
         binding.iconTickCreateSet.setOnClickListener {
             val name = binding.txtNameStudySet.text.toString()
-            val desc = binding.txtDescription.toString()
+            val desc = binding.txtDescription.text.toString()
             val userId = Helper.getDataUserId(this)
 
             // Lấy danh sách CreateSetModel từ adapter

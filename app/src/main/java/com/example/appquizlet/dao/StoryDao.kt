@@ -25,4 +25,8 @@ interface StoryDao {
 
     @Query("SELECT * FROM stories WHERE id = :storyId")
     suspend fun getStoryById(storyId: Int): Story?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(stories: List<Story>)
+
 }

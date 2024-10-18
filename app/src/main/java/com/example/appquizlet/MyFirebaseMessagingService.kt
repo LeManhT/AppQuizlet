@@ -115,6 +115,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 //                remoteMessage.notification!!.title.toString(),
 //                remoteMessage.notification!!.body.toString()
 //            )
+            remoteMessage.notification?.let {
+                Log.d("FCM", "Message Notification Title: ${it.title}")
+                Log.d("FCM", "Message Notification Body: ${it.body}")
+                // Display notification to user using NotificationManager
+            }
             createRemindNotification()
         }
     }

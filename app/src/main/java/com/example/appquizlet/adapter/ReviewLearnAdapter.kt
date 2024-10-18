@@ -34,7 +34,7 @@ class ReviewLearnAdapter(
     private var countAnswer: Int = 0
 
     private var listFlashcards: List<FlashCardModel> = mutableListOf()
-
+    private var suggestedFlashcards: MutableList<FlashCardModel> = mutableListOf()
 
     inner class ReviewLearnHolder(val binding: ActivityReviewKnowledgeBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -49,8 +49,6 @@ class ReviewLearnAdapter(
     }
 
     override fun onBindViewHolder(holder: ReviewLearnHolder, position: Int) {
-
-
         val progressBar: ProgressBar = holder.itemView.findViewById(R.id.questionProgressBar)
         val tvTimer: TextView = holder.itemView.findViewById(R.id.tvTimer)
 
@@ -94,14 +92,17 @@ class ReviewLearnAdapter(
         textOptionCard3.text = options[2].definition ?: ""
 
         holder.binding.cardViewAnswer1.setOnClickListener {
+            Log.d("cardViewAnswer1", selectedAnswer.toString())
             handleAnswerSelection(holder, holder.binding.cardViewAnswer1, options[0], position)
         }
 
         holder.binding.cardViewAnswer2.setOnClickListener {
+            Log.d("cardViewAnswer2", selectedAnswer.toString())
             handleAnswerSelection(holder, holder.binding.cardViewAnswer2, options[1], position)
         }
 
         holder.binding.cardViewAnswer3.setOnClickListener {
+            Log.d("cardViewAnswer2", selectedAnswer.toString())
             handleAnswerSelection(holder, holder.binding.cardViewAnswer3, options[2], position)
         }
         holder.binding.submitButton.setOnClickListener {
@@ -139,6 +140,7 @@ class ReviewLearnAdapter(
         position: Int
     ) {
 //        if (!isQuestionAnswered) {
+        Log.d("CardView", "CardView clicked for position: $position")
         if (listFlashcards[position].isAnswer == false) {
             holder.binding.cardViewAnswer1.setCardBackgroundColor(
                 ContextCompat.getColor(context, android.R.color.holo_orange_light)
@@ -173,6 +175,7 @@ class ReviewLearnAdapter(
         } else {
             showIncorrectDialog(correctAnswer)
             countFalse = countFalse!! + 1;
+            suggestedFlashcards.add(listFlashcards[holder.bindingAdapterPosition])
         }
         holder.binding.cardViewAnswer1.setCardBackgroundColor(
             ContextCompat.getColor(context, android.R.color.holo_orange_light)
@@ -247,7 +250,13 @@ class ReviewLearnAdapter(
     private fun scrollToNextQuestion() {
         countAnswer++
         val nextPosition = recyclerView.getChildAdapterPosition(recyclerView.getChildAt(0)) + 1
+        val incorrectPercentage = (countFalse?.toDouble() ?: 0.0) / listFlashcards.size * 100
         if (countAnswer >= listFlashcards.size) {
+
+            if (incorrectPercentage > 50) {
+                saveSuggestedFlashcards(suggestedFlashcards)
+            }
+
             val i = Intent(context, Excellent::class.java)
             val bundle = Bundle()
             countTrue?.let { bundle.putInt("countTrue", it) }
@@ -286,5 +295,11 @@ class ReviewLearnAdapter(
         }
     }
 
-
+    private fun saveSuggestedFlashcards(flashcards: List<FlashCardModel>) {
+        val sharedPreferences = context.getSharedPreferences("quizlet_prefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        val jsonFlashcards = Gson().toJson(flashcards)
+        editor.putString("suggested_flashcards", jsonFlashcards)
+        editor.apply()
+    }
 }

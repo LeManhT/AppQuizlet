@@ -66,6 +66,15 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/txtStory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:text="@string/story"
+        android:textColor="@color/txt_black_primary" />
+
     <com.airbnb.lottie.LottieAnimationView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
