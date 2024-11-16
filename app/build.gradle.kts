@@ -13,12 +13,12 @@ plugins {
 
 android {
     namespace = "com.example.appquizlet"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.appquizlet"
         minSdk = 28
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.3.5"
 
@@ -112,6 +112,9 @@ dependencies {
 
     // To recognize Latin script
     implementation("com.google.mlkit:text-recognition:16.0.0")
+
+    // Kotlin
+    implementation("androidx.biometric:biometric:1.4.0-alpha02")
 
     // To recognize Chinese script
     implementation("com.google.mlkit:text-recognition-chinese:16.0.0")

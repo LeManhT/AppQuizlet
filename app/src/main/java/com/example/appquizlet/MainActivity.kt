@@ -6,9 +6,14 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
+import android.security.keystore.KeyGenParameterSpec
+import android.security.keystore.KeyProperties
+import android.util.Base64
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
 import androidx.lifecycle.lifecycleScope
 import com.example.appquizlet.api.retrofit.ApiService
 import com.example.appquizlet.api.retrofit.RetrofitHelper
@@ -16,13 +21,15 @@ import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.ActivityMainBinding
 import com.example.appquizlet.model.DetectContinueModel
 import com.example.appquizlet.model.UserM
-import com.example.appquizlet.util.Helper
 import com.google.gson.JsonObject
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.security.KeyStore
 import java.util.Locale
+import javax.crypto.Cipher
+import javax.crypto.KeyGenerator
+import javax.crypto.SecretKey
 
 private lateinit var binding: ActivityMainBinding
 
@@ -31,6 +38,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var sharedPreferencesTheme: SharedPreferences
     private lateinit var progressDialog: ProgressDialog
     private lateinit var apiService: ApiService
+    private var username: String = ""
+    private var password: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,8 +54,8 @@ class MainActivity : AppCompatActivity() {
         updateLocale(Locale(mylang))
 
         val sharedPreferences = this.getSharedPreferences("idUser", Context.MODE_PRIVATE)
-        val username = sharedPreferences.getString("key_username", "")
-        val password = sharedPreferences.getString("key_userPass", "")
+        username = sharedPreferences.getString("key_username", "")
+        password = sharedPreferences.getString("key_userPass", "")
 
         sharedPreferencesTheme = this.getSharedPreferences("changeTheme", Context.MODE_PRIVATE)
 
@@ -56,8 +65,34 @@ class MainActivity : AppCompatActivity() {
             else -> setThemeMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
 
-        if (username?.isNotEmpty() == true && password?.isNotEmpty() == true) {
-            loginUser(username, password)
+        // Generate the key if it doesn't exist
+        try {
+            val keyStore = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
+            if (!keyStore.containsAlias("BiometricKeyAlias")) {
+                createKey()
+            }
+        } catch (e: Exception) {
+            Log.e("KeyStoreError", "Error accessing or creating key: ${e.message}")
+        }
+
+        if (username?.isNotEmpty() == true) {
+//            val encryptedPassword = getEncryptedPassword()
+//            if (encryptedPassword != null) {
+//                authenticateWithBiometricForLogin(encryptedPassword)
+//            } else if (password?.isNotEmpty() == true) {
+//                loginUser(username!!, password!!)
+//                saveEncryptedPassword(password!!)
+//            } else {
+//                val i = Intent(this@MainActivity, SplashActivity::class.java)
+//                startActivity(i)
+//            }
+            val biometricManager = BiometricManager.from(this)
+            if (biometricManager.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS) {
+                authenticateWithBiometric()
+            } else {
+                loginUser(username, password)
+                Log.e("BiometricAuth", "Thiết bị không hỗ trợ sinh trắc học.")
+            }
         } else {
             val i = Intent(this@MainActivity, SplashActivity::class.java)
             startActivity(i)
@@ -130,12 +165,6 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
             } catch (e: Exception) {
-//                CustomToast(this@MainActivity).makeText(
-//                    this@MainActivity,
-//                    e.message.toString(),
-//                    CustomToast.LONG,
-//                    CustomToast.ERROR
-//                ).show()
                 Log.d("hhehhehe111", e.message.toString())
                 val intent = Intent(this@MainActivity, SplashActivity::class.java)
                 startActivity(intent)
@@ -146,7 +175,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showLoading(msg: String) {
-        progressDialog = ProgressDialog.show(this@MainActivity, null, msg)
+        progressDialog =
+            ProgressDialog.show(this, resources.getString(R.string.logging_in), msg)
+        progressDialog.show()
     }
 
     private fun setThemeMode(mode: Int) {
@@ -157,5 +188,150 @@ class MainActivity : AppCompatActivity() {
             apply()
         }
     }
+
+    private fun createKey() {
+        val keyStore = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
+        val keyGenerator = KeyGenerator.getInstance(
+            KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore"
+        )
+
+        keyGenerator.init(
+            KeyGenParameterSpec.Builder(
+                "BiometricKeyAlias",
+                KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
+            )
+                .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
+                .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
+                .setUserAuthenticationRequired(true) // Bắt buộc xác thực sinh trắc học
+                .build()
+        )
+        keyGenerator.generateKey()
+    }
+
+    //Khởi tạo đối tượng Cipher từ khóa trong Keystore.
+    private fun getCipher(): Cipher {
+        val keyStore = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
+        val secretKey = keyStore.getKey("BiometricKeyAlias", null) as SecretKey
+        val cipher = Cipher.getInstance("AES/CBC/PKCS7Padding")
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey) // Hoặc DECRYPT_MODE cho giải mã
+        return cipher
+    }
+
+    private fun authenticateWithBiometricForLogin(encryptedPassword: ByteArray) {
+        val cipher = getCipher()
+        val cryptoObject = BiometricPrompt.CryptoObject(cipher)
+
+        val biometricPrompt = BiometricPrompt(
+            this,
+            { command -> runOnUiThread(command) },
+            object : BiometricPrompt.AuthenticationCallback() {
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    super.onAuthenticationSucceeded(result)
+//                    result.cryptoObject?.cipher?.let { decryptCipher ->
+//                        val decryptedPassword = decryptData(encryptedPassword, decryptCipher)
+//                        username?.let { loginUser(it, decryptedPassword) }
+//                    }
+
+                    username?.let { password?.let { it1 -> loginUser(it, it1) } }
+
+                }
+
+                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                    super.onAuthenticationError(errorCode, errString)
+                    Log.e("BiometricAuth", "Authentication error: $errString")
+                }
+
+                override fun onAuthenticationFailed() {
+                    super.onAuthenticationFailed()
+                    Log.e("BiometricAuth", "Authentication failed")
+                }
+            }
+        )
+
+        val promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Đăng nhập bằng sinh trắc học")
+            .setSubtitle("Xác thực vân tay để đăng nhập")
+            .setNegativeButtonText("Hủy")
+            .build()
+
+        biometricPrompt.authenticate(promptInfo, cryptoObject)
+    }
+
+    private fun encryptData(data: String, cipher: Cipher): ByteArray {
+        return cipher.doFinal(data.toByteArray(Charsets.UTF_8))
+    }
+
+    private fun decryptData(encryptedData: ByteArray, cipher: Cipher): String {
+        return String(cipher.doFinal(encryptedData), Charsets.UTF_8)
+    }
+
+
+    private fun authenticateWithBiometric() {
+        val cipher = getCipher()
+        val cryptoObject = BiometricPrompt.CryptoObject(cipher)
+
+        val biometricPrompt = BiometricPrompt(
+            this,
+            { command -> runOnUiThread(command) },
+            object : BiometricPrompt.AuthenticationCallback() {
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    super.onAuthenticationSucceeded(result)
+//                    result.cryptoObject?.cipher?.let { cipher ->
+//                        // Sau khi xác thực thành công, thực hiện mã hóa
+//                        val encryptedData = encryptData("SensitiveData", cipher)
+//                        Log.d("BiometricCrypto", "Encrypted Data: ${encryptedData.contentToString()}")
+//
+//                        // Thực hiện giải mã
+//                        val decryptedData = decryptData(encryptedData, cipher)
+//                        Log.d("BiometricCrypto", "Decrypted Data: $decryptedData")
+//                    }
+
+                    username?.let { password?.let { it1 -> loginUser(it, it1) } }
+
+                }
+
+                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                    super.onAuthenticationError(errorCode, errString)
+                    Log.e("BiometricCrypto", "Authentication error: $errString")
+                }
+
+                override fun onAuthenticationFailed() {
+                    super.onAuthenticationFailed()
+                    Log.e("BiometricCrypto", "Authentication failed")
+                }
+            }
+        )
+
+        val promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Xác thực sinh trắc học")
+            .setSubtitle("Sử dụng vân tay để mã hóa dữ liệu")
+            .setNegativeButtonText("Hủy")
+            .build()
+
+        biometricPrompt.authenticate(promptInfo, cryptoObject)
+    }
+
+
+    private fun saveEncryptedPassword(password: String) {
+        val cipher = getCipher()
+        val encryptedPassword = encryptData(password, cipher)
+        sharedPreferences.edit().putString("encrypted_password", encryptedPassword.toBase64())
+            .apply()
+    }
+
+    private fun getEncryptedPassword(): ByteArray? {
+        val encryptedPasswordBase64 = sharedPreferences.getString("encrypted_password", null)
+        return encryptedPasswordBase64?.fromBase64()
+    }
+
+
+    fun ByteArray.toBase64(): String {
+        return Base64.encodeToString(this, Base64.DEFAULT)
+    }
+
+    fun String.fromBase64(): ByteArray {
+        return Base64.decode(this, Base64.DEFAULT)
+    }
+
 
 }

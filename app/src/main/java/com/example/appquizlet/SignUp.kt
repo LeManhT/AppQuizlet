@@ -253,7 +253,6 @@ class SignUp : AppCompatActivity(), View.OnClickListener, View.OnFocusChangeList
     private fun createNewUser(email: String, pass: String, dob: String) {
         lifecycleScope.launch {
             showLoading()
-
             try {
                 val body = JsonObject().apply {
                     addProperty(resources.getString(R.string.loginNameField), email)
