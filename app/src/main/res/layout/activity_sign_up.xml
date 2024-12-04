@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
-    tools:context=".SignUp">
+    tools:context=".SignUpActivity">
     <!-- Thêm một Toolbar vào layout -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"

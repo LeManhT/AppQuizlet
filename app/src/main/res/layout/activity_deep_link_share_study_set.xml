@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/bg_profile"
-    tools:context=".DeepLinkShareStudySet">
+    tools:context=".ui.activities.DeepLinkShareStudySet">
 
     <RelativeLayout
         android:id="@+id/layout_has_data"

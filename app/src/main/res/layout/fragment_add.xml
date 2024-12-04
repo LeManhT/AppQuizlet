@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/dialog_bg"
-    tools:context=".Add">
+    tools:context=".ui.fragments.FragmentAddDialog">
 
     <!-- Drag handle for accessibility -->
     <com.google.android.material.bottomsheet.BottomSheetDragHandleView

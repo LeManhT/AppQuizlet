@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_profile"
     android:padding="@dimen/pad_20"
-    tools:context=".FragmentSearchUser">
+    tools:context=".ui.fragments.FragmentSearchUser">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

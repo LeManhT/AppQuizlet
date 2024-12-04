@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     android:background="@drawable/bg_profile"
-    tools:context=".SplashActivity">
+    tools:context=".ui.activities.SplashActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"

@@ -20,6 +20,11 @@ import androidx.fragment.app.Fragment
 import com.example.appquizlet.databinding.ActivityMainLoggedInBinding
 import com.example.appquizlet.model.MethodModel
 import com.example.appquizlet.notification.NotificationUtils
+import com.example.appquizlet.ui.fragments.FragmentAddDialog
+import com.example.appquizlet.ui.fragments.FragmentHome
+import com.example.appquizlet.ui.fragments.FragmentLibrary
+import com.example.appquizlet.ui.fragments.FragmentProfile
+import com.example.appquizlet.ui.fragments.FragmentSolution
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 
@@ -98,13 +103,13 @@ class MainActivity_Logged_In : AppCompatActivity() {
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
-                R.id.bottom_home -> replaceFragment(Home())
-                R.id.bottom_solution -> replaceFragment(Solution())
+                R.id.bottom_home -> replaceFragment(FragmentHome())
+                R.id.bottom_solution -> replaceFragment(FragmentSolution())
                 R.id.bottom_add -> showDialogBottomSheet()
-                R.id.bottom_library -> replaceFragment(Library())
-                R.id.bottom_edit_account -> replaceFragment(Profile())
+                R.id.bottom_library -> replaceFragment(FragmentLibrary())
+                R.id.bottom_edit_account -> replaceFragment(FragmentProfile())
                 else -> {
-                    replaceFragment(Home())
+                    replaceFragment(FragmentHome())
                 }
             }
             true
@@ -117,7 +122,7 @@ class MainActivity_Logged_In : AppCompatActivity() {
         if (isFirstTime) {
             // It's the first time, replace the fragment
             supportFragmentManager.beginTransaction()
-                .replace(R.id.frameLayout, Home())
+                .replace(R.id.frameLayout, FragmentHome())
                 .commit()
 
             // Mark that the app has been launched
@@ -127,7 +132,7 @@ class MainActivity_Logged_In : AppCompatActivity() {
         val selectedFragmentTag = intent.getStringExtra("selectedFragment")
         val createMethod = intent.getStringExtra("createMethod")
         if (selectedFragmentTag != null) {
-            val libraryFragment = Library.newInstance()
+            val fragmentLibraryFragment = FragmentLibrary.newInstance()
             if (createMethod == "createFolder") {
                 selectBottomNavItem(selectedFragmentTag, createMethod)
 //                this.replaceFragment(libraryFragment)
@@ -150,9 +155,9 @@ class MainActivity_Logged_In : AppCompatActivity() {
     }
 
     private fun showDialogBottomSheet() {
-        val addBottomSheet = Add()
+        val fragmentAddDialogBottomSheet = FragmentAddDialog()
         val transaction = supportFragmentManager.beginTransaction()
-        addBottomSheet.show(transaction, Add.TAG)
+        fragmentAddDialogBottomSheet.show(transaction, FragmentAddDialog.TAG)
     }
 
     fun replaceFragment(fragment: Fragment) {

@@ -11,7 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.appquizlet.ItemAchievementBottomSheet
+import com.example.appquizlet.ui.fragments.ItemAchievementBottomSheet
 import com.example.appquizlet.R
 import com.example.appquizlet.model.TaskData
 import com.example.appquizlet.util.Helper

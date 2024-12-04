@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_profile"
     android:orientation="vertical"
-    tools:context=".Achievement">
+    tools:context=".ui.activities.AchievementActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/add_course_bottomsheet"
-    tools:context=".FragmentAddCourse">
+    tools:context=".ui.fragments.FragmentAddCourse">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/headerWrap"

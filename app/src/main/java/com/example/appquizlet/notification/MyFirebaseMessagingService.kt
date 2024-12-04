@@ -10,7 +10,7 @@ import android.util.Log
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import com.example.appquizlet.R
-import com.example.appquizlet.SplashActivity
+import com.example.appquizlet.ui.activities.SplashActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 

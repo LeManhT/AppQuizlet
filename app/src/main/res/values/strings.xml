@@ -66,7 +66,6 @@
     <string name="recent_sets">Recent sets will not be downloaded</string>
     <string name="help_center">Help Center</string>
     <string name="about">About</string>
-    <string name="version">Version</string>
     <string name="log_out">Log out</string>
     <string name="course">Course</string>
     <string name="add_course_text">Add a course so we can get the best study content to you</string>
@@ -438,7 +437,6 @@
     <string name="operation_successful">Execute successfully</string>
     <string name="error_occurred">Error occurred</string>
     <string name="manage_users">Manage Users</string>
-    <string name="app_logo">App Logo</string>
     <string name="vn">VN</string>
     <string name="manage_study_sets">Manage Study Sets</string>
     <string name="manage_user">Manage User</string>
@@ -476,4 +474,60 @@
     <string name="story">Story</string>
     <string name="rcm_list_sets">Recommendation list</string>
     <string name="manage_notification">Manage Notification</string>
+
+
+    <string name="login_instructions">Welcome!\nEnter a username below or go anonymous</string>
+    <string name="username_hint">Username</string>
+    <string name="login_button">Log In</string>
+
+    <!-- Main Activity -->
+    <string name="message_hint">Type a message…</string>
+    <string name="send_button">Send</string>
+    <string name="action_logout">Log Out</string>
+    <string name="action_clear_chat_history">Clear Chat History</string>
+
+    <!-- Chat Bubbles Placeholders -->
+    <string name="message_sent_placeholder">hello, world!</string>
+    <string name="message_sent_creation_time_placeholder">11:40 AM</string>
+    <string name="message_received_placeholder">Sure, I\'m the world! Turn off lights you don\'t use and help save me.</string>
+    <string name="message_received_creation_time_placeholder">11:42 AM</string>
+    <string name="message_received_author_placeholder">The World</string>
+
+    <!-- About Activity -->
+    <string name="app_logo">app logo</string>
+    <string name="about_button">About</string>
+    <string name="feedback_button">Feedback</string>
+    <string name="app_version_placeholder">v0.1.0</string>
+    <string name="version">Version</string>
+    <string name="about_activity_label">About</string>
+    <string name="developer_name">Esdras Lopez</string>
+    <string name="developer_title">Developer</string>
+    <string name="dev_website_button">Website</string>
+    <string name="dev_github_button">GitHub</string>
+    <string name="dev_twitter_button">Twitter</string>
+    <string name="designer_linkedin_button">LinkedIn</string>
+    <string name="designer_name">Kristin Lopez</string>
+    <string name="designer_title">Designer</string>
+    <string name="dev_linkedin_button">LinkedIn</string>
+    <string name="licenses_button">Licenses</string>
+    <string name="licenses_activity_label">Open Source Licenses</string>
+    <string name="source_code_button">Source Code</string>
+
+    <!-- Feedback Dialog -->
+    <string name="play_store_review_button">Write a Play Store Review</string>
+    <string name="github_issue_button">Create a GitHub Issue</string>
+    <string name="contact_developer_button">Contact Developer</string>
+    <string name="email_app_not_found_error">Could not find an email app</string>
+    <string name="feedback_email_placeholder">Remove this text to prove you are not a robot.</string>
+    <string name="feedback_email_subject_ending">Feedback</string>
+
+    <!-- Empty View -->
+    <string name="empty_view_message"><b>Out in space</b>\nSend a signal?</string>
+    <string name="empty_view_image">Empty View Image</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_copy">Copy</string>
+    <string name="send_to">Share</string>
+    <string name="message_copied_notification">Message copied</string>
+
+
 </resources>

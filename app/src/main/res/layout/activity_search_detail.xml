@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_profile"
     android:orientation="vertical"
-    tools:context=".SearchDetail">
+    tools:context=".ui.activities.SearchDetail">
 
     <RelativeLayout
         android:id="@+id/layout_has_data"

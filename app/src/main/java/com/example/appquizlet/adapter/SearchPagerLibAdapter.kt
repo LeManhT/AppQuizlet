@@ -4,9 +4,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.appquizlet.FragmentAllResults
-import com.example.appquizlet.FragmentSearchSet
-import com.example.appquizlet.FragmentSearchUser
+import com.example.appquizlet.ui.fragments.FragmentAllResults
+import com.example.appquizlet.ui.fragments.FragmentSearchSet
+import com.example.appquizlet.ui.fragments.FragmentSearchUser
 
 class SearchPagerLibAdapter(fragment: FragmentManager, lifecycle: Lifecycle) :
     FragmentStateAdapter(fragment, lifecycle) {

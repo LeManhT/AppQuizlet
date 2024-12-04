@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.appquizlet.R
-import com.example.appquizlet.SplashActivity
+import com.example.appquizlet.ui.activities.SplashActivity
 import com.example.appquizlet.databinding.FragmentProfileAdminBinding
 import com.example.appquizlet.viewmodel.admin.AdminViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder

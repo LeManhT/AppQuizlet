@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#E7F3F8"
     android:orientation="vertical"
-    tools:context=".ChangeEmail">
+    tools:context=".ui.activities.ChangeEmailActivity">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout

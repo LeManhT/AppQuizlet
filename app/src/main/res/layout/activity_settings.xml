@@ -8,7 +8,7 @@
     android:background="@drawable/bg_profile"
     android:fillViewport="true"
     android:orientation="vertical"
-    tools:context=".Settings">
+    tools:context=".ui.activities.Settings">
 
     <LinearLayout
         android:layout_width="match_parent"

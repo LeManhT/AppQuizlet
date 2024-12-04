@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:paddingHorizontal="@dimen/pad_20"
     android:paddingVertical="@dimen/mar_10"
-    tools:context=".FragmentSortTerm">
+    tools:context=".ui.fragments.FragmentSortTerm">
 
 
     <TextView

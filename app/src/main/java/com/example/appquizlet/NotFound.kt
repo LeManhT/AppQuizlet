@@ -7,21 +7,17 @@ import android.view.WindowManager
 import android.widget.Toast
 import com.example.appquizlet.databinding.ActivityNotFoundBinding
 
-private lateinit var binding: ActivityNotFoundBinding
 
 class NotFound : AppCompatActivity() {
+    private lateinit var binding: ActivityNotFoundBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNotFoundBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        window.setFlags(
-//            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//            WindowManager.LayoutParams.FLAG_FULLSCREEN
-//        )
-
         binding.btnGoHome.setOnClickListener {
-            var intent = Intent(this, MainActivity_Logged_In::class.java)
+            val intent = Intent(this, MainActivity_Logged_In::class.java)
             startActivity(intent)
         }
     }

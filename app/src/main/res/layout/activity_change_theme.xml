@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_profile"
     android:orientation="vertical"
-    tools:context=".ChangeTheme">
+    tools:context=".ui.activities.ChangeThemeActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/headerWrap"

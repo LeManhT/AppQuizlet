@@ -6,12 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.appquizlet.ItemAchievementBottomSheet
-import com.example.appquizlet.ItemUserRankDetail
+import com.example.appquizlet.ui.fragments.ItemUserRankDetail
 import com.example.appquizlet.databinding.RankLeaderBoardItemBinding
 import com.example.appquizlet.model.RankItemModel
-import com.example.appquizlet.model.RankResultModel
-import com.example.appquizlet.model.TaskData
 import com.example.appquizlet.util.Helper
 
 class RankItemAdapter(

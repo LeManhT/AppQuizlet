@@ -50,28 +50,28 @@
             android:name=".admin.FragmentManageNotification"
             android:exported="false" />
         <activity
-            android:name=".StoryActivity"
+            android:name=".ui.activities.StoryActivity"
             android:exported="false" />
         <activity
-            android:name=".AdminActivity"
+            android:name=".ui.activities.AdminActivity"
             android:exported="false" />
         <activity
             android:name=".admin.FragmentLoginAdmin"
             android:exported="false" />
         <activity
-            android:name=".SearchQuoteActivity"
+            android:name=".ui.activities.SearchQuoteActivity"
             android:exported="false" />
         <activity
-            android:name=".MyQuote"
+            android:name=".ui.activities.MyQuote"
             android:exported="false" />
         <activity
-            android:name=".CreateQuote"
+            android:name=".ui.activities.CreateQuoteActivity"
             android:exported="false" />
         <activity
-            android:name=".QuoteInLanguage"
+            android:name=".ui.activities.QuoteInLanguage"
             android:exported="false" />
         <activity
-            android:name=".ViewImage"
+            android:name=".ui.activities.ViewImage"
             android:exported="false"
             android:label="@string/title_activity_view_image"
             android:theme="@style/Theme.AppQuizlet" />
@@ -86,10 +86,10 @@
         </receiver>
 
         <activity
-            android:name=".QuizletPlus"
+            android:name=".ui.fragments.FragmentQuizletPlus"
             android:exported="false" />
         <activity
-            android:name=".TranslateActivity"
+            android:name=".ui.activities.TranslateActivity"
             android:exported="false" />
 
         <provider
@@ -134,19 +134,19 @@
         </service>
 
         <activity
-            android:name=".RankLeaderBoard"
+            android:name=".ui.activities.RankLeaderBoard"
             android:exported="false" />
         <activity
-            android:name=".SearchDetail"
+            android:name=".ui.activities.SearchDetail"
             android:exported="false" />
         <activity
-            android:name=".ChangeEmail"
+            android:name=".ui.activities.ChangeEmailActivity"
             android:exported="false" />
         <activity
-            android:name=".SearchNoLogin"
+            android:name=".ui.activities.SearchNoLogin"
             android:exported="false" />
         <activity
-            android:name=".DeepLinkShareStudySet"
+            android:name=".ui.activities.DeepLinkShareStudySet"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -171,7 +171,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DeepLinkShareFolder"
+            android:name=".ui.activities.DeepLinkShareFolder"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -196,55 +196,49 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Achievement"
+            android:name=".ui.activities.AchievementActivity"
             android:exported="false" />
         <activity
-            android:name=".Change_Password"
+            android:name=".ui.activities.ChangePasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".WelcomeToLearn"
+            android:name=".ui.activities.WelcomeToLearn"
             android:exported="false" />
         <activity
-            android:name=".Excellent"
+            android:name=".ui.activities.Excellent"
             android:exported="false" />
         <activity
-            android:name=".ReviewLearn"
+            android:name=".ui.activities.ReviewLearn"
             android:exported="false" />
         <activity
-            android:name=".ChangeTheme"
+            android:name=".ui.activities.ChangeThemeActivity"
             android:exported="false" />
         <activity
-            android:name=".ChangeLanguage"
+            android:name=".ui.activities.ChangeLanguageActivity"
             android:exported="false" />
         <activity
-            android:name=".EditStudySet"
+            android:name=".ui.activities.EditStudySet"
             android:exported="false" />
         <activity
-            android:name=".FlashcardAddSetToFolder"
+            android:name=".ui.activities.FlashcardAddSetToFolder"
             android:exported="false" />
         <activity
-            android:name=".AddSetToFolder"
+            android:name=".ui.activities.AddSetToFolderActivity"
             android:exported="false" />
         <activity
-            android:name=".NoDataFound"
+            android:name=".ui.activities.AddClassActivity"
             android:exported="false" />
         <activity
-            android:name=".AddClassActivity"
+            android:name=".ui.activities.FlashcardLearn"
             android:exported="false" />
         <activity
-            android:name=".SetOptionActivity"
+            android:name=".ui.activities.StudySetDetail"
             android:exported="false" />
         <activity
-            android:name=".FlashcardLearn"
+            android:name=".ui.activities.FolderClickActivity"
             android:exported="false" />
         <activity
-            android:name=".StudySetDetail"
-            android:exported="false" />
-        <activity
-            android:name=".FolderClickActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CreateSet"
+            android:name=".ui.activities.CreateSetActivity"
             android:exported="false"
             android:label="@string/title_activity_create_set"
             android:theme="@style/Theme.AppQuizlet" />
@@ -252,31 +246,31 @@
             android:name=".NotFound"
             android:exported="false" />
         <activity
-            android:name=".Add_Course"
+            android:name=".ui.activities.AddCourseActivity"
             android:exported="false"
             android:label="@string/title_activity_add_course"
             android:theme="@style/Theme.AppQuizlet.NoActionBar" />
         <activity
-            android:name=".Settings"
+            android:name=".ui.activities.Settings"
             android:exported="false" />
         <activity
             android:name=".MainActivity_Logged_In"
             android:exported="false" />
         <activity
-            android:name=".SignIn"
+            android:name=".SignInActivity"
             android:exported="false" />
         <activity
-            android:name=".SignUp"
+            android:name=".SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashSearch"
+            android:name=".ui.activities.SplashSearch"
             android:exported="false"
             android:label="@string/title_activity_splash_search"
             android:theme="@style/Theme.AppQuizlet" /> <!-- <activity -->
         <!-- android:name=".splash_search" -->
         <!-- android:exported="false" /> -->
         <activity
-            android:name=".SplashActivity"
+            android:name=".ui.activities.SplashActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

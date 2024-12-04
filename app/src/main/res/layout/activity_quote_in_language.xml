@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/bg_gradient"
         android:paddingBottom="0dp"
-        tools:context=".QuoteInLanguage">
+        tools:context=".ui.activities.QuoteInLanguage">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/headerWrap"

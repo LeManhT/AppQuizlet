@@ -16,7 +16,6 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import at.favre.lib.crypto.bcrypt.BCrypt
-import com.example.appquizlet.NoDataFragment
 import com.example.appquizlet.R
 import com.example.appquizlet.entity.Story
 import com.example.appquizlet.model.FlashCardModel
@@ -65,15 +64,6 @@ object Helper {
     fun getDataUsername(context: Context): String {
         val sharedPreferences = context.getSharedPreferences("idUser", Context.MODE_PRIVATE)
         return sharedPreferences.getString("key_username", null).toString()
-    }
-
-    fun replaceWithNoDataFragment(fragmentManager: FragmentManager, id: Int) {
-        val noDataFragment =
-            NoDataFragment()
-        val transaction: FragmentTransaction = fragmentManager.beginTransaction()
-        transaction.replace(id, noDataFragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
     }
 
     fun getAllStudySets(userData: UserResponse): List<StudySetModel> {

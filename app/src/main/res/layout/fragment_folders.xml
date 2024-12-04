@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_profile"
     android:padding="@dimen/pad_20"
-    tools:context=".FoldersFragment">
+    tools:context=".ui.fragments.FragmentFolders">
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progress_circular"

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_profile"
-    tools:context=".FragmentCreatedSet">
+    tools:context=".ui.fragments.FragmentCreatedSet">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvStudySet"

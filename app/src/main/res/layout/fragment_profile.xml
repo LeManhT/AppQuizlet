@@ -7,7 +7,7 @@
     android:background="@drawable/bg_profile"
     android:fillViewport="true"
     android:padding="@dimen/mar_15"
-    tools:context=".Profile">
+    tools:context=".ui.fragments.FragmentProfile">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

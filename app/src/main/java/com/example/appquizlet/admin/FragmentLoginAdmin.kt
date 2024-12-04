@@ -7,7 +7,7 @@ import android.view.View
 import android.view.View.OnFocusChangeListener
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.example.appquizlet.AdminActivity
+import com.example.appquizlet.ui.activities.AdminActivity
 import com.example.appquizlet.R
 import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.FragmentLoginAdminBinding

@@ -15,7 +15,7 @@
         android:background="@drawable/bg_profile"
         android:orientation="vertical"
         android:padding="10dp"
-        tools:context=".SearchQuoteActivity">
+        tools:context=".ui.activities.SearchQuoteActivity">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbarSearch"

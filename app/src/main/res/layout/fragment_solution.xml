@@ -7,7 +7,7 @@
     android:background="@drawable/bg_profile"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context=".Solution">
+    tools:context=".ui.fragments.FragmentSolution">
 
     <TextView
         android:layout_width="match_parent"

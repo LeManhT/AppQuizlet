@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/library"
-        android:name="com.example.appquizlet.Library"
+        android:name="com.example.appquizlet.ui.fragments.FragmentLibrary"
         android:label="fragment_library"
         tools:layout="@layout/fragment_library" >
         <action
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/foldersFragment"
-        android:name="com.example.appquizlet.FoldersFragment"
+        android:name="com.example.appquizlet.ui.fragments.FragmentFolders"
         android:label="fragment_folders"
         tools:layout="@layout/fragment_folders" />
 </navigation>

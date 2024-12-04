@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_profile"
     android:orientation="vertical"
-    tools:context=".StudySetDetail">
+    tools:context=".ui.activities.StudySetDetail">
 
     <RelativeLayout
         android:id="@+id/layout_has_data"

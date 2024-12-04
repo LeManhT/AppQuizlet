@@ -21,6 +21,7 @@ import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.ActivityMainBinding
 import com.example.appquizlet.model.DetectContinueModel
 import com.example.appquizlet.model.UserM
+import com.example.appquizlet.ui.activities.SplashActivity
 import com.google.gson.JsonObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -54,8 +55,8 @@ class MainActivity : AppCompatActivity() {
         updateLocale(Locale(mylang))
 
         val sharedPreferences = this.getSharedPreferences("idUser", Context.MODE_PRIVATE)
-        username = sharedPreferences.getString("key_username", "")
-        password = sharedPreferences.getString("key_userPass", "")
+        username = sharedPreferences.getString("key_username", "").toString()
+        password = sharedPreferences.getString("key_userPass", "").toString()
 
         sharedPreferencesTheme = this.getSharedPreferences("changeTheme", Context.MODE_PRIVATE)
 

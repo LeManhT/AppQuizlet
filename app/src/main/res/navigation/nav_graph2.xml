@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragmentListStory"
-        android:name="com.example.appquizlet.FragmentListStory"
+        android:name="com.example.appquizlet.ui.fragments.FragmentListStory"
         android:label="FragmentListStory">
         <action
             android:id="@+id/action_fragmentListStory_to_fragmentStory"
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentStory"
-        android:name="com.example.appquizlet.FragmentStory"
+        android:name="com.example.appquizlet.ui.fragments.FragmentStory"
         android:label="FragmentStory">
         <action
             android:id="@+id/action_fragmentStory_to_fragmentListStory"
@@ -29,7 +29,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentFavouriteNewWord"
-        android:name="com.example.appquizlet.FragmentFavouriteNewWord"
+        android:name="com.example.appquizlet.ui.fragments.FragmentFavouriteNewWord"
         android:label="FragmentFavouriteNewWord" >
         <action
             android:id="@+id/action_fragmentFavouriteNewWord_to_fragmentListStory"

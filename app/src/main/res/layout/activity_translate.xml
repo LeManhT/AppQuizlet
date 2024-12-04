@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/my_azure"
-    tools:context=".TranslateActivity">
+    tools:context=".ui.activities.TranslateActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"

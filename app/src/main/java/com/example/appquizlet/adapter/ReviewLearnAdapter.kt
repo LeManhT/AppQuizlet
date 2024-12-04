@@ -13,7 +13,7 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.appquizlet.Excellent
+import com.example.appquizlet.ui.activities.Excellent
 import com.example.appquizlet.R
 import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.ActivityReviewKnowledgeBinding

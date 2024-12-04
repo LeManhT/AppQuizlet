@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/bg_azure"
-    tools:context=".WelcomeToLearn">
+    tools:context=".ui.activities.WelcomeToLearn">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"

@@ -9,7 +9,7 @@
     android:background="@drawable/bg_profile"
     android:padding="@dimen/pad_20"
     app:navGraph="@navigation/nav_graph"
-    tools:context=".StudySets">
+    tools:context=".ui.fragments.FragmentStudySets">
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progress_circular"

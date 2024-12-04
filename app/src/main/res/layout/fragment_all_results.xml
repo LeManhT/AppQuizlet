@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/bg_profile"
-    tools:context=".FragmentAllResults">
+    tools:context=".ui.fragments.FragmentAllResults">
 
     <LinearLayout
         android:id="@+id/layout_has_data"
