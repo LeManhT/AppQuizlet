@@ -1,6 +1,7 @@
 package com.example.appquizlet.ui.activities
 
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -89,6 +90,7 @@ class ChangePasswordActivity : AppCompatActivity(), OnFocusChangeListener {
                         ).show()
                     } else if (validatePassword(newPass) && validatePassword(confirmPass)) {
                         changePassword(
+                            this,
                             Helper.getDataUserId(this),
                             currentPass,
                             newPass
@@ -111,15 +113,22 @@ class ChangePasswordActivity : AppCompatActivity(), OnFocusChangeListener {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun changePassword(userId: String, oldPass: String, newPass: String) {
+    private fun changePassword(context: Context, userId: String, oldPass: String, newPass: String) {
         lifecycleScope.launch {
             try {
+                val accessToken = Helper.getAccessToken(context)
+                if (accessToken.isNullOrEmpty()) {
+                    Log.d("AccessTokenLog : ", "Access token is null")
+                }
                 showLoading(resources.getString(R.string.changing_your_pass))
                 val body = JsonObject().apply {
                     addProperty("oldPassword", oldPass)
                     addProperty("newPassword", newPass)
                 }
-                val result = apiService.changePassword(userId, body)
+                val result = apiService.changePassword(
+                    authorization = "Bearer $accessToken",
+                    userId, body
+                )
                 if (result.isSuccessful) {
                     result.body().let {
                         Log.d("ggg5", Gson().toJson(it))
@@ -226,6 +235,4 @@ class ChangePasswordActivity : AppCompatActivity(), OnFocusChangeListener {
         startActivity(intent)
         finish()
     }
-
-
 }

@@ -321,8 +321,8 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="opacityPercent" value="65" />
-                            <entry key="outputName" value="auto_stories_24dp" />
-                            <entry key="sourceFile" value="C:\Users\LeManhDev\Downloads\auto_stories_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg" />
+                            <entry key="outputName" value="info" />
+                            <entry key="sourceFile" value="C:\Users\LeManhDev\Downloads\info.svg" />
                           </map>
                         </option>
                       </PersistentState>

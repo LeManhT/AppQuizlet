@@ -92,7 +92,11 @@ class FragmentEditUser : DialogFragment(), View.OnFocusChangeListener {
 
                         lifecycleScope.launch {
                             showLoading("Updating user info ...")
-                            documentViewModel.updateUserInfo(args.user.id, requestBody)
+                            documentViewModel.updateUserInfo(
+                                requireContext(),
+                                args.user.id,
+                                requestBody
+                            )
                         }
 
                     } else {

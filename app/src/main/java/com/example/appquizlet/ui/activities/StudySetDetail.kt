@@ -106,7 +106,7 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
         val countDetect = sharedPreferencesDetect.getInt("countLearn", 0)
         Log.d("countDetect", countDetect.toString())
         if (countDetect == 0) {
-            displayCheckedDates()
+            displayCheckedDates(this)
         }
 
         this.registerReceiver(
@@ -791,16 +791,26 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun displayCheckedDates() {
+    private fun displayCheckedDates(context : Context) {
         val unixTime = Instant.now().epochSecond
-        detectContinueStudy(Helper.getDataUserId(this), unixTime)
+        detectContinueStudy(context,Helper.getDataUserId(this), unixTime)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun detectContinueStudy(userId: String, timeDetect: Long) {
+    private fun detectContinueStudy(context: Context, userId: String, timeDetect: Long) {
+        val accessToken = Helper.getAccessToken(context)
+        if (accessToken.isNullOrEmpty()) {
+            Log.e("AuthError", "Access Token is missing")
+            return
+        }
+
         lifecycleScope.launch {
             try {
-                val result = apiService.detectContinueStudy(userId, timeDetect)
+                val result = apiService.detectContinueStudy(
+                    authorization = "Bearer $accessToken",
+                    userId,
+                    timeDetect
+                )
                 if (result.isSuccessful) {
                     result.body()?.let {
                         val editor = sharedPreferencesDetect.edit()

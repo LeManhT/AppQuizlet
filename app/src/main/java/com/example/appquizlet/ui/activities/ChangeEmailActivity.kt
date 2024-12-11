@@ -1,8 +1,10 @@
 package com.example.appquizlet.ui.activities
 
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.appquizlet.R
@@ -46,7 +48,7 @@ class ChangeEmailActivity : AppCompatActivity() {
                         CustomToast.WARNING
                     ).show()
                 } else {
-                    changeEmail(Helper.getDataUserId(this), newEmail)
+                    changeEmail(this,Helper.getDataUserId(this), newEmail)
                 }
             }
         }
@@ -58,14 +60,22 @@ class ChangeEmailActivity : AppCompatActivity() {
 
     }
 
-    private fun changeEmail(userId: String, newEmail: String) {
+    private fun changeEmail(context: Context, userId: String, newEmail: String) {
         lifecycleScope.launch {
             try {
                 showLoading(resources.getString(R.string.changing_your_email))
                 val body = JsonObject().apply {
                     addProperty("email", newEmail)
                 }
-                val result = apiService.updateUserInfoNoImg(userId, body)
+                val accessToken = Helper.getAccessToken(context)
+                if(accessToken.isNullOrEmpty()) {
+                    Log.d("AccessTokenLog : ", "Access token is null")
+                }
+                val result = apiService.updateUserInfoNoImg(
+                    authorization = "Bearer $accessToken",
+                    userId,
+                    body
+                )
                 if (result.isSuccessful) {
                     result.body().let {
                         if (it != null) {
