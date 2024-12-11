@@ -1,16 +1,24 @@
 package com.example.appquizlet.repository.document
 
+import android.content.Context
 import com.example.appquizlet.api.retrofit.ApiService
 import com.example.appquizlet.model.UserResponse
+import com.example.appquizlet.util.Helper
 import okhttp3.RequestBody
 import timber.log.Timber
 import javax.inject.Inject
 
 class DocumentRepository @Inject constructor(val apiService: ApiService) {
 
-    suspend fun updateUserInfo(userId: String, body: RequestBody): Result<UserResponse> {
+    suspend fun updateUserInfo(
+        context: Context,
+        userId: String,
+        body: RequestBody
+    ): Result<UserResponse> {
         return try {
-            val response = apiService.updateUserInfo(userId, body)
+            val accessToken = Helper.getAccessToken(context)
+            val response =
+                apiService.updateUserInfo(authorization = "Bearer :$accessToken", userId, body)
             if (response.isSuccessful) {
                 Result.success(response.body()!!)
             } else {

@@ -144,6 +144,8 @@ dependencies {
 
     implementation("com.jakewharton.timber:timber:4.7.1")
 
+    // Security
+    implementation ("androidx.security:security-crypto:1.1.0-alpha06")
 
     testImplementation("junit:junit:4.13.2")
     implementation("me.relex:circleindicator:2.1.6")

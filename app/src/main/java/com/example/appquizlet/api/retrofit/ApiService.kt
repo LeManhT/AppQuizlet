@@ -2,6 +2,7 @@ package com.example.appquizlet.api.retrofit
 
 import com.example.appquizlet.model.CreateSetRequest
 import com.example.appquizlet.model.DetectContinueModel
+import com.example.appquizlet.model.LoginResponse
 import com.example.appquizlet.model.NoticeModel
 import com.example.appquizlet.model.RankResultModel
 import com.example.appquizlet.model.SearchSetModel
@@ -10,6 +11,8 @@ import com.example.appquizlet.model.ShareResponse
 import com.example.appquizlet.model.UpdateUserResponse
 import com.example.appquizlet.model.UserResponse
 import com.example.appquizlet.model.admin.NotificationBody
+import com.example.appquizlet.model.newfeature.Message
+import com.example.appquizlet.model.newfeature.Post
 import com.example.quizletappandroidv1.models.admin.UserAdmin
 import com.google.gson.JsonObject
 import okhttp3.RequestBody
@@ -17,6 +20,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Query
@@ -27,7 +31,7 @@ interface ApiService {
     suspend fun createUser(@Body body: JsonObject): Response<JsonObject>
 
     @POST("User/Login")
-    suspend fun loginUser(@Body body: JsonObject): Response<UserResponse>
+    suspend fun loginUser(@Body body: JsonObject): Response<LoginResponse>
 
     @POST("Folder/Create")
     suspend fun createNewFolder(
@@ -35,13 +39,6 @@ interface ApiService {
         @Body body: JsonObject
     ): Response<UserResponse>
 
-
-    //    @PUT("Folder/Update")
-//    fun updateFolder(
-//        @Query("userId") userId: String,
-//        @Body body: JsonObject
-//    ): Call<UserResponse>
-//
     @PUT("Folder/UpdateInfo")
     suspend fun updateFolder(
         @Query("userId") userId: String,
@@ -96,6 +93,7 @@ interface ApiService {
 
     @POST("User/DetectContinueStudy")
     suspend fun detectContinueStudy(
+        @Header("Authorization") authorization: String,
         @Query("userId") userId: String,
         @Query("timeDetect") timeDetect: Long
     ): Response<DetectContinueModel>
@@ -114,6 +112,7 @@ interface ApiService {
 
     @PUT("User/UpdateInfo")
     suspend fun updateUserInfo(
+        @Header("Authorization") authorization: String,
         @Query("userId") userId: String, @Body body: RequestBody
     ): Response<UserResponse>
 
@@ -147,29 +146,34 @@ interface ApiService {
 
     @PUT("User/UpdateInfo")
     suspend fun updateUserInfoNoImg(
+        @Header("Authorization") authorization: String,
         @Query("userId") userId: String,
         @Body body: JsonObject
     ): Response<UpdateUserResponse>
 
     @PUT("User/ChangePassword")
     suspend fun changePassword(
+        @Header("Authorization") authorization: String,
         @Query("id") id: String,
         @Body body: JsonObject
     ): Response<UserResponse>
 
     @GET("User/GetRankResult")
     suspend fun getRankResult(
+        @Header("Authorization") authorization: String,
         @Query("userId") userId: String
     ): Response<RankResultModel>
 
 
     @GET("User/GetAllCurrentNotices")
     suspend fun getAllCurrentNotices(
+        @Header("Authorization") authorization: String,
         @Query("userId") userId: String
     ): Response<List<NoticeModel>>
 
     @POST("User/GetInfoByID")
     suspend fun getUserData(
+        @Header("Authorization") authorization: String,
         @Query("ID") userId: String
     ): Response<UserResponse>
 
@@ -208,5 +212,22 @@ interface ApiService {
     suspend fun pushNoticeForAllUser(
         @Body notificationBody: NotificationBody
     ): Response<Unit>
+
+    @POST("Message/sendMessage")
+    suspend fun sendMessage(
+        @Body message: Message
+    ): Response<Unit>
+
+    @DELETE("Message/DeleteMessage")
+    suspend fun deleteMessage(
+        @Query("messageId") messageId: String
+    ): Response<Unit>
+
+    @GET("Message/GetMessage")
+    suspend fun getMessages(@Query("userId") userId: String): Response<List<Message>>
+
+
+    @GET("Post/getPosts")
+    suspend fun getPosts(): List<Post>
 
 }

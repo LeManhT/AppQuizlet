@@ -1,5 +1,6 @@
 package com.example.appquizlet.viewmodel.document
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,9 +18,9 @@ class DocumentViewModel @Inject constructor(private val documentRepository: Docu
 
     private val _updateUserInfoResponse = MutableLiveData<Boolean>()
     val updateUserInfoResponse: LiveData<Boolean> get() = _updateUserInfoResponse
-    fun updateUserInfo(userId: String, body: RequestBody) {
+    fun updateUserInfo(context: Context, userId: String, body: RequestBody) {
         viewModelScope.launch {
-            val result = documentRepository.updateUserInfo(userId, body)
+            val result = documentRepository.updateUserInfo(context, userId, body)
             result.fold(
                 onSuccess = { _updateUserInfoResponse.postValue(true) },
                 onFailure = {

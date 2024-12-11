@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
@@ -16,6 +17,7 @@ import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.ActivitySettingsBinding
 import com.example.appquizlet.model.UserM
 import com.example.appquizlet.ui.fragments.FragmentQuizletPlus
+import com.example.appquizlet.util.Helper
 import com.example.appquizlet.util.SharedPreferencesManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -47,11 +49,6 @@ class Settings : AppCompatActivity() {
 //            currentPassHash = Helper.hashPassword(it.loginPassword)
             currentEmail = it.email
             binding.txtEmail.text = it.email
-//            if (it.setting.darkMode) {
-//                binding.txtThemeMode.text = resources.getString(R.string.dark)
-//            } else {
-//                binding.txtThemeMode.text = resources.getString(R.string.light)
-//            }
         }
 
         sharedPreferencesTheme = this.getSharedPreferences("changeTheme", Context.MODE_PRIVATE)
@@ -59,13 +56,11 @@ class Settings : AppCompatActivity() {
             1 -> binding.txtThemeMode.text = resources.getString(R.string.light)
             2 -> binding.txtThemeMode.text = resources.getString(R.string.dark)
             -1 -> binding.txtThemeMode.text = resources.getString(R.string.system_default)
-
         }
 
         UserM.getDataSettings().observe(this) {
-            binding.txtEmail.text = it.email
+            binding.txtEmail.text = it.email?.let { it1 -> Helper.maskEmail(it1) }
         }
-
 
         binding.layoutChangeLanguage.setOnClickListener {
             val i = Intent(this, ChangeLanguageActivity::class.java)
@@ -131,9 +126,7 @@ class Settings : AppCompatActivity() {
                 startActivity(i)
             }
         }
-
     }
-
 
     private fun showDialogChangeEmail() {
         val build2 = AlertDialog.Builder(this)
@@ -152,7 +145,7 @@ class Settings : AppCompatActivity() {
             view2.findViewById<AppCompatButton>(R.id.btnSendCheck)
         btnSendCheck.setOnClickListener {
             val txtCheckPass = edtCheckPass.text.toString()
-//            val isPassCorrect = Helper.verifyPassword(txtCheckPass, currentPassHash)
+            Log.d("ChangeSettingEmail : ", currentPass)
             if (currentPass != txtCheckPass) {
                 CustomToast(this@Settings).makeText(
                     this@Settings,
@@ -195,7 +188,6 @@ class Settings : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                // Xử lý khi nút "Quay lại" được bấm
                 finish()
                 return true
             }

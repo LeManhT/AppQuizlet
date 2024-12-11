@@ -69,3 +69,10 @@ class UserResponse(
         return result
     }
 }
+@Parcelize
+data class LoginResponse(
+    @SerializedName("accessToken")
+    val accessToken: String,
+    @SerializedName("user")
+    val user: UserResponse
+) : Parcelable

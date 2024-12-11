@@ -13,8 +13,8 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.cardview.widget.CardView
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import at.favre.lib.crypto.bcrypt.BCrypt
 import com.example.appquizlet.R
 import com.example.appquizlet.entity.Story
@@ -81,15 +81,6 @@ object Helper {
         }.distinctBy { it.id }
         newStudySets.addAll(studySetsInFolders)
         newStudySets.addAll(standaloneStudySets)
-//        standaloneStudySets.map {
-//            Log.d("standaloneStudySets", Gson().toJson(it.id))
-//        }
-//        studySetsInFolders.map {
-//            Log.d("standaloneStudySets22", Gson().toJson(it.id))
-//        }
-//        (newStudySets).map {
-//            Log.d("standaloneStudySets23", Gson().toJson(it.id))
-//        }
         return newStudySets
     }
 
@@ -275,5 +266,44 @@ object Helper {
         }
     }
 
+    fun maskEmail(email: String): String {
+        val index = email.indexOf("@")
+        return if (index > 2) {
+            email.substring(0, 2) + "****" + email.substring(index)
+        } else {
+            "****" + email.substring(index)
+        }
+    }
+
+    fun getAccessToken(context: Context): String? {
+        val masterKey = MasterKey.Builder(context)
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .build()
+
+        val sharedPreferences = EncryptedSharedPreferences.create(
+            context,
+            "secure_prefs",
+            masterKey,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+
+        return sharedPreferences.getString("accessToken", null)
+    }
+
+     fun saveAccessToken(context: Context, token: String) {
+        val masterKey = MasterKey.Builder(context)
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .build()
+
+        val sharedPreferences = EncryptedSharedPreferences.create(
+            context,
+            "secure_prefs",
+            masterKey,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+        sharedPreferences.edit().putString("accessToken", token).apply()
+    }
 
 }

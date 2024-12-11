@@ -19,17 +19,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.example.appquizlet.ui.activities.AchievementActivity
-import com.example.appquizlet.ui.activities.FolderClickActivity
 import com.example.appquizlet.MainActivity_Logged_In
 import com.example.appquizlet.R
-import com.example.appquizlet.ui.activities.RankLeaderBoard
 import com.example.appquizlet.SignInActivity
-import com.example.appquizlet.ui.activities.SplashActivity
-import com.example.appquizlet.ui.activities.SplashSearch
-import com.example.appquizlet.ui.activities.StudySetDetail
-import com.example.appquizlet.ui.activities.TranslateActivity
-import com.example.appquizlet.ui.activities.WelcomeToLearn
 import com.example.appquizlet.adapter.AdapterCustomDatePicker
 import com.example.appquizlet.adapter.DayOfWeekAdapter
 import com.example.appquizlet.adapter.RVFolderItemAdapter
@@ -48,8 +40,14 @@ import com.example.appquizlet.model.FolderModel
 import com.example.appquizlet.model.SearchSetModel
 import com.example.appquizlet.model.StudySetModel
 import com.example.appquizlet.model.UserM
+import com.example.appquizlet.ui.activities.AchievementActivity
+import com.example.appquizlet.ui.activities.FolderClickActivity
+import com.example.appquizlet.ui.activities.RankLeaderBoard
+import com.example.appquizlet.ui.activities.SplashSearch
+import com.example.appquizlet.ui.activities.StudySetDetail
+import com.example.appquizlet.ui.activities.TranslateActivity
+import com.example.appquizlet.ui.activities.WelcomeToLearn
 import com.example.appquizlet.util.Helper
-import com.example.appquizlet.util.SharedPreferencesManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
@@ -75,8 +73,6 @@ class FragmentHome : Fragment() {
     private lateinit var sharedPreferencesTheme: SharedPreferences
     private var apiCallsInProgress = false
 
-
-    //        Studyset adapter
     private val listStudySet = mutableListOf<StudySetModel>()
     private val listRcmSets = mutableListOf<SearchSetModel>()
     private val listFolderItems = mutableListOf<FolderModel>()
@@ -95,7 +91,6 @@ class FragmentHome : Fragment() {
             context?.getSharedPreferences("changeTheme", Context.MODE_PRIVATE)!!
 
         val themeChangeFlag = sharedPreferencesTheme.getBoolean("themeChange", false)
-        // Clear the theme change flag
         sharedPreferencesTheme.edit().putBoolean("themeChange", false).apply()
 
         getAllStudySet()
@@ -105,11 +100,10 @@ class FragmentHome : Fragment() {
         }
 
         if (!themeChangeFlag) {
-            // Check if API calls are already in progress
             if (!apiCallsInProgress) {
                 apiCallsInProgress = true
-                getUserRanking(Helper.getDataUserId(requireContext()))
-                getAllNotices(Helper.getDataUserId(requireContext()))
+                getUserRanking(requireContext(), Helper.getDataUserId(requireContext()))
+                getAllNotices(requireContext(), Helper.getDataUserId(requireContext()))
             }
         }
 
@@ -155,10 +149,6 @@ class FragmentHome : Fragment() {
         binding.imgNotification.setOnClickListener {
             showDialogBottomSheet()
         }
-//        binding.btnHomeAddCourse.setOnClickListener {
-//            showAddCourseBottomSheet()
-//        }
-
 
         binding.btnOpenRankLeaderBoard.setOnClickListener {
             val i = Intent(context, RankLeaderBoard::class.java)
@@ -179,8 +169,6 @@ class FragmentHome : Fragment() {
 //            startActivity(i)
 //        }
 
-
-//        displayCheckedDates()
         return binding.root
     }
 
@@ -205,7 +193,10 @@ class FragmentHome : Fragment() {
         }
 
         binding.txtStudySetViewAll.setOnClickListener {
-            (requireActivity() as MainActivity_Logged_In).selectBottomNavItem("Library", "createSet")
+            (requireActivity() as MainActivity_Logged_In).selectBottomNavItem(
+                "Library",
+                "createSet"
+            )
         }
         val rvHomeFolder = binding.rvHomeFolders
         rvHomeFolder.layoutManager = LinearLayoutManager(
@@ -354,7 +345,6 @@ class FragmentHome : Fragment() {
                 viewHolder.itemView.animate().translationY(0f).alpha(1f).setDuration(300).start()
             }
         })
-
         itemTouchHelper.attachToRecyclerView(rvHomeFolder)
 
 //        rvHomeFolder.isScrollbarFadingEnabled = false
@@ -458,50 +448,59 @@ class FragmentHome : Fragment() {
         editor.apply()
     }
 
-    private fun getUserRanking(userId: String) {
+    private fun getUserRanking(context: Context, userId: String) {
         lifecycleScope.launch {
-//            showLoading(resources.getString(R.string.loading_data))
             try {
-                val result = apiService.getRankResult(userId)
+                val accessToken = Helper.getAccessToken(context)
+                if (accessToken.isNullOrEmpty()) {
+                    Log.e("AuthError", "Access Token is missing")
+                    return@launch
+                }
+                val authorizationHeader = "Bearer ${accessToken.trim()}"
+                val result = apiService.getRankResult(authorizationHeader, userId)
+                Log.d("authorizationHeader : ",authorizationHeader)
                 if (result.isSuccessful) {
-                    result.body().let {
-                        Log.e("Error get rank 0", "Error response: ${Gson().toJson(it)}")
-                        if (it != null) {
-                            UserM.setDataRanking(it)
-                        }
+                    result.body()?.let {
+                        Log.d("Success", "Ranking Data: ${Gson().toJson(it)}")
+                        UserM.setDataRanking(it)
                     }
                 } else {
+                    val errorBody = result.errorBody()?.string()
+                    Log.e("API Error", "Error: $errorBody")
                     CustomToast(requireContext()).makeText(
                         requireContext(),
-                        result.errorBody().toString(),
+                        "Error: $errorBody",
                         CustomToast.LONG,
                         CustomToast.ERROR
                     ).show()
                 }
             } catch (e: Exception) {
+                Log.e("Exception", "Error: ${e.message}")
                 CustomToast(requireContext()).makeText(
-                    requireContext(), e.message.toString(), CustomToast.LONG, CustomToast.ERROR
+                    requireContext(),
+                    e.message.toString(),
+                    CustomToast.LONG,
+                    CustomToast.ERROR
                 ).show()
-                requireActivity().recreate()
-                Log.d("Error get rank12", e.message.toString())
-            } finally {
-//                progressDialog.dismiss()
-                apiCallsInProgress = false
             }
         }
     }
 
-    private fun getAllNotices(userId: String) {
+
+    private fun getAllNotices(context: Context, userId: String) {
         lifecycleScope.launch {
             try {
-                val result = apiService.getAllCurrentNotices(userId)
+                val accessToken = Helper.getAccessToken(context)
+                if (accessToken.isNullOrEmpty()) {
+                    Log.e("AuthError", "Access Token is missing")
+                }
+                val result =
+                    apiService.getAllCurrentNotices(authorization = "Bearer $accessToken", userId)
                 if (result.isSuccessful) {
                     result.body()?.let {
                         UserM.setDataNotification(it)
                     }
                 } else {
-//                    val i = Intent(context, SignIn::class.java)
-//                    startActivity(i)
                     result.errorBody()?.string()?.let {
                         context?.let { it1 ->
                             CustomToast(it1).makeText(
@@ -523,14 +522,6 @@ class FragmentHome : Fragment() {
                 apiCallsInProgress = false
             }
         }
-    }
-
-    private fun logOut() {
-        val intent = Intent(context, SplashActivity::class.java)
-        context?.let { SharedPreferencesManager.clearAllPreferences(it) }
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        requireActivity().finish()
     }
 
     private fun getAllStudySet() {
@@ -576,5 +567,4 @@ class FragmentHome : Fragment() {
             .setCancelable(false)
             .show()
     }
-
 }

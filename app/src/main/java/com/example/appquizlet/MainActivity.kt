@@ -22,6 +22,7 @@ import com.example.appquizlet.databinding.ActivityMainBinding
 import com.example.appquizlet.model.DetectContinueModel
 import com.example.appquizlet.model.UserM
 import com.example.appquizlet.ui.activities.SplashActivity
+import com.example.appquizlet.util.Helper
 import com.google.gson.JsonObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,9 +33,9 @@ import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 
-private lateinit var binding: ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var sharedPreferencesTheme: SharedPreferences
     private lateinit var progressDialog: ProgressDialog
@@ -44,7 +45,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //        Khoi tao viewbinding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -118,9 +118,6 @@ class MainActivity : AppCompatActivity() {
         Locale.setDefault(locale)
         config.locale = locale
 
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.N) {
-            createConfigurationContext(config)
-        }
         resources.updateConfiguration(config, resources.displayMetrics)
         val nativeDisplayLanguage = locale.getDisplayLanguage(locale)
         val sharedPreferences = this.getSharedPreferences("languageChoose", Context.MODE_PRIVATE)
@@ -128,6 +125,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loginUser(email: String, pass: String) {
+        Log.d("LoginAuto : ", "$email pass : $pass")
         lifecycleScope.launch(Dispatchers.Main) {
             showLoading(resources.getString(R.string.logging_in))
             try {
@@ -137,14 +135,13 @@ class MainActivity : AppCompatActivity() {
                 }
                 val result = apiService.loginUser(body)
                 if (result.isSuccessful) {
-//                    val msgSuccess = resources.getString(R.string.login_success)
                     result.body().let { it ->
                         if (it != null) {
-                            UserM.setUserData(it)
+                            Helper.saveAccessToken(this@MainActivity, it.accessToken)
+                            UserM.setUserData(it.user)
                             UserM.setDataAchievements(
-                                DetectContinueModel(it.streak, it.achievement)
+                                DetectContinueModel(it.user.streak, it.user.achievement)
                             )
-//                            Helper.updateAppTheme(it.setting.darkMode)
                         }
                     }
                     val intent =
@@ -159,8 +156,6 @@ class MainActivity : AppCompatActivity() {
                             CustomToast.LONG,
                             CustomToast.ERROR
                         ).show()
-//                        Log.d("hhehhehe1", it.toString())
-
                     }
                     val intent = Intent(this@MainActivity, SplashActivity::class.java)
                     startActivity(intent)
@@ -185,7 +180,6 @@ class MainActivity : AppCompatActivity() {
         AppCompatDelegate.setDefaultNightMode(mode)
         with(sharedPreferencesTheme.edit()) {
             putInt("theme", mode)
-//            putBoolean("themeChange", false)
             apply()
         }
     }
@@ -232,9 +226,7 @@ class MainActivity : AppCompatActivity() {
 //                        val decryptedPassword = decryptData(encryptedPassword, decryptCipher)
 //                        username?.let { loginUser(it, decryptedPassword) }
 //                    }
-
-                    username?.let { password?.let { it1 -> loginUser(it, it1) } }
-
+                    loginUser(username, password)
                 }
 
                 override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
@@ -277,41 +269,55 @@ class MainActivity : AppCompatActivity() {
             object : BiometricPrompt.AuthenticationCallback() {
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                     super.onAuthenticationSucceeded(result)
-//                    result.cryptoObject?.cipher?.let { cipher ->
-//                        // Sau khi xác thực thành công, thực hiện mã hóa
-//                        val encryptedData = encryptData("SensitiveData", cipher)
-//                        Log.d("BiometricCrypto", "Encrypted Data: ${encryptedData.contentToString()}")
-//
-//                        // Thực hiện giải mã
-//                        val decryptedData = decryptData(encryptedData, cipher)
-//                        Log.d("BiometricCrypto", "Decrypted Data: $decryptedData")
-//                    }
-
-                    username?.let { password?.let { it1 -> loginUser(it, it1) } }
-
+                    username.let { password.let { it1 -> loginUser(it, it1) } }
                 }
 
                 override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                     super.onAuthenticationError(errorCode, errString)
-                    Log.e("BiometricCrypto", "Authentication error: $errString")
+                    when (errorCode) {
+                        BiometricPrompt.ERROR_USER_CANCELED -> {
+                            // Người dùng đóng dialog
+                            handleBiometricCancel()
+                        }
+
+                        BiometricPrompt.ERROR_NEGATIVE_BUTTON -> {
+                            // Người dùng bấm nút "Hủy"
+                            handleBiometricCancel()
+                        }
+
+                        else -> {
+                            CustomToast(this@MainActivity).makeText(
+                                this@MainActivity,
+                                "Error: $errString",
+                                CustomToast.LONG,
+                                CustomToast.ERROR
+                            ).show()
+                        }
+                    }
                 }
 
                 override fun onAuthenticationFailed() {
                     super.onAuthenticationFailed()
-                    Log.e("BiometricCrypto", "Authentication failed")
+                    CustomToast(this@MainActivity).makeText(
+                        this@MainActivity,
+                        "Authentication failed, please try again.",
+                        CustomToast.SHORT,
+                        CustomToast.ERROR
+                    ).show()
+                    val intent = Intent(this@MainActivity, SplashActivity::class.java)
+                    startActivity(intent)
                 }
             }
         )
 
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
             .setTitle("Xác thực sinh trắc học")
-            .setSubtitle("Sử dụng vân tay để mã hóa dữ liệu")
+            .setSubtitle("Sử dụng vân tay để đăng nhập")
             .setNegativeButtonText("Hủy")
             .build()
 
         biometricPrompt.authenticate(promptInfo, cryptoObject)
     }
-
 
     private fun saveEncryptedPassword(password: String) {
         val cipher = getCipher()
@@ -334,5 +340,16 @@ class MainActivity : AppCompatActivity() {
         return Base64.decode(this, Base64.DEFAULT)
     }
 
+    private fun handleBiometricCancel() {
+        Log.d("BiometricAuth", "Biometric authentication canceled by user.")
+        CustomToast(this).makeText(
+            this,
+            "Bạn đã hủy xác thực sinh trắc học.",
+            CustomToast.SHORT,
+            CustomToast.WARNING
+        ).show()
 
+        val intent = Intent(this, SplashActivity::class.java)
+        startActivity(intent)
+    }
 }

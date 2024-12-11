@@ -97,10 +97,15 @@ class FragmentProfile : Fragment() {
                             avatar = base64String
                         )
                     )
+                    val accessToken = Helper.getAccessToken(requireContext())
+                    if(accessToken.isNullOrEmpty()) {
+                        Log.d("AccessTokenLog : ", "Access token is null")
+                    }
                     val requestBody =
                         RequestBody.create("application/json".toMediaTypeOrNull(), json)
                     val result = requestBody.let {
                         apiService.updateUserInfo(
+                            authorization = "Bearer $accessToken",
                             Helper.getDataUserId(requireContext()), it
                         )
                     }
