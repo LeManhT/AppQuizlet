@@ -60,7 +60,6 @@ class RvStudySetItemAdapter(
             onClickSet?.handleClickDelete(listStudySet[position].id)
         }
 
-
         val txtStudySetTitle = holder.binding.txtStudySetTitle
         val studySetChip = holder.binding.studySetChip
         val imgStudySetAvatar = holder.binding.imgStudySetAvatar
@@ -71,7 +70,7 @@ class RvStudySetItemAdapter(
             if (currentItem.countTerm!! > 1) "${currentItem.countTerm} terms" else
                 "${currentItem.countTerm} term"
 
-        txtStudySetTitle.text = currentItem.name
+        txtStudySetTitle.text = if (!currentItem.isPublic) Helper.maskData(currentItem.name) else currentItem.name
         studySetChip.text = countTermText
         txtStudySetUsername.text = Helper.getDataUsername(context)
 //            imgStudySetAvatar.setImageResource(currentItem.avatar)

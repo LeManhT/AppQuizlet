@@ -91,14 +91,11 @@ class MainActivity_Logged_In : AppCompatActivity() {
             }
         }
 
-        // khởi tạo đối tượng dialog
-        // display all title and content in bottom nav
         binding.bottomNavigationView.labelVisibilityMode =
             NavigationBarView.LABEL_VISIBILITY_LABELED
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
 
-// Ẩn tiêu đề của mục "Add"
         bottomNavigationView.getOrCreateBadge(R.id.bottom_add).isVisible = false
 
         binding.bottomNavigationView.setOnItemSelectedListener {
@@ -115,43 +112,27 @@ class MainActivity_Logged_In : AppCompatActivity() {
             true
         }
 
-        // Check if it's the first time launching the app
         val prefs = getSharedPreferences("first", Context.MODE_PRIVATE)
         val isFirstTime = prefs.getBoolean("firstIn1", true)
 
         if (isFirstTime) {
-            // It's the first time, replace the fragment
             supportFragmentManager.beginTransaction()
                 .replace(R.id.frameLayout, FragmentHome())
                 .commit()
 
-            // Mark that the app has been launched
             prefs.edit().putBoolean("firstIn1", true).apply()
         }
 
         val selectedFragmentTag = intent.getStringExtra("selectedFragment")
         val createMethod = intent.getStringExtra("createMethod")
         if (selectedFragmentTag != null) {
-            val fragmentLibraryFragment = FragmentLibrary.newInstance()
             if (createMethod == "createFolder") {
                 selectBottomNavItem(selectedFragmentTag, createMethod)
-//                this.replaceFragment(libraryFragment)
             } else if (createMethod == "createSet" || createMethod == "") {
                 selectBottomNavItem(selectedFragmentTag, createMethod)
-//                this.replaceFragment(libraryFragment)
             }
         }
 
-    }
-
-
-    override fun onStart() {
-        super.onStart()
-
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 
     private fun showDialogBottomSheet() {
@@ -160,7 +141,7 @@ class MainActivity_Logged_In : AppCompatActivity() {
         fragmentAddDialogBottomSheet.show(transaction, FragmentAddDialog.TAG)
     }
 
-    fun replaceFragment(fragment: Fragment) {
+    private fun replaceFragment(fragment: Fragment) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frameLayout, fragment)
         fragmentTransaction.addToBackStack(null)
@@ -187,7 +168,6 @@ class MainActivity_Logged_In : AppCompatActivity() {
 
 
     fun selectBottomNavItem(fragmentName: String, createMethod: String) {
-        // Map fragment names to menu item ids
         val itemId = when (fragmentName) {
             "Home" -> R.id.bottom_home
             "Solution   " -> R.id.bottom_solution
@@ -197,7 +177,6 @@ class MainActivity_Logged_In : AppCompatActivity() {
         }
         if (itemId != -1) {
             binding.bottomNavigationView.selectedItemId = itemId
-            // Cập nhật dữ liệu trong ViewModel khi chọn mục
             sharedViewModel.createMethod = createMethod
         }
     }

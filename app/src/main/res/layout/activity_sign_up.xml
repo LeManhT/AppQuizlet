@@ -9,7 +9,6 @@
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
     tools:context=".SignUpActivity">
-    <!-- Thêm một Toolbar vào layout -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -18,38 +17,6 @@
         app:navigationIcon="?attr/homeAsUpIndicator"
         app:popupTheme="@style/Theme.AppQuizlet.PopupOverlay"
         app:title="" />
-
-
-<!--    <TextView-->
-<!--        android:id="@+id/textView3"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="@string/or_sign_up_with"-->
-<!--        android:textAllCaps="true" />-->
-
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="15dp"-->
-<!--        android:layout_marginBottom="15dp"-->
-<!--        android:orientation="horizontal">-->
-
-<!--        <androidx.appcompat.widget.AppCompatButton-->
-<!--            android:id="@+id/btnSigninGoogle"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="1"-->
-<!--            android:text="@string/gg"-->
-<!--            android:textColor="@color/white" />-->
-
-<!--        <androidx.appcompat.widget.AppCompatButton-->
-<!--            android:id="@+id/btnSignInFb"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="1"-->
-<!--            android:text="@string/fb"-->
-<!--            android:textColor="@color/white" />-->
-<!--    </LinearLayout>-->
 
     <TextView
         android:id="@+id/textView4"
@@ -187,9 +154,5 @@
         android:layout_marginTop="10dp"
         android:contentDescription=""
         android:layout_marginBottom="20dp"
-        app:srcCompat="@drawable/intr_su" />
-
-    <!-- Điều này ẩn tiêu đề (chữ) trên Toolbar -->
-
-
+        app:srcCompat="@raw/intr_su" />
 </LinearLayout>

@@ -54,7 +54,6 @@ class ChangePasswordActivity : AppCompatActivity(), OnFocusChangeListener {
         binding.txtSave.setOnClickListener {
             val currentPass =
                 binding.edtCurrentPassword.text.toString()
-//            val isCurPassCorrect = curPass?.let { it1 -> Helper.verifyPassword(currentPass, it1) }
             val newPass = binding.edtNewPassword.text.toString()
             val confirmPass =
                 binding.edtConfirmYourPassword.text.toString()
@@ -66,39 +65,53 @@ class ChangePasswordActivity : AppCompatActivity(), OnFocusChangeListener {
                     CustomToast.ERROR
                 ).show()
             } else {
-                if (currentPass != curPass) {
-                    CustomToast(this@ChangePasswordActivity).makeText(
-                        this@ChangePasswordActivity,
-                        resources.getString(R.string.current_pass_incorrect),
-                        CustomToast.LONG,
-                        CustomToast.ERROR
-                    ).show()
-                } else if (newPass != confirmPass) {
-                    CustomToast(this@ChangePasswordActivity).makeText(
-                        this@ChangePasswordActivity,
-                        resources.getString(R.string.pass_not_equal_confirm),
-                        CustomToast.LONG,
-                        CustomToast.ERROR
-                    ).show()
-                } else {
-                    if (newPass == currentPass) {
+                lifecycleScope.launch {
+                    val accessToken = Helper.getAccessToken(this@ChangePasswordActivity)
+                    if (accessToken.isNullOrEmpty()) {
+                        Log.e("AuthError", "Access Token is missing")
+                        return@launch
+                    }
+                    val authorizationHeader = "Bearer ${accessToken.trim()}"
+                    val result = apiService.verifyUser(
+                        authorizationHeader,
+                        Helper.getDataUserId(this@ChangePasswordActivity),
+                        currentPass
+                    )
+                    if (result.isSuccessful) {
+                        if (newPass != confirmPass) {
+                            CustomToast(this@ChangePasswordActivity).makeText(
+                                this@ChangePasswordActivity,
+                                resources.getString(R.string.pass_not_equal_confirm),
+                                CustomToast.LONG,
+                                CustomToast.ERROR
+                            ).show()
+                        } else {
+                            if (newPass == currentPass) {
+                                CustomToast(this@ChangePasswordActivity).makeText(
+                                    this@ChangePasswordActivity,
+                                    resources.getString(R.string.pass_and_new_pass_coincide),
+                                    CustomToast.LONG,
+                                    CustomToast.ERROR
+                                ).show()
+                            } else if (validatePassword(newPass) && validatePassword(confirmPass)) {
+                                changePassword(
+                                    this@ChangePasswordActivity,
+                                    Helper.getDataUserId(this@ChangePasswordActivity),
+                                    currentPass,
+                                    newPass
+                                )
+                            }
+                        }
+                    } else {
                         CustomToast(this@ChangePasswordActivity).makeText(
                             this@ChangePasswordActivity,
-                            resources.getString(R.string.pass_and_new_pass_coincide),
+                            resources.getString(R.string.current_pass_incorrect),
                             CustomToast.LONG,
                             CustomToast.ERROR
                         ).show()
-                    } else if (validatePassword(newPass) && validatePassword(confirmPass)) {
-                        changePassword(
-                            this,
-                            Helper.getDataUserId(this),
-                            currentPass,
-                            newPass
-                        )
                     }
                 }
             }
-
         }
     }
 
@@ -145,7 +158,6 @@ class ChangePasswordActivity : AppCompatActivity(), OnFocusChangeListener {
                     logOut()
                 } else {
                     result.errorBody()?.let {
-                        // Show your CustomToast or handle the error as needed
                         CustomToast(this@ChangePasswordActivity).makeText(
                             this@ChangePasswordActivity,
                             it.toString(),
@@ -155,12 +167,6 @@ class ChangePasswordActivity : AppCompatActivity(), OnFocusChangeListener {
                     }
                 }
             } catch (e: Exception) {
-//                CustomToast(this@Change_Password).makeText(
-//                    this@Change_Password,
-//                    e.message.toString(),
-//                    CustomToast.LONG,
-//                    CustomToast.ERROR
-//                ).show()
                 logOut()
                 Log.e("ggg4", e.message.toString())
             } finally {

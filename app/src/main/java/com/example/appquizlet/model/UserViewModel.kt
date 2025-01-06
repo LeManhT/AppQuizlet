@@ -13,7 +13,6 @@ class UserViewModel : ViewModel() {
     }
 
     fun getUserData(): LiveData<UserResponse> {
-        Log.d("UserViewModel", "getUserData() called")
         return userData
     }
 }

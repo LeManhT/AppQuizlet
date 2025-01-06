@@ -44,7 +44,7 @@ class AchievementAdapter(
 
         val imageName = "ac${listAchievements[position].id}"
         val imageResourceId =
-            context.resources.getIdentifier(imageName, "drawable", context.packageName)
+            context.resources.getIdentifier(imageName, "raw", context.packageName)
         // Check if drawable is set
         if (listAchievements[position].status != 2) {
             val originalBitmap: Bitmap? =

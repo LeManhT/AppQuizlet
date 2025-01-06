@@ -3,15 +3,14 @@ package com.example.appquizlet.ui.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
-import com.example.appquizlet.ui.activities.StoryActivity
 import com.example.appquizlet.adapter.SolutionItemAdapter
 import com.example.appquizlet.api.retrofit.ApiService
 import com.example.appquizlet.api.retrofit.RetrofitHelper
@@ -20,8 +19,10 @@ import com.example.appquizlet.databinding.FragmentSolutionBinding
 import com.example.appquizlet.interfaceFolder.RvClickSearchSet
 import com.example.appquizlet.model.SearchSetModel
 import com.example.appquizlet.model.UserM
+import com.example.appquizlet.ui.activities.ActivitySocial
 import com.example.appquizlet.ui.activities.SearchDetail
 import com.example.appquizlet.ui.activities.SplashSearch
+import com.example.appquizlet.ui.activities.StoryActivity
 import kotlinx.coroutines.launch
 
 
@@ -57,6 +58,11 @@ class FragmentSolution : Fragment() {
 
         binding.txtStory.setOnClickListener {
             val intent = Intent(requireContext(), StoryActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.txtOpenSocial.setOnClickListener {
+            val intent = Intent(requireContext(), ActivitySocial::class.java)
             startActivity(intent)
         }
 

@@ -120,10 +120,6 @@ class FragmentLibrary : Fragment() {
         binding.txtLibPlus.setOnClickListener {
 
             val currentItem = binding.pagerLib.currentItem
-            //            Log.d(
-            //                "tf",
-            //                "currentItem: $currentItem, fragments size: ${childFragmentManager.fragments.size}"
-            //            )
             if (currentItem < childFragmentManager.fragments.size) {
                 val currentFragment = childFragmentManager.fragments[currentItem]
                 //                Log.d("tf", "$currentItem $currentFragment")

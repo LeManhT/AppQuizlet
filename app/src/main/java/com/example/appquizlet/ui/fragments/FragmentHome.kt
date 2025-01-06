@@ -465,14 +465,16 @@ class FragmentHome : Fragment() {
                         UserM.setDataRanking(it)
                     }
                 } else {
-                    val errorBody = result.errorBody()?.string()
-                    Log.e("API Error", "Error: $errorBody")
-                    CustomToast(requireContext()).makeText(
-                        requireContext(),
-                        "Error: $errorBody",
-                        CustomToast.LONG,
-                        CustomToast.ERROR
-                    ).show()
+                    result.errorBody()?.string()?.let {
+                        Log.e("API Error", "Error: $it")
+                        CustomToast(requireContext()).makeText(
+                            requireContext(),
+                            "Error: $it",
+                            CustomToast.LONG,
+                            CustomToast.ERROR
+                        ).show()
+                    }
+
                 }
             } catch (e: Exception) {
                 Log.e("Exception", "Error: ${e.message}")
@@ -502,7 +504,8 @@ class FragmentHome : Fragment() {
                     }
                 } else {
                     result.errorBody()?.string()?.let {
-                        context?.let { it1 ->
+                        Log.e("getAllNotices", it)
+                        context.let { it1 ->
                             CustomToast(it1).makeText(
                                 requireContext(),
                                 resources.getString(R.string.sth_went_wrong),

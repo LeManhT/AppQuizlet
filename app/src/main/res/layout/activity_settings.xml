@@ -54,7 +54,7 @@
                     android:layout_alignParentTop="true"
                     android:contentDescription="@string/free_trail"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/m_u_loang" />
+                    android:src="@raw/m_u_loang" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -518,7 +518,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="65dp"
                     android:contentDescription="@string/dark"
-                    android:src="@drawable/regional_indicator_symbol_letter_q_1f1f6" />
+                    android:src="@raw/regional_indicator_symbol_letter_q_1f1f6" />
             </LinearLayout>
 
         </LinearLayout>

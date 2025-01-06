@@ -36,7 +36,7 @@ import com.example.appquizlet.api.retrofit.ApiService
 import com.example.appquizlet.api.retrofit.RetrofitHelper
 import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.ActivityCreateSetBinding
-import com.example.appquizlet.model.CreateSetRequest
+import com.example.appquizlet.model.requests.CreateSetRequest
 import com.example.appquizlet.model.FlashCardModel
 import com.example.appquizlet.model.UserM
 import com.example.appquizlet.util.FileHelperUtils

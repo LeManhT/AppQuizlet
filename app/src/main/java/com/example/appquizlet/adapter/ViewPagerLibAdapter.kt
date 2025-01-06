@@ -23,10 +23,6 @@ class ViewPagerLibAdapter(fragment: FragmentManager, lifecycle: Lifecycle) :
             1 -> {
                 FragmentFolders()
             }
-//
-//            2 -> {
-//                Classes()
-//            }
 
             else -> {
                 FragmentFolders()

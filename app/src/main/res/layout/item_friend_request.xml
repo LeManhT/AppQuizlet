@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:padding="8dp">
+
+<!--    &lt;!&ndash; Guideline dọc &ndash;&gt;-->
+<!--    <androidx.constraintlayout.widget.Guideline-->
+<!--        android:id="@+id/guideline_vertical"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintGuidePercent="0.3"-->
+<!--        android:orientation="vertical" />-->
+
+<!--    &lt;!&ndash; Guideline ngang &ndash;&gt;-->
+<!--    <androidx.constraintlayout.widget.Guideline-->
+<!--        android:id="@+id/guideline_horizontal"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintGuideBegin="16dp"-->
+<!--        android:orientation="horizontal" />-->
+    <!-- Barrier cho ảnh đại diện -->
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier_avatar"
+        app:barrierDirection="end"
+        app:constraint_referenced_ids="iv_avatar"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_avatar"
+        android:layout_width="@dimen/mar_80"
+        android:layout_height="@dimen/mar_80"
+        android:src="@raw/owl_default_avatar"
+        app:civ_border_color="@color/my_alice_blue"
+        app:civ_border_width="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <!-- Thông tin -->
+    <LinearLayout
+        android:id="@+id/linearLayout12"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginStart="@dimen/pad_20"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_avatar"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quang Nguyễn"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_mutual_friends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="37 bạn chung • 25 tuần"
+            android:textColor="#888888"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="@dimen/pad_20"
+        app:layout_constraintStart_toEndOf="@+id/iv_avatar"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout12">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_accept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#007BFF"
+            android:text="Chấp nhận"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_reject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#888888"
+            android:text="Xóa"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

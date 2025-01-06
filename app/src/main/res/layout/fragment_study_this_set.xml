@@ -64,7 +64,7 @@
                 android:layout_height="30dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="16dp"
-                android:src="@drawable/learn_flashcard" />
+                android:src="@raw/learn_flashcard" />
 
             <!-- LinearLayout for Title and Description on the right -->
             <LinearLayout
@@ -108,7 +108,7 @@
                 android:layout_height="@dimen/pad_30"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="16dp"
-                android:src="@drawable/test" />
+                android:src="@raw/test" />
 
             <!-- LinearLayout for Title and Description on the right -->
             <LinearLayout

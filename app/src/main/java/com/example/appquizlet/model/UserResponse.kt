@@ -29,7 +29,9 @@ class UserResponse(
     @SerializedName("streak")
     val streak: StreakData,
     @SerializedName("achievement")
-    val achievement: AchievementData
+    val achievement: AchievementData,
+    @SerializedName("avatar")
+    val avatar: String
 ) : Parcelable {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -19,7 +19,7 @@
             android:id="@+id/imageView7"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            app:srcCompat="@drawable/three_book" />
+            app:srcCompat="@raw/three_book" />
 
         <TextView
             android:layout_width="wrap_content"

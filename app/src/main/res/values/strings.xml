@@ -528,6 +528,37 @@
     <string name="menu_copy">Copy</string>
     <string name="send_to">Share</string>
     <string name="message_copied_notification">Message copied</string>
+    <string name="search">Search</string>
+    <string name="write_here">Write Here</string>
+    <string name="open_quizlet_s_social">Open Quizlet\'s social</string>
 
+    <string-array name="privacy_options">
+        <item>Public</item>
+        <item>Friends</item>
+        <item>Only Me</item>
+    </string-array>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="todo">TODO</string>
+    <string name="title_activity_social">Social Activity</string>
+    <string name="b_n_b">Bạn bè</string>
+    <string name="g_i">Gợi ý</string>
+    <string name="b_i_vi_t">Bài viết</string>
+    <string name="post">Post</string>
+    <string name="images">Images</string>
+    <string name="attachments">Attachments</string>
+    <string name="images_video">Images/Video</string>
+    <string name="what_are_you_feeling">What are you feeling ?</string>
+    <string name="study_set">My studyset</string>
+    <string name="plainPassword">plainPassword</string>
+    <string name="checking_pass">Checking password...</string>
+    <string name="lock_login_warning">Lock account warning</string>
+    <string name="supporting_lock_acc_text">You only have 1 more attempt left. If you fail, your account will be temporarily locked for 1 hour.</string>
+    <string name="i_know">I know</string>
+    <string name="view_limited_v">View limited</string>
+    <string name="info_set">View info</string>
+    <string name="info_message">Because this study set is private, you need to verify your password to view the full content. Otherwise, only limited content will be displayed.</string>
+    <string name="view_full">View full content</string>
 
 </resources>
+

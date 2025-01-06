@@ -47,7 +47,7 @@ class ItemAchievementBottomSheet : BottomSheetDialogFragment() {
             val imageResourceId =
                 context?.resources?.getIdentifier(
                     imageName,
-                    "drawable",
+                    "raw",
                     requireContext().packageName
                 )
             // Check if drawable is set

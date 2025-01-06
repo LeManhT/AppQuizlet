@@ -22,7 +22,7 @@
             android:layout_width="96dp"
             android:layout_height="96dp"
             android:layout_marginTop="8dp"
-            android:src="@drawable/owl_default_avatar"
+            android:src="@raw/owl_default_avatar"
             app:civ_border_color="@color/my_alice_blue"
             app:civ_border_width="2dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -143,7 +143,7 @@
                 android:layout_width="30dp"
                 android:layout_height="@dimen/mar_60"
                 android:layout_weight="1"
-                android:src="@drawable/snapedit_1699871479095" />
+                android:src="@raw/snapedit_1699871479095" />
 
             <TextView
                 android:layout_width="wrap_content"

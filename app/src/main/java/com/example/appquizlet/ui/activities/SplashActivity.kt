@@ -165,25 +165,25 @@ class SplashActivity : AppCompatActivity() {
         val listItemPhoto = mutableListOf<PhotoSplash>()
         listItemPhoto.add(
             PhotoSplash(
-                R.drawable.splash2,
+                R.raw.splash2,
                 resources.getString(R.string.splash_text1)
             )
         )
         listItemPhoto.add(
             PhotoSplash(
-                R.drawable.splash4,
+                R.raw.splash4,
                 resources.getString(R.string.splash_text2)
             )
         )
         listItemPhoto.add(
             PhotoSplash(
-                R.drawable.splash5,
+                R.raw.splash5,
                 resources.getString(R.string.splash_text3)
             )
         )
         listItemPhoto.add(
             PhotoSplash(
-                R.drawable.splash6,
+                R.raw.splash6,
                 resources.getString(R.string.splash_text4)
             )
         )

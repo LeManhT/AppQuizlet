@@ -57,13 +57,13 @@ object Helper {
     }
 
     fun getDataUserId(context: Context): String {
-        val sharedPreferences = context.getSharedPreferences("idUser", Context.MODE_PRIVATE)
-        return sharedPreferences.getString("key_userid", null).toString()
+        val userData = getUserDataSecurely(context)
+        return (userData["userId"] as String?).toString()
     }
 
     fun getDataUsername(context: Context): String {
-        val sharedPreferences = context.getSharedPreferences("idUser", Context.MODE_PRIVATE)
-        return sharedPreferences.getString("key_username", null).toString()
+        val userData = getUserDataSecurely(context)
+        return (userData["userName"] as String?).toString()
     }
 
     fun getAllStudySets(userData: UserResponse): List<StudySetModel> {
@@ -267,12 +267,12 @@ object Helper {
     }
 
     fun maskEmail(email: String): String {
-        val index = email.indexOf("@")
-        return if (index > 2) {
-            email.substring(0, 2) + "****" + email.substring(index)
-        } else {
-            "****" + email.substring(index)
+        val parts = email.split("@")
+        if (parts.size == 2) {
+            val maskedLocal = parts[0].take(2) + "*".repeat(parts[0].length - 2)
+            return "$maskedLocal@${parts[1]}"
         }
+        return email
     }
 
     fun getAccessToken(context: Context): String? {
@@ -306,4 +306,93 @@ object Helper {
         sharedPreferences.edit().putString("accessToken", token).apply()
     }
 
+    fun getUserDataSecurely(context: Context): Map<String, Any?> {
+        val masterKey =
+            MasterKey.Builder(context).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build()
+
+        val encryptedSharedPreferences = EncryptedSharedPreferences.create(
+            context,
+            "secure_user_prefs",
+            masterKey,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+
+        val userId = encryptedSharedPreferences.getString("key_userid", null)
+        val userName = encryptedSharedPreferences.getString("key_username", null)
+        val password = encryptedSharedPreferences.getString("key_userPass", null)
+        val isLoggedIn = encryptedSharedPreferences.getBoolean("isLoggedIn", false)
+
+        return mapOf(
+            "userId" to userId,
+            "userName" to userName,
+            "password" to password,
+            "isLoggedIn" to isLoggedIn
+        )
+    }
+
+//    fun saveAccessToken(context: Context, token: String, expiryTime: Long) {
+//        val masterKey = MasterKey.Builder(context)
+//            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+//            .build()
+//
+//        val sharedPreferences = EncryptedSharedPreferences.create(
+//            context,
+//            "secure_prefs",
+//            masterKey,
+//            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+//            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+//        )
+//        sharedPreferences.edit()
+//            .putString("accessToken", token)
+//            .putLong("expiryTime", expiryTime)
+//            .apply()
+//    }
+
+//    fun getAccessToken(context: Context): String? {
+//        val masterKey = MasterKey.Builder(context)
+//            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+//            .build()
+//
+//        val sharedPreferences = EncryptedSharedPreferences.create(
+//            context,
+//            "secure_prefs",
+//            masterKey,
+//            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+//            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+//        )
+//
+//        val expiry = sharedPreferences.getLong("expiry", 0L)
+//        val currentTime = System.currentTimeMillis()
+//
+//        // Kiểm tra token còn hạn không
+//        return if (expiry > currentTime) {
+//            sharedPreferences.getString("accessToken", null)
+//        } else {
+//            null // Token hết hạn
+//        }
+//    }
+
+
+    fun isTokenExpired(context: Context): Boolean {
+        val masterKey =
+            MasterKey.Builder(context).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build()
+
+        val sharedPreferences = EncryptedSharedPreferences.create(
+            context,
+            "secure_prefs",
+            masterKey,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+        val expiryTime = sharedPreferences.getLong("expiryTime", 0L)
+        return System.currentTimeMillis() > expiryTime
+    }
+
+    fun maskData(data: String): String {
+        if (data.length <= 2) {
+            return "*".repeat(data.length)
+        }
+        return data.substring(0, 2) + "*".repeat(data.length - 2)
+    }
 }

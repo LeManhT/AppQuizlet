@@ -24,7 +24,7 @@ class ChatAdapter(private var messages: List<Message>) :
     override fun getItemCount(): Int = messages.size
 
     override fun getItemViewType(position: Int): Int {
-        return if (messages[position].isSentByUser) 1 else 0
+        return if (messages[position].isSentByUser == true) 1 else 0
     }
 
     class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

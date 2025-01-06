@@ -39,7 +39,7 @@
                     android:id="@+id/txtProfileName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Hello, Zesika"
+                    android:text="Hello, lemanhadmin"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -47,7 +47,7 @@
                     android:id="@+id/txtProfileEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="+880 1768 632 121"
+                    android:text="lemanhadmin@gmail.com"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="14sp" />
             </LinearLayout>

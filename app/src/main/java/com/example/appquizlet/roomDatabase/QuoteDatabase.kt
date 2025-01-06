@@ -8,7 +8,6 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.appquizlet.dao.FavouriteDao
-import com.example.appquizlet.dao.QuoteDao
 import com.example.appquizlet.dao.StoryDao
 import com.example.appquizlet.entity.NewWord
 import com.example.appquizlet.entity.QuoteEntity
@@ -27,7 +26,6 @@ import kotlinx.coroutines.launch
 )
 @TypeConverters(Converter::class)
 abstract class QuoteDatabase : RoomDatabase() {
-    abstract fun quoteDao(): QuoteDao
     abstract fun favouriteNewWordDao(): FavouriteDao
     abstract fun storyDao(): StoryDao
 

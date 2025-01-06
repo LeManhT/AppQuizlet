@@ -3,6 +3,7 @@ package com.example.appquizlet.repository.social
 import com.example.appquizlet.api.retrofit.ApiService
 import com.example.appquizlet.model.newfeature.Message
 import com.example.appquizlet.model.newfeature.Post
+import com.example.appquizlet.model.requests.CreatePostRequest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -50,9 +51,12 @@ class SocialRepository @Inject constructor(private val apiService: ApiService) {
         }
     }
 
-
     suspend fun getPosts(): List<Post> {
         return apiService.getPosts()
     }
 
+    suspend fun createPost(userId: String, content: String, image: String?): Post {
+        val postRequest = CreatePostRequest(userId = userId, content = content, image = image)
+        return apiService.createPost(postRequest)
+    }
 }

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -92,7 +93,6 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent">
-
                         <TextView
                             android:id="@+id/txtDownload"
                             android:layout_width="0dp"
@@ -113,6 +113,15 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/txtStudysetDetailDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="TextView"
+                    android:layout_marginHorizontal="@dimen/pad_20"
+                    android:textColor="@color/txt_black_primary" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -125,7 +134,7 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:gravity="center"
-                        android:src="@drawable/owl_default_avatar"
+                        android:src="@raw/owl_default_avatar"
                         app:civ_border_color="@color/my_alice_blue"
                         app:civ_border_width="2dp"
                         />
@@ -137,7 +146,6 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="8dp"
                         android:text="TextView"
-
                         android:textColor="@color/txt_black_primary" />
                 </LinearLayout>
 
@@ -174,7 +182,7 @@
                             android:layout_height="30dp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginEnd="16dp"
-                            android:src="@drawable/learn_flashcard" />
+                            android:src="@raw/learn_flashcard" />
 
                         <!-- LinearLayout for Title and Description on the right -->
                         <LinearLayout
@@ -229,7 +237,7 @@
                             android:layout_height="30dp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginEnd="16dp"
-                            android:src="@drawable/test" />
+                            android:src="@raw/test" />
 
                         <!-- LinearLayout for Title and Description on the right -->
                         <LinearLayout
@@ -311,11 +319,23 @@
                     android:layout_marginTop="@dimen/mar_10"
                     android:orientation="vertical">
 
+                    <Button
+                        android:id="@+id/btnViewMoreFlashcards"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="View More Flashcards"
+                        android:layout_marginTop="16dp"
+                        android:textColor="@color/white"
+                        android:padding="12dp"
+                        android:visibility="gone"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"/>
+
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rvAllFlashCards"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
-
 
                 </LinearLayout>
 

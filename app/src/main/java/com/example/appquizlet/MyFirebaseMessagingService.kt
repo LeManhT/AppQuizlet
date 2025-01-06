@@ -24,7 +24,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             RemoteViews("com.example.appquizlet", R.layout.layout_notification)
         remoteViews.setTextViewText(R.id.txtTitleNotification, title)
         remoteViews.setTextViewText(R.id.txtContentNotification, message)
-        remoteViews.setImageViewResource(R.id.imgNotification, R.drawable.ac204)
+        remoteViews.setImageViewResource(R.id.imgNotification, R.raw.ac204)
 
         return remoteViews
     }

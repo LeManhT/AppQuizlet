@@ -63,6 +63,8 @@ android {
 
 dependencies {
     implementation("androidx.activity:activity:1.9.2")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
     val nav_version = "2.7.7"
 
     implementation("androidx.core:core-ktx:1.12.0")
@@ -123,9 +125,6 @@ dependencies {
     // To recognize Chinese script
     implementation("com.google.android.gms:play-services-mlkit-text-recognition-chinese:16.0.0")
 
-//    implementation("com.itextpdf:itextg:5.5.10")
-//    implementation ("com.github.barteksc:android-pdf-viewer:3.2.0-beta.1")
-
     implementation("org.apache.poi:poi:5.0.0")
 //    implementation("com.github.naimdjon:docx4j-ImportXHTML:8.2.1-li-SNAPSHOT")
     implementation("org.apache.poi:poi-ooxml:5.2.3")
@@ -146,6 +145,9 @@ dependencies {
 
     // Security
     implementation ("androidx.security:security-crypto:1.1.0-alpha06")
+
+    // SignalR
+    implementation ("com.microsoft.signalr:signalr:7.0.5")
 
     testImplementation("junit:junit:4.13.2")
     implementation("me.relex:circleindicator:2.1.6")

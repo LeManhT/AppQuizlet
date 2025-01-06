@@ -2,11 +2,8 @@ package com.example.appquizlet.di
 
 import android.content.Context
 import com.example.appquizlet.api.retrofit.ApiService
-import com.example.appquizlet.api.retrofit.QuoteApiService
 import com.example.appquizlet.dao.FavouriteDao
-import com.example.appquizlet.dao.QuoteDao
 import com.example.appquizlet.dao.StoryDao
-import com.example.appquizlet.repository.QuoteRepository
 import com.example.appquizlet.repository.story.StoryRepository
 import com.example.appquizlet.roomDatabase.QuoteDatabase
 import com.example.appquizlet.util.Constants
@@ -55,56 +52,16 @@ object NetworkModule {
     }
 
     @Provides
-    fun provideApiQuoteService(@Named("quoteRetrofit") retrofit: Retrofit): QuoteApiService {
-        return retrofit.create(QuoteApiService::class.java)
-    }
-
-
-//
-
-
-//    @Provides
-//    fun provideUserRepository(apiService: ApiService): UserRepository {
-//        return UserRepository(apiService)
-//    }
-//
-//    @Provides
-//    fun provideHomeRepository(apiService: ApiService): HomeRepository {
-//        return HomeRepository(apiService)
-//    }
-//
-//    @Provides
-//    fun provideDocumentRepository(apiService: ApiService): DocumentRepository {
-//        return DocumentRepository(apiService)
-//    }
-
-    @Provides
     @Singleton
     fun provideMyAppDatabase(@ApplicationContext context: Context): QuoteDatabase {
         return QuoteDatabase.getInstance(context)
     }
 
     @Provides
-    fun provideQuoteRepository(
-        quoteApiService: QuoteApiService,
-        quoteDb: QuoteDatabase,
-        @ApplicationContext context: Context
-    ): QuoteRepository {
-        return QuoteRepository(quoteApiService, quoteDb, context)
-    }
-
-
-    @Provides
     fun provideStoryRepository(
         quoteDb: QuoteDatabase,
     ): StoryRepository {
         return StoryRepository(quoteDb)
-    }
-
-
-    @Provides
-    fun provideQuoteDao(database: QuoteDatabase): QuoteDao {
-        return database.quoteDao()
     }
 
     @Provides

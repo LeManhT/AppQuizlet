@@ -1,10 +1,10 @@
 package com.example.appquizlet
 
 import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.KeyEvent
 import android.view.MenuItem
@@ -17,6 +17,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.setPadding
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import com.example.appquizlet.api.retrofit.ApiService
 import com.example.appquizlet.api.retrofit.RetrofitHelper
 import com.example.appquizlet.custom.CustomToast
@@ -25,7 +27,9 @@ import com.example.appquizlet.model.DetectContinueModel
 import com.example.appquizlet.model.UserM
 import com.example.appquizlet.model.UserViewModel
 import com.example.appquizlet.util.Helper
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 
@@ -94,8 +98,9 @@ class SignInActivity : AppCompatActivity(), View.OnFocusChangeListener, View.OnK
                 if (result.isSuccessful) {
                     result.body().let { it ->
                         if (it != null) {
-                            Helper.saveAccessToken(this@SignInActivity, it.accessToken)
-                            saveIdUser(it.user.id, it.user.loginName, pass, true)
+//                            Helper.saveAccessToken(this@SignInActivity, it.accessToken)
+//                            saveUserDataSecurely(it.user.id, it.user.loginName, pass, true)
+                            saveUserDataSecurely(it.user.id, it.user.loginName, pass, true)
                             UserM.setDataAchievements(
                                 DetectContinueModel(it.user.streak, it.user.achievement)
                             )
@@ -106,12 +111,19 @@ class SignInActivity : AppCompatActivity(), View.OnFocusChangeListener, View.OnK
                     startActivity(intent)
                 } else {
                     result.errorBody()?.string()?.let {
-                        CustomToast(this@SignInActivity).makeText(
-                            this@SignInActivity,
-                            it,
-                            CustomToast.LONG,
-                            CustomToast.ERROR
-                        ).show()
+                        Log.d("Errrrrrr",it)
+                        val errorObject = JsonParser.parseString(it).asJsonObject
+                        val resultType = errorObject.get("result_type").asInt
+                        val message = errorObject.get("message").asString
+                        val tryLoginRemain = errorObject.get("try_login_remain")?.asInt ?: -1
+                        val timeSuspendTemp = errorObject.get("time_suspend_temp")?.asLong ?: 0
+                        handleLoginFailure(resultType, message, tryLoginRemain, timeSuspendTemp)
+//                        CustomToast(this@SignInActivity).makeText(
+//                            this@SignInActivity,
+//                            it,
+//                            CustomToast.LONG,
+//                            CustomToast.ERROR
+//                        ).show()
                     }
                 }
             } catch (e: Exception) {
@@ -147,36 +159,6 @@ class SignInActivity : AppCompatActivity(), View.OnFocusChangeListener, View.OnK
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun showCustomDialog(title: String, content: String, edtPlaceholder: String) {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle(title)
-
-        // Tạo layout cho dialog
-        val layout = LinearLayout(this)
-        layout.orientation = LinearLayout.VERTICAL
-        layout.setPadding(60)
-        if (!content.isEmpty()) {
-            val textContent = TextView(this)
-            textContent.setText(content)
-            textContent.setPadding(10, 0, 10, 0)
-            layout.addView(textContent)
-        }
-        val editText = EditText(this)
-        editText.hint = edtPlaceholder
-        layout.addView(editText)
-
-        builder.setView(layout)
-
-        builder.setPositiveButton("OK") { dialog, _ ->
-            dialog.dismiss()
-        }
-
-        builder.setNegativeButton("Cancel") { dialog, _ ->
-            dialog.dismiss()
-        }
-        builder.create().show()
     }
 
     override fun onFocusChange(v: View?, hasFocus: Boolean) {
@@ -245,14 +227,25 @@ class SignInActivity : AppCompatActivity(), View.OnFocusChangeListener, View.OnK
         return errorMess == null
     }
 
-    private fun saveIdUser(
+    private fun saveUserDataSecurely(
         userId: String,
         userName: String,
         password: String,
         isLoggedIn: Boolean
     ) {
-        sharedPreferences = this.getSharedPreferences("idUser", Context.MODE_PRIVATE)
-        val editor = sharedPreferences.edit()
+        val masterKey = MasterKey.Builder(this)
+            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+            .build()
+
+        val encryptedSharedPreferences = EncryptedSharedPreferences.create(
+            this,
+            "secure_user_prefs",
+            masterKey,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
+
+        val editor = encryptedSharedPreferences.edit()
         editor.putString("key_userid", userId)
         editor.putString("key_userPass", password)
         editor.putString("key_username", userName)
@@ -260,5 +253,49 @@ class SignInActivity : AppCompatActivity(), View.OnFocusChangeListener, View.OnK
         editor.apply()
     }
 
+    private fun handleLoginFailure(resultType: Int, message: String, tryLoginRemain: Int, timeSuspendTemp: Long) {
+        when (tryLoginRemain) {
+            1 -> {
+                MaterialAlertDialogBuilder(this)
+                    .setTitle(resources.getString(R.string.lock_login_warning))
+                    .setMessage(resources.getString(R.string.supporting_lock_acc_text))
+                    .setCancelable(false)
+                    .setNeutralButton(resources.getString(R.string.cancel)) { dialog, which ->
 
+                    }
+                    .setPositiveButton(resources.getString(R.string.i_know)) { dialog, which ->
+                        dialog.dismiss()
+                    }
+                    .show()
+            }
+            0 -> {
+                val timeLeft = (timeSuspendTemp * 1000) - System.currentTimeMillis()
+                if (timeLeft > 0) {
+                    val minutesLeft = timeLeft / 60000
+                    CustomToast(this@SignInActivity).makeText(
+                        this@SignInActivity,
+                        "Tài khoản đã bị khóa. Vui lòng thử lại sau $minutesLeft phút.",
+                        CustomToast.LONG,
+                        CustomToast.ERROR
+                    ).show()
+                } else {
+                    CustomToast(this@SignInActivity).makeText(
+                        this@SignInActivity,
+                        "Tài khoản đã được mở khóa. Vui lòng thử lại.",
+                        CustomToast.LONG,
+                        CustomToast.WARNING
+                    ).show()
+                }
+            }
+            else -> {
+                // Hiển thị lỗi thông thường
+                CustomToast(this@SignInActivity).makeText(
+                    this@SignInActivity,
+                    message,
+                    CustomToast.LONG,
+                    CustomToast.ERROR
+                ).show()
+            }
+        }
+    }
 }

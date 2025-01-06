@@ -67,12 +67,21 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/txtStory"
+    android:id="@+id/txtStory"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:gravity="center"
+    android:text="@string/story"
+    android:textColor="@color/txt_black_primary" />
+
+    <TextView
+        android:id="@+id/txtOpenSocial"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:gravity="center"
-        android:text="@string/story"
+        android:text="@string/open_quizlet_s_social"
         android:textColor="@color/txt_black_primary" />
 
     <com.airbnb.lottie.LottieAnimationView

@@ -17,7 +17,7 @@ class ViewImage : AppCompatActivity() {
         val photoView: PhotoView = binding.photoView
 
         // Đặt ảnh vào PhotoView
-        Glide.with(this).load(R.drawable.owl_default_avatar).into(photoView)
+        Glide.with(this).load(R.raw.owl_default_avatar).into(photoView)
 
         binding.imgClose.setOnClickListener {
             finish()

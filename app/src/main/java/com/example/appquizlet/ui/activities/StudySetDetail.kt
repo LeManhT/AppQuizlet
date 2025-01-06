@@ -10,6 +10,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -17,10 +18,13 @@ import android.os.Environment
 import android.provider.Settings
 import android.speech.tts.TextToSpeech
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -33,7 +37,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appquizlet.BroadcastReceiver.DownloadSuccessReceiver
 import com.example.appquizlet.MainActivity_Logged_In
 import com.example.appquizlet.R
-import com.example.appquizlet.ui.fragments.FragmentStudyThisSet
 import com.example.appquizlet.adapter.FlashcardItemAdapter
 import com.example.appquizlet.adapter.StudySetItemAdapter
 import com.example.appquizlet.api.retrofit.ApiService
@@ -42,10 +45,13 @@ import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.ActivityStudySetDetailBinding
 import com.example.appquizlet.interfaceFolder.RvFlashCard
 import com.example.appquizlet.model.FlashCardModel
+import com.example.appquizlet.model.StudySetModel
 import com.example.appquizlet.model.UserM
-import com.example.appquizlet.ui.fragments.FragmentSortTerm
 import com.example.appquizlet.ui.fragments.FragmentQuizletPlus
+import com.example.appquizlet.ui.fragments.FragmentSortTerm
+import com.example.appquizlet.ui.fragments.FragmentStudyThisSet
 import com.example.appquizlet.util.Helper
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -56,7 +62,6 @@ import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.Locale
-
 
 class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
     FlashcardItemAdapter.OnFlashcardItemClickListener, FragmentSortTerm.SortTermListener,
@@ -77,10 +82,9 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
     private val downloadCompleteReceiver = DownloadSuccessReceiver()
     private var nameSet: String = ""
     private var currentPoint: Int = 0
-
-
+    lateinit var dialogEnterPassword: androidx.appcompat.app.AlertDialog
+    private lateinit var studySet: StudySetModel
     private val STORAGE_CODE = 1001
-
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,20 +95,15 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
         sharedPreferences = this.getSharedPreferences("TypeSelected", Context.MODE_PRIVATE)
         sharedPreferencesDetect = this.getSharedPreferences("countDetect", Context.MODE_PRIVATE)
 
-        // Khởi tạo TextToSpeech
         textToSpeech = TextToSpeech(this, this)
 
         apiService = RetrofitHelper.getInstance().create(ApiService::class.java)
-        //        set toolbar back display
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true) // Hiển thị biểu tượng quay lại
-// Tắt tiêu đề của Action Bar
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-
         val countDetect = sharedPreferencesDetect.getInt("countLearn", 0)
-        Log.d("countDetect", countDetect.toString())
         if (countDetect == 0) {
             displayCheckedDates(this)
         }
@@ -117,11 +116,9 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
 
         setId = intent.getStringExtra("setId").toString()
 
-
         binding.layoutSortText.setOnClickListener {
             showDialogBottomSheet()
         }
-
 
         adapterStudySet = StudySetItemAdapter(listCards, object : RvFlashCard {
             override fun handleClickFLashCard(flashcardItem: FlashCardModel) {
@@ -135,33 +132,67 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
         adapterFlashcardDetail = FlashcardItemAdapter(listFlashcardDetails)
         val userData = UserM.getUserData()
         userData.observe(this) { userResponse ->
-            val studySet = Helper.getAllStudySets(userResponse).find { listStudySets ->
+            studySet = Helper.getAllStudySets(userResponse).find { listStudySets ->
                 listStudySets.id == setId
-            }
-            if (studySet != null) {
-                isPublic = studySet.isPublic
-            }
+            }!!
+            isPublic = studySet.isPublic
+
             binding.txtStudySetDetailUsername.text = userResponse.loginName
-            if (studySet != null) {
-                binding.txtSetName.text = studySet.name
-                nameSet = studySet.name
-//                if (studySet.description.isEmpty()) {
-//                    binding.txtSetDesc.visibility = View.GONE
-//                } else {
-//                    binding.txtSetDesc.visibility = View.VISIBLE
-//                    binding.txtSetDesc.text = studySet.description
-//                }
-            }
+            binding.txtSetName.text =
+                if (!studySet.isPublic) Helper.maskData(studySet.name) else studySet.name
+            binding.txtStudysetDetailDesc.text =
+                if (!studySet.isPublic) Helper.maskData(studySet.description) else studySet.description
+            nameSet = studySet.name
             if (studySet != null) {
                 listCards.clear()
                 listFlashcardDetails.clear()
-                listCards.addAll(studySet.cards)
-                listFlashcardDetails.addAll(studySet.cards)
+//                listCards.addAll(studySet.cards)
+//                listFlashcardDetails.addAll(studySet.cards)
+                if (!studySet.isPublic) {
+                    listCards.addAll(studySet.cards.take(4))
+                    listFlashcardDetails.addAll(studySet.cards.take(4))
+
+                    binding.btnViewMoreFlashcards.visibility = View.VISIBLE
+                    binding.btnViewMoreFlashcards.setOnClickListener {
+                        showPasswordDialog { isPasswordCorrect ->
+                            run {
+                                if (isPasswordCorrect) {
+                                    Toast.makeText(
+                                        this@StudySetDetail,
+                                        "Access granted!",
+                                        Toast.LENGTH_SHORT
+                                    )
+                                        .show()
+                                    listFlashcardDetails.clear()
+                                    listFlashcardDetails.addAll(originalList)
+                                    adapterStudySet.notifyDataSetChanged()
+                                    adapterFlashcardDetail.notifyDataSetChanged()
+                                    dialogEnterPassword.dismiss()
+                                    binding.btnViewMoreFlashcards.visibility = View.GONE
+                                } else {
+                                    CustomToast(this@StudySetDetail).makeText(
+                                        this@StudySetDetail,
+                                        resources.getString(R.string.password_is_not_correct),
+                                        CustomToast.LONG,
+                                        CustomToast.ERROR
+                                    ).show()
+                                }
+                            }
+                        }
+                    }
+                    adapterStudySet.notifyDataSetChanged()
+                    adapterFlashcardDetail.notifyDataSetChanged()
+                } else {
+                    // Nếu là public, hiển thị toàn bộ thẻ
+                    listCards.addAll(studySet.cards)
+                    listFlashcardDetails.addAll(studySet.cards)
+                }
                 originalList.clear()
                 originalList.addAll(studySet.cards)
+                adapterStudySet.notifyDataSetChanged()
+                adapterFlashcardDetail.notifyDataSetChanged()
             }
-            adapterStudySet.notifyDataSetChanged()
-            adapterFlashcardDetail.notifyDataSetChanged()
+
 
             val indicators = binding.circleIndicator3
             indicators.setViewPager(binding.viewPagerStudySet)
@@ -176,7 +207,6 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
 
             val jsonList = Gson().toJson(listCards)
 
-            // Đưa chuỗi JSON vào Intent
             binding.layoutFlashcardLearn.setOnClickListener {
                 val i = Intent(applicationContext, FlashcardLearn::class.java)
                 i.putExtra("listCard", jsonList)
@@ -190,7 +220,6 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
             }
         }
         binding.viewPagerStudySet.adapter = adapterStudySet
-        // Thiết lập lắng nghe sự kiện click cho adapter
         adapterFlashcardDetail.setOnFlashcardItemClickListener(this)
 
         binding.rvAllFlashCards.layoutManager = LinearLayoutManager(this)
@@ -220,7 +249,6 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
                             intent.data = uri
                             storageActivityLauncher.launch(intent)
                         } catch (e: Exception) {
-                            Log.e("requestPermission", e.toString())
                             val intent = Intent()
                             intent.action = Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION
                             storageActivityLauncher.launch(intent)
@@ -244,9 +272,7 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
                 val i = Intent(this, FragmentQuizletPlus::class.java)
                 startActivity(i)
             }
-
         }
-
     }
 
     private val storageActivityLauncher =
@@ -259,83 +285,6 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
                 }
             }
         }
-
-
-//    private fun savePdf(listCard: MutableList<FlashCardModel>) {
-//        val mDoc = com.itextpdf.text.Document()
-//
-//        // Use the "Download" directory
-//        val mDirectory = Environment.DIRECTORY_DOWNLOADS
-//
-//
-//        // Create a file in the "Download" directory
-//        val mFilename = SimpleDateFormat(
-//            "yyyyMMdd_HHmmss",
-//            Locale.getDefault()
-//        ).format(System.currentTimeMillis())
-//        val mFilePath = Environment.getExternalStoragePublicDirectory(mDirectory)
-//            .toString() + "/" + mFilename + ".pdf"
-//
-//        val notificationManager =
-//            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-//        val notificationId = 1
-//        val channelId = "download_channel"
-//        val channelName = "Download Channel"
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            val channel =
-//                NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_LOW)
-//            notificationManager.createNotificationChannel(channel)
-//        }
-//
-//        val notificationBuilder = NotificationCompat.Builder(this, channelId)
-//            .setContentTitle("Downloading PDF")
-//            .setContentText("Download in progress")
-//            .setSmallIcon(R.drawable.icons8_download_24)
-//            .setPriority(NotificationCompat.PRIORITY_LOW)
-//            .setProgress(100, 0, true)
-//            .setOngoing(true)
-//
-//        notificationManager.notify(notificationId, notificationBuilder.build())
-//
-//        lifecycleScope.launch {
-//            try {
-//                withContext(Dispatchers.IO) {
-//                    PdfWriter.getInstance(mDoc, FileOutputStream(mFilePath))
-//                }
-//                mDoc.open()
-//                // Simulate a long download process
-//                for (progress in 1..100) {
-//                    // Update the notification progress
-//                    notificationBuilder.setProgress(100, progress, false)
-//                    notificationManager.notify(notificationId, notificationBuilder.build())
-//                    // Simulate some work being done
-//                    withContext(Dispatchers.IO) {
-//                        Thread.sleep(50)
-//                    }
-//                }
-//                for (flashCard in listCard) {
-//                    val term = flashCard.term ?: ""
-//                    val definition = flashCard.definition ?: ""
-//                    val data = "$term : $definition"
-//                    mDoc.add(Paragraph(data))
-//                }
-//                mDoc.addAuthor("Le Manh")
-//                mDoc.close()
-//                // Send broadcast when download is complete
-//                val downloadCompleteIntent = Intent("PDF_DOWNLOAD_COMPLETE")
-//                downloadCompleteIntent.putExtra("file_path", mFilePath)
-//                sendBroadcast(downloadCompleteIntent)
-//                Toast.makeText(this@StudySetDetail, "$mFilename.pdf is created", Toast.LENGTH_SHORT)
-//                    .show()
-//            } catch (e: Exception) {
-//                Toast.makeText(this@StudySetDetail, e.message.toString(), Toast.LENGTH_SHORT).show()
-//            } finally {
-//                // Remove the ongoing notification when the download is complete
-//                notificationManager.cancel(notificationId)
-//            }
-//        }
-//    }
 
     private fun showSaveFormatDialog() {
         val builder = AlertDialog.Builder(this)
@@ -384,6 +333,13 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
                     }
                 }
 
+                val watermarkParagraph = document.createParagraph()
+                val watermarkRun = watermarkParagraph.createRun()
+                watermarkRun.isItalic = true
+                watermarkRun.setText("App Quizlet")
+                watermarkRun.fontSize = 10
+                watermarkRun.color = Color.CYAN.toString()
+
                 for (flashCard in listCard) {
                     val term = flashCard.term ?: ""
                     val definition = flashCard.definition ?: ""
@@ -394,7 +350,6 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
                     run.setText(content)
                 }
 
-                // Specify the directory and filename for saving the DOCX file
                 val mDirectory = Environment.DIRECTORY_DOWNLOADS
                 val mFilename = SimpleDateFormat(
                     "yyyyMMdd_HHmmss",
@@ -403,7 +358,6 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
                 val mFilePath = Environment.getExternalStoragePublicDirectory(mDirectory)
                     .toString() + "/" + mFilename + ".docx"
 
-                // Save the DOCX document to a file
                 val outputStream = FileOutputStream(mFilePath)
                 document.write(outputStream)
                 outputStream.close()
@@ -416,7 +370,6 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
                     ).show()
                 }
 
-                // Send broadcast when download is complete
                 runOnUiThread {
                     val downloadCompleteIntent = Intent("PDF_DOWNLOAD_COMPLETE")
                     downloadCompleteIntent.putExtra("file_path", mFilePath)
@@ -426,13 +379,11 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
                 Toast.makeText(this@StudySetDetail, e.message.toString(), Toast.LENGTH_SHORT)
                     .show()
             } finally {
-                // Remove the ongoing notification when the download is complete
                 notificationManager.cancel(notificationId)
             }
         }
     }
 
-    // Import necessary classes
     private suspend fun saveExcel(listCard: MutableList<FlashCardModel>) {
         val notificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -459,10 +410,8 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
                 val sheet = workbook.createSheet(nameSet)
 
                 for (progress in 1..100) {
-                    // Update the notification progress
                     notificationBuilder.setProgress(100, progress, false)
                     notificationManager.notify(notificationId, notificationBuilder.build())
-                    // Simulate some work being done
                     Thread.sleep(50)
                 }
 
@@ -475,7 +424,6 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
                     definitionCell.setCellValue(flashCard.definition)
                 }
 
-                // Specify the directory and filename for saving the Excel file
                 val mDirectory = Environment.DIRECTORY_DOWNLOADS
                 val mFilename = SimpleDateFormat(
                     "yyyyMMdd_HHmmss",
@@ -484,12 +432,10 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
                 val mFilePath = Environment.getExternalStoragePublicDirectory(mDirectory)
                     .toString() + "/" + mFilename + ".xlsx"
 
-                // Write the workbook to a file
                 val fileOutputStream = FileOutputStream(mFilePath)
                 workbook.write(fileOutputStream)
                 fileOutputStream.close()
 
-                // Display a toast message
                 runOnUiThread {
                     Toast.makeText(
                         this@StudySetDetail,
@@ -497,25 +443,18 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-                // Send broadcast when download is complete
                 runOnUiThread {
                     val downloadCompleteIntent = Intent("PDF_DOWNLOAD_COMPLETE")
                     downloadCompleteIntent.putExtra("file_path", mFilePath)
                     this@StudySetDetail.sendBroadcast(downloadCompleteIntent)
                 }
-
-                Log.d("saveExcel1", "error 1")
             } catch (e: Exception) {
-                // Handle exceptions
-                Log.d("saveExcel", e.message.toString())
                 Toast.makeText(this@StudySetDetail, e.message.toString(), Toast.LENGTH_SHORT).show()
             } finally {
-                // Remove the ongoing notification when the download is complete
                 notificationManager.cancel(notificationId)
             }
         }
     }
-
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -551,7 +490,6 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
                     putString("selectedT", sortType)
                     apply()
                 }
-
             }
         }
         adapterFlashcardDetail.notifyDataSetChanged()
@@ -593,13 +531,24 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
             }
 
             R.id.option_public -> {
-                Log.d("isPu", isPublic.toString())
                 if (isPublic == true) {
                     disablePublicSet(Helper.getDataUserId(this), setId)
                     item.title = resources.getString(R.string.public_set)
                 } else {
-                    enablePublicSet(Helper.getDataUserId(this), setId)
-                    item.title = resources.getString(R.string.disable_public_set)
+                    showPasswordDialog { isPasswordCorrect ->
+                        if (isPasswordCorrect) {
+                            Log.d("VAoooooo","Vapppp")
+                            enablePublicSet(Helper.getDataUserId(this), setId)
+                            item.title = resources.getString(R.string.disable_public_set)
+                        } else {
+                            CustomToast(this@StudySetDetail).makeText(
+                                this@StudySetDetail,
+                                resources.getString(R.string.password_is_not_correct),
+                                CustomToast.LONG,
+                                CustomToast.ERROR
+                            ).show()
+                        }
+                    }
                 }
             }
 
@@ -622,6 +571,9 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
                     CustomToast.LONG,
                     CustomToast.SUCCESS
                 ).show()
+                updateVisibilityForStudySet(true)
+                binding.txtSetName.text = studySet.name
+                binding.txtStudysetDetailDesc.text = studySet.description
             } catch (e: Exception) {
                 CustomToast(this@StudySetDetail).makeText(
                     this@StudySetDetail, e.message.toString(), CustomToast.LONG, CustomToast.ERROR
@@ -644,6 +596,11 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
                     CustomToast.LONG,
                     CustomToast.SUCCESS
                 ).show()
+                binding.txtSetName.text =
+                    Helper.maskData(studySet.name)
+                binding.txtStudysetDetailDesc.text =
+                    Helper.maskData(studySet.description)
+                updateVisibilityForStudySet(false)
             } catch (e: Exception) {
                 CustomToast(this@StudySetDetail).makeText(
                     this@StudySetDetail, e.message.toString(), CustomToast.LONG, CustomToast.ERROR
@@ -657,11 +614,9 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
 
     private fun showStudyThisSetBottomsheet(setId: String) {
         val addCourseBottomSheet = FragmentStudyThisSet()
-        // Tạo một Bundle để truyền dữ liệu
         val bundle = Bundle()
         bundle.putString("setIdTo", setId)
 
-        // Đặt Bundle vào Fragment
         addCourseBottomSheet.arguments = bundle
         addCourseBottomSheet.show(supportFragmentManager, "")
     }
@@ -734,7 +689,6 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
                         CustomToast.LONG,
                         CustomToast.ERROR
                     ).show()
-
                 }
             } catch (e: Exception) {
                 CustomToast(this@StudySetDetail).makeText(
@@ -760,7 +714,6 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
                 startActivity(installIntent)
             }
         } else {
-            Log.e("TTSpeech2", "Initialization failed with status: $status")
             Toast.makeText(this, "Initialization failed.", Toast.LENGTH_SHORT).show()
         }
     }
@@ -829,4 +782,177 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
             }
         }
     }
+
+    private fun showPasswordDialog(callback: (Boolean) -> Unit) {
+        val view = LayoutInflater.from(this).inflate(R.layout.type_pass_dialog, null)
+
+        val edtPassword = view.findViewById<EditText>(R.id.edtPassword)
+        val btnSubmit = view.findViewById<Button>(R.id.btnSubmit)
+
+        val dialogBuilder = MaterialAlertDialogBuilder(this)
+            .setView(view)
+//            .setCancelable(false)
+
+        btnSubmit.setOnClickListener {
+            val txtCheckPass = edtPassword.text.toString()
+            lifecycleScope.launch {
+                showLoading(resources.getString(R.string.checking_pass))
+                try {
+                    val accessToken = Helper.getAccessToken(this@StudySetDetail)
+                    if (accessToken.isNullOrEmpty()) {
+                        Log.e("AuthError", "Access Token is missing")
+                        return@launch
+                    }
+                    val authorizationHeader = "Bearer ${accessToken.trim()}"
+                    val result = apiService.verifyUser(
+                        authorizationHeader,
+                        Helper.getDataUserId(this@StudySetDetail),
+                        txtCheckPass
+                    )
+                    if (result.isSuccessful) {
+                        Log.d("Success", "Success")
+                        callback(true)
+                        Log.d("Success", "Success222")
+                        dialogEnterPassword.dismiss()
+                    } else {
+                        callback(false)
+                    }
+                } catch (e: Exception) {
+                    Log.e("Error", "Error: ${e.message}")
+                    callback(false)
+                } finally {
+                    progressDialog.dismiss()
+                }
+            }
+        }
+
+        dialogEnterPassword = dialogBuilder.create()
+        dialogEnterPassword.show()
+    }
+
+
+//    private fun showPasswordDialog() {
+//        val view = LayoutInflater.from(this).inflate(R.layout.type_pass_dialog, null)
+//
+//        val edtPassword = view.findViewById<EditText>(R.id.edtPassword)
+//        val btnSubmit = view.findViewById<Button>(R.id.btnSubmit)
+//
+//        val dialogBuilder = MaterialAlertDialogBuilder(this)
+//            .setView(view)
+//            .setCancelable(false) // Không cho phép đóng khi nhấn ngoài dialog
+//
+//        btnSubmit.setOnClickListener {
+//            showLoading(resources.getString(R.string.checking_pass))
+//            val txtCheckPass = edtPassword.text.toString()
+//            lifecycleScope.launch {
+//                try {
+//                    val accessToken = Helper.getAccessToken(this@StudySetDetail)
+//                    if (accessToken.isNullOrEmpty()) {
+//                        Log.e("AuthError", "Access Token is missing")
+//                        return@launch
+//                    }
+//                    val authorizationHeader = "Bearer ${accessToken.trim()}"
+//                    val result = apiService.verifyUser(
+//                        authorizationHeader,
+//                        Helper.getDataUserId(this@StudySetDetail),
+//                        txtCheckPass
+//                    )
+//                    if (result.isSuccessful) {
+//                        Toast.makeText(this@StudySetDetail, "Access granted!", Toast.LENGTH_SHORT)
+//                            .show()
+//                        listFlashcardDetails.clear()
+//                        listFlashcardDetails.addAll(originalList)
+//                        adapterStudySet.notifyDataSetChanged()
+//                        adapterFlashcardDetail.notifyDataSetChanged()
+//                        dialogEnterPassword.dismiss()
+//                        binding.btnViewMoreFlashcards.visibility = View.GONE
+//                    } else {
+//                        CustomToast(this@StudySetDetail).makeText(
+//                            this@StudySetDetail,
+//                            resources.getString(R.string.password_is_not_correct),
+//                            CustomToast.LONG,
+//                            CustomToast.ERROR
+//                        ).show()
+//                    }
+//                } catch (e: Exception) {
+//                    Log.e("Eroooor", "Error: ${e.message}")
+//                } finally {
+//                    progressDialog.dismiss()
+//                }
+//            }
+//        }
+//
+//        // Hiển thị dialog
+//        dialogEnterPassword = dialogBuilder.create()
+//        dialogEnterPassword.show()
+//    }
+
+    private fun showInfoDialog() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(resources.getString(R.string.info_set))
+            .setMessage(resources.getString(R.string.info_message))
+            .setCancelable(false)
+            .setNegativeButton(resources.getString(R.string.view_limited_v)) { dialog, which ->
+                dialog.dismiss()
+            }
+            .setPositiveButton(resources.getString(R.string.view_full)) { dialog, which ->
+//                showPasswordDialog()
+            }
+            .show()
+    }
+
+    private fun updateVisibilityForStudySet(isPublic: Boolean) {
+        if (isPublic) {
+            listCards.clear()
+            listCards.addAll(originalList)
+            listFlashcardDetails.clear()
+            listFlashcardDetails.addAll(originalList)
+            binding.txtSetName.text =
+                if (!studySet.isPublic) Helper.maskData(studySet.name) else studySet.name
+            binding.txtStudysetDetailDesc.text =
+                if (!studySet.isPublic) Helper.maskData(studySet.description) else studySet.description
+            nameSet = studySet.name
+            binding.btnViewMoreFlashcards.visibility = View.GONE // Ẩn nút "View More"
+        } else {
+            listCards.clear()
+            listCards.addAll(originalList.take(4))
+            listFlashcardDetails.clear()
+            listFlashcardDetails.addAll(originalList.take(4))
+
+            binding.btnViewMoreFlashcards.visibility = View.VISIBLE
+            binding.btnViewMoreFlashcards.setOnClickListener {
+                showPasswordDialog { isPasswordCorrect ->
+                    run {
+                        if (isPasswordCorrect) {
+                            Toast.makeText(
+                                this@StudySetDetail,
+                                "Access granted!",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                            listFlashcardDetails.clear()
+                            listFlashcardDetails.addAll(originalList)
+                            adapterStudySet.notifyDataSetChanged()
+                            adapterFlashcardDetail.notifyDataSetChanged()
+                            dialogEnterPassword.dismiss()
+                            binding.btnViewMoreFlashcards.visibility = View.GONE
+                        } else {
+                            CustomToast(this@StudySetDetail).makeText(
+                                this@StudySetDetail,
+                                resources.getString(R.string.password_is_not_correct),
+                                CustomToast.LONG,
+                                CustomToast.ERROR
+                            ).show()
+                        }
+                    }
+                }
+            }
+        }
+
+        // Cập nhật lại adapter để hiển thị thay đổi
+        adapterStudySet.notifyDataSetChanged()
+        adapterFlashcardDetail.notifyDataSetChanged()
+    }
+
+
 }

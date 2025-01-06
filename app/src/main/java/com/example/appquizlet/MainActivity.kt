@@ -4,7 +4,6 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
@@ -26,7 +25,6 @@ import com.example.appquizlet.util.Helper
 import com.google.gson.JsonObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.security.KeyStore
 import java.util.Locale
 import javax.crypto.Cipher
@@ -54,9 +52,12 @@ class MainActivity : AppCompatActivity() {
         val mylang = sharedPreferences.getString("language", "en")
         updateLocale(Locale(mylang))
 
-        val sharedPreferences = this.getSharedPreferences("idUser", Context.MODE_PRIVATE)
+        val sharedPreferences = this.getSharedPreferences("secure_user_prefs", Context.MODE_PRIVATE)
         username = sharedPreferences.getString("key_username", "").toString()
         password = sharedPreferences.getString("key_userPass", "").toString()
+        val userData = Helper.getUserDataSecurely(this)
+        username = (userData["userName"] as String?).toString()
+        password = (userData["password"] as String?).toString()
 
         sharedPreferencesTheme = this.getSharedPreferences("changeTheme", Context.MODE_PRIVATE)
 
@@ -66,7 +67,6 @@ class MainActivity : AppCompatActivity() {
             else -> setThemeMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
 
-        // Generate the key if it doesn't exist
         try {
             val keyStore = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
             if (!keyStore.containsAlias("BiometricKeyAlias")) {
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
             Log.e("KeyStoreError", "Error accessing or creating key: ${e.message}")
         }
 
-        if (username?.isNotEmpty() == true) {
+        if (username.isNotEmpty()) {
 //            val encryptedPassword = getEncryptedPassword()
 //            if (encryptedPassword != null) {
 //                authenticateWithBiometricForLogin(encryptedPassword)
@@ -87,29 +87,24 @@ class MainActivity : AppCompatActivity() {
 //                val i = Intent(this@MainActivity, SplashActivity::class.java)
 //                startActivity(i)
 //            }
+            val accessToken = Helper.getAccessToken(this)
             val biometricManager = BiometricManager.from(this)
             if (biometricManager.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS) {
                 authenticateWithBiometric()
             } else {
                 loginUser(username, password)
                 Log.e("BiometricAuth", "Thiết bị không hỗ trợ sinh trắc học.")
+//                if (accessToken.isNullOrEmpty()) {
+//                    // Nếu không có token, yêu cầu người dùng đăng nhập
+//                    val intent = Intent(this@MainActivity, SplashActivity::class.java)
+//                    startActivity(intent)
+//                } else {
+//                    loginUserWithToken(accessToken)
+//                }
             }
         } else {
             val i = Intent(this@MainActivity, SplashActivity::class.java)
             startActivity(i)
-        }
-    }
-
-    private fun setThemeModeAsync(themeMode: Int) {
-        lifecycleScope.launch(Dispatchers.Main) {
-            withContext(Dispatchers.IO) {
-                when (themeMode) {
-                    1 -> setThemeMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    2 -> setThemeMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    else -> setThemeMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                }
-            }
-            recreate()
         }
     }
 
@@ -125,7 +120,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loginUser(email: String, pass: String) {
-        Log.d("LoginAuto : ", "$email pass : $pass")
         lifecycleScope.launch(Dispatchers.Main) {
             showLoading(resources.getString(R.string.logging_in))
             try {
@@ -161,7 +155,6 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
             } catch (e: Exception) {
-                Log.d("hhehhehe111", e.message.toString())
                 val intent = Intent(this@MainActivity, SplashActivity::class.java)
                 startActivity(intent)
             } finally {
@@ -276,12 +269,10 @@ class MainActivity : AppCompatActivity() {
                     super.onAuthenticationError(errorCode, errString)
                     when (errorCode) {
                         BiometricPrompt.ERROR_USER_CANCELED -> {
-                            // Người dùng đóng dialog
                             handleBiometricCancel()
                         }
 
                         BiometricPrompt.ERROR_NEGATIVE_BUTTON -> {
-                            // Người dùng bấm nút "Hủy"
                             handleBiometricCancel()
                         }
 
@@ -332,11 +323,11 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun ByteArray.toBase64(): String {
+    private fun ByteArray.toBase64(): String {
         return Base64.encodeToString(this, Base64.DEFAULT)
     }
 
-    fun String.fromBase64(): ByteArray {
+    private fun String.fromBase64(): ByteArray {
         return Base64.decode(this, Base64.DEFAULT)
     }
 
@@ -352,4 +343,37 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, SplashActivity::class.java)
         startActivity(intent)
     }
+
+    // Sử dụng JWT để xác thực người dùng
+    private fun loginUserWithToken(token: String) {
+        lifecycleScope.launch(Dispatchers.Main) {
+            showLoading(resources.getString(R.string.logging_in))
+            try {
+                val result = apiService.loginWithToken("Bearer $token")
+                if (result.isSuccessful) {
+                    result.body().let { it ->
+                        if (it != null) {
+                            Helper.saveAccessToken(this@MainActivity, it.accessToken)
+                            UserM.setUserData(it.user)
+                            UserM.setDataAchievements(
+                                DetectContinueModel(it.user.streak, it.user.achievement)
+                            )
+                        }
+                    }
+                    val intent =
+                        Intent(this@MainActivity, MainActivity_Logged_In::class.java)
+                    startActivity(intent)
+                } else {
+                    val intent = Intent(this@MainActivity, SplashActivity::class.java)
+                    startActivity(intent)
+                }
+            } catch (e: Exception) {
+                val intent = Intent(this@MainActivity, SplashActivity::class.java)
+                startActivity(intent)
+            } finally {
+                progressDialog.dismiss()
+            }
+        }
+    }
+
 }

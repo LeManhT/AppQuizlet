@@ -31,10 +31,9 @@ import com.example.appquizlet.api.retrofit.ApiService
 import com.example.appquizlet.api.retrofit.RetrofitHelper
 import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.FragmentEditSetBinding
-import com.example.appquizlet.model.CreateSetRequest
+import com.example.appquizlet.model.requests.CreateSetRequest
 import com.example.appquizlet.model.FlashCardModel
 import com.example.appquizlet.viewmodel.admin.AdminViewModel
-import com.google.gson.Gson
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.nl.languageid.LanguageIdentification
 import com.google.mlkit.nl.languageid.LanguageIdentificationOptions

@@ -14,6 +14,22 @@
       </config>
     </shared>
     <layouts>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout-w1240dp/content_scrolling.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet.NoActionBar</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout-w936dp/content_scrolling.xml">
+        <config>
+          <state>Landscape</state>
+          <theme>@style/Theme.AppQuizlet.NoActionBar</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_add_course.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet.NoActionBar</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_admin_actvity.xml">
         <config>
           <theme>@style/Theme.AppQuizlet</theme>
@@ -24,7 +40,22 @@
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_change_password.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_create_set.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_deep_link_share_folder.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_deep_link_share_study_set.xml">
         <config>
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
@@ -39,22 +70,22 @@
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_folder_click.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main_logged_in.xml">
         <config>
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_my_quote.xml">
-        <config>
-          <theme>@style/Theme.AppQuizlet</theme>
-        </config>
-      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_not_found.xml">
-        <config>
-          <theme>@style/Theme.AppQuizlet</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_quote_in_language.xml">
         <config>
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
@@ -84,6 +115,26 @@
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_sign_in.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_sign_up.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_social.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet.NoActionBar</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_splash.xml">
         <config>
           <theme>@style/Theme.AppQuizlet</theme>
@@ -99,9 +150,24 @@
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_study_set_detail.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_update_email.xml">
         <config>
           <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_view_image2.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/content_scrolling.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet.NoActionBar</theme>
         </config>
       </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/custom_result_dialog.xml">
@@ -119,7 +185,17 @@
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_classes.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_create_new_story.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_create_post.xml">
         <config>
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
@@ -139,6 +215,16 @@
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_feed.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_friend.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml">
         <config>
           <theme>@style/Theme.AppQuizlet</theme>
@@ -150,6 +236,16 @@
         </config>
       </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_learn_flash_card_setting.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_library.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_list_conversation.xml">
         <config>
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
@@ -179,7 +275,17 @@
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_profile.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_profile_admin.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_profile_post.xml">
         <config>
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
@@ -190,6 +296,16 @@
         </config>
       </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_search_user.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_social_main.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_social_profile.xml">
         <config>
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
@@ -214,7 +330,22 @@
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_conversation.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_favourite_word.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_friend.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_friend_request.xml">
         <config>
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
@@ -234,12 +365,52 @@
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_photo_splash.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_post.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_user_admin.xml">
         <config>
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/layout_create_set_item.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/layout_flashcard_detail.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/layout_folders_item.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/layout_solution_item.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/rank_leader_board_item.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/story_item.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/type_pass_dialog.xml">
         <config>
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
@@ -274,6 +445,11 @@
           <theme>@style/Theme.AppQuizlet</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/navigation/social_nav.xml">
+        <config>
+          <theme>@style/Theme.AppQuizlet</theme>
+        </config>
+      </layout>
     </layouts>
   </component>
   <component name="AutoImportSettings">
@@ -281,35 +457,191 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f561f4fb-df91-4045-a5ec-bc9208bd9d46" name="Changes" comment="initialize chatbot feature">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/newfeature/ChatAdapter.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/newfeature/Message.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/newfeature/Post.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/repository/social/SocialRepository.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/viewmodel/social/SocialViewModel.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/info.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/assets/no_data_search.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/newfeature/FriendProfileAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/newfeature/FriendRequestAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/newfeature/ListConversationAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/newfeature/PostAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/newfeature/SearchListConversationAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/newfeature/SocialProfileViewPagerLibAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/newfeature/SocialViewPagerLibAdapter.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/interfaceFolder/newfeature/IConversationClick.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/newfeature/Conversation.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/newfeature/FriendRequest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/newfeature/FriendResponse.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/requests/CreatePostRequest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/repository/social/FriendRequestRepository.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/services/SignalRService.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/activities/ActivitySocial.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/fragments/social/FragmentCreatePost.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/fragments/social/FragmentFeed.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/fragments/social/FragmentFriend.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/fragments/social/FragmentListConversation.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/fragments/social/FragmentProfilePost.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/fragments/social/FragmentSocialMain.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/fragments/social/FragmentSocialProfile.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/viewmodel/social/FriendRequestViewModel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/attach.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/comment.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/commenting.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/emoji.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/gallery.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/heart.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/drawable/heart_unfill.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_social.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_create_post.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_feed.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_friend.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_list_conversation.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_profile_post.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_social_main.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_social_profile.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_conversation.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_friend.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_friend_request.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_post.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/type_pass_dialog.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/navigation/social_nav.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/values-w820dp/dimens.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/assetWizardSettings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/navEditor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/navEditor.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/MainActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/MainActivity_Logged_In.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/MainActivity_Logged_In.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/MyFirebaseMessagingService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/MyFirebaseMessagingService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/QuoteApplication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/QuoteApplication.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/SignInActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/SignInActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/admin/FragmentEditUser.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/admin/FragmentEditUser.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/AchievementAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/AchievementAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/QuoteLocalAdapter.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/QuotifyAdapter.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/RvStudySetItemAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/RvStudySetItemAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/ViewPagerLibAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/ViewPagerLibAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/newfeature/ChatAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/adapter/newfeature/ChatAdapter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/admin/FragmentEditSet.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/admin/FragmentEditSet.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/api/retrofit/ApiService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/api/retrofit/ApiService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/api/retrofit/AuthInterceptor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/api/retrofit/AuthInterceptor.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/api/retrofit/QuoteApiService.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/api/retrofit/RetrofitHelper.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/api/retrofit/RetrofitHelper.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/api/retrofit/RetrofitHelperQuote.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/dao/QuoteDao.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/di/NetworkModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/di/NetworkModule.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/CreateSetRequest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/requests/CreateSetRequest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/MainViewModelFactory.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/MyViewModel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/QuoteResponse.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/StudySetModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/StudySetModel.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/UserResponse.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/UserResponse.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/repository/document/DocumentRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/repository/document/DocumentRepository.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/activities/ChangeEmailActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/activities/ChangeEmailActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/UserViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/UserViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/newfeature/Message.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/model/newfeature/Message.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/repository/QuoteRespository.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/repository/RemoteQuoteRepository.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/repository/social/SocialRepository.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/repository/social/SocialRepository.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/roomDatabase/QuoteDatabase.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/roomDatabase/QuoteDatabase.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/activities/ChangePasswordActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/activities/ChangePasswordActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/activities/CreateQuoteActivity.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/activities/CreateSetActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/activities/CreateSetActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/activities/EditStudySet.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/activities/EditStudySet.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/activities/MyQuote.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/activities/QuoteInLanguage.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/activities/SearchQuoteActivity.kt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/activities/Settings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/activities/Settings.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/activities/SplashActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/activities/SplashActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/activities/StudySetDetail.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/activities/StudySetDetail.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/activities/ViewImage.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/activities/ViewImage.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/fragments/FragmentHome.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/fragments/FragmentHome.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/fragments/FragmentProfile.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/fragments/FragmentProfile.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/fragments/FragmentLibrary.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/fragments/FragmentLibrary.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/fragments/FragmentSolution.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/fragments/FragmentSolution.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/fragments/ItemAchievementBottomSheet.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/fragments/ItemAchievementBottomSheet.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/fragments/social/FragmentChat.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/ui/fragments/social/FragmentChat.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/util/Constants.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/util/Constants.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/util/Helper.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/util/Helper.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/viewmodel/document/DocumentViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/viewmodel/document/DocumentViewModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ic_send_disabled.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/ic_send_disabled.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/mic_24px.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/mic_24px.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/util/SharedPreferencesManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/util/SharedPreferencesManager.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/viewmodel/social/SocialViewModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/appquizlet/viewmodel/social/SocialViewModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ac100.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/ac100.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ac101.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/ac101.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ac102.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/ac102.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ac103.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/ac103.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ac104.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/ac104.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ac200.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/ac200.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ac201.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/ac201.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ac202.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/ac202.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ac204.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/ac204.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/addgroupbg.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/addgroupbg.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/bg_home.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/bg_home.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/bg_rank.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/bg_rank.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/complete_ic.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/complete_ic.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ddl_removebg_preview.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/ddl_removebg_preview.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/doodle_paint6.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/doodle_paint6.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/elearn.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/elearn.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/gradient.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/gradient.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/img_3.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/img_3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/intr_su.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/intr_su.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/intro_pic.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/intro_pic.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/item_photo_slash.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/item_photo_slash.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/learn_flashcard.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/learn_flashcard.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/logo_q.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/logo_q.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/m_u_loang.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/m_u_loang.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/owl_default_avatar.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/owl_default_avatar.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/profile.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/profile.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/quote_icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/quote_icon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/quote_search.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/quote_search.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/ranking_board_resize.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/ranking_board_resize.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/regional_indicator_symbol_letter_q_1f1f6.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/regional_indicator_symbol_letter_q_1f1f6.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/rounded_corners_bg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/rounded_corners_bg.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/signup_bg.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/signup_bg.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/signup_intro.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/signup_intro.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/snapedit_1699871479095.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/snapedit_1699871479095.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/splash2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/splash2.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/splash4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/splash4.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/splash5.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/splash5.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/splash6.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/splash6.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/streak_7_removebg_preview.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/streak_7_removebg_preview.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/t2_removebg_preview.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/t3_removebg_preview.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/test.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/test.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/three_book.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/three_book.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/tick_blue.png" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/raw/tick_blue.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/drawable/top1_removebg_preview.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_add_course.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_add_course.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_create_quote.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_deep_link_share_folder.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_deep_link_share_folder.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_deep_link_share_study_set.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_deep_link_share_study_set.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_edit_study_set.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_edit_study_set.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_folder_click.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_folder_click.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_my_quote.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_quote_in_language.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_rank_leader_board.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_rank_leader_board.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_search_detail.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_search_detail.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_search_no_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_search_no_login.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_search_quote.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_in.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_in.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_up.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_up.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_splash_search.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_splash_search.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_study_set_detail.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_study_set_detail.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/content_scrolling.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/content_scrolling.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_chat.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_chat.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_message_received.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_message_received.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_message_sent.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_message_sent.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/no_internet_dialog.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_classes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_classes.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_home.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_item_user_rank_detail.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_item_user_rank_detail.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_notification.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_notification.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_profile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_profile.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_profile_admin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_profile_admin.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_solution.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_solution.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_study_this_set.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_study_this_set.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/item_photo_splash.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/item_photo_splash.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/layout_create_set_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_create_set_item.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/layout_folders_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_folders_item.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/layout_solution_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/layout_solution_item.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/quote_item_with_delete.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/quotify_item.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/rank_leader_board_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/rank_leader_board_item.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/story_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/story_item.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/themes.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/themes.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -319,7 +651,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=Default, isTemplate=false, identifier=serial=emulator-5554;connection=5d7f8f8e)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=Default, isTemplate=false, identifier=serial=emulator-5554;connection=60af5c4f)]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -370,11 +702,12 @@
         <option value="valueResourceFile" />
         <option value="Kotlin Object" />
         <option value="Class" />
-        <option value="Kotlin Interface" />
-        <option value="layoutResourceFile" />
         <option value="resourceFile" />
+        <option value="navigationResourceFile" />
         <option value="Kotlin Data Class" />
         <option value="Kotlin Class" />
+        <option value="Kotlin Interface" />
+        <option value="layoutResourceFile" />
       </list>
     </option>
   </component>
@@ -390,7 +723,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="develop" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -448,10 +781,10 @@
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;features/quizlet__social&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_directory_selection&quot;: &quot;C:/Users/LeManhDev/StudioProjects/AppQuizlet/app/src/main/res/drawable&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/LeManhDev/StudioProjects/AppQuizlet/app/src/main/res/drawable&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/LeManhDev/StudioProjects/AppQuizlet/app/src/main/assets&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Dependencies&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
@@ -509,6 +842,7 @@
       <recent name="com.example.appquizlet" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\LeManhDev\StudioProjects\AppQuizlet\app\src\main\res\raw" />
       <recent name="C:\Users\LeManhDev\StudioProjects\AppQuizlet\app\src\main\java\com\example\appquizlet\ui\activities" />
       <recent name="C:\Users\LeManhDev\StudioProjects\AppQuizlet\app\src\main\assets" />
     </key>
@@ -516,11 +850,11 @@
       <recent name="com.example.appquizlet" />
     </key>
     <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="com.example.appquizlet.model.requests" />
       <recent name="com.example.appquizlet.ui.fragments.social" />
       <recent name="com.example.appquizlet.ui.fragments" />
       <recent name="com.example.appquizlet.ui.activities" />
       <recent name="com.example.appquizlet.adapter" />
-      <recent name="com.example.appquizlet" />
     </key>
     <key name="android.template.755113540">
       <recent name="com.example.appquizlet" />
@@ -546,6 +880,9 @@
     <key name="android.template.-1926574344">
       <recent name="com.example.appquizlet" />
     </key>
+    <key name="android.template.-413920802">
+      <recent name="com.example.appquizlet.ui.activities" />
+    </key>
     <key name="android.template.1626057160">
       <recent name="com.example.appquizlet" />
     </key>
@@ -565,11 +902,11 @@
       <recent name="com.example.appquizlet" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\LeManhDev\StudioProjects\AppQuizlet\app\src\main\assets" />
       <recent name="C:\Users\LeManhDev\StudioProjects\AppQuizlet\app\src\main\res\drawable" />
       <recent name="C:\Users\LeManhDev\StudioProjects\AppQuizlet\app\src\main\res\layout" />
       <recent name="C:\Users\LeManhDev\StudioProjects\AppQuizlet\app\src\main\res\raw" />
       <recent name="C:\Users\LeManhDev\StudioProjects\AppQuizlet\app\src\main\res\menu" />
-      <recent name="C:\Users\LeManhDev\StudioProjects\AppQuizlet\app\src\main\res\navigation" />
     </key>
     <key name="android.template.2129197547">
       <recent name="com.example.appquizlet" />

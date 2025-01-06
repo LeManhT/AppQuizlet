@@ -1,6 +1,5 @@
 package com.example.appquizlet.api.retrofit
 
-import com.example.appquizlet.model.CreateSetRequest
 import com.example.appquizlet.model.DetectContinueModel
 import com.example.appquizlet.model.LoginResponse
 import com.example.appquizlet.model.NoticeModel
@@ -13,6 +12,8 @@ import com.example.appquizlet.model.UserResponse
 import com.example.appquizlet.model.admin.NotificationBody
 import com.example.appquizlet.model.newfeature.Message
 import com.example.appquizlet.model.newfeature.Post
+import com.example.appquizlet.model.requests.CreatePostRequest
+import com.example.appquizlet.model.requests.CreateSetRequest
 import com.example.quizletappandroidv1.models.admin.UserAdmin
 import com.google.gson.JsonObject
 import okhttp3.RequestBody
@@ -32,6 +33,9 @@ interface ApiService {
 
     @POST("User/Login")
     suspend fun loginUser(@Body body: JsonObject): Response<LoginResponse>
+
+    @GET("User/Authorization")
+    suspend fun loginWithToken(@Header("Authorization") token: String): Response<LoginResponse>
 
     @POST("Folder/Create")
     suspend fun createNewFolder(
@@ -229,5 +233,15 @@ interface ApiService {
 
     @GET("Post/getPosts")
     suspend fun getPosts(): List<Post>
+
+    @POST("Post/CreatePost")
+    suspend fun createPost(@Body postRequest: CreatePostRequest): Post
+
+    @GET("User/VerifyUser")
+    suspend fun verifyUser(
+        @Header("Authorization") authorization: String,
+        @Query("userId") userId: String,
+        @Query("plainPassword") plainPassword: String
+    ): Response<Unit>
 
 }

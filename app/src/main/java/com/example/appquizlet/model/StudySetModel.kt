@@ -18,6 +18,6 @@ class StudySetModel(
     val cards: List<FlashCardModel>,
     var isSelected: Boolean? = false,
     @SerializedName("isPublic")
-    val isPublic: Boolean? = false,
+    val isPublic: Boolean = false,
     val nameOwner: String
 ) : Parcelable

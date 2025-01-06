@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/social_nav"
+    app:startDestination="@id/fragmentSocialMain">
+
+    <fragment
+        android:id="@+id/fragmentChat"
+        android:name="com.example.appquizlet.ui.fragments.social.FragmentChat"
+        android:label="FragmentChat" >
+        <action
+            android:id="@+id/action_fragmentChat_to_fragmentListConversation"
+            app:destination="@id/fragmentListConversation" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentCreatePost"
+        android:name="com.example.appquizlet.ui.fragments.social.FragmentCreatePost"
+        android:label="FragmentCreatePost" />
+    <fragment
+        android:id="@+id/fragmentSocialMain"
+        android:name="com.example.appquizlet.ui.fragments.social.FragmentSocialMain"
+        android:label="fragment_social_main"
+        tools:layout="@layout/fragment_social_main" />
+    <fragment
+        android:id="@+id/fragmentListConversation"
+        android:name="com.example.appquizlet.ui.fragments.social.FragmentListConversation"
+        android:label="FragmentListConversation" >
+        <action
+            android:id="@+id/action_fragmentListConversation_to_fragmentChat"
+            app:destination="@id/fragmentChat" />
+    </fragment>
+</navigation>

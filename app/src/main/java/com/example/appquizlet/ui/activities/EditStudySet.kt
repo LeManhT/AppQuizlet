@@ -24,9 +24,9 @@ import com.example.appquizlet.api.retrofit.ApiService
 import com.example.appquizlet.api.retrofit.RetrofitHelper
 import com.example.appquizlet.custom.CustomToast
 import com.example.appquizlet.databinding.ActivityEditStudySetBinding
-import com.example.appquizlet.model.CreateSetRequest
 import com.example.appquizlet.model.FlashCardModel
 import com.example.appquizlet.model.UserM
+import com.example.appquizlet.model.requests.CreateSetRequest
 import com.example.appquizlet.util.Helper
 import com.google.gson.Gson
 import com.google.mlkit.common.model.DownloadConditions
@@ -36,7 +36,6 @@ import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.TranslatorOptions
 import kotlinx.coroutines.launch
-import java.util.ArrayList
 import java.util.Collections
 import java.util.Locale
 
@@ -45,13 +44,11 @@ class EditStudySet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListen
     private lateinit var binding: ActivityEditStudySetBinding
     private lateinit var progressDialog: ProgressDialog
     private lateinit var apiService: ApiService
-    private var listSet = mutableListOf<FlashCardModel>() // Declare as a class-level property
-    private lateinit var adapterCreateSet: CreateSetItemAdapter // Declare adapter as a class-level property
+    private var listSet = mutableListOf<FlashCardModel>()
+    private lateinit var adapterCreateSet: CreateSetItemAdapter
     private val REQUEST_CODE_SPEECH_INPUT = 1
     private var speechRecognitionPosition: Int = -1
 
-
-    //    private var listSet = mutableListOf<FlashCardModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEditStudySetBinding.inflate(layoutInflater)
@@ -59,10 +56,6 @@ class EditStudySet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListen
 
         apiService = RetrofitHelper.getInstance().create(ApiService::class.java)
 
-//        binding.iconEditStudySetSetting.setOnClickListener {
-//            val i = Intent(this, SetOptionActivity::class.java)
-//            startActivity(i)
-//        }
         val intent = intent
         val setId = intent.getStringExtra("editSetId")
         listSet = mutableListOf<FlashCardModel>()
@@ -103,10 +96,9 @@ class EditStudySet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListen
         })
         binding.iconTick.setOnClickListener {
             val name = binding.txtSetName.text.toString()
-            val desc = binding.txtDescription.toString()
+            val desc = binding.edtDesc.text.toString()
 
             if (listSet.isNotEmpty()) {
-                // Kiểm tra xem có bất kỳ item nào trong allNewCards có rỗng không
                 val isEmptyItemExist =
                     listSet.any { it.term?.isEmpty() == true || it.definition?.isEmpty() == true }
 
@@ -146,9 +138,6 @@ class EditStudySet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListen
                 ).show()
             }
         }
-
-
-//        setDragDropItem(listSet, binding.RvCreateSets)
     }
 
     companion object {
@@ -433,9 +422,6 @@ class EditStudySet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListen
             var conditions = DownloadConditions.Builder().requireWifi().build()
             dualLanguageTranslator.downloadModelIfNeeded(conditions).addOnSuccessListener {
                 dualLanguageTranslator.translate(text).addOnSuccessListener { translatedText ->
-                    Log.i(
-                        "detectL2", "translatedText: $translatedText"
-                    )
                     if (adapterCreateSet.getIsDefinitionTranslate() == true) {
                         listSet[position].definition = translatedText
                         adapterCreateSet.notifyDataSetChanged()
@@ -449,43 +435,6 @@ class EditStudySet : AppCompatActivity(), CreateSetItemAdapter.OnIconClickListen
             }.addOnFailureListener { exception ->
                 Log.i("exception", "exception: $exception")
             }
-//        val modelManager = RemoteModelManager.getInstance()
-//        modelManager.getDownloadedModels(TranslateRemoteModel::class.java)
-//            .addOnSuccessListener { models ->
-//                Log.d("modelLan", models.toString())
-//            }
-//            .addOnFailureListener {
-//                // Error.
-//            }
-//
-//        val targetModel = TranslateRemoteModel.Builder(targetLanguage).build()
-//        val conditions = DownloadConditions.Builder()
-//            .requireWifi()
-//            .build()
-//        modelManager.download(targetModel, conditions)
-//            .addOnSuccessListener {
-//                dualLanguageTranslator.translate(text)
-//                    .addOnSuccessListener { translatedText ->
-//                        Log.i(
-//                            "detectL2",
-//                            "translatedText: $translatedText"
-//                        )
-//                    }
-//                    .addOnFailureListener { exception ->
-//                        Log.i("detectL3", "translatedText: $exception")
-//                    }
-//            }
-//            .addOnFailureListener { exception ->
-//
-//            }
-//
-//        modelManager.deleteDownloadedModel(targetModel)
-//            .addOnSuccessListener {
-//            }
-//            .addOnFailureListener {
-//                // Error.
-//            }
-//        lifecycle.addObserver(dualLanguageTranslator)
         } else {
             Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
         }

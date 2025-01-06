@@ -64,7 +64,7 @@
                 android:background="@drawable/bg_profile"
                 android:layout_width="match_parent"
                 android:layout_height="261dp"
-                android:src="@drawable/intro_pic" />
+                android:src="@raw/intro_pic" />
         </LinearLayout>
 
 
