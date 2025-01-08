@@ -69,7 +69,7 @@ class Settings : AppCompatActivity() {
         }
 
         UserM.getDataSettings().observe(this) {
-            binding.txtEmail.text = Helper.maskEmail(it.email.toString())
+            binding.txtEmail.text = Helper.maskData(it.email.toString())
         }
 
         binding.layoutChangeLanguage.setOnClickListener {

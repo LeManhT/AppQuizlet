@@ -395,4 +395,5 @@ object Helper {
         }
         return data.substring(0, 2) + "*".repeat(data.length - 2)
     }
+
 }

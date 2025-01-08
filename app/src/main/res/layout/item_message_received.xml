@@ -18,7 +18,6 @@
         android:layout_marginTop="4dp"
         android:text="@string/message_received_author_placeholder"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/received_message_body"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,7 +53,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/received_message_body"
         tools:ignore="SmallSp" />
 
     <androidx.constraintlayout.widget.Guideline

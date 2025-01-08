@@ -1,5 +1,7 @@
 package com.example.appquizlet
 
+import android.app.Activity
+import android.app.KeyguardManager
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
@@ -9,6 +11,9 @@ import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.util.Base64
 import android.util.Log
+import android.view.LayoutInflater
+import android.widget.Button
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.biometric.BiometricManager
@@ -22,6 +27,7 @@ import com.example.appquizlet.model.DetectContinueModel
 import com.example.appquizlet.model.UserM
 import com.example.appquizlet.ui.activities.SplashActivity
 import com.example.appquizlet.util.Helper
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.JsonObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,8 +44,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var sharedPreferencesTheme: SharedPreferences
     private lateinit var progressDialog: ProgressDialog
     private lateinit var apiService: ApiService
+    private val REQUEST_CODE_LOCK = 1
     private var username: String = ""
     private var password: String = ""
+    private lateinit var dialogEnterPassword: androidx.appcompat.app.AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,7 +100,22 @@ class MainActivity : AppCompatActivity() {
             if (biometricManager.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS) {
                 authenticateWithBiometric()
             } else {
-                loginUser(username, password)
+                if (isDeviceLockSet()) {
+                    requestPinOrPattern()
+                } else {
+                    loginUser(username, password)
+//                    showPasswordDialog { isPasswordCorrect ->
+//                        run {
+//                            if (isPasswordCorrect) {
+//                                loginUser(username, password)
+//                            } else {
+//                                val intent = Intent(this, SignInActivity::class.java)
+//                                startActivity(intent)
+//                                finish()
+//                            }
+//                        }
+//                    }
+                }
                 Log.e("BiometricAuth", "Thiết bị không hỗ trợ sinh trắc học.")
 //                if (accessToken.isNullOrEmpty()) {
 //                    // Nếu không có token, yêu cầu người dùng đăng nhập
@@ -174,6 +197,29 @@ class MainActivity : AppCompatActivity() {
         with(sharedPreferencesTheme.edit()) {
             putInt("theme", mode)
             apply()
+        }
+    }
+
+    @Deprecated("This method has been deprecated in favor of using the Activity Result API\n      which brings increased type safety via an {@link ActivityResultContract} and the prebuilt\n      contracts for common intents available in\n      {@link androidx.activity.result.contract.ActivityResultContracts}, provides hooks for\n      testing, and allow receiving results in separate, testable classes independent from your\n      activity. Use\n      {@link #registerForActivityResult(ActivityResultContract, ActivityResultCallback)}\n      with the appropriate {@link ActivityResultContract} and handling the result in the\n      {@link ActivityResultCallback#onActivityResult(Object) callback}.")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == REQUEST_CODE_LOCK) {
+            if (resultCode == Activity.RESULT_OK) {
+                loginUser(username, password)
+            } else {
+                showPasswordDialog { isPasswordCorrect ->
+                    run {
+                        if (isPasswordCorrect) {
+                            loginUser(username, password)
+                        } else {
+                            val intent = Intent(this, SignInActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -332,7 +378,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun handleBiometricCancel() {
-        Log.d("BiometricAuth", "Biometric authentication canceled by user.")
+        if (isDeviceLockSet()) {
+            requestPinOrPattern()
+        } else {
+            val intent = Intent(this, SplashActivity::class.java)
+            startActivity(intent)
+        }
         CustomToast(this).makeText(
             this,
             "Bạn đã hủy xác thực sinh trắc học.",
@@ -340,8 +391,8 @@ class MainActivity : AppCompatActivity() {
             CustomToast.WARNING
         ).show()
 
-        val intent = Intent(this, SplashActivity::class.java)
-        startActivity(intent)
+//        val intent = Intent(this, SplashActivity::class.java)
+//        startActivity(intent)
     }
 
     // Sử dụng JWT để xác thực người dùng
@@ -374,6 +425,66 @@ class MainActivity : AppCompatActivity() {
                 progressDialog.dismiss()
             }
         }
+    }
+
+    private fun isDeviceLockSet(): Boolean {
+        val keyguardManager = getSystemService(KEYGUARD_SERVICE) as KeyguardManager
+        return keyguardManager.isKeyguardSecure
+    }
+
+    private fun requestPinOrPattern() {
+        val keyguardManager = getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+        if (keyguardManager.isKeyguardSecure) {
+            val intent = keyguardManager.createConfirmDeviceCredentialIntent(
+                "Xác thực",
+                "Vui lòng nhập mã PIN hoặc vẽ hình"
+            )
+            startActivityForResult(intent, REQUEST_CODE_LOCK)
+        }
+    }
+
+    private fun showPasswordDialog(callback: (Boolean) -> Unit) {
+        val view = LayoutInflater.from(this).inflate(R.layout.type_pass_dialog, null)
+
+        val edtPassword = view.findViewById<EditText>(R.id.edtPassword)
+        val btnSubmit = view.findViewById<Button>(R.id.btnSubmit)
+
+        val dialogBuilder = MaterialAlertDialogBuilder(this)
+            .setView(view)
+//            .setCancelable(false)
+
+        btnSubmit.setOnClickListener {
+            val txtCheckPass = edtPassword.text.toString()
+            lifecycleScope.launch {
+                showLoading(resources.getString(R.string.checking_pass))
+                try {
+                    val accessToken = Helper.getAccessToken(this@MainActivity)
+                    if (accessToken.isNullOrEmpty()) {
+                        Log.e("AuthError", "Access Token is missing")
+                        return@launch
+                    }
+                    val authorizationHeader = "Bearer ${accessToken.trim()}"
+                    val result = apiService.verifyUser(
+                        authorizationHeader,
+                        Helper.getDataUserId(this@MainActivity),
+                        txtCheckPass
+                    )
+                    if (result.isSuccessful) {
+                        callback(true)
+                        dialogEnterPassword.dismiss()
+                    } else {
+                        callback(false)
+                    }
+                } catch (e: Exception) {
+                    callback(false)
+                } finally {
+                    progressDialog.dismiss()
+                }
+            }
+        }
+
+        dialogEnterPassword = dialogBuilder.create()
+        dialogEnterPassword.show()
     }
 
 }

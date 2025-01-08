@@ -51,9 +51,9 @@
             android:exported="false"
             android:label="@string/title_activity_social"
             android:theme="@style/Theme.AppQuizlet.NoActionBar" />
-        <activity
-            android:name=".admin.FragmentManageNotification"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".admin.FragmentManageNotification"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".ui.activities.StoryActivity"
             android:exported="false" />

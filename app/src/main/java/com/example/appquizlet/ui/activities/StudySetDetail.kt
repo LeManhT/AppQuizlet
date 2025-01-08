@@ -83,7 +83,7 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
     private var nameSet: String = ""
     private var currentPoint: Int = 0
     lateinit var dialogEnterPassword: androidx.appcompat.app.AlertDialog
-    private lateinit var studySet: StudySetModel
+//    private lateinit var studySet: StudySetModel
     private val STORAGE_CODE = 1001
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -132,61 +132,63 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
         adapterFlashcardDetail = FlashcardItemAdapter(listFlashcardDetails)
         val userData = UserM.getUserData()
         userData.observe(this) { userResponse ->
-            studySet = Helper.getAllStudySets(userResponse).find { listStudySets ->
+            val studySet = Helper.getAllStudySets(userResponse).find { listStudySets ->
                 listStudySets.id == setId
-            }!!
-            isPublic = studySet.isPublic
+            }
 
             binding.txtStudySetDetailUsername.text = userResponse.loginName
-            binding.txtSetName.text =
-                if (!studySet.isPublic) Helper.maskData(studySet.name) else studySet.name
-            binding.txtStudysetDetailDesc.text =
-                if (!studySet.isPublic) Helper.maskData(studySet.description) else studySet.description
-            nameSet = studySet.name
+//            binding.txtSetName.text =
+//                if (!studySet.isPublic) Helper.maskData(studySet.name) else studySet.name
+//            binding.txtStudysetDetailDesc.text =
+//                if (!studySet.isPublic) Helper.maskData(studySet.description) else studySet.description
+//            nameSet = studySet.name
             if (studySet != null) {
+                isPublic = studySet.isPublic
+                binding.txtSetName.text = studySet.name
+                binding.txtStudysetDetailDesc.text = studySet.description
                 listCards.clear()
                 listFlashcardDetails.clear()
-//                listCards.addAll(studySet.cards)
-//                listFlashcardDetails.addAll(studySet.cards)
-                if (!studySet.isPublic) {
-                    listCards.addAll(studySet.cards.take(4))
-                    listFlashcardDetails.addAll(studySet.cards.take(4))
-
-                    binding.btnViewMoreFlashcards.visibility = View.VISIBLE
-                    binding.btnViewMoreFlashcards.setOnClickListener {
-                        showPasswordDialog { isPasswordCorrect ->
-                            run {
-                                if (isPasswordCorrect) {
-                                    Toast.makeText(
-                                        this@StudySetDetail,
-                                        "Access granted!",
-                                        Toast.LENGTH_SHORT
-                                    )
-                                        .show()
-                                    listFlashcardDetails.clear()
-                                    listFlashcardDetails.addAll(originalList)
-                                    adapterStudySet.notifyDataSetChanged()
-                                    adapterFlashcardDetail.notifyDataSetChanged()
-                                    dialogEnterPassword.dismiss()
-                                    binding.btnViewMoreFlashcards.visibility = View.GONE
-                                } else {
-                                    CustomToast(this@StudySetDetail).makeText(
-                                        this@StudySetDetail,
-                                        resources.getString(R.string.password_is_not_correct),
-                                        CustomToast.LONG,
-                                        CustomToast.ERROR
-                                    ).show()
-                                }
-                            }
-                        }
-                    }
-                    adapterStudySet.notifyDataSetChanged()
-                    adapterFlashcardDetail.notifyDataSetChanged()
-                } else {
-                    // Nếu là public, hiển thị toàn bộ thẻ
-                    listCards.addAll(studySet.cards)
-                    listFlashcardDetails.addAll(studySet.cards)
-                }
+                listCards.addAll(studySet.cards)
+                listFlashcardDetails.addAll(studySet.cards)
+//                if (!studySet.isPublic) {
+//                    listCards.addAll(studySet.cards.take(4))
+//                    listFlashcardDetails.addAll(studySet.cards.take(4))
+//
+//                    binding.btnViewMoreFlashcards.visibility = View.VISIBLE
+//                    binding.btnViewMoreFlashcards.setOnClickListener {
+//                        showPasswordDialog { isPasswordCorrect ->
+//                            run {
+//                                if (isPasswordCorrect) {
+//                                    Toast.makeText(
+//                                        this@StudySetDetail,
+//                                        "Access granted!",
+//                                        Toast.LENGTH_SHORT
+//                                    )
+//                                        .show()
+//                                    listFlashcardDetails.clear()
+//                                    listFlashcardDetails.addAll(originalList)
+//                                    adapterStudySet.notifyDataSetChanged()
+//                                    adapterFlashcardDetail.notifyDataSetChanged()
+//                                    dialogEnterPassword.dismiss()
+//                                    binding.btnViewMoreFlashcards.visibility = View.GONE
+//                                } else {
+//                                    CustomToast(this@StudySetDetail).makeText(
+//                                        this@StudySetDetail,
+//                                        resources.getString(R.string.password_is_not_correct),
+//                                        CustomToast.LONG,
+//                                        CustomToast.ERROR
+//                                    ).show()
+//                                }
+//                            }
+//                        }
+//                    }
+//                    adapterStudySet.notifyDataSetChanged()
+//                    adapterFlashcardDetail.notifyDataSetChanged()
+//                } else {
+//                    // Nếu là public, hiển thị toàn bộ thẻ
+//                    listCards.addAll(studySet.cards)
+//                    listFlashcardDetails.addAll(studySet.cards)
+//                }
                 originalList.clear()
                 originalList.addAll(studySet.cards)
                 adapterStudySet.notifyDataSetChanged()
@@ -535,20 +537,22 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
                     disablePublicSet(Helper.getDataUserId(this), setId)
                     item.title = resources.getString(R.string.public_set)
                 } else {
-                    showPasswordDialog { isPasswordCorrect ->
-                        if (isPasswordCorrect) {
-                            Log.d("VAoooooo","Vapppp")
-                            enablePublicSet(Helper.getDataUserId(this), setId)
-                            item.title = resources.getString(R.string.disable_public_set)
-                        } else {
-                            CustomToast(this@StudySetDetail).makeText(
-                                this@StudySetDetail,
-                                resources.getString(R.string.password_is_not_correct),
-                                CustomToast.LONG,
-                                CustomToast.ERROR
-                            ).show()
-                        }
-                    }
+                    enablePublicSet(Helper.getDataUserId(this), setId)
+                    item.title = resources.getString(R.string.disable_public_set)
+
+//                    showPasswordDialog { isPasswordCorrect ->
+//                        if (isPasswordCorrect) {
+//                            enablePublicSet(Helper.getDataUserId(this), setId)
+//                            item.title = resources.getString(R.string.disable_public_set)
+//                        } else {
+//                            CustomToast(this@StudySetDetail).makeText(
+//                                this@StudySetDetail,
+//                                resources.getString(R.string.password_is_not_correct),
+//                                CustomToast.LONG,
+//                                CustomToast.ERROR
+//                            ).show()
+//                        }
+//                    }
                 }
             }
 
@@ -571,9 +575,9 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
                     CustomToast.LONG,
                     CustomToast.SUCCESS
                 ).show()
-                updateVisibilityForStudySet(true)
-                binding.txtSetName.text = studySet.name
-                binding.txtStudysetDetailDesc.text = studySet.description
+//                updateVisibilityForStudySet(true)
+//                binding.txtSetName.text = studySet.name
+//                binding.txtStudysetDetailDesc.text = studySet.description
             } catch (e: Exception) {
                 CustomToast(this@StudySetDetail).makeText(
                     this@StudySetDetail, e.message.toString(), CustomToast.LONG, CustomToast.ERROR
@@ -596,11 +600,11 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
                     CustomToast.LONG,
                     CustomToast.SUCCESS
                 ).show()
-                binding.txtSetName.text =
-                    Helper.maskData(studySet.name)
-                binding.txtStudysetDetailDesc.text =
-                    Helper.maskData(studySet.description)
-                updateVisibilityForStudySet(false)
+//                binding.txtSetName.text =
+//                    Helper.maskData(studySet.name)
+//                binding.txtStudysetDetailDesc.text =
+//                    Helper.maskData(studySet.description)
+//                updateVisibilityForStudySet(false)
             } catch (e: Exception) {
                 CustomToast(this@StudySetDetail).makeText(
                     this@StudySetDetail, e.message.toString(), CustomToast.LONG, CustomToast.ERROR
@@ -810,15 +814,12 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
                         txtCheckPass
                     )
                     if (result.isSuccessful) {
-                        Log.d("Success", "Success")
                         callback(true)
-                        Log.d("Success", "Success222")
                         dialogEnterPassword.dismiss()
                     } else {
                         callback(false)
                     }
                 } catch (e: Exception) {
-                    Log.e("Error", "Error: ${e.message}")
                     callback(false)
                 } finally {
                     progressDialog.dismiss()
@@ -829,63 +830,6 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
         dialogEnterPassword = dialogBuilder.create()
         dialogEnterPassword.show()
     }
-
-
-//    private fun showPasswordDialog() {
-//        val view = LayoutInflater.from(this).inflate(R.layout.type_pass_dialog, null)
-//
-//        val edtPassword = view.findViewById<EditText>(R.id.edtPassword)
-//        val btnSubmit = view.findViewById<Button>(R.id.btnSubmit)
-//
-//        val dialogBuilder = MaterialAlertDialogBuilder(this)
-//            .setView(view)
-//            .setCancelable(false) // Không cho phép đóng khi nhấn ngoài dialog
-//
-//        btnSubmit.setOnClickListener {
-//            showLoading(resources.getString(R.string.checking_pass))
-//            val txtCheckPass = edtPassword.text.toString()
-//            lifecycleScope.launch {
-//                try {
-//                    val accessToken = Helper.getAccessToken(this@StudySetDetail)
-//                    if (accessToken.isNullOrEmpty()) {
-//                        Log.e("AuthError", "Access Token is missing")
-//                        return@launch
-//                    }
-//                    val authorizationHeader = "Bearer ${accessToken.trim()}"
-//                    val result = apiService.verifyUser(
-//                        authorizationHeader,
-//                        Helper.getDataUserId(this@StudySetDetail),
-//                        txtCheckPass
-//                    )
-//                    if (result.isSuccessful) {
-//                        Toast.makeText(this@StudySetDetail, "Access granted!", Toast.LENGTH_SHORT)
-//                            .show()
-//                        listFlashcardDetails.clear()
-//                        listFlashcardDetails.addAll(originalList)
-//                        adapterStudySet.notifyDataSetChanged()
-//                        adapterFlashcardDetail.notifyDataSetChanged()
-//                        dialogEnterPassword.dismiss()
-//                        binding.btnViewMoreFlashcards.visibility = View.GONE
-//                    } else {
-//                        CustomToast(this@StudySetDetail).makeText(
-//                            this@StudySetDetail,
-//                            resources.getString(R.string.password_is_not_correct),
-//                            CustomToast.LONG,
-//                            CustomToast.ERROR
-//                        ).show()
-//                    }
-//                } catch (e: Exception) {
-//                    Log.e("Eroooor", "Error: ${e.message}")
-//                } finally {
-//                    progressDialog.dismiss()
-//                }
-//            }
-//        }
-//
-//        // Hiển thị dialog
-//        dialogEnterPassword = dialogBuilder.create()
-//        dialogEnterPassword.show()
-//    }
 
     private fun showInfoDialog() {
         MaterialAlertDialogBuilder(this)
@@ -901,58 +845,58 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
             .show()
     }
 
-    private fun updateVisibilityForStudySet(isPublic: Boolean) {
-        if (isPublic) {
-            listCards.clear()
-            listCards.addAll(originalList)
-            listFlashcardDetails.clear()
-            listFlashcardDetails.addAll(originalList)
-            binding.txtSetName.text =
-                if (!studySet.isPublic) Helper.maskData(studySet.name) else studySet.name
-            binding.txtStudysetDetailDesc.text =
-                if (!studySet.isPublic) Helper.maskData(studySet.description) else studySet.description
-            nameSet = studySet.name
-            binding.btnViewMoreFlashcards.visibility = View.GONE // Ẩn nút "View More"
-        } else {
-            listCards.clear()
-            listCards.addAll(originalList.take(4))
-            listFlashcardDetails.clear()
-            listFlashcardDetails.addAll(originalList.take(4))
-
-            binding.btnViewMoreFlashcards.visibility = View.VISIBLE
-            binding.btnViewMoreFlashcards.setOnClickListener {
-                showPasswordDialog { isPasswordCorrect ->
-                    run {
-                        if (isPasswordCorrect) {
-                            Toast.makeText(
-                                this@StudySetDetail,
-                                "Access granted!",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
-                            listFlashcardDetails.clear()
-                            listFlashcardDetails.addAll(originalList)
-                            adapterStudySet.notifyDataSetChanged()
-                            adapterFlashcardDetail.notifyDataSetChanged()
-                            dialogEnterPassword.dismiss()
-                            binding.btnViewMoreFlashcards.visibility = View.GONE
-                        } else {
-                            CustomToast(this@StudySetDetail).makeText(
-                                this@StudySetDetail,
-                                resources.getString(R.string.password_is_not_correct),
-                                CustomToast.LONG,
-                                CustomToast.ERROR
-                            ).show()
-                        }
-                    }
-                }
-            }
-        }
-
-        // Cập nhật lại adapter để hiển thị thay đổi
-        adapterStudySet.notifyDataSetChanged()
-        adapterFlashcardDetail.notifyDataSetChanged()
-    }
+//    private fun updateVisibilityForStudySet(isPublic: Boolean) {
+//        if (isPublic) {
+//            listCards.clear()
+//            listCards.addAll(originalList)
+//            listFlashcardDetails.clear()
+//            listFlashcardDetails.addAll(originalList)
+//            binding.txtSetName.text =
+//                if (!studySet.isPublic) Helper.maskData(studySet.name) else studySet.name
+//            binding.txtStudysetDetailDesc.text =
+//                if (!studySet.isPublic) Helper.maskData(studySet.description) else studySet.description
+//            nameSet = studySet.name
+//            binding.btnViewMoreFlashcards.visibility = View.GONE // Ẩn nút "View More"
+//        } else {
+//            listCards.clear()
+//            listCards.addAll(originalList.take(4))
+//            listFlashcardDetails.clear()
+//            listFlashcardDetails.addAll(originalList.take(4))
+//
+//            binding.btnViewMoreFlashcards.visibility = View.VISIBLE
+//            binding.btnViewMoreFlashcards.setOnClickListener {
+//                showPasswordDialog { isPasswordCorrect ->
+//                    run {
+//                        if (isPasswordCorrect) {
+//                            Toast.makeText(
+//                                this@StudySetDetail,
+//                                "Access granted!",
+//                                Toast.LENGTH_SHORT
+//                            )
+//                                .show()
+//                            listFlashcardDetails.clear()
+//                            listFlashcardDetails.addAll(originalList)
+//                            adapterStudySet.notifyDataSetChanged()
+//                            adapterFlashcardDetail.notifyDataSetChanged()
+//                            dialogEnterPassword.dismiss()
+//                            binding.btnViewMoreFlashcards.visibility = View.GONE
+//                        } else {
+//                            CustomToast(this@StudySetDetail).makeText(
+//                                this@StudySetDetail,
+//                                resources.getString(R.string.password_is_not_correct),
+//                                CustomToast.LONG,
+//                                CustomToast.ERROR
+//                            ).show()
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//
+//        // Cập nhật lại adapter để hiển thị thay đổi
+//        adapterStudySet.notifyDataSetChanged()
+//        adapterFlashcardDetail.notifyDataSetChanged()
+//    }
 
 
 }
