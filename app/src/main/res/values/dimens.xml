@@ -12,6 +12,8 @@
     <dimen name="titleSizeCard2">14sp</dimen>
     <dimen name="md">16dp</dimen>
     <dimen name="height">400dp</dimen>
+    <dimen name="cover_height">200dp</dimen>
+    <dimen name="avatar_height">300dp</dimen>
     <dimen name="dimen32">32dp</dimen>
     <dimen name="chip_height">36dp</dimen>
     <dimen name="chipRadius">3dp</dimen>

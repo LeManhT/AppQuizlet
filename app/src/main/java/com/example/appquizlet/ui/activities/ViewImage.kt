@@ -1,7 +1,7 @@
 package com.example.appquizlet.ui.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.appquizlet.R
 import com.example.appquizlet.databinding.ActivityViewImage2Binding
@@ -15,9 +15,8 @@ class ViewImage : AppCompatActivity() {
         setContentView(binding.root)
 
         val photoView: PhotoView = binding.photoView
-
-        // Đặt ảnh vào PhotoView
-        Glide.with(this).load(R.raw.owl_default_avatar).into(photoView)
+        val imageUrl = intent.getStringExtra("IMAGE_URL")
+        Glide.with(this).load(imageUrl).into(photoView)
 
         binding.imgClose.setOnClickListener {
             finish()

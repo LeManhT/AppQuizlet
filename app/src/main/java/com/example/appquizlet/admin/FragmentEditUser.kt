@@ -31,6 +31,7 @@ class FragmentEditUser : DialogFragment(), View.OnFocusChangeListener {
     private val args: FragmentEditUserArgs by navArgs()
     private lateinit var progressDialog: ProgressDialog
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

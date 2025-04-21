@@ -1,6 +1,7 @@
 package com.example.appquizlet.model.newfeature
 
 data class Message(
+    val groupId: String? = null,
     val messageId: String? = null,
     val senderId: String = "",
     val receiverId: String = "",
@@ -11,7 +12,7 @@ data class Message(
     val isDeleted: Boolean = false,
     val attachments: List<Attachment> = emptyList(),
     val isPinned: Boolean = false,
-    val isSentByUser: Boolean? = true
+    val isSentByUser: Boolean? = false
 )
 
 data class Attachment(

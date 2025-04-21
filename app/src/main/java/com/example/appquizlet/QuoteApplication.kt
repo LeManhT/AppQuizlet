@@ -9,10 +9,10 @@ import dagger.hilt.android.HiltAndroidApp
 @HiltAndroidApp
 class QuoteApplication : Application() {
 //     lateinit var remoteQuoteRepository: RemoteQuoteRepository
-//    override fun onCreate() {
-//        super.onCreate()
+    override fun onCreate() {
+        super.onCreate()
 //        initialize()
-//    }
+    }
 //
 //    private fun initialize() {
 //        val quoteApiService = RetrofitHelperQuote.getInstance().create(QuoteApiService::class.java)

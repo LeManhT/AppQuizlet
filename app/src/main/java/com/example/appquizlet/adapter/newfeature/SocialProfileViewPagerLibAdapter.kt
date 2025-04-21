@@ -6,6 +6,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.appquizlet.ui.fragments.social.FragmentChat
 import com.example.appquizlet.ui.fragments.social.FragmentFriend
+import com.example.appquizlet.ui.fragments.social.FragmentMyImage
+import com.example.appquizlet.ui.fragments.social.FragmentMyStudySet
 import com.example.appquizlet.ui.fragments.social.FragmentProfilePost
 import com.example.appquizlet.ui.fragments.social.FragmentSocialProfile
 
@@ -23,11 +25,11 @@ class SocialProfileViewPagerLibAdapter(fragment: FragmentManager, lifecycle: Lif
             }
 
             1 -> {
-                FragmentFriend()
+                FragmentMyImage()
             }
 
             2 -> {
-                FragmentChat()
+                FragmentMyStudySet()
             }
 
             else -> {

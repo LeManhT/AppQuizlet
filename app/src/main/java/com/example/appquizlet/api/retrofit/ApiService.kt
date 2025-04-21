@@ -10,20 +10,37 @@ import com.example.appquizlet.model.ShareResponse
 import com.example.appquizlet.model.UpdateUserResponse
 import com.example.appquizlet.model.UserResponse
 import com.example.appquizlet.model.admin.NotificationBody
+import com.example.appquizlet.model.newfeature.ChatBotMessage
+import com.example.appquizlet.model.newfeature.ChatbotConversation
+import com.example.appquizlet.model.newfeature.Comment
+import com.example.appquizlet.model.newfeature.Conversation
+import com.example.appquizlet.model.newfeature.GroupMember
 import com.example.appquizlet.model.newfeature.Message
 import com.example.appquizlet.model.newfeature.Post
+import com.example.appquizlet.model.requests.CheckLikedPostsRequest
+import com.example.appquizlet.model.requests.CommentRequest
 import com.example.appquizlet.model.requests.CreatePostRequest
 import com.example.appquizlet.model.requests.CreateSetRequest
+import com.example.appquizlet.model.requests.DialogflowRequest
+import com.example.appquizlet.model.requests.UploadResponse
+import com.example.appquizlet.model.response.DialogflowResponse
+import com.example.appquizlet.model.response.FriendRequestResponse
+import com.example.appquizlet.model.response.FriendsResponse
+import com.example.appquizlet.model.response.LikeResponse
 import com.example.quizletappandroidv1.models.admin.UserAdmin
 import com.google.gson.JsonObject
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -227,15 +244,19 @@ interface ApiService {
         @Query("messageId") messageId: String
     ): Response<Unit>
 
-    @GET("Message/GetMessage")
-    suspend fun getMessages(@Query("userId") userId: String): Response<List<Message>>
+    @GET("Message/messages")
+    suspend fun getMessages(
+        @Query("userId1") userId: String, @Query("userId2") userId2: String
+    ): Response<List<Message>>
 
 
     @GET("Post/getPosts")
-    suspend fun getPosts(): List<Post>
+    suspend fun getPosts(
+        @Query("page") page: Int, @Query("pageSize") pageSize: Int
+    ): Response<List<Post>>
 
     @POST("Post/CreatePost")
-    suspend fun createPost(@Body postRequest: CreatePostRequest): Post
+    suspend fun createPost(@Body request: CreatePostRequest): Response<Post>
 
     @GET("User/VerifyUser")
     suspend fun verifyUser(
@@ -243,5 +264,137 @@ interface ApiService {
         @Query("userId") userId: String,
         @Query("plainPassword") plainPassword: String
     ): Response<Unit>
+
+    @POST("Comment/AddComment/add")
+    suspend fun addComment(@Body request: CommentRequest): Response<Comment>
+
+    @GET("Comment/GetRootComments/{postId}/root-comments")
+    suspend fun getRootComments(@Path("postId") postId: String): Response<List<Comment>>
+
+    @GET("Comment/GetReplies/{commentId}/replies")
+    suspend fun getReplies(@Path("commentId") commentId: String): Response<List<Comment>>
+
+    @DELETE("Comment/DeleteComment/{commentId}")
+    suspend fun deleteComment(@Path("commentId") commentId: String): Response<Boolean>
+
+    @Multipart
+    @POST("Post/UploadFile/upload")
+    suspend fun uploadFile(@Part file: MultipartBody.Part): Response<UploadResponse>
+
+    @PUT("post/updatePost/{postId}")
+    suspend fun updatePost(
+        @Path("postId") postId: String,
+        @Body updatedFields: Post
+    )
+
+    @POST("Post/CheckLikedPosts")
+    suspend fun checkLikedPosts(
+        @Body request: CheckLikedPostsRequest
+    ): Response<List<String>>
+
+    @POST("Post/LikePost")
+    suspend fun likePost(
+        @Query("userId") userId: String,
+        @Query("postId") postId: String
+    ): Response<LikeResponse>
+
+    @POST("Post/UnLikePost")
+    suspend fun unlikePost(
+        @Query("userId") userId: String,
+        @Query("postId") postId: String
+    ): Response<LikeResponse>
+
+    @POST("Friend/SendFriendRequest")
+    suspend fun sendFriendRequest(
+        @Query("senderId") senderId: String,
+        @Query("receiverId") receiverId: String
+    ): Response<FriendRequestResponse>
+
+    @GET("Friend/GetFriends")
+    suspend fun getFriendsList(
+        @Query("userId") userId: String
+    ): Response<FriendsResponse>
+
+    @GET("User/GetSuggestedFriends")
+    suspend fun getSuggestedFriends(
+        @Header("Authorization") token: String,
+        @Query("userId") userId: String
+    ): Response<List<UserResponse>>
+
+    @GET("Friend/GetReceivedFriendRequests")
+    suspend fun getReceivedFriendRequests(
+        @Query("receiverId") userId: String
+    ): Response<FriendRequestResponse>
+
+    @GET("Message/GetMessagesByConversation")
+    suspend fun getMessagesByConversation(
+        @Query("conversationId") conversationId: String
+    ): Response<List<Message>>
+
+    @GET("Message/GetUserConversations")
+    suspend fun getUserConversations(
+        @Query("userId") userId: String
+    ): Response<List<Conversation>>
+
+    @POST("projects/{project-id}/agent/sessions/{session-id}:detectIntent")
+    suspend fun sendMessage(
+        @Path("project-id") projectId: String,
+        @Path("session-id") sessionId: String,
+        @Body request: DialogflowRequest
+    ): DialogflowResponse
+
+    @GET("chat/getHistory/{userId}")
+    suspend fun getChatHistory(@Path("userId") userId: String): Response<List<ChatbotConversation>>
+
+    // Group endpoints
+    @GET("Group/GetUserGroups")
+    suspend fun getUserGroups(@Query("userId") userId: String): Response<List<Conversation>>
+
+    @GET("Group/GetGroup")
+    suspend fun getGroupById(@Query("groupId") groupId: String): Response<Conversation>
+
+    @GET("Group/getGroupMembers")
+    suspend fun getGroupMembers(@Query("groupId") groupId: String): Response<List<GroupMember>>
+
+    @GET("Group/getGroupMessages")
+    suspend fun getGroupMessages(
+        @Query("groupId") groupId: String,
+        @Query("limit") limit: Int = 50,
+        @Query("beforeTimestamp") beforeTimestamp: Long? = null
+    ): Response<List<Message>>
+
+    @POST("Group/CreateGroup")
+    suspend fun createGroup(@Body group: Conversation): Response<Conversation>
+
+    @PUT("Group/UpdateGroup")
+    suspend fun updateGroup(
+        @Query("groupId") groupId: String,
+        @Body group: Conversation
+    ): Response<Unit>
+
+    @DELETE("Group/DeleteGroup")
+    suspend fun deleteGroup(@Query("groupId") groupId: String): Response<Unit>
+
+    @POST("Group/AddMemberToGroup/members")
+    suspend fun addMemberToGroup(
+        @Query("groupId") groupId: String,
+        @Body member: GroupMember
+    ): Response<Unit>
+
+    @DELETE("Group/RemoveMemberFromGroup")
+    suspend fun removeMemberFromGroup(
+        @Query("groupId") groupId: String,
+        @Query("userId") userId: String
+    ): Response<Unit>
+
+    @PUT("Group/UpdateMemberRole")
+    suspend fun updateMemberRole(
+        @Query("groupId") groupId: String,
+        @Query("userId") userId: String,
+        @Body role: String
+    ): Response<Unit>
+
+    @GET("Friend/GetUserFriends")
+    suspend fun getUserFriends(@Query("userId") userId: String): Response<List<UserResponse>>
 
 }

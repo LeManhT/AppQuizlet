@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:background="#000000">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageMember"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/user"
+        app:civ_border_color="#333333"
+        app:civ_border_width="1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/textMemberName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Member Name"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintStart_toEndOf="@id/imageMember"
+        app:layout_constraintEnd_toStartOf="@id/btnMemberOptions"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/textMemberRole" />
+
+    <TextView
+        android:id="@+id/textMemberRole"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="member"
+        android:textColor="#999999"
+        android:textSize="14sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintStart_toEndOf="@id/imageMember"
+        app:layout_constraintEnd_toStartOf="@id/btnMemberOptions"
+        app:layout_constraintTop_toBottomOf="@id/textMemberName"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ImageView
+        android:id="@+id/btnMemberOptions"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/info"
+        android:contentDescription="Options"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

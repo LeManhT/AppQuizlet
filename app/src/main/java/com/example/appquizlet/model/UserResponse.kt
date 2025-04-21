@@ -13,7 +13,7 @@ class UserResponse(
     @SerializedName("loginName")
     val loginName: String,
     @SerializedName("loginPassword")
-    val loginPassword: String,
+    val loginPassword: String?="",
     @SerializedName("isSuspend")
     var isSuspend: Boolean,
     @SerializedName("userName")
@@ -27,9 +27,9 @@ class UserResponse(
     @SerializedName("documents")
     val documents: DocumentModel,
     @SerializedName("streak")
-    val streak: StreakData,
+    val streak: StreakData ?= null,
     @SerializedName("achievement")
-    val achievement: AchievementData,
+    val achievement: AchievementData? = null,
     @SerializedName("avatar")
     val avatar: String
 ) : Parcelable {
@@ -59,15 +59,15 @@ class UserResponse(
         var result = id.hashCode()
         result = 31 * result + seqId
         result = 31 * result + loginName.hashCode()
-        result = 31 * result + loginPassword.hashCode()
+        result = 31 * result + (loginPassword?.hashCode() ?: 0)
         result = 31 * result + isSuspend.hashCode()
         result = 31 * result + userName.hashCode()
         result = 31 * result + email.hashCode()
         result = 31 * result + dateOfBirth.hashCode()
         result = 31 * result + timeCreated.hashCode()
         result = 31 * result + documents.hashCode()
-        result = 31 * result + streak.hashCode()
-        result = 31 * result + achievement.hashCode()
+        result = 31 * result + (streak?.hashCode() ?: 0)
+        result = 31 * result + (achievement?.hashCode() ?: 0)
         return result
     }
 }

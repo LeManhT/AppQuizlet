@@ -11,9 +11,18 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.text.TextUtils
 import androidx.loader.content.CursorLoader
+import java.io.File
 
 
 object FileHelperUtils {
+
+    fun getFileFromUri(context: Context, uri: Uri): File? {
+        val inputStream = context.contentResolver.openInputStream(uri) ?: return null
+        val file = File(context.cacheDir, "${System.currentTimeMillis()}.jpg")
+        file.outputStream().use { inputStream.copyTo(it) }
+        return file
+    }
+
     fun getPath(context: Context, fileUri: Uri): String? {
         // SDK >= 11 && SDK < 19
         return if (Build.VERSION.SDK_INT < 19) {

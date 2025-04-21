@@ -11,11 +11,11 @@ import com.example.appquizlet.R
 import com.example.appquizlet.model.newfeature.FriendRequest
 
 class FriendRequestAdapter(
-    private var requests: List<FriendRequest>,
     private val onAccept: (FriendRequest) -> Unit,
     private val onReject: (FriendRequest) -> Unit
 ) : RecyclerView.Adapter<FriendRequestAdapter.FriendRequestViewHolder>() {
 
+    private var requests: List<FriendRequest> = mutableListOf()
     inner class FriendRequestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val avatar: ImageView = itemView.findViewById(R.id.iv_avatar)
         private val name: TextView = itemView.findViewById(R.id.tv_name)
@@ -24,8 +24,8 @@ class FriendRequestAdapter(
         private val rejectButton: Button = itemView.findViewById(R.id.btn_reject)
 
         fun bind(request: FriendRequest) {
-            name.text = request.name
-            mutualFriends.text = "${request.mutualFriends} bạn chung • ${request.time}"
+            name.text = request.senderName
+            mutualFriends.text = "${request.mutualFriends} bạn chung • ${request.createdAt}"
 
             acceptButton.setOnClickListener { onAccept(request) }
             rejectButton.setOnClickListener { onReject(request) }

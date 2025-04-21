@@ -1,8 +1,12 @@
 package com.example.appquizlet.model.newfeature
-import com.google.gson.annotations.SerializedName
 
+import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Conversation(
-    @SerializedName("conversation_id")
+    @SerializedName("id")
     val conversationId: String = "",
 
     @SerializedName("name")
@@ -11,9 +15,11 @@ data class Conversation(
     @SerializedName("type")
     val type: String = "personal",
 
-    @SerializedName("participants")
-    val members: List<String> = emptyList(),
-
+    @SerializedName("members")
+    val members: List<GroupMember> = emptyList(),
+    val avatarUrl: String? = null, // avatar nhóm nếu type = group
+    val description: String? = null, // mô tả nhóm nếu là group
+    val createdBy: String? = null, // userId người tạo nhóm
     @SerializedName("last_message")
     val lastMessage: String? = null,
 
@@ -27,5 +33,6 @@ data class Conversation(
     val createdAt: Long = System.currentTimeMillis() / 1000,
 
     @SerializedName("updated_at")
-    val updatedAt: Long = System.currentTimeMillis() / 1000
-)
+    val updatedAt: Long = System.currentTimeMillis() / 1000,
+    val isActive: Boolean = true
+) : Parcelable

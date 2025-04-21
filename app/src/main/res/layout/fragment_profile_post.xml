@@ -49,9 +49,10 @@
                     app:tint="@android:color/white" />
 
                 <TextView
+                    android:id="@+id/txtProfileDOB"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Học tại Học viện Kỹ thuật mật mã - KMA"
+                    android:text="05/09/2002"
                     android:textColor="@android:color/white"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -70,9 +71,10 @@
                     app:tint="@android:color/white" />
 
                 <TextView
+                    android:id="@+id/txtTotalStudySets"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Đã học tại THPT Hàm Rồng"
+                    android:text="Total studysets"
                     android:textColor="@android:color/white"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -111,6 +113,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/pad_20"
@@ -144,7 +147,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
-                android:id="@+id/videoButton"
+                android:id="@+id/layoutAttachments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -168,13 +171,13 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/photoButton"
+                android:id="@+id/layoutImages"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:orientation="horizontal"
-                app:layout_constraintEnd_toStartOf="@id/feelingButton"
-                app:layout_constraintStart_toEndOf="@id/videoButton"
+                app:layout_constraintEnd_toStartOf="@id/layoutEmoji"
+                app:layout_constraintStart_toEndOf="@id/layoutAttachments"
                 app:layout_constraintTop_toBottomOf="@id/avatarImageView">
 
                 <ImageView
@@ -195,7 +198,7 @@
 
             <!-- Feeling/Activity button -->
             <LinearLayout
-                android:id="@+id/feelingButton"
+                android:id="@+id/layoutEmoji"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -220,8 +223,17 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvListCurrentUserPosts"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/mar_15"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/constraintLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.core.widget.NestedScrollView>
 

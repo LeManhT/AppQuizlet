@@ -55,10 +55,10 @@ class Settings : AppCompatActivity() {
         }
         val userData = UserM.getUserData()
         userData.observe(this) {
-            currentPass = it.loginPassword
+            currentPass = it.loginPassword.toString()
 //            currentPassHash = Helper.hashPassword(it.loginPassword)
             currentEmail = it.email
-            binding.txtEmail.text = it.email
+            binding.txtEmail.text = Helper.maskData(it.email)
         }
 
         sharedPreferencesTheme = this.getSharedPreferences("changeTheme", Context.MODE_PRIVATE)

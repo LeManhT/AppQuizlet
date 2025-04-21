@@ -71,7 +71,6 @@ class FragmentProfile : Fragment() {
 
     val REQUEST_CODE = 10
     private val launcher = registerImagePicker { images ->
-        // selected images
         if (images.isNotEmpty()) {
             val image = images[0]
 
@@ -238,7 +237,7 @@ class FragmentProfile : Fragment() {
 
         }
         userData.observe(viewLifecycleOwner) { userData ->
-            binding.txtUsername.text = userData.loginName
+            binding.txtUsername.text = Helper.maskData(userData.loginName)
 //            val bitmap: Bitmap? = userData.avatar.let {
 //                bytesToBitmap(it)
 //            }
@@ -293,18 +292,9 @@ class FragmentProfile : Fragment() {
         recyclerViewDayOfWeek.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recyclerViewDayOfWeek.adapter = dayOfWeekAdapter
-
-
-
-
         return binding.root
     }
 // Đặt _binding = null khi fragment bị phá hủy.
-
-    // Sử dụng lớp binding để truy cập các view trong layout.
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

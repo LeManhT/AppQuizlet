@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.appquizlet.R
 import com.example.appquizlet.adapter.newfeature.SocialViewPagerLibAdapter
 import com.example.appquizlet.databinding.FragmentSocialMainBinding
 import com.example.appquizlet.services.SignalRService
+import com.example.appquizlet.viewmodel.social.GroupChatViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
@@ -20,6 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class FragmentSocialMain : Fragment() {
     private lateinit var adapterLibPager: SocialViewPagerLibAdapter
     private lateinit var binding: FragmentSocialMainBinding
+    private val groupViewModel: GroupChatViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,10 +35,9 @@ class FragmentSocialMain : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         adapterLibPager =
-            SocialViewPagerLibAdapter(parentFragmentManager, lifecycle)
+            SocialViewPagerLibAdapter(childFragmentManager, lifecycle)
+        childFragmentManager.executePendingTransactions()
         binding.viewPager.adapter = adapterLibPager
         binding.viewPager.isUserInputEnabled = false
         TabLayoutMediator(binding.tabs, binding.viewPager) { tab, pos ->
@@ -58,7 +60,6 @@ class FragmentSocialMain : Fragment() {
                 }
 
                 2 -> {
-//                    tab.text = resources.getString(R.string.folders)
                     tab.icon =
                         ResourcesCompat.getDrawable(resources, R.drawable.user_edit, null)
                     val badge = tab.orCreateBadge
@@ -68,11 +69,12 @@ class FragmentSocialMain : Fragment() {
             }
         }.attach()
 
-        val fab: FloatingActionButton = binding.fab
+        val fab: FloatingActionButton = binding.fabCreateGroup
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            findNavController().navigate(R.id.fragmentCreateGroup2)
+            Snackbar.make(view, "Navigation to create group", Snackbar.LENGTH_LONG)
                 .setAction("Action", null)
-                .setAnchorView(R.id.fab).show()
+                .setAnchorView(R.id.fabCreateGroup).show()
         }
 
         binding.imgOpenMessage.setOnClickListener {

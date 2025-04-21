@@ -8,18 +8,18 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.appquizlet.R
+import com.example.appquizlet.model.UserResponse
 import com.example.appquizlet.model.newfeature.FriendResponse
 
 class FriendProfileAdapter(
-    private val userList: List<FriendResponse>,
-    private val onItemClick: (FriendResponse) -> Unit
+    private val onItemClick: (UserResponse) -> Unit
 ) : RecyclerView.Adapter<FriendProfileAdapter.UserViewHolder>() {
-
+    private var userList: List<UserResponse> = mutableListOf()
     inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val avatarImageView: ImageView = itemView.findViewById(R.id.avatarFriendProfile)
         private val userNameTextView: TextView = itemView.findViewById(R.id.txtFriendProfileName)
 
-        fun bind(user: FriendResponse) {
+        fun bind(user: UserResponse) {
             userNameTextView.text = user.userName
 
 //            val inputStream = itemView.context.resources.openRawResource(R.raw.ac204)
@@ -40,6 +40,11 @@ class FriendProfileAdapter(
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         holder.bind(userList[position])
+    }
+
+    fun updateData(newList: List<UserResponse>) {
+        this.userList = newList
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int = userList.size

@@ -40,11 +40,20 @@
             android:layout_marginEnd="16dp" />
 
         <ImageView
-            android:id="@+id/iconVideoCall"
+            android:id="@+id/iconConversationDetail"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/info" />
     </LinearLayout>
+
+    <org.webrtc.SurfaceViewRenderer
+        android:id="@+id/remoteVideoView"
+        android:layout_width="120dp"
+        android:layout_height="160dp"
+        android:layout_margin="8dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/empty_view"
@@ -132,17 +141,19 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginHorizontal="8dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Add Options"
                 android:src="@drawable/plus" />
 
             <ImageView
-                android:id="@+id/iconChat"
+                android:id="@+id/iconCamera"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginHorizontal="8dp"
                 android:src="@drawable/camera" />
 
             <ImageView
-                android:id="@+id/iconSettings"
+                android:id="@+id/iconMic"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginHorizontal="8dp"
@@ -176,7 +187,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.8807786" />
+            app:layout_constraintGuide_begin="362dp" />
 
         <ImageView
             android:id="@+id/send_message_button"

@@ -12,16 +12,45 @@
         <action
             android:id="@+id/action_fragmentChat_to_fragmentListConversation"
             app:destination="@id/fragmentListConversation" />
+        <argument
+            android:name="conversation"
+            app:argType="com.example.appquizlet.model.newfeature.Conversation" />
+        <action
+            android:id="@+id/action_fragmentChat_to_fragmentConversationDetail"
+            app:destination="@id/fragmentConversationDetail" />
     </fragment>
     <fragment
         android:id="@+id/fragmentCreatePost"
         android:name="com.example.appquizlet.ui.fragments.social.FragmentCreatePost"
-        android:label="FragmentCreatePost" />
+        android:label="FragmentCreatePost">
+        <action
+            android:id="@+id/action_fragmentCreatePost_to_fragmentProfilePost"
+            app:destination="@id/fragmentProfilePost" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentSocialMain"
         android:name="com.example.appquizlet.ui.fragments.social.FragmentSocialMain"
         android:label="fragment_social_main"
-        tools:layout="@layout/fragment_social_main" />
+        tools:layout="@layout/fragment_social_main">
+        <action
+            android:id="@+id/action_fragmentSocialMain_to_fragmentFeed"
+            app:destination="@id/fragmentFeed" />
+        <action
+            android:id="@+id/action_fragmentSocialMain_to_postDetail"
+            app:destination="@id/postDetail" />
+        <action
+            android:id="@+id/action_fragmentSocialMain_to_fragmentFriendRequest"
+            app:destination="@id/fragmentFriendRequest" />
+        <action
+            android:id="@+id/action_fragmentSocialMain_to_fragmentEditAvatar"
+            app:destination="@id/fragmentEditAvatar" />
+        <action
+            android:id="@+id/action_fragmentSocialMain_to_fragmentCreateGroup2"
+            app:destination="@id/fragmentCreateGroup2" />
+        <action
+            android:id="@+id/action_fragmentSocialMain_to_imageViewerFragment"
+            app:destination="@id/imageViewerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentListConversation"
         android:name="com.example.appquizlet.ui.fragments.social.FragmentListConversation"
@@ -29,5 +58,147 @@
         <action
             android:id="@+id/action_fragmentListConversation_to_fragmentChat"
             app:destination="@id/fragmentChat" />
+        <action
+            android:id="@+id/action_fragmentListConversation_to_fragmentGroupChat"
+            app:destination="@id/fragmentGroupChat" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentConversationDetail"
+        android:name="com.example.appquizlet.ui.fragments.social.FragmentConversationDetail"
+        android:label="FragmentConversationDetail">
+
+        <action
+            android:id="@+id/action_fragmentConversationDetail_to_fragmentChat"
+            app:destination="@id/fragmentChat" />
+
+        <action
+            android:id="@+id/action_fragmentConversationDetail_to_fragmentGroupChat"
+            app:destination="@id/fragmentGroupChat" />
+        <argument
+            android:name="conversation"
+            app:argType="com.example.appquizlet.model.newfeature.Conversation" />
+    </fragment>
+    <fragment
+        android:id="@+id/postDetail"
+        android:name="com.example.appquizlet.ui.fragments.social.FragmentPostDetail"
+        android:label="fragment_post_detail"
+        tools:layout="@layout/fragment_post_detail">
+
+        <argument
+            android:name="post"
+            app:argType="com.example.appquizlet.model.newfeature.Post" />
+
+        <action
+            android:id="@+id/action_postDetail_to_fragmentSocialMain"
+            app:destination="@id/fragmentSocialMain" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentFeed"
+        android:name="com.example.appquizlet.ui.fragments.social.FragmentFeed"
+        android:label="FragmentFeed">
+        <action
+            android:id="@+id/action_fragmentFeed_to_postDetail2"
+            app:destination="@id/postDetail" />
+        <action
+            android:id="@+id/action_fragmentFeed_to_fragmentSocialMain"
+            app:destination="@id/fragmentSocialMain" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentFriendRequest"
+        android:name="com.example.appquizlet.ui.fragments.social.FragmentFriendRequest"
+        android:label="FragmentFriendRequest">
+        <action
+            android:id="@+id/action_fragmentFriendRequest_to_fragmentFriend"
+            app:destination="@id/fragmentFriend" />
+        <action
+            android:id="@+id/action_fragmentFriendRequest_to_fragmentSocialMain"
+            app:destination="@id/fragmentSocialMain" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentFriend"
+        android:name="com.example.appquizlet.ui.fragments.social.FragmentFriend"
+        android:label="FragmentFriend">
+        <action
+            android:id="@+id/action_fragmentFriend_to_fragmentFriendRequest"
+            app:destination="@id/fragmentFriendRequest" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentProfilePost"
+        android:name="com.example.appquizlet.ui.fragments.social.FragmentProfilePost"
+        android:label="FragmentProfilePost">
+        <action
+            android:id="@+id/action_fragmentProfilePost_to_fragmentCreatePost"
+            app:destination="@id/fragmentCreatePost" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentEditAvatar"
+        android:name="com.example.appquizlet.ui.fragments.social.FragmentEditAvatar"
+        android:label="fragment_edit_avatar"
+        tools:layout="@layout/fragment_edit_avatar">
+        <action
+            android:id="@+id/action_fragmentEditAvatar_to_fragmentSocialProfile"
+            app:destination="@id/fragmentSocialProfile" />
+        <action
+            android:id="@+id/action_fragmentEditAvatar_to_fragmentSocialMain"
+            app:destination="@id/fragmentSocialMain" />
+        <argument
+            android:name="image_uri"
+            app:argType="string" />
+        <argument
+            android:name="imageType"
+            app:argType="string" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentSocialProfile"
+        android:name="com.example.appquizlet.ui.fragments.social.FragmentSocialProfile"
+        android:label="FragmentSocialProfile">
+        <action
+            android:id="@+id/action_fragmentSocialProfile_to_fragmentEditAvatar"
+            app:destination="@id/fragmentEditAvatar" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentGroupChat"
+        android:name="com.example.appquizlet.ui.fragments.social.FragmentGroupChat"
+        android:label="fragment_group_chat"
+        tools:layout="@layout/fragment_group_chat">
+
+        <action
+            android:id="@+id/action_fragmentGroupChat_to_fragmentListConversation"
+            app:destination="@id/fragmentListConversation" />
+        <action
+            android:id="@+id/action_fragmentGroupChat_to_fragmentConversationDetail"
+            app:destination="@id/fragmentConversationDetail" />
+        <argument
+            android:name="conversation"
+            app:argType="com.example.appquizlet.model.newfeature.Conversation" />
+        <action
+            android:id="@+id/action_fragmentGroupChat_to_fragmentCreateGroup2"
+            app:destination="@id/fragmentCreateGroup2" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentCreateGroup2"
+        android:name="com.example.appquizlet.ui.fragments.social.FragmentCreateGroup"
+        android:label="FragmentCreateGroup">
+        <action
+            android:id="@+id/action_fragmentCreateGroup2_to_fragmentSocialMain"
+            app:destination="@id/fragmentSocialMain" />
+        <action
+            android:id="@+id/action_fragmentCreateGroup2_to_fragmentGroupChat"
+            app:destination="@id/fragmentGroupChat" />
+    </fragment>
+    <fragment
+        android:id="@+id/imageViewerFragment"
+        android:name="com.example.appquizlet.ui.fragments.social.ImageViewerFragment"
+        android:label="ImageViewerFragment">
+        <argument
+            android:name="imageUrls"
+            app:argType="string[]" />
+        <argument
+            android:name="initialPosition"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_imageViewerFragment_to_fragmentSocialMain"
+            app:destination="@id/fragmentSocialMain" />
     </fragment>
 </navigation>

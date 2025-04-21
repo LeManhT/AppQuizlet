@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp">
@@ -28,6 +29,20 @@
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/imageViewProfile"
         app:layout_constraintTop_toTopOf="@id/imageViewProfile" />
+
+    <TextView
+        android:id="@+id/txtMemberCount"
+        android:visibility="gone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/mar_10"
+        android:text="3 members"
+        android:textSize="14dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/txtConversationName"
+        app:layout_constraintEnd_toStartOf="@+id/txtConversationTimestamp"
+        app:layout_constraintStart_toEndOf="@+id/txtConversationName"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txtViewLastMessage"

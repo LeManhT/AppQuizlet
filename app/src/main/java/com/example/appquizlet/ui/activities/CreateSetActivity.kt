@@ -230,7 +230,6 @@ class CreateSetActivity : AppCompatActivity(), CreateSetItemAdapter.OnIconClickL
                 startActivity(i)
             }
         }
-
     }
 
     private fun createNewStudySet(

@@ -559,6 +559,18 @@
     <string name="info_set">View info</string>
     <string name="info_message">Because this study set is private, you need to verify your password to view the full content. Otherwise, only limited content will be displayed.</string>
     <string name="view_full">View full content</string>
+    <string name="your_account_is_unlock">Your account is unlocked. Please try again</string>
+    <string name="your_account_is_locked_please_try_again_after_minutes">Your account will be temporarily locked after too many failed attempts. Please try again after %1$s minutes.</string>
+
+    <string name="your_account_is_locked_please_try_again_after">Tài khoản của bạn đã bị khóa. Vui lòng thử lại sau %1$d phút %2$d giây.</string>
+    <string name="your_account_is_locked_until">Your account is locked until: %1$s</string>
+    <string name="login_another_account">Use another account</string>
+    <string name="emoji">Emoji</string>
+    <string name="location">Location</string>
+    <string name="crop_image">Crop image</string>
+    <string name="type_a_message">Type a message...</string>
+    <string name="you_currently_have_no_friends_requests">You currently have no friends requests</string>
+    <string name="no_friend_request_found">No friend request found</string>
 
 </resources>
 

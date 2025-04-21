@@ -4,6 +4,7 @@ import com.example.appquizlet.util.Constants
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+
 object RetrofitHelper {
     private const val baseUrl = Constants.baseUrl
     fun getInstance(): Retrofit {
@@ -27,5 +28,13 @@ object RetrofitHelper {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
+    fun getQuizletAIServiceInstance(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(Constants.quizletAiBaseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
 }
 

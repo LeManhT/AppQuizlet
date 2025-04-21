@@ -1,20 +1,18 @@
 package com.example.appquizlet
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import android.util.Patterns
+import android.view.Gravity
 import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
-import android.widget.EditText
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.setPadding
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.security.crypto.EncryptedSharedPreferences
@@ -26,12 +24,12 @@ import com.example.appquizlet.databinding.ActivitySignInBinding
 import com.example.appquizlet.model.DetectContinueModel
 import com.example.appquizlet.model.UserM
 import com.example.appquizlet.model.UserViewModel
-import com.example.appquizlet.util.Helper
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
+import kotlin.math.abs
 
 
 class SignInActivity : AppCompatActivity(), View.OnFocusChangeListener, View.OnKeyListener,
@@ -101,9 +99,16 @@ class SignInActivity : AppCompatActivity(), View.OnFocusChangeListener, View.OnK
 //                            Helper.saveAccessToken(this@SignInActivity, it.accessToken)
 //                            saveUserDataSecurely(it.user.id, it.user.loginName, pass, true)
                             saveUserDataSecurely(it.user.id, it.user.loginName, pass, true)
-                            UserM.setDataAchievements(
-                                DetectContinueModel(it.user.streak, it.user.achievement)
-                            )
+                            it.user.streak?.let { it1 -> it.user.achievement?.let { it2 ->
+                                DetectContinueModel(it1,
+                                    it2
+                                )
+                            } }
+                                ?.let { it2 ->
+                                    UserM.setDataAchievements(
+                                        it2
+                                    )
+                                }
                             UserM.setUserData(it.user)
                         }
                     }
@@ -118,12 +123,6 @@ class SignInActivity : AppCompatActivity(), View.OnFocusChangeListener, View.OnK
                         val tryLoginRemain = errorObject.get("try_login_remain")?.asInt ?: -1
                         val timeSuspendTemp = errorObject.get("time_suspend_temp")?.asLong ?: 0
                         handleLoginFailure(resultType, message, tryLoginRemain, timeSuspendTemp)
-//                        CustomToast(this@SignInActivity).makeText(
-//                            this@SignInActivity,
-//                            it,
-//                            CustomToast.LONG,
-//                            CustomToast.ERROR
-//                        ).show()
                     }
                 }
             } catch (e: Exception) {
@@ -254,6 +253,7 @@ class SignInActivity : AppCompatActivity(), View.OnFocusChangeListener, View.OnK
     }
 
     private fun handleLoginFailure(resultType: Int, message: String, tryLoginRemain: Int, timeSuspendTemp: Long) {
+        Log.d("tryLoginRemain",tryLoginRemain.toString())
         when (tryLoginRemain) {
             1 -> {
                 MaterialAlertDialogBuilder(this)
@@ -269,26 +269,69 @@ class SignInActivity : AppCompatActivity(), View.OnFocusChangeListener, View.OnK
                     .show()
             }
             0 -> {
-                val timeLeft = (timeSuspendTemp * 1000) - System.currentTimeMillis()
-                if (timeLeft > 0) {
-                    val minutesLeft = timeLeft / 60000
-                    CustomToast(this@SignInActivity).makeText(
-                        this@SignInActivity,
-                        "Tài khoản đã bị khóa. Vui lòng thử lại sau $minutesLeft phút.",
-                        CustomToast.LONG,
-                        CustomToast.ERROR
-                    ).show()
-                } else {
-                    CustomToast(this@SignInActivity).makeText(
-                        this@SignInActivity,
-                        "Tài khoản đã được mở khóa. Vui lòng thử lại.",
-                        CustomToast.LONG,
-                        CustomToast.WARNING
-                    ).show()
-                }
+                    val timeLeftMillis = abs((timeSuspendTemp * 1000L) - System.currentTimeMillis())
+                    Log.d("TimeLeftMillis", "$timeLeftMillis")
+                    if (timeLeftMillis > 0) {
+                        Log.d("TimeLeftMillis2", "$timeLeftMillis")
+                        val dialogBuilder = MaterialAlertDialogBuilder(this)
+                            .setTitle(getString(R.string.lock_login_warning))
+                            .setCancelable(false)
+                            .setPositiveButton(getString(R.string.login_another_account)) { dialog, _ ->
+                                dialog.dismiss()
+                            }
+                            .setNeutralButton(getString(R.string.cancel)) { dialog, _ ->
+                                dialog.dismiss()
+                            }
+
+                        val countdownTextView = TextView(this).apply {
+                            textSize = 18f
+                            setPadding(40, 40, 40, 40)
+                            gravity = Gravity.CENTER
+                        }
+                        dialogBuilder.setView(countdownTextView)
+                        val alertDialog = dialogBuilder.create()
+                        alertDialog.show()
+
+                        object : CountDownTimer(timeLeftMillis, 1000) {
+                            override fun onTick(millisUntilFinished: Long) {
+                                val minutesLeft = (millisUntilFinished % 3600000) / 60000
+                                val secondsLeft = (millisUntilFinished / 1000) % 60
+                                countdownTextView.text = getString(
+                                    R.string.your_account_is_locked_please_try_again_after,
+                                    minutesLeft,
+                                    secondsLeft
+                                )
+                            }
+
+                            override fun onFinish() {
+                                alertDialog.dismiss()
+                                CustomToast(this@SignInActivity).makeText(
+                                    this@SignInActivity,
+                                    getString(R.string.your_account_is_unlock),
+                                    CustomToast.LONG,
+                                    CustomToast.SUCCESS
+                                ).show()
+                            }
+                        }.start()
+                        CustomToast(this@SignInActivity).makeText(
+                            this@SignInActivity,
+                            getString(
+                                R.string.your_account_is_locked_please_try_again_after_minutes,
+                                timeLeftMillis.toString()
+                            ),
+                            CustomToast.LONG,
+                            CustomToast.ERROR
+                        ).show()
+                    } else {
+                        CustomToast(this@SignInActivity).makeText(
+                            this@SignInActivity,
+                            getString(R.string.your_account_is_unlock),
+                            CustomToast.LONG,
+                            CustomToast.WARNING
+                        ).show()
+                    }
             }
             else -> {
-                // Hiển thị lỗi thông thường
                 CustomToast(this@SignInActivity).makeText(
                     this@SignInActivity,
                     message,

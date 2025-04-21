@@ -83,7 +83,6 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
     private var nameSet: String = ""
     private var currentPoint: Int = 0
     lateinit var dialogEnterPassword: androidx.appcompat.app.AlertDialog
-//    private lateinit var studySet: StudySetModel
     private val STORAGE_CODE = 1001
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -326,10 +325,8 @@ class StudySetDetail : AppCompatActivity(), TextToSpeech.OnInitListener,
                 val document = XWPFDocument()
 
                 for (progress in 1..100) {
-                    // Update the notification progress
                     notificationBuilder.setProgress(100, progress, false)
                     notificationManager.notify(notificationId, notificationBuilder.build())
-                    // Simulate some work being done
                     withContext(Dispatchers.IO) {
                         Thread.sleep(50)
                     }

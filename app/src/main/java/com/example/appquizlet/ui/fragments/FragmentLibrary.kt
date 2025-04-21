@@ -46,7 +46,6 @@ class FragmentLibrary : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         apiService = RetrofitHelper.getInstance().create(ApiService::class.java)
         binding = FragmentLibraryBinding.inflate(inflater, container, false)
 //        Adapter

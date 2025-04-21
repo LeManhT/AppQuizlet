@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import android.window.OnBackInvokedDispatcher
 import androidx.activity.viewModels
@@ -17,6 +18,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.example.appquizlet.api.retrofit.ApiService
+import com.example.appquizlet.api.retrofit.QuizletAIService
+import com.example.appquizlet.api.retrofit.RetrofitHelper
 import com.example.appquizlet.databinding.ActivityMainLoggedInBinding
 import com.example.appquizlet.model.MethodModel
 import com.example.appquizlet.notification.NotificationUtils
@@ -25,15 +29,21 @@ import com.example.appquizlet.ui.fragments.FragmentHome
 import com.example.appquizlet.ui.fragments.FragmentLibrary
 import com.example.appquizlet.ui.fragments.FragmentProfile
 import com.example.appquizlet.ui.fragments.FragmentSolution
+import com.example.appquizlet.ui.fragments.social.FragmentChatBot
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity_Logged_In : AppCompatActivity() {
     private lateinit var binding: ActivityMainLoggedInBinding
     private val REQUEST_NOTIFICATION = 102
     private var doubleBackToExitPressedOnce = false
     private val sharedViewModel: MethodModel by viewModels()
+
+    // Tag để dễ dàng tìm kiếm fragment
+    private val CHATBOT_FRAGMENT_TAG = "CHATBOT_FRAGMENT_TAG"
+
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,6 +101,7 @@ class MainActivity_Logged_In : AppCompatActivity() {
             }
         }
 
+
         binding.bottomNavigationView.labelVisibilityMode =
             NavigationBarView.LABEL_VISIBILITY_LABELED
 
@@ -133,6 +144,53 @@ class MainActivity_Logged_In : AppCompatActivity() {
             }
         }
 
+        binding.fabChatbot.setOnClickListener {
+            openChatBotFragment()
+        }
+
+        // Đăng ký lắng nghe sự kiện fragment thay đổi
+        supportFragmentManager.addOnBackStackChangedListener {
+            updateFabVisibility()
+        }
+    }
+
+    /**
+     * Mở fragment chatbot, kiểm tra xem đã tồn tại chưa
+     */
+    private fun openChatBotFragment() {
+        // Kiểm tra xem fragment đã tồn tại chưa
+        val existingFragment = supportFragmentManager.findFragmentByTag(CHATBOT_FRAGMENT_TAG)
+
+        if (existingFragment != null && existingFragment.isAdded) {
+            // Nếu fragment đã tồn tại nhưng bị ẩn (không hiển thị), hiển thị lại
+            supportFragmentManager.beginTransaction()
+                .show(existingFragment)
+                .commit()
+        } else {
+            // Nếu fragment chưa tồn tại hoặc đã bị detach, tạo mới
+            val chatBotFragment = FragmentChatBot()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.frameLayout, chatBotFragment, CHATBOT_FRAGMENT_TAG)
+                .addToBackStack(CHATBOT_FRAGMENT_TAG)
+                .commit()
+        }
+
+        // Ẩn FAB khi mở chatbot
+        binding.fabChatbot.visibility = View.GONE
+    }
+
+    /**
+     * Cập nhật trạng thái hiển thị của FAB dựa trên fragment hiện tại
+     */
+    private fun updateFabVisibility() {
+        val chatBotFragment = supportFragmentManager.findFragmentByTag(CHATBOT_FRAGMENT_TAG)
+
+        // Nếu fragment chatbot không tồn tại hoặc không hiển thị, hiện lại FAB
+        if (chatBotFragment == null || !chatBotFragment.isVisible) {
+            binding.fabChatbot.visibility = View.VISIBLE
+        } else {
+            binding.fabChatbot.visibility = View.GONE
+        }
     }
 
     private fun showDialogBottomSheet() {
@@ -211,5 +269,11 @@ class MainActivity_Logged_In : AppCompatActivity() {
         }
     }
 
-
+    /**
+     * Được gọi khi activity quay trở lại foreground
+     */
+    override fun onResume() {
+        super.onResume()
+        updateFabVisibility()
+    }
 }

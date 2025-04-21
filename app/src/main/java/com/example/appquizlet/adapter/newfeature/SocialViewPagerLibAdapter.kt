@@ -39,6 +39,6 @@ class SocialViewPagerLibAdapter(fragment: FragmentManager, lifecycle: Lifecycle)
     }
 
     override fun containsItem(itemId: Long): Boolean {
-        return false
+        return itemId < itemCount // Trả về true nếu itemId hợp lệ
     }
 }

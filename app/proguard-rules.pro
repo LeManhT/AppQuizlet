@@ -24,36 +24,29 @@
 # Giữ lại các lớp cơ bản của Android
 -keep class android.** { *; }
 -dontwarn android.**
-
 # ------------ Retrofit Rules ------------
 # Giữ lại API interfaces để Retrofit hoạt động
 -keep interface com.example.appquizlet.api.** { *; }
 -keepattributes *Annotation*
-
 # ------------ Room Database Rules ------------
 # Giữ lại Entity và DAO class để RoomDB hoạt động
 -keep class androidx.room.** { *; }
 -dontwarn androidx.room.**
-
 # ------------ Gson Rules ------------
 # Giữ lại các lớp sử dụng @SerializedName
 -keep class com.google.gson.** { *; }
 -keepattributes *Annotation*
-
 # ------------ Glide Rules ------------
 # Giữ lại các lớp của Glide
 -keep class com.bumptech.glide.** { *; }
 -dontwarn com.bumptech.glide.**
-
 # ------------ Obfuscation ------------
 # Làm rối tất cả các lớp, phương thức và biến
 -keepclassmembers class ** {
     public <init>(...);
 }
-
 # Tối ưu hóa mã
 -optimizationpasses 5
-
 # Làm rối các tên phương thức và biến
 -repackageclasses
 # Please add these rules to your existing keep rules in order to suppress warnings.

@@ -59,10 +59,6 @@ class MainActivity : AppCompatActivity() {
         sharedPreferences = this.getSharedPreferences("ChangeLanguage", Context.MODE_PRIVATE)
         val mylang = sharedPreferences.getString("language", "en")
         updateLocale(Locale(mylang))
-
-        val sharedPreferences = this.getSharedPreferences("secure_user_prefs", Context.MODE_PRIVATE)
-        username = sharedPreferences.getString("key_username", "").toString()
-        password = sharedPreferences.getString("key_userPass", "").toString()
         val userData = Helper.getUserDataSecurely(this)
         username = (userData["userName"] as String?).toString()
         password = (userData["password"] as String?).toString()
@@ -156,9 +152,16 @@ class MainActivity : AppCompatActivity() {
                         if (it != null) {
                             Helper.saveAccessToken(this@MainActivity, it.accessToken)
                             UserM.setUserData(it.user)
-                            UserM.setDataAchievements(
-                                DetectContinueModel(it.user.streak, it.user.achievement)
-                            )
+                            it.user.streak?.let { it1 -> it.user.achievement?.let { it2 ->
+                                DetectContinueModel(it1,
+                                    it2
+                                )
+                            } }
+                                ?.let { it2 ->
+                                    UserM.setDataAchievements(
+                                        it2
+                                    )
+                                }
                         }
                     }
                     val intent =
@@ -390,9 +393,6 @@ class MainActivity : AppCompatActivity() {
             CustomToast.SHORT,
             CustomToast.WARNING
         ).show()
-
-//        val intent = Intent(this, SplashActivity::class.java)
-//        startActivity(intent)
     }
 
     // Sử dụng JWT để xác thực người dùng
@@ -406,9 +406,16 @@ class MainActivity : AppCompatActivity() {
                         if (it != null) {
                             Helper.saveAccessToken(this@MainActivity, it.accessToken)
                             UserM.setUserData(it.user)
-                            UserM.setDataAchievements(
-                                DetectContinueModel(it.user.streak, it.user.achievement)
-                            )
+                            it.user.streak?.let { it1 -> it.user.achievement?.let { it2 ->
+                                DetectContinueModel(it1,
+                                    it2
+                                )
+                            } }
+                                ?.let { it2 ->
+                                    UserM.setDataAchievements(
+                                        it2
+                                    )
+                                }
                         }
                     }
                     val intent =
@@ -436,8 +443,8 @@ class MainActivity : AppCompatActivity() {
         val keyguardManager = getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
         if (keyguardManager.isKeyguardSecure) {
             val intent = keyguardManager.createConfirmDeviceCredentialIntent(
-                "Xác thực",
-                "Vui lòng nhập mã PIN hoặc vẽ hình"
+                "Authentication",
+                "Please enter pin code or pattern"
             )
             startActivityForResult(intent, REQUEST_CODE_LOCK)
         }
@@ -486,5 +493,4 @@ class MainActivity : AppCompatActivity() {
         dialogEnterPassword = dialogBuilder.create()
         dialogEnterPassword.show()
     }
-
 }

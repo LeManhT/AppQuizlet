@@ -43,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@+id/received_message_author" />
 
     <TextView
-        android:id="@+id/received_message_creation_time"
+        android:id="@+id/messageTimestamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"

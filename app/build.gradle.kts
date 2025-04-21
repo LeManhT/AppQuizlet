@@ -66,12 +66,16 @@ dependencies {
     implementation("androidx.activity:activity:1.9.2")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
+    implementation("com.google.firebase:firebase-firestore:25.1.2")
     val nav_version = "2.7.7"
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+
+    implementation ("com.github.yalantis:ucrop:2.2.6")
+
 
     implementation("com.google.code.gson:gson:2.8.9")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -85,6 +89,9 @@ dependencies {
     implementation("com.google.firebase:firebase-messaging:23.4.0")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
+
+
+
 //    implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")
 //    implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
 
@@ -103,6 +110,9 @@ dependencies {
     implementation("com.github.amsiq:swipereveallayout:1.4.1-x")
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("de.hdodenhof:circleimageview:3.1.0")
+
+    implementation ("com.mesibo.api:webrtc:1.0.5")
+
 
 
 //    implementation ("com.ismaeldivita.chipnavigation:chip-navigation-bar:1.3.4")
